@@ -1,0 +1,70 @@
+<nav class="navbar navbar-expand-sm navbar-dark  p-0" style="background-color: darkslategray">
+  <div class="container">
+    <a routerLink="" class="navbar-brand text-success">ourCheckLists.com</a>
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav">
+        <li class="nav-item px-2">
+          <a routerLink="" class="nav-link active">Home</a>
+        </li>
+        <span *ngIf="isPublisher && isSignedIn">
+          <!-- Publishing Menu -->
+          <li class="nav-item dropdown px-2">
+            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+              Publishing
+            </a>
+            <div class="dropdown-menu">
+              <a href="myCheckLists.html" class="dropdown-item">My Publishing Groups</a>
+              <a href="searchCheckLists.html" class="dropdown-item">My Published CheckLists</a>
+              <a href="report.html" class="dropdown-item">Publishing Reports</a>
+            </div>
+          </li>
+        </span>
+        <!-- Checklist Menu -->
+        <span *ngIf="isSignedIn">
+          <li class="nav-item dropdown px-2">
+            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+              CheckLists
+            </a>
+            <div class="dropdown-menu">
+              <a href="myCheckLists.html" class="dropdown-item">My CheckLists</a>
+              <a href="searchCheckLists.html" class="dropdown-item">Search For Checklists</a>
+              <a href="report.html" class="dropdown-item">Report</a>
+            </div>
+          </li>
+        </span>
+      </ul>
+      <!-- user functions-->
+
+      <ul class="navbar-nav ml-auto">
+        <span *ngIf="isSignedIn">
+          <li class="nav-item dropdown mr-3">
+            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+              <i class="fas fa-user"></i> Welcome Brad
+            </a>
+            <div class="dropdown-menu">
+              <a href="profile.html" class="dropdown-item">
+                <i class="fas fa-user-circle"></i> Profile
+              </a>
+              <a href="settings.html" class="dropdown-item">
+                <i class="fas fa-cog"></i> Settings
+              </a>
+              <a href="login.html" class="dropdown-item">
+                <i class="fas fa-user-times"></i> Logout
+              </a>
+            </div>
+          </li>
+        </span>
+        <span *ngIf="!isSignedIn">
+          <li class="nav-item">
+            <a routerLink="signin" class="nav-link">
+              <i class="fas fa-user"></i> Sign in
+            </a>
+          </li>
+        </span>
+      </ul>
+    </div>
+  </div>
+</nav>
