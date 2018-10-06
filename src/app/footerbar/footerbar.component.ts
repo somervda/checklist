@@ -6,7 +6,10 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./footerbar.component.css"]
 })
 export class FooterbarComponent implements OnInit {
-  constructor() {}
+  year: number;
+  constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.year = new Date().getFullYear();
+  }
 }
