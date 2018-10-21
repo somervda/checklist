@@ -13,6 +13,6 @@ export class HomeComponent implements OnInit {
 
 
   ngOnInit() {
-    this.toastr.success('Hello world!', 'Toastr fun!');
+    //this.toastr.success('This is a test of using the toastr service in the oninit function of the home page', 'Test Notification');
   }
 }
