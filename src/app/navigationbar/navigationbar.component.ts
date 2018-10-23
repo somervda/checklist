@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from "@angular/core";
+import { AuthService } from "../services/auth.service";
 
 @Component({
   selector: "navigationbar",
@@ -12,9 +13,7 @@ export class NavigationbarComponent implements OnInit {
   @Input()
   isSignedIn: boolean;
   isNavbarCollapsed = true;
-  constructor() {
-    console.log("Navigator constuctor");
-  }
+  constructor(public auth: AuthService) {}
 
   ngOnInit() {
     console.log("Navigator OnInit: " + this.state);

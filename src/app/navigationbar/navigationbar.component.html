@@ -61,7 +61,7 @@
         </span>
         <span *ngIf="!isSignedIn">
           <li class="nav-item">
-            <a routerLink="signin" class="nav-link" routerLinkActive="active">
+            <a (click)="auth.login()" class="nav-link">
               <i class="fas fa-user"></i> Sign in
             </a>
           </li>
