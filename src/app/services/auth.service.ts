@@ -9,12 +9,12 @@ import Auth0Lock from "auth0-lock";
 export class AuthService {
   auth0Options = {
     theme: {
-      logo: "assets/images/Logo-small.png",
+      logo: "assets/images/hig-60.png",
       primaryColor: "	#006f00"
     },
     // See options at https://github.com/auth0/lock/blob/master/src/i18n/en.js
     languageDictionary: {
-      title: "myCheckLists.com"
+      title: "ourCheckLists.com"
     },
     auth: {
       redirectUrl: environment.auth0.callbackURL,
