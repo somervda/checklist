@@ -45,7 +45,7 @@
       <!-- user functions-->
 
       <ul class="navbar-nav ml-auto">
-        <span *ngIf="isSignedIn">
+        <span *ngIf="auth.isAuthenticated()">
           <li class="nav-item dropdown mr-3">
             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
               <i class="fas fa-user"></i> Welcome Brad
@@ -57,16 +57,16 @@
               <a href="settings.html" class="dropdown-item">
                 <i class="fas fa-cog"></i> Settings
               </a>
-              <a href="login.html" class="dropdown-item">
-                <i class="fas fa-user-times"></i> Logout
+              <a (click)="auth.logout()" class="nav-link">
+                <i class="fas fa-user-time"></i>  Sign Out
               </a>
             </div>
           </li>
         </span>
-        <span *ngIf="!isSignedIn">
+        <span *ngIf="!auth.isAuthenticated()">
           <li class="nav-item">
             <a (click)="auth.login()" class="nav-link">
-              <i class="fas fa-user"></i> Log in
+              <i class="fas fa-user"></i>  Sign Up or Login
             </a>
           </li>
         </span>

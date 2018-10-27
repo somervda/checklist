@@ -4,9 +4,11 @@ import { environment } from "../../environments/environment";
 
 import { JwtHelperService } from "@auth0/angular-jwt";
 import Auth0Lock from "auth0-lock";
+const helper = new JwtHelperService();
 
 @Injectable()
 export class AuthService {
+  
   auth0Options = {
     theme: {
       logo: "assets/images/hig-60.png",
@@ -35,7 +37,7 @@ export class AuthService {
   );
 
   constructor(private router: Router) {
-    this.lock.on("authenticated", (authResult: any) => {
+/*     this.lock.on("authenticated", (authResult: any) => {
       console.log("Nice, it worked!");
       this.router.navigate(["/"]); // go to the home route
       // ...finish implementing authenticated
@@ -43,6 +45,18 @@ export class AuthService {
 
     this.lock.on("authorization_error", error => {
       console.log("something went wrong", error);
+    }); */
+
+    this.lock.on('authenticated', (authResult: any) => {
+      this.lock.getUserInfo(authResult.accessToken, (error, profile) => {
+        if (error) {
+          throw new Error(error);
+        }
+    
+        localStorage.setItem('token', authResult.idToken);
+        localStorage.setItem('profile', JSON.stringify(profile));
+        this.router.navigate(['/']);
+      });
     });
   }
 
@@ -51,10 +65,15 @@ export class AuthService {
   }
 
   logout() {
-    // ...implement logout
+    localStorage.removeItem('profile');
+    localStorage.removeItem('token');
+
   }
 
   isAuthenticated() {
     // ...implement logout
+    if (localStorage.getItem('token'))
+      return helper.isTokenExpired();
+    return false;
   }
 }
