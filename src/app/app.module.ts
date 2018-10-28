@@ -8,8 +8,6 @@ import { ToastrModule } from "ngx-toastr";
 import { AppComponent } from "./app.component";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { HomeComponent } from "./home/home.component";
-import { SigninComponent } from "./signin/signin.component";
-import { SignupComponent } from "./signup/signup.component";
 import { NotfoundComponent } from "./notfound/notfound.component";
 import { FooterbarComponent } from "./footerbar/footerbar.component";
 import { NavigationbarComponent } from "./navigationbar/navigationbar.component";
@@ -18,8 +16,6 @@ import { NavigationbarComponent } from "./navigationbar/navigationbar.component"
   declarations: [
     AppComponent,
     HomeComponent,
-    SigninComponent,
-    SignupComponent,
     NotfoundComponent,
     NavigationbarComponent,
     FooterbarComponent,
@@ -33,12 +29,10 @@ import { NavigationbarComponent } from "./navigationbar/navigationbar.component"
     NgbModule.forRoot(),
     RouterModule.forRoot([
       { path: "", component: HomeComponent },
-      { path: "signin", component: SigninComponent },
-      { path: "signup", component: SignupComponent },
       { path: "**", component: NotfoundComponent }
     ])
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

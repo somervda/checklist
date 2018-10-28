@@ -8,7 +8,7 @@ const helper = new JwtHelperService();
 
 @Injectable()
 export class AuthService {
-  
+
   auth0Options = {
     theme: {
       logo: "assets/images/hig-60.png",
@@ -37,24 +37,25 @@ export class AuthService {
   );
 
   constructor(private router: Router) {
-/*     this.lock.on("authenticated", (authResult: any) => {
-      console.log("Nice, it worked!");
-      this.router.navigate(["/"]); // go to the home route
-      // ...finish implementing authenticated
-    });
-
-    this.lock.on("authorization_error", error => {
-      console.log("something went wrong", error);
-    }); */
-
+    /*     this.lock.on("authenticated", (authResult: any) => {
+          console.log("Nice, it worked!");
+          this.router.navigate(["/"]); // go to the home route
+          // ...finish implementing authenticated
+        });
+    
+        this.lock.on("authorization_error", error => {
+          console.log("something went wrong", error);
+        }); */
+    console.log("isAuthenticated constructor", localStorage.getItem('token'));
     this.lock.on('authenticated', (authResult: any) => {
       this.lock.getUserInfo(authResult.accessToken, (error, profile) => {
         if (error) {
           throw new Error(error);
         }
-    
+
         localStorage.setItem('token', authResult.idToken);
         localStorage.setItem('profile', JSON.stringify(profile));
+        console.log("isAuthenticated logged in", localStorage.getItem('token'))
         this.router.navigate(['/']);
       });
     });
@@ -71,9 +72,11 @@ export class AuthService {
   }
 
   isAuthenticated() {
-    // ...implement logout
-    if (localStorage.getItem('token'))
+    //console.log("isAuthenticated token-state", localStorage.getItem('token'))
+    if (localStorage.getItem('token')) {
+      //const refreshToken = helper.tokenGetter('token');
       return helper.isTokenExpired();
+    }
     return false;
   }
 }

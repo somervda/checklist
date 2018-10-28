@@ -7,7 +7,7 @@ export const environment = {
   auth0: {
     domain: 'mychecklist.auth0.com',
     clientId: 'TNSMyB1IDKZsHDO3RM0Mq4GfSY4fzYW1',
-    callbackURL: 'http://localhost:4200'
+    callbackURL: 'http://localhost:4200, http://somerville.noip.me:4200'
   }
 };
 
