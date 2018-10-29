@@ -15,9 +15,9 @@
         <li class="nav-item px-2">
           <a routerLink="" routerLinkActive="active" class="nav-link ">Home</a>
         </li>
-        <!--         <span *ngIf="isPublisher && auth.isAuthenticated()">
+        <span *ngIf="isPublisher && auth.isAuthenticated()">
           <!-- Publishing Menu -->
-        <!--          <li class="nav-item dropdown px-2" ngbDropdown>
+          <li class="nav-item dropdown px-2" ngbDropdown>
             <a href="#" class="nav-link dropdown-toggle" ngbDropdownToggle>
               Publishing
             </a>
@@ -27,30 +27,30 @@
               <a href="report.html" class="dropdown-item">Publishing Reports</a>
             </div>
           </li>
-        </span> -->
+        </span>
         <!-- Checklist Menu -->
-        <!--        <span *ngIf="auth.isAuthenticated()">
-          <li class=class="nav-item dropdown px-2" ngbDropdown>
-            <a href="#" class="nav-link dropdown-toggle" ngbDropdownToggle>
+        <span *ngIf="auth.isAuthenticated()">
+          <li class="nav-item dropdown px-2" ngbDropdown>
+            <a href="#" class="nav-link dropdown-toggle" ngbDropdownToggle id="dropdownChecklist">
               CheckLists
             </a>
-            <div class="dropdown-menu" ngbDropdownMenu>
+            <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownChecklist">
               <a href="myCheckLists.html" class="dropdown-item">My CheckLists</a>
               <a href="searchCheckLists.html" class="dropdown-item">Search For Checklists</a>
-                             <a href="report.html" class="dropdown-item">Report</a> 
+              <a href="report.html" class="dropdown-item">Report</a>
             </div>
           </li>
-        </span> -->
+        </span>
       </ul>
       <!-- user functions-->
 
       <ul class="navbar-nav ml-auto">
         <span *ngIf="auth.isAuthenticated()">
           <li class="nav-item dropdown mr-3" ngbDropdown>
-            <a href="#" class="nav-link dropdown-toggle" ngbDropdownToggle>
+            <a href="#" class="nav-link dropdown-toggle" ngbDropdownToggle id="dropdownSignedIn">
               <i class="fas fa-user"></i> Welcome ???
             </a>
-            <div class="dropdown-menu" ngbDropdownMenu>
+            <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownSignedIn">
               <a href="profile.html" class="dropdown-item">
                 <i class="fas fa-user-circle"></i> Profile
               </a>
