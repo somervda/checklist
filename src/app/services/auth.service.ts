@@ -46,7 +46,7 @@ export class AuthService {
         this.lock.on("authorization_error", error => {
           console.log("something went wrong", error);
         }); */
-    console.log("isAuthenticated constructor", localStorage.getItem('token'));
+    console.log("Auth constructor", localStorage.getItem('token'));
     this.lock.on('authenticated', (authResult: any) => {
       this.lock.getUserInfo(authResult.accessToken, (error, profile) => {
         if (error) {
@@ -55,7 +55,7 @@ export class AuthService {
 
         localStorage.setItem('token', authResult.idToken);
         localStorage.setItem('profile', JSON.stringify(profile));
-        console.log("isAuthenticated logged in", localStorage.getItem('token'))
+        console.log("Auth logged in", localStorage.getItem('token'))
         this.router.navigate(['/']);
       });
     });
@@ -72,10 +72,17 @@ export class AuthService {
   }
 
   isAuthenticated() {
-    //console.log("isAuthenticated token-state", localStorage.getItem('token'))
     if (localStorage.getItem('token')) {
-      //const refreshToken = helper.tokenGetter('token');
-      return helper.isTokenExpired();
+      // Manually checking expiry date using javascript
+      // until helper function works. See https://github.com/auth0/angular2-jwt/issues/557
+      console.log('Auth isAuthenticated token', localStorage.getItem('token'));
+      const isAuth = helper.isTokenExpired(localStorage.getItem('token'));
+      const expDate = helper.getTokenExpirationDate(localStorage.getItem('token'));
+      console.log('Auth isAuthenticated isAuth', isAuth);
+      console.log('Auth isAuthenticated expDate', expDate);
+      const dateNow = new Date();
+      console.log('Auth isAuthenticated dateTest', expDate > dateNow);
+      return expDate > dateNow;
     }
     return false;
   }

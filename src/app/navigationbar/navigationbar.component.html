@@ -15,50 +15,50 @@
         <li class="nav-item px-2">
           <a routerLink="" routerLinkActive="active" class="nav-link ">Home</a>
         </li>
-        <span *ngIf="isPublisher && isSignedIn">
+        <!--         <span *ngIf="isPublisher && auth.isAuthenticated()">
           <!-- Publishing Menu -->
-          <li class="nav-item dropdown px-2">
-            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+        <!--          <li class="nav-item dropdown px-2" ngbDropdown>
+            <a href="#" class="nav-link dropdown-toggle" ngbDropdownToggle>
               Publishing
             </a>
-            <div class="dropdown-menu">
+            <div class="dropdown-menu" ngbDropdownMenu>
               <a href="myCheckLists.html" class="dropdown-item">My Publishing Groups</a>
               <a href="searchCheckLists.html" class="dropdown-item">My Published CheckLists</a>
               <a href="report.html" class="dropdown-item">Publishing Reports</a>
             </div>
           </li>
-        </span>
+        </span> -->
         <!-- Checklist Menu -->
-        <span *ngIf="isSignedIn">
-          <li class="nav-item dropdown px-2">
-            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+        <!--        <span *ngIf="auth.isAuthenticated()">
+          <li class=class="nav-item dropdown px-2" ngbDropdown>
+            <a href="#" class="nav-link dropdown-toggle" ngbDropdownToggle>
               CheckLists
             </a>
-            <div class="dropdown-menu">
+            <div class="dropdown-menu" ngbDropdownMenu>
               <a href="myCheckLists.html" class="dropdown-item">My CheckLists</a>
               <a href="searchCheckLists.html" class="dropdown-item">Search For Checklists</a>
-              <a href="report.html" class="dropdown-item">Report</a>
+                             <a href="report.html" class="dropdown-item">Report</a> 
             </div>
           </li>
-        </span>
+        </span> -->
       </ul>
       <!-- user functions-->
 
       <ul class="navbar-nav ml-auto">
         <span *ngIf="auth.isAuthenticated()">
-          <li class="nav-item dropdown mr-3">
-            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-              <i class="fas fa-user"></i> Welcome Brad
+          <li class="nav-item dropdown mr-3" ngbDropdown>
+            <a href="#" class="nav-link dropdown-toggle" ngbDropdownToggle>
+              <i class="fas fa-user"></i> Welcome ???
             </a>
-            <div class="dropdown-menu">
+            <div class="dropdown-menu" ngbDropdownMenu>
               <a href="profile.html" class="dropdown-item">
                 <i class="fas fa-user-circle"></i> Profile
               </a>
               <a href="settings.html" class="dropdown-item">
                 <i class="fas fa-cog"></i> Settings
               </a>
-              <a (click)="auth.logout()" class="nav-link">
-                <i class="fas fa-user-time"></i>  Sign Out
+              <a (click)="auth.logout()" class="dropdown-item">
+                <i class="fas fa-times"></i> Sign Out
               </a>
             </div>
           </li>
@@ -66,7 +66,7 @@
         <span *ngIf="!auth.isAuthenticated()">
           <li class="nav-item">
             <a (click)="auth.login()" class="nav-link">
-              <i class="fas fa-user"></i>  Sign Up or Login
+              <i class="fas fa-user"></i> Sign Up or Login
             </a>
           </li>
         </span>
