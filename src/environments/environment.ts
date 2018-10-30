@@ -5,9 +5,12 @@
 export const environment = {
   production: false,
   auth0: {
-    domain: 'mychecklist.auth0.com',
-    clientId: 'TNSMyB1IDKZsHDO3RM0Mq4GfSY4fzYW1',
-    callbackURL: 'http://localhost:4200'
+    domain: "mychecklist.auth0.com",
+    clientId: "TNSMyB1IDKZsHDO3RM0Mq4GfSY4fzYW1",
+    // Only use callbackURL to force a callback to a specific URL
+    // it is more flexable to leave it blank and have it redirect automatically
+    // to the calling URL - DAS 30Oct18
+    callbackURL: ""
   }
 };
 
