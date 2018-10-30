@@ -67,21 +67,22 @@ export class AuthService {
   logout() {
     localStorage.removeItem("profile");
     localStorage.removeItem("token");
+    console.log("Auth logged out, local storage cleared");
   }
 
   isAuthenticated() {
     if (localStorage.getItem("token")) {
       // Manually checking expiry date using javascript
       // until helper function works. See https://github.com/auth0/angular2-jwt/issues/557
-      console.log("Auth isAuthenticated token", localStorage.getItem("token"));
+      //console.log("Auth isAuthenticated token", localStorage.getItem("token"));
       const isAuth = helper.isTokenExpired(localStorage.getItem("token"));
       const expDate = helper.getTokenExpirationDate(
         localStorage.getItem("token")
       );
-      console.log("Auth isAuthenticated isAuth", isAuth);
-      console.log("Auth isAuthenticated expDate", expDate);
+      //console.log("Auth isAuthenticated isAuth", isAuth);
+      //console.log("Auth isAuthenticated expDate", expDate);
       const dateNow = new Date();
-      console.log("Auth isAuthenticated dateTest", expDate > dateNow);
+      //console.log("Auth isAuthenticated dateTest", expDate > dateNow);
       return expDate > dateNow;
     }
     return false;
