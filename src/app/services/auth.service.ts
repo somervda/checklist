@@ -35,6 +35,8 @@ export class AuthService {
     this.auth0Options
   );
 
+  picture = "";
+
   constructor(private router: Router) {
     /*     this.lock.on("authenticated", (authResult: any) => {
           console.log("Nice, it worked!");
@@ -76,6 +78,8 @@ export class AuthService {
       // until helper function works. See https://github.com/auth0/angular2-jwt/issues/557
       //console.log("Auth isAuthenticated token", localStorage.getItem("token"));
       const isAuth = helper.isTokenExpired(localStorage.getItem("token"));
+
+      //console.log("Auth isAuthenticated decodedToken", decodedToken["name"]);
       const expDate = helper.getTokenExpirationDate(
         localStorage.getItem("token")
       );
@@ -83,6 +87,13 @@ export class AuthService {
       //console.log("Auth isAuthenticated expDate", expDate);
       const dateNow = new Date();
       //console.log("Auth isAuthenticated dateTest", expDate > dateNow);
+
+      // Store users picture to show on navigationBar when signed in
+      if (expDate > dateNow) {
+        const decodedToken = helper.decodeToken(localStorage.getItem("token"));
+        if (decodedToken["picture"]) this.picture = decodedToken["picture"];
+      }
+
       return expDate > dateNow;
     }
     return false;
