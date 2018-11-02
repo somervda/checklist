@@ -25,6 +25,20 @@ export class AuthService {
         scope: "openid profile"
       }
     },
+    additionalSignUpFields : [
+      {
+      name : "shortName",
+      placeholder : "Short Name",
+      validator: function(shortName) {
+        return {
+           valid: shortName.length < 20,
+           hint: "Short name must not exceed 20 chars." 
+        };
+      }
+
+        }
+
+          ],
     autoclose: true,
     oidcConformant: true
   };
