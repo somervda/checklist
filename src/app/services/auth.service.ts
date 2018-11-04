@@ -4,6 +4,7 @@ import { environment } from "../../environments/environment";
 
 import { JwtHelperService } from "@auth0/angular-jwt";
 import Auth0Lock from "auth0-lock";
+import { SessionStore } from "./session.store.service";
 const helper = new JwtHelperService();
 
 @Injectable()
@@ -25,20 +26,20 @@ export class AuthService {
         scope: "openid profile"
       }
     },
-    additionalSignUpFields : [
+    additionalSignUpFields: [
       {
-      name : "shortName",
-      placeholder : "Short Name",
-      validator: function(shortName) {
-        return {
-           valid: shortName.length < 20,
-           hint: "Short name must not exceed 20 chars." 
-        };
-      }
-
+        name: "shortName",
+        placeholder: "Short Name",
+        validator: function (shortName) {
+          return {
+            valid: shortName.length < 20,
+            hint: "Short name must not exceed 20 chars."
+          };
         }
 
-          ],
+      }
+
+    ],
     autoclose: true,
     oidcConformant: true
   };
@@ -51,7 +52,7 @@ export class AuthService {
 
   picture = "";
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private sessionStore: SessionStore) {
     /*     this.lock.on("authenticated", (authResult: any) => {
           console.log("Nice, it worked!");
           this.router.navigate(["/"]); // go to the home route

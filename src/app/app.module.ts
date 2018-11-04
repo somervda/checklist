@@ -11,6 +11,7 @@ import { HomeComponent } from "./home/home.component";
 import { NotfoundComponent } from "./notfound/notfound.component";
 import { FooterbarComponent } from "./footerbar/footerbar.component";
 import { NavigationbarComponent } from "./navigationbar/navigationbar.component";
+import { SessionStore } from "./services/session.store.service";
 
 @NgModule({
   declarations: [
@@ -32,7 +33,7 @@ import { NavigationbarComponent } from "./navigationbar/navigationbar.component"
       { path: "**", component: NotfoundComponent }
     ])
   ],
-  providers: [AuthService],
+  providers: [AuthService, SessionStore],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
