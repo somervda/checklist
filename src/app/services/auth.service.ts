@@ -53,16 +53,6 @@ export class AuthService {
   picture = "";
 
   constructor(private router: Router, private sessionStore: SessionStore) {
-    /*     this.lock.on("authenticated", (authResult: any) => {
-          console.log("Nice, it worked!");
-          this.router.navigate(["/"]); // go to the home route
-          // ...finish implementing authenticated
-        });
-    
-        this.lock.on("authorization_error", error => {
-          console.log("something went wrong", error);
-        }); */
-    console.log("Auth constructor", localStorage.getItem("token"));
     this.lock.on("authenticated", (authResult: any) => {
       this.lock.getUserInfo(authResult.accessToken, (error, profile) => {
         if (error) {
@@ -73,11 +63,11 @@ export class AuthService {
         localStorage.setItem("profile", JSON.stringify(profile));
         console.log("Auth logged in", localStorage.getItem("token"));
 
+        if (authResult.accessToken) {
+          const decodedAccessToken = helper.decodeToken(authResult.accessToken);
+          sessionStore.setRoles(decodedAccessToken["https://ourCheckLists.com/roles"]);
+        }
 
-        const decodedAccessToken = helper.decodeToken(authResult.accessToken);
-        //console.log("authenticated decodedAccessToken ", decodedAccessToken);
-        sessionStore.roles = decodedAccessToken["https://ourCheckLists.com/roles"];
-        console.log("authenticated userRoles", sessionStore.roles);
         this.router.navigate(["/"]);
       });
     });
@@ -90,6 +80,7 @@ export class AuthService {
   logout() {
     localStorage.removeItem("profile");
     localStorage.removeItem("token");
+    this.sessionStore.clearRoles();
     console.log("Auth logged out, local storage cleared");
   }
 

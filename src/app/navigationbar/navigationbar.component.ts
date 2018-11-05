@@ -9,15 +9,11 @@ import { SessionStore } from "../services/session.store.service";
   styleUrls: ["./navigationbar.component.css"]
 })
 export class NavigationbarComponent implements OnInit {
-  @Input()
-  isPublisher: boolean;
-  @Input()
-  isSignedIn: boolean;
 
-  // see https://embed.plnkr.co/plunk/xH6VJo for example of a menu
+  // see https://embed.plnkr.co/plunk/xH6VJo for example of a ngb menu
   isNavbarCollapsed = true;
 
-  constructor(public auth: AuthService, public sessionStore: SessionStore) { }
+  constructor(private auth: AuthService, private sessionStore: SessionStore) { }
 
   ngOnInit() {
 

@@ -7,10 +7,18 @@ Usage: Inject service to */
 @Injectable()
 export class SessionStore {
 
-    roles: String[] = [];
+    private roles: String[] = [];
 
     public isInRole(roleName) {
         return (this.roles.indexOf(roleName) > -1);
+    }
+
+    public clearRoles() {
+        this.roles = [];
+    }
+
+    public setRoles(roles: string[]) {
+        this.roles = roles;
     }
 
 
