@@ -21,7 +21,7 @@ export class AuthService {
     auth: {
       redirectUrl: environment.auth0.callbackURL,
       responseType: "token id_token",
-      audience: `https://${environment.auth0.domain}/userinfo`,
+      audience: `https://api.ourCheckLists.com`,
       params: {
         scope: "openid profile"
       }
@@ -68,7 +68,7 @@ export class AuthService {
         if (error) {
           throw new Error(error);
         }
-
+        console.log("Auth AuthResult",authResult);
         localStorage.setItem("token", authResult.idToken);
         localStorage.setItem("profile", JSON.stringify(profile));
         console.log("Auth logged in", localStorage.getItem("token"));
