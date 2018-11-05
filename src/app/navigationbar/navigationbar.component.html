@@ -14,7 +14,7 @@
         <li class="nav-item px-2">
           <a routerLink="" routerLinkActive="active" class="nav-link ">&nbsp;Home</a>
         </li>
-        <span *ngIf="isPublisher && auth.isAuthenticated()">
+        <span *ngIf="sessionStore.isInRole('Publisher') && auth.isAuthenticated()">
           <!-- Publishing Menu -->
           <li class="nav-item dropdown px-2" ngbDropdown>
             <a href="#" class="nav-link dropdown-toggle" ngbDropdownToggle>

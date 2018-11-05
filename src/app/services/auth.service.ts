@@ -68,10 +68,16 @@ export class AuthService {
         if (error) {
           throw new Error(error);
         }
-        console.log("Auth AuthResult",authResult);
+        //console.log("Auth AuthResult",authResult);
         localStorage.setItem("token", authResult.idToken);
         localStorage.setItem("profile", JSON.stringify(profile));
         console.log("Auth logged in", localStorage.getItem("token"));
+
+
+        const decodedAccessToken = helper.decodeToken(authResult.accessToken);
+        //console.log("authenticated decodedAccessToken ", decodedAccessToken);
+        sessionStore.roles = decodedAccessToken["https://ourCheckLists.com/roles"];
+        console.log("authenticated userRoles", sessionStore.roles);
         this.router.navigate(["/"]);
       });
     });
