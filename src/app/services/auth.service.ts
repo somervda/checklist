@@ -2,9 +2,10 @@ import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { environment } from "../../environments/environment";
 
-import { JwtHelperService } from "@auth0/angular-jwt";
+
 import Auth0Lock from "auth0-lock";
 import { SessionStore } from "./session.store.service";
+import { JwtHelperService } from "@auth0/angular-jwt";
 const helper = new JwtHelperService();
 
 @Injectable()
@@ -21,7 +22,7 @@ export class AuthService {
     auth: {
       redirectUrl: environment.auth0.callbackURL,
       responseType: "token id_token",
-      audience: `https://api.ourCheckLists.com`,
+      audience: environment.auth0.audience,
       params: {
         scope: "openid profile"
       }
@@ -64,8 +65,7 @@ export class AuthService {
         console.log("Auth logged in", localStorage.getItem("token"));
 
         if (authResult.accessToken) {
-          const decodedAccessToken = helper.decodeToken(authResult.accessToken);
-          sessionStore.setRoles(decodedAccessToken["https://ourCheckLists.com/roles"]);
+          sessionStore.setRoles(authResult.accessToken);
         }
 
         this.router.navigate(["/"]);

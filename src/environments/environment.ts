@@ -10,7 +10,9 @@ export const environment = {
     // Only use callbackURL to force a callback to a specific URL
     // it is more flexable to leave it blank and have it redirect automatically
     // to the calling URL - DAS 30Oct18
-    callbackURL: ""
+    callbackURL: "",
+    apiNameSpace: "https://ourCheckLists.com",
+    audience: "https://api.ourCheckLists.com"
   }
 };
 
