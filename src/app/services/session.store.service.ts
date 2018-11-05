@@ -10,9 +10,7 @@ export class SessionStore {
     roles: String[] = [];
 
     public isInRole(roleName) {
-        if (this.roles)
-            return (this.roles.indexOf(roleName) >-1);
-        return false;
+        return (this.roles.indexOf(roleName) > -1);
     }
 
 

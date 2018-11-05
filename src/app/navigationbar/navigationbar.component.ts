@@ -17,7 +17,7 @@ export class NavigationbarComponent implements OnInit {
   // see https://embed.plnkr.co/plunk/xH6VJo for example of a menu
   isNavbarCollapsed = true;
 
-  constructor(public auth: AuthService, sessionStore : SessionStore) { }
+  constructor(public auth: AuthService, public sessionStore: SessionStore) { }
 
   ngOnInit() {
 
