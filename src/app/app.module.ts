@@ -12,6 +12,8 @@ import { NotfoundComponent } from "./notfound/notfound.component";
 import { FooterbarComponent } from "./footerbar/footerbar.component";
 import { NavigationbarComponent } from "./navigationbar/navigationbar.component";
 import { SessionStore } from "./services/session.store.service";
+import { UserprofileComponent } from './userprofile/userprofile.component';
+import { UsersettingsComponent } from './usersettings/usersettings.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { SessionStore } from "./services/session.store.service";
     NavigationbarComponent,
     FooterbarComponent,
     FooterbarComponent,
-    NavigationbarComponent
+    NavigationbarComponent,
+    UserprofileComponent,
+    UsersettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -30,6 +34,8 @@ import { SessionStore } from "./services/session.store.service";
     NgbModule.forRoot(),
     RouterModule.forRoot([
       { path: "", component: HomeComponent },
+      { path: "userprofile", component: UserprofileComponent },
+      { path: "usersettings", component: UsersettingsComponent },
       { path: "**", component: NotfoundComponent }
     ])
   ],
