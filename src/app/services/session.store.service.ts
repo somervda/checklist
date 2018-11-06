@@ -9,7 +9,7 @@ Usage: Inject service to */
 
 @Injectable()
 export class SessionStore {
-    // Store session information in LocalStorage 
+    // Store session information in sessionStorage 
     // this will preserve the information 
 
     // app_metadata must not be changeable on the client so store that as the encoded accessToken
@@ -19,9 +19,9 @@ export class SessionStore {
 
     public isInRole(roleName) {
      
-        if (localStorage.getItem("accessToken"))
+        if (sessionStorage.getItem("accessToken"))
         {
-            const decodedAccessToken = helper.decodeToken(localStorage.getItem("accessToken"));
+            const decodedAccessToken = helper.decodeToken(sessionStorage.getItem("accessToken"));
             if (decodedAccessToken[environment.auth0.apiNameSpace  + '/roles'])
                 {
                 const roles: String[] = decodedAccessToken[environment.auth0.apiNameSpace  + '/roles'];
@@ -32,11 +32,11 @@ export class SessionStore {
     }
 
     public clearRoles() {
-        localStorage.removeItem("accessToken");
+        sessionStorage.removeItem("accessToken");
     }
 
     public setRoles(accessToken:string) {
-        localStorage.setItem("accessToken",accessToken);
+        sessionStorage.setItem("accessToken",accessToken);
     }
 
 

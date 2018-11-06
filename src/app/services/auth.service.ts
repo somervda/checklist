@@ -70,9 +70,9 @@ export class AuthService {
           throw new Error(error);
         }
         //console.log("Auth AuthResult",authResult);
-        localStorage.setItem("token", authResult.idToken);
-        localStorage.setItem("profile", JSON.stringify(profile));
-        console.log("Auth logged in", localStorage.getItem("token"));
+        sessionStorage.setItem("token", authResult.idToken);
+        sessionStorage.setItem("profile", JSON.stringify(profile));
+        console.log("Auth logged in", sessionStorage.getItem("token"));
 
         if (authResult.accessToken) {
           sessionStore.setRoles(authResult.accessToken);
@@ -88,22 +88,22 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem("profile");
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("profile");
+    sessionStorage.removeItem("token");
     this.sessionStore.clearRoles();
     console.log("Auth logged out, local storage cleared");
   }
 
   isAuthenticated() {
-    if (localStorage.getItem("token")) {
+    if (sessionStorage.getItem("token")) {
       // Manually checking expiry date using javascript
       // until helper function works. See https://github.com/auth0/angular2-jwt/issues/557
-      //console.log("Auth isAuthenticated token", localStorage.getItem("token"));
-      const isAuth = helper.isTokenExpired(localStorage.getItem("token"));
+      //console.log("Auth isAuthenticated token", sessionStorage.getItem("token"));
+      const isAuth = helper.isTokenExpired(sessionStorage.getItem("token"));
 
       //console.log("Auth isAuthenticated decodedToken", decodedToken["name"]);
       const expDate = helper.getTokenExpirationDate(
-        localStorage.getItem("token")
+        sessionStorage.getItem("token")
       );
       //console.log("Auth isAuthenticated isAuth", isAuth);
       //console.log("Auth isAuthenticated expDate", expDate);
@@ -112,7 +112,7 @@ export class AuthService {
 
       // Store users picture to show on navigationBar when signed in
       if (expDate > dateNow) {
-        const decodedToken = helper.decodeToken(localStorage.getItem("token"));
+        const decodedToken = helper.decodeToken(sessionStorage.getItem("token"));
         if (decodedToken["picture"]) this.picture = decodedToken["picture"];
       }
 
