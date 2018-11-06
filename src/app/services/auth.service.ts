@@ -8,6 +8,16 @@ import { SessionStore } from "./session.store.service";
 import { JwtHelperService } from "@auth0/angular-jwt";
 const helper = new JwtHelperService();
 
+/*
+This service manages the authentication activity with Auth0 and manages the authentication state.
+
+Note: Password authentication on safari causes a problem because
+ of default setting to the "Third part tracking" setting. 
+ See https://community.auth0.com/t/unable-to-configure-verification-page-error-on-hosted-login/9214/37 
+ for longer discussion but seems to indicate that moving to a hosted page will be better.
+
+*/
+
 @Injectable()
 export class AuthService {
   auth0Options = {
