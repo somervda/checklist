@@ -50,10 +50,10 @@
               &nbsp;&nbsp;&nbsp;<img src="{{auth.picture}}" class="rounded-circle" style="width : 30px" />
             </a>
             <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownSignedIn">
-              <a href="profile.html" class="dropdown-item">
+              <a routerLink="/userprofile" routerLinkActive="active" class="dropdown-item">
                 <i class="fas fa-user-circle"></i> Profile
               </a>
-              <a href="settings.html" class="dropdown-item">
+              <a routerLink="/usersettings" routerLinkActive="active" class="dropdown-item">
                 <i class="fas fa-cog"></i> Settings
               </a>
               <a (click)="auth.logout()" class="dropdown-item">
