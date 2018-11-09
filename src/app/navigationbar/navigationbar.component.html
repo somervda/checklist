@@ -14,6 +14,16 @@
         <li class="nav-item px-2">
           <a routerLink="" routerLinkActive="active" class="nav-link ">&nbsp;Home</a>
         </li>
+        <!-- Test menu -->
+        <li class="nav-item dropdown px-2" ngbDropdown>
+          <a class="nav-link" id="dropdownBasic1" ngbDropdownToggle>Toggle dropdown</a>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button  routerLink="/userprofile" routerLinkActive="active" class="dropdown-item">Action - 1</button>
+            <button class="dropdown-item">Another Action</button>
+            <button class="dropdown-item">Something else is here</button>
+          </div>
+          </li>
+          <!-- End test Menu-->
         <span *ngIf="sessionStore.isInRole('Publisher') && auth.isAuthenticated()">
           <!-- Publishing Menu -->
           <li class="nav-item dropdown px-2" ngbDropdown>
@@ -21,9 +31,9 @@
               Publishing
             </a>
             <div class="dropdown-menu" ngbDropdownMenu>
-              <a href="myCheckLists.html" class="dropdown-item">My Publishing Groups</a>
-              <a href="searchCheckLists.html" class="dropdown-item">My Published CheckLists</a>
-              <a href="report.html" class="dropdown-item">Publishing Reports</a>
+              <button href="myCheckLists.html" class="dropdown-item">My Publishing Groups</button>
+              <button href="searchCheckLists.html" class="dropdown-item">My Published CheckLists</button>
+              <button href="report.html" class="dropdown-item">Publishing Reports</button>
             </div>
           </li>
         </span>
@@ -34,9 +44,9 @@
               CheckLists
             </a>
             <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownChecklist">
-              <a href="myCheckLists.html" class="dropdown-item">My CheckLists</a>
-              <a href="searchCheckLists.html" class="dropdown-item">Search For Checklists</a>
-              <a href="report.html" class="dropdown-item">Report</a>
+              <button href="myCheckLists.html" class="dropdown-item">My CheckLists</button>
+              <button href="searchCheckLists.html" class="dropdown-item">Search For Checklists</button>
+              <button href="report.html" class="dropdown-item">Report</button>
             </div>
           </li>
         </span>
@@ -46,19 +56,19 @@
       <ul class="navbar-nav ml-auto">
         <span *ngIf="auth.isAuthenticated()">
           <li class="nav-item dropdown mr-3" ngbDropdown>
-            <a href="#" class="nav-link dropdown-toggle" ngbDropdownToggle id="dropdownSignedIn">
+            <a  class="nav-link" ngbDropdownToggle id="dropdownSignedIn">
               &nbsp;&nbsp;&nbsp;<img src="{{auth.picture}}" class="rounded-circle" style="width : 30px" />
             </a>
             <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownSignedIn">
-              <a routerLink="/userprofile" routerLinkActive="active" class="dropdown-item">
+              <button routerLink="/userprofile" routerLinkActive="active" class="dropdown-item">
                 <i class="fas fa-user-circle"></i> Profile
-              </a>
-              <a routerLink="/usersettings" routerLinkActive="active" class="dropdown-item">
+              </button>
+              <button routerLink="/usersettings" routerLinkActive="active" class="dropdown-item">
                 <i class="fas fa-cog"></i> Settings
-              </a>
-              <a (click)="auth.logout()" class="dropdown-item">
+              </button>
+              <button (click)="auth.logout()" class="dropdown-item">
                 <i class="fas fa-times"></i> Sign Out
-              </a>
+              </button>
             </div>
           </li>
         </span>
