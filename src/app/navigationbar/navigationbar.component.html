@@ -21,9 +21,9 @@
               Publishing
             </a>
             <div class="dropdown-menu" ngbDropdownMenu>
-              <button class="dropdown-item">My Publishing Groups</button>
-              <button  class="dropdown-item">My Published CheckLists</button>
-              <button  class="dropdown-item">Publishing Reports</button>
+              <a class="dropdown-item">My Publishing Groups</a>
+              <a class="dropdown-item">My Published CheckLists</a>
+              <a class="dropdown-item">Publishing Reports</a>
             </div>
           </li>
         </span>
@@ -34,9 +34,9 @@
               CheckLists
             </a>
             <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownChecklist">
-              <button  class="dropdown-item">My CheckLists</button>
-              <button  class="dropdown-item">Search For Checklists</button>
-              <button  class="dropdown-item">Report</button>
+              <a class="dropdown-item">My CheckLists</a>
+              <a class="dropdown-item">Search For Checklists</a>
+              <a class="dropdown-item">Report</a>
             </div>
           </li>
         </span>
@@ -46,19 +46,19 @@
       <ul class="navbar-nav ml-auto">
         <span *ngIf="auth.isAuthenticated()">
           <li class="nav-item dropdown mr-3" ngbDropdown>
-            <a  class="nav-link" ngbDropdownToggle id="dropdownSignedIn">
+            <a class="nav-link" ngbDropdownToggle id="dropdownSignedIn">
               &nbsp;&nbsp;&nbsp;<img src="{{auth.picture}}" class="rounded-circle" style="width : 30px" />
             </a>
             <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownSignedIn">
-              <button routerLink="/userprofile" routerLinkActive="active" class="dropdown-item">
+              <a routerLink="/userprofile" routerLinkActive="active" class="dropdown-item">
                 <i class="fas fa-user-circle"></i> Profile
-              </button>
-              <button routerLink="/usersettings" routerLinkActive="active" class="dropdown-item">
+              </a>
+              <a routerLink="/usersettings" routerLinkActive="active" class="dropdown-item">
                 <i class="fas fa-cog"></i> Settings
-              </button>
-              <button (click)="auth.logout()" class="dropdown-item">
+              </a>
+              <a (click)="auth.logout()" class="dropdown-item">
                 <i class="fas fa-times"></i> Sign Out
-              </button>
+              </a>
             </div>
           </li>
         </span>
