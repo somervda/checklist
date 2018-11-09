@@ -14,45 +14,35 @@
         <li class="nav-item px-2">
           <a routerLink="" routerLinkActive="active" class="nav-link ">&nbsp;Home</a>
         </li>
-        <!-- Test menu -->
-        <li class="nav-item dropdown px-2" ngbDropdown>
-          <a class="nav-link" id="dropdownBasic1" ngbDropdownToggle>Toggle dropdown</a>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <button  routerLink="/userprofile" routerLinkActive="active" class="dropdown-item">Action - 1</button>
-            <button class="dropdown-item">Another Action</button>
-            <button class="dropdown-item">Something else is here</button>
-          </div>
-          </li>
-          <!-- End test Menu-->
         <span *ngIf="sessionStore.isInRole('Publisher') && auth.isAuthenticated()">
           <!-- Publishing Menu -->
           <li class="nav-item dropdown px-2" ngbDropdown>
-            <a href="#" class="nav-link dropdown-toggle" ngbDropdownToggle>
+            <a class="nav-link" ngbDropdownToggle>
               Publishing
             </a>
             <div class="dropdown-menu" ngbDropdownMenu>
-              <button href="myCheckLists.html" class="dropdown-item">My Publishing Groups</button>
-              <button href="searchCheckLists.html" class="dropdown-item">My Published CheckLists</button>
-              <button href="report.html" class="dropdown-item">Publishing Reports</button>
+              <button class="dropdown-item">My Publishing Groups</button>
+              <button  class="dropdown-item">My Published CheckLists</button>
+              <button  class="dropdown-item">Publishing Reports</button>
             </div>
           </li>
         </span>
         <!-- Checklist Menu -->
         <span *ngIf="auth.isAuthenticated()">
           <li class="nav-item dropdown px-2" ngbDropdown>
-            <a href="#" class="nav-link dropdown-toggle" ngbDropdownToggle id="dropdownChecklist">
+            <a class="nav-link" ngbDropdownToggle id="dropdownChecklist">
               CheckLists
             </a>
             <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownChecklist">
-              <button href="myCheckLists.html" class="dropdown-item">My CheckLists</button>
-              <button href="searchCheckLists.html" class="dropdown-item">Search For Checklists</button>
-              <button href="report.html" class="dropdown-item">Report</button>
+              <button  class="dropdown-item">My CheckLists</button>
+              <button  class="dropdown-item">Search For Checklists</button>
+              <button  class="dropdown-item">Report</button>
             </div>
           </li>
         </span>
       </ul>
-      <!-- user functions-->
 
+      <!-- user functions-->
       <ul class="navbar-nav ml-auto">
         <span *ngIf="auth.isAuthenticated()">
           <li class="nav-item dropdown mr-3" ngbDropdown>
