@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
 @Component({
-  selector: 'mychecklist',
-  templateUrl: './mychecklist.component.html',
-  styleUrls: ['./mychecklist.component.css']
+  selector: "mychecklist",
+  templateUrl: "./mychecklist.component.html",
+  styleUrls: ["./mychecklist.component.css"]
 })
 export class MychecklistComponent implements OnInit {
+  rows = [
+    { name: "Austin", gender: "Male", company: "Swimlane" },
+    { name: "Dany", gender: "Male", company: "KFC" },
+    { name: "Molly", gender: "Female", company: "Burger King" }
+  ];
+  columns = [{ prop: "name" }, { name: "Gender" }, { name: "Company" }];
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }
