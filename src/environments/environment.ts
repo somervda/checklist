@@ -13,7 +13,9 @@ export const environment = {
     callbackURL: "",
     apiNameSpace: "https://ourCheckLists.com",
     audience: "https://api.ourCheckLists.com"
-  }
+  },
+  // url of the checklists rest api services in the cloud
+  clapiurl: "http://somerville.noip.me:3000";
 };
 
 /*
