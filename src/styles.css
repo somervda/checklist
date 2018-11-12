@@ -10,8 +10,11 @@
   due to the way component styles are qualified to only apply to local components, however only
   the ngx-datatable class is qualified with the local identifier
   see: https://github.com/swimlane/ngx-datatable/issues/834  */
-  
+
 .datatable-header-inner {
-  background-color: gray;
-  color: white;
+  border-bottom: 1px;
+  border-bottom-style: solid;
+  border-color: grey;
+  font-weight: bold;
+  margin-left: 10px;
 }
