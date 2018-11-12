@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ClapiService } from "../services/clapi.service";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "mychecklist",
@@ -24,7 +25,7 @@ export class MychecklistComponent implements OnInit {
   clapiData: any;
   clapiColumns = [{ prop: "id" }, { name: "name" }];
 
-  constructor(private clapi: ClapiService) { }
+  constructor(private clapi: ClapiService, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.showMyChecklists();
@@ -39,7 +40,10 @@ export class MychecklistComponent implements OnInit {
           this.clapiData = data;
           console.log("clapi data:", this.clapiData);
         },
-        error => console.log("clapi error:", error)
+        error => {
+          console.log("clapi error:", error);
+          this.toastr.warning(error.message, "Error retrieving data");
+        }
       );
 
   }
