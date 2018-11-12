@@ -1,0 +1,37 @@
+ {
+   "checkLists": [{
+       "id": 1,
+       "name": "Boat Trailer Setup"
+     },
+     {
+       "id": 2,
+       "name": "Initiate new Software Project"
+     }
+
+   ],
+   "checkListItems": [{
+       "id": 1,
+       "checkListId": 1,
+       "Title": "Connect lights",
+       "Description": " Connect the 4/7 pin connector from the trailer to the vehicle. Test the lights are working"
+     },
+     {
+       "id": 2,
+       "checkListId": 1,
+       "Title": "Connect Hitch",
+       "Description": " Connect the trailer hitch to the tow vehicle. Wind up hitch stand"
+     },
+     {
+       "id": 4,
+       "checkListId": 1,
+       "Title": "Tie down boat",
+       "Description": "Tie down the boat using the adjustable strap. Make sure it is tight. Also make sure bow of boat is chained to the trailer."
+     },
+     {
+       "id": 3,
+       "checkListId": 2,
+       "Title": "Get funding",
+       "Description": "Get some funding before doing anything. Don't work for free!"
+     }
+   ]
+ }
