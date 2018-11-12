@@ -2,10 +2,10 @@ import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { environment } from "../../environments/environment";
 
-
 import Auth0Lock from "auth0-lock";
 import { SessionStore } from "./session.store.service";
 import { JwtHelperService } from "@auth0/angular-jwt";
+import { ToastrService } from "ngx-toastr";
 const helper = new JwtHelperService();
 
 /*
@@ -41,15 +41,13 @@ export class AuthService {
       {
         name: "shortName",
         placeholder: "Short Name",
-        validator: function (shortName) {
+        validator: function(shortName) {
           return {
             valid: shortName.length < 20,
             hint: "Short name must not exceed 20 chars."
           };
         }
-
       }
-
     ],
     autoclose: true,
     oidcConformant: true
@@ -63,7 +61,11 @@ export class AuthService {
 
   picture = "";
 
-  constructor(private router: Router, private sessionStore: SessionStore) {
+  constructor(
+    private router: Router,
+    private sessionStore: SessionStore,
+    private toastr: ToastrService
+  ) {
     this.lock.on("authenticated", (authResult: any) => {
       this.lock.getUserInfo(authResult.accessToken, (error, profile) => {
         if (error) {
@@ -92,6 +94,8 @@ export class AuthService {
     sessionStorage.removeItem("token");
     this.sessionStore.clearRoles();
     console.log("Auth logged out, local storage cleared");
+    this.router.navigate(["/"]);
+    this.toastr.success("Signed out");
   }
 
   isAuthenticated() {
@@ -112,7 +116,9 @@ export class AuthService {
 
       // Store users picture to show on navigationBar when signed in
       if (expDate > dateNow) {
-        const decodedToken = helper.decodeToken(sessionStorage.getItem("token"));
+        const decodedToken = helper.decodeToken(
+          sessionStorage.getItem("token")
+        );
         if (decodedToken["picture"]) this.picture = decodedToken["picture"];
       }
 

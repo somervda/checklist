@@ -7,11 +7,17 @@ import { Component, OnInit } from "@angular/core";
 })
 export class MychecklistComponent implements OnInit {
   rows = [
-    { name: "Austin", gender: "Male", company: "Swimlane" },
-    { name: "Dany", gender: "Male", company: "KFC" },
-    { name: "Molly", gender: "Female", company: "Burger King" }
+    { Title: "Boat launching", category: "Boat" },
+    { Title: "Boat cleaning", category: "Boat" },
+    { Title: "Vacation Packing", category: "Travel" },
+    { Title: "Hotel selection", category: "Travel" },
+    { Title: "RV preparation", category: "Travel" },
+    { Title: "Software release", category: "IT" },
+    { Title: "Clean House", category: "Home" },
+    { Title: "Winterize house", category: "Home" },
+    { Title: "Mow lawn", category: "Home" }
   ];
-  columns = [{ prop: "name" }, { name: "Gender" }, { name: "Company" }];
+  columns = [{ prop: "Title" }, { name: "Category" }];
 
   constructor() {}
 
