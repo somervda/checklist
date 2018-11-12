@@ -22,6 +22,7 @@ export class MychecklistComponent implements OnInit {
   columns = [{ prop: "Title" }, { name: "Category" }];
 
   clapiData: any;
+  clapiColumns = [{ prop: "id" }, { name: "name" }];
 
   constructor(private clapi: ClapiService) { }
 
