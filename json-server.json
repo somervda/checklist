@@ -1,13 +1,34 @@
  {
    "checkLists": [{
        "id": 1,
-       "name": "Boat Trailer Setup"
+       "name": "Boat Trailer Setup",
+       "category": "Boating",
+       "status": "Active"
      },
      {
        "id": 2,
-       "name": "Initiate new Software Project"
+       "name": "Software Project Inception",
+       "category": "Software",
+       "status": "Complete"
+     },
+     {
+       "id": 3,
+       "name": "Clean House",
+       "category": "Home",
+       "status": "Active"
+     },
+     {
+       "id": 4,
+       "name": "Software Project Build",
+       "category": "Software",
+       "status": "Active"
+     },
+     {
+       "id": 5,
+       "name": "Software Project Transition",
+       "category": "Software",
+       "status": "Active"
      }
-
    ],
    "checkListItems": [{
        "id": 1,
