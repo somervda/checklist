@@ -23,7 +23,7 @@ export class MychecklistComponent implements OnInit {
   columns = [{ prop: "Title" }, { name: "Category" }];
 
   clapiData: any;
-  clapiColumns = [{ prop: "id" }, { name: "name" }];
+  clapiColumns = [{ prop: "id" }, { name: "name" }, { name: "category", headerClass: "bg-alert" }];
 
   constructor(private clapi: ClapiService, private toastr: ToastrService) { }
 
