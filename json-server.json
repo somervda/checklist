@@ -1,9 +1,57 @@
  {
    "checkLists": [{
        "id": 1,
-       "name": "Boat Trailer Setup",
-       "category": "Boating",
-       "status": "Active"
+       "name": "Boat launch 2018",
+       "templateName": "Boat Trailer Hookup",
+       "templateId": "1",
+       "templateVersion": "1",
+       "description": "Get boat connected to truck to take to the lake in 2018",
+       "templateDescription": "Steps needed to get a boat trailer connected to truck",
+       "templateCategory": "Boating",
+       "status": "Active",
+       "templateItems": [{
+           "id": "1",
+           "title": "Connect lights",
+           "description": "Connect the 4/7 pin connector from the trailer to the vehicle. Test the lights are working",
+           "processType": "Action",
+           "guidance": [{
+             "id": "1",
+             "URL": "http://www.toyota-4runner.org/attachments/5th-gen-t4rs/45282d1306628551-towing-hitch-electrical-connection-img_2250-small-.jpg",
+             "note": "7 pin trailer electrical connector will look like this.",
+             "type": "image"
+           }],
+           "state": "",
+           "statetype": "checkYN"
+         },
+         {
+           "id": "2",
+           "title": "Connect tow hitch",
+           "description": "Connect the tow hitch",
+           "processType": "Action",
+           "guidance": [{
+             "id": "1",
+             "URL": "https://www.boatus.com/Assets/www.boatus.com/magazines/boatus/trailering/2015/april/img/hitching-up-the-trailer.jpg",
+             "note": "Open the lock, lower the trailer hitch onto the tow ball, lock the hitch.",
+             "type": "image"
+           }],
+           "state": "",
+           "statetype": "checkYN"
+         }
+       ],
+       "items": [{
+         "id": "1",
+         "title": "Check driver is sober",
+         "description": "Give the driver a test - rank them from 1-5 where 1 is sobber and 5 is drunk",
+         "processType": "Check",
+         "guidance": [{
+           "id": "1",
+           "URL": "http://brainfall.com/quizzes/are-you-drunk/",
+           "note": "Take this test.",
+           "type": "website"
+         }],
+         "state": "",
+         "statetype": "score1-5"
+       }]
      },
      {
        "id": 2,

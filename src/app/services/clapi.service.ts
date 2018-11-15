@@ -15,8 +15,18 @@ export class ClapiService {
   getMyChecklists(userid: string) {
     // Get all checklists I have rights to access based on the userid
     // userid selection not yet implemented
+    // Added the dummy option of view=summary
+    // json-server does not support this but when I write the real service this will 
+    // return a smaller, summarized version of the selected checklists for use in listings 
     console.log("ClapiService getMyCheckLists");
-    return this.http.get(environment.clapiurl + "/checkLists");
+    return this.http.get(environment.clapiurl + "/checkLists?view=summary");
+  }
+
+  getChecklist(checklistid: number) {
+    // Get all checklists I have rights to access based on the userid
+    // userid selection not yet implemented
+    console.log("ClapiService getChecklist");
+    return this.http.get(environment.clapiurl + "/checkList/" + checklistid);
   }
 
 
