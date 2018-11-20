@@ -63,7 +63,7 @@
         </span>
         <span *ngIf="!auth.isAuthenticated()">
           <li class="nav-item">
-            <a (click)="auth.login()" class="nav-link">
+            <a routerLink="/login" routerLinkActive="active" class="nav-link">
               <i class="fas fa-user"></i> Sign Up or Login
             </a>
           </li>

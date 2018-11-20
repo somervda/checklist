@@ -1,9 +1,14 @@
 import { ClapiService } from './services/clapi.service';
 import { AuthService } from "./services/auth.service";
+
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { AngularFireModule } from '@angular/fire';
+
+
+
 import { ToastrModule } from "ngx-toastr";
 import { HttpClientModule } from '@angular/common/http';
 
@@ -22,6 +27,8 @@ import { UserprofileComponent } from "./userprofile/userprofile.component";
 import { UsersettingsComponent } from "./usersettings/usersettings.component";
 import { MychecklistComponent } from "./mychecklist/mychecklist.component";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
+import { LoginComponent } from './login/login.component';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -34,7 +41,8 @@ import { NgxDatatableModule } from "@swimlane/ngx-datatable";
     NavigationbarComponent,
     UserprofileComponent,
     UsersettingsComponent,
-    MychecklistComponent
+    MychecklistComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -47,11 +55,14 @@ import { NgxDatatableModule } from "@swimlane/ngx-datatable";
     NgxDatatableModule,
     RouterModule.forRoot([
       { path: "", component: HomeComponent },
+      { path: "login", component: LoginComponent },
       { path: "userprofile", component: UserprofileComponent },
       { path: "usersettings", component: UsersettingsComponent },
       { path: "mychecklist", component: MychecklistComponent },
       { path: "**", component: NotfoundComponent }
-    ])
+    ]),
+    AngularFireModule.initializeApp(environment.fbConfig)
+    
   ],
   providers: [AuthService, SessionStore, ClapiService],
   bootstrap: [AppComponent]
