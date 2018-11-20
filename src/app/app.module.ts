@@ -1,10 +1,11 @@
+import { ClapiService } from './services/clapi.service';
 import { AuthService } from "./services/auth.service";
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from "ngx-toastr";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from "./app.component";
 import {
@@ -52,7 +53,7 @@ import { NgxDatatableModule } from "@swimlane/ngx-datatable";
       { path: "**", component: NotfoundComponent }
     ])
   ],
-  providers: [AuthService, SessionStore],
+  providers: [AuthService, SessionStore, ClapiService],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
