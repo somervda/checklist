@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   // url of the checklists rest api services in the cloud
-  clapiurl: "http://somerville.noip.me:3000"
+  // clapiurl: "http://somerville.noip.me:3000"
+  clapiurl: "http://localhost:3000"
 };
 
 /*
