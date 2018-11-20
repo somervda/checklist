@@ -30,7 +30,7 @@
               "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": [
-              "node_modules/auth0-js/build/auth0.min.js"
+
             ]
           },
           "configurations": {

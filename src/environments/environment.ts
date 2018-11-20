@@ -4,16 +4,6 @@
 
 export const environment = {
   production: false,
-  auth0: {
-    domain: "mychecklist.auth0.com",
-    clientId: "TNSMyB1IDKZsHDO3RM0Mq4GfSY4fzYW1",
-    // Only use callbackURL to force a callback to a specific URL
-    // it is more flexable to leave it blank and have it redirect automatically
-    // to the calling URL - DAS 30Oct18
-    callbackURL: "",
-    apiNameSpace: "https://ourCheckLists.com",
-    audience: "https://api.ourCheckLists.com"
-  },
   // url of the checklists rest api services in the cloud
   clapiurl: "http://somerville.noip.me:3000"
 };
