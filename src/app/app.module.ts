@@ -7,14 +7,6 @@ import { RouterModule } from "@angular/router";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 // Firebase
-import { FirebaseUIModule } from "firebaseui-angular";
-import * as firebase from "firebase/app";
-import * as firebaseui from "firebaseui";
-// currently there is a bug while building the app with --prod
-// - https://github.com/RaphaelJenni/FirebaseUI-Angular/issues/76
-// the plugin exposes the two libraries as well. You can use those:
-//import {FirebaseUIModule, firebase, firebaseui} from 'firebaseui-angular';
-
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireAuthModule } from "@angular/fire/auth";
 
@@ -39,20 +31,7 @@ import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { LoginComponent } from "./login/login.component";
 import { environment } from "src/environments/environment";
 
-const firebaseUiAuthConfig: firebaseui.auth.Config = {
-  signInFlow: "popup",
-  signInOptions: [
-    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-    {
-      requireDisplayName: true,
-      provider: firebase.auth.EmailAuthProvider.PROVIDER_ID
-    }
 
-  ],
-  // tosUrl: '<your-tos-link>',
-  // privacyPolicyUrl: '<your-privacyPolicyUrl-link>',
-  credentialHelper: firebaseui.auth.CredentialHelper.NONE
-};
 
 @NgModule({
   declarations: [
@@ -86,8 +65,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
       { path: "**", component: NotfoundComponent }
     ]),
     AngularFireModule.initializeApp(environment.fbConfig),
-    AngularFireAuthModule,
-    FirebaseUIModule.forRoot(firebaseUiAuthConfig)
+    AngularFireAuthModule
   ],
   providers: [AuthService, SessionStore, ClapiService],
   bootstrap: [AppComponent]
