@@ -1,5 +1,7 @@
+import { firebase, FirebaseUIModule } from 'firebaseui-angular';
 import { Component, OnInit } from "@angular/core";
 import { AngularFireAuth } from "@angular/fire/auth";
+
 
 @Component({
   selector: "login",
@@ -7,7 +9,11 @@ import { AngularFireAuth } from "@angular/fire/auth";
   styleUrls: ["./login.component.css"]
 })
 export class LoginComponent implements OnInit {
-  constructor(public afAuth: AngularFireAuth) {}
+  
+  constructor(public afAuth: AngularFireAuth) {
+
+    
+  }
 
   ngOnInit() {}
 

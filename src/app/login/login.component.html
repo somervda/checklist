@@ -1,1 +1,7 @@
+
+<div *ngIf="afAuth.auth.currentUser" >
+    <p>auth.user : {{ afAuth.auth.currentUser.displayName }}</p>
+    <button type="button" class="btn" (click)="afAuth.auth.signOut()"><i class="fas fa-user-times"></i> Sign Out</button>
+</div>
 <firebase-ui></firebase-ui>
+
