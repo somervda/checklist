@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { AngularFireAuth } from "@angular/fire/auth";
+import { AngularFireAuth } from '@angular/fire/auth';
+import * as firebase from 'firebase/app';
 
 @Component({
   selector: "login",
@@ -11,5 +12,13 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {}
 
-  signup() {}
+  loginGoogle() {
+console.log("signup google clicked");
+    this.afAuth.auth.signInWithPopup( new firebase.auth.GoogleAuthProvider());
+  }
+
+  loginEmail() {
+    console.log("signup email clicked");
+        this.afAuth.auth.signInWithPopup( new firebase.auth.EmailAuthProvider());
+      }
 }
