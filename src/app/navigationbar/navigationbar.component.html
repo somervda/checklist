@@ -43,7 +43,7 @@
 
       <!-- user functions -->
       <ul class="navbar-nav ml-auto">
-        <span *ngIf="this.afAuth.auth.currentUser">
+        <span *ngIf="this.auth.isAuthenticated()">
           <li class="nav-item dropdown mr-3" ngbDropdown>
             <a class="nav-link" ngbDropdownToggle id="dropdownSignedIn">
               &nbsp;&nbsp;&nbsp;<img src="{{auth.picture}}" class="rounded-circle" style="width : 30px" />
@@ -55,13 +55,13 @@
               <a routerLink="/usersettings" routerLinkActive="active" class="dropdown-item">
                 <i class="fas fa-cog"></i> Settings
               </a>
-              <a  class="dropdown-item" (click)="signout()">
+              <a class="dropdown-item" (click)="!this.auth.logout()">
                 <i class="fas fa-times"></i> Sign Out
               </a>
             </div>
           </li>
         </span>
-        <span *ngIf="!this.afAuth.auth.currentUser">
+        <span *ngIf="!this.auth.isAuthenticated()">
           <li class="nav-item">
             <a routerLink="/login" routerLinkActive="active" class="nav-link">
               <i class="fas fa-user"></i> Sign Up or Login

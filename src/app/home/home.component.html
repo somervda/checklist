@@ -1,20 +1,37 @@
 <ngb-carousel>
   <ng-template ngbSlide class="carousel-item carousel-image-1 border-10">
-    <img src="../../assets/images/Checklist2.png" alt="Books and Lists" width="100%">
+    <!-- <img src="../../assets/images/checklistwide.png" alt="Books and Lists" width="100%"> -->
+    <picture>
+      <source media="(min-width: 650px)" srcset="../../assets/images/checklistwide.png">
+      <source media="(min-width: 465px)" srcset="../../assets/images/checklist.png">
+      <img src="../../assets/images/checklist.png" alt="Checklist" width="100%">
+    </picture>
     <div class="carousel-caption ">
       <h4><i class="far fa-list-alt"></i> Checklists</h4>
       <p>Streamline tasks with checklists.</p>
     </div>
   </ng-template>
   <ng-template ngbSlide class="carousel-item carousel-image-2">
-    <img src="../../assets/images/share5.png" alt="People sharing checklists" width="100%">
+    <!-- <img src="../../assets/images/sharewide.png" alt="People sharing checklists" width="100%"> -->
+    <picture>
+      <source media="(min-width: 650px)" srcset="../../assets/images/sharewide.png">
+      <source media="(min-width: 465px)" srcset="../../assets/images/share.png">
+      <img src="../../assets/images/share.png" alt="Share" width="100%">
+    </picture>
     <div class="carousel-caption">
       <h4><i class="far fa-handshake"></i> Publish</h4>
       <p>Share checklists and results.</p>
     </div>
   </ng-template>
   <ng-template ngbSlide class="carousel-item carousel-image-3">
-    <img src="../../assets/images/Analysis.jpg" alt="Analyzing checklist trends" width="100%">
+    <!-- <img class="visible-lg visible-mg visible-xs" src="../../assets/images/analysiswide.jpg" alt="Analyzing checklist trends"
+      width="100%">
+    <img class="visible-sm" src="../../assets/images/analysis.jpg" width="100%" /> -->
+    <picture>
+      <source media="(min-width: 650px)" srcset="../../assets/images/analysiswide.jpg">
+      <source media="(min-width: 465px)" srcset="../../assets/images/analysis.jpg">
+      <img src="../../assets/images/analysis.jpg" alt="Analysis" width="100%">
+    </picture>
     <div class="carousel-caption">
       <h4><i class="fas fa-chart-line"></i> Analyze</h4>
       <p>Review, analyze and improve.</p>
