@@ -5,15 +5,23 @@ import { environment } from "../../environments/environment";
 import { SessionStore } from "./session.store.service";
 import { ToastrService } from "ngx-toastr";
 
+import { AngularFireAuth } from '@angular/fire/auth';
+import * as firebase from 'firebase/app';
+
+
+
 @Injectable()
 export class AuthService {
   constructor(
     private router: Router,
     private sessionStore: SessionStore,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private afAuth : AngularFireAuth
   ) {}
 
-  login() {}
+  login() {
+    
+  }
 
   logout() {
     sessionStorage.removeItem("profile");
@@ -25,6 +33,6 @@ export class AuthService {
   }
 
   isAuthenticated() {
-    return false;
+    return this.afAuth.auth.currentUser;
   }
 }
