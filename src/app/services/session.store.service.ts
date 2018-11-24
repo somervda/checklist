@@ -18,11 +18,18 @@ export class SessionStore {
     return false;
   }
 
-  public clearRoles() {
-    sessionStorage.removeItem("accessToken");
+  public clearStorage() {
+    sessionStorage.clear();
   }
 
   public setRoles(accessToken: string) {
     sessionStorage.setItem("accessToken", accessToken);
+  }
+  public setUserPicture(picture: string) {
+    sessionStorage.setItem("picture", picture);
+  }
+
+  public userPicture() {
+    return sessionStorage.getItem("picture");
   }
 }

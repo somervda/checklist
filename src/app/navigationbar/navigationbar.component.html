@@ -46,7 +46,12 @@
         <span *ngIf="this.auth.isAuthenticated()">
           <li class="nav-item dropdown mr-3" ngbDropdown>
             <a class="nav-link" ngbDropdownToggle id="dropdownSignedIn">
-              &nbsp;&nbsp;&nbsp;<img src="{{auth.picture}}" class="rounded-circle" style="width : 30px" />
+              <span *ngIf="sessionStore.userPicture()">
+                &nbsp;&nbsp;&nbsp;<img src="{{sessionStore.userPicture()}}" class="rounded-circle" style="width : 30px" />
+              </span>
+              <span *ngIf="!sessionStore.userPicture()">
+                &nbsp;&nbsp;&nbsp;<i class="far fa-user-circle" style="width : 30px"></i>
+              </span>
             </a>
             <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownSignedIn">
               <a routerLink="/userprofile" routerLinkActive="active" class="dropdown-item">

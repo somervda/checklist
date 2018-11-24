@@ -5,6 +5,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { FormsModule } from '@angular/forms';
 
 // Firebase
 import { AngularFireModule } from '@angular/fire';
@@ -50,6 +51,7 @@ import { environment } from "src/environments/environment";
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     BrowserAnimationsModule, // required animations module
     HttpClientModule,
     ToastrModule.forRoot(), // ToastrModule added
@@ -72,4 +74,4 @@ import { environment } from "src/environments/environment";
   providers: [AuthService, SessionStore, ClapiService],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
