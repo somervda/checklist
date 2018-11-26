@@ -2,7 +2,7 @@ import { Injectable, NgZone } from "@angular/core";
 import { Router } from "@angular/router";
 import { environment } from "../../environments/environment";
 
-import { SessionStore } from "./session.store.service";
+
 import { ToastrService } from "ngx-toastr";
 
 import { AngularFireAuth } from "@angular/fire/auth";
@@ -12,17 +12,16 @@ import * as firebase from "firebase/app";
 export class AuthService {
   constructor(
     private router: Router,
-    private sessionStore: SessionStore,
     private toastr: ToastrService,
     public afAuth: AngularFireAuth,
     private ngZone: NgZone
-  ) {}
+  ) { }
 
   logout() {
     // sessionStorage.removeItem("profile");
     // sessionStorage.removeItem("token");
 
-    this.sessionStore.clearStorage();
+
     this.afAuth.auth.signOut();
     console.log("Auth logged out, local storage cleared");
     this.router.navigate(["/"]);
@@ -45,10 +44,10 @@ export class AuthService {
       .signInWithPopup(provider)
       .then(authState => {
         console.log("GoogleLogin: ", authState);
-        if (authState.additionalUserInfo)
-          this.sessionStore.setUserPicture(
-            authState.additionalUserInfo.profile["picture"]
-          );
+        // if (authState.additionalUserInfo)
+        //   this.sessionStore.setUserPicture(
+        //     authState.additionalUserInfo.profile["picture"]
+        //   );
         this.toastr.success("Signed In");
         // Need to run navigates within the angular ngZone or it redirects too early
         // https://stackoverflow.com/questions/51455545/when-to-use-ngzone-run
@@ -88,5 +87,11 @@ export class AuthService {
         // console.log("Signup Error: ", error);
         this.toastr.error(error.message, "Signup Failed");
       });
+  }
+
+  get getUserPicture(): string {
+    if (this.afAuth.auth.currentUser && this.afAuth.auth.currentUser.photoURL)
+      return this.afAuth.auth.currentUser.photoURL;
+    return null;
   }
 }

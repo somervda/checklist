@@ -25,7 +25,6 @@ import { HomeComponent } from "./home/home.component";
 import { NotfoundComponent } from "./notfound/notfound.component";
 import { FooterbarComponent } from "./footerbar/footerbar.component";
 import { NavigationbarComponent } from "./navigationbar/navigationbar.component";
-import { SessionStore } from "./services/session.store.service";
 import { UserprofileComponent } from "./userprofile/userprofile.component";
 import { UsersettingsComponent } from "./usersettings/usersettings.component";
 import { MychecklistComponent } from "./mychecklist/mychecklist.component";
@@ -74,7 +73,7 @@ import { SignupComponent } from './signup/signup.component';
     AngularFireDatabaseModule,
     AngularFireAuthModule
   ],
-  providers: [AuthService, SessionStore, ClapiService],
+  providers: [AuthService, ClapiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

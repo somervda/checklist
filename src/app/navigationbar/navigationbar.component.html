@@ -15,7 +15,7 @@
         <li class="nav-item px-2">
           <a routerLink="" routerLinkActive="active" class="nav-link ">&nbsp;Home</a>
         </li>
-        <span *ngIf="sessionStore.isInRole('Publisher') && auth.isAuthenticated()">
+        <span *ngIf=" auth.isAuthenticated()">
           <!-- Publishing Menu -->
           <li class="nav-item dropdown px-2" ngbDropdown>
             <a class="nav-link" ngbDropdownToggle> Publishing </a>
@@ -46,11 +46,11 @@
         <span *ngIf="this.auth.isAuthenticated()">
           <li class="nav-item dropdown mr-3" ngbDropdown>
             <a class="nav-link" ngbDropdownToggle id="dropdownSignedIn">
-              <span *ngIf="sessionStore.userPicture()">
-                &nbsp;&nbsp;&nbsp;<img src="{{sessionStore.userPicture()}}" class="rounded-circle" style="width : 30px" />
+              <span *ngIf="auth.getUserPicture">
+                &nbsp;&nbsp;&nbsp;<img src="{{auth.getUserPicture}}" class="rounded-circle" style="width : 30px" />
               </span>
-              <span *ngIf="!sessionStore.userPicture()">
-                &nbsp;&nbsp;&nbsp;<i class="far fa-user-circle" style="width : 30px"></i>
+              <span *ngIf="!auth.getUserPicture">
+                &nbsp;&nbsp;&nbsp;<i class="far fa-user-circle" style="width : 35px"></i>
               </span>
             </a>
             <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownSignedIn">
