@@ -16,7 +16,7 @@ export class AuthService {
     private toastr: ToastrService,
     public afAuth: AngularFireAuth,
     private ngZone: NgZone
-  ) { }
+  ) {}
 
   logout() {
     // sessionStorage.removeItem("profile");
@@ -34,18 +34,21 @@ export class AuthService {
   }
 
   loginGoogle() {
-    // see https://firebase.google.com/docs/auth/web/google-signin 
+    // see https://firebase.google.com/docs/auth/web/google-signin
     var provider = new firebase.auth.GoogleAuthProvider();
-    // see google options at https://developers.google.com/identity/protocols/OpenIDConnect#authenticationuriparameters 
+    // see google options at https://developers.google.com/identity/protocols/OpenIDConnect#authenticationuriparameters
     provider.setCustomParameters({
-      'prompt': 'select_account',
-      'scope': 'profile'
+      prompt: "select_account",
+      scope: "profile"
     });
-    this.afAuth.auth.signInWithPopup(provider)
+    this.afAuth.auth
+      .signInWithPopup(provider)
       .then(authState => {
         console.log("GoogleLogin: ", authState);
         if (authState.additionalUserInfo)
-          this.sessionStore.setUserPicture(authState.additionalUserInfo.profile['picture'])
+          this.sessionStore.setUserPicture(
+            authState.additionalUserInfo.profile["picture"]
+          );
         this.toastr.success("Signed In");
         // Need to run navigates within the angular ngZone or it redirects too early
         // https://stackoverflow.com/questions/51455545/when-to-use-ngzone-run
@@ -58,8 +61,9 @@ export class AuthService {
   }
 
   loginEmail(email: string, password: string) {
-    console.log("auth.loginEmail:", email, " ", password)
-    this.afAuth.auth.signInWithEmailAndPassword(email, password)
+    //console.log("auth.loginEmail:", email, " ", password)
+    this.afAuth.auth
+      .signInWithEmailAndPassword(email, password)
       .then(authState => {
         console.log("EmailLogin: ", authState);
         this.toastr.success("Signed In");
@@ -68,6 +72,21 @@ export class AuthService {
       .catch(error => {
         console.log("EmailLogin Error: ", error);
         this.toastr.error("Signed In Failed");
+      });
+  }
+
+  signup(email: string, password: string) {
+    console.log("auth.signup:", email, " ", password);
+    this.afAuth.auth
+      .createUserWithEmailAndPassword(email, password)
+      .then(authState => {
+        // console.log("Signup: ", authState);
+        this.toastr.success(email, "Signed Up");
+        this.ngZone.run(() => this.router.navigate(["/"]));
+      })
+      .catch(error => {
+        // console.log("Signup Error: ", error);
+        this.toastr.error(error.message, "Signup Failed");
       });
   }
 }

@@ -32,6 +32,7 @@ import { MychecklistComponent } from "./mychecklist/mychecklist.component";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { LoginComponent } from "./login/login.component";
 import { environment } from "src/environments/environment";
+import { SignupComponent } from './signup/signup.component';
 
 
 
@@ -47,7 +48,8 @@ import { environment } from "src/environments/environment";
     UserprofileComponent,
     UsersettingsComponent,
     MychecklistComponent,
-    LoginComponent
+    LoginComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
@@ -62,6 +64,7 @@ import { environment } from "src/environments/environment";
     RouterModule.forRoot([
       { path: "", component: HomeComponent },
       { path: "login", component: LoginComponent },
+      { path: "signup", component: SignupComponent },
       { path: "userprofile", component: UserprofileComponent },
       { path: "usersettings", component: UsersettingsComponent },
       { path: "mychecklist", component: MychecklistComponent },
