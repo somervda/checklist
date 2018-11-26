@@ -9,6 +9,7 @@ import { AuthService } from "../services/auth.service";
 export class SignupComponent implements OnInit {
   email;
   password;
+  displayname;
   constructor(public auth: AuthService) {}
 
   ngOnInit() {}

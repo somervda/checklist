@@ -43,7 +43,7 @@
 
       <!-- user functions -->
       <ul class="navbar-nav ml-auto">
-        <span *ngIf="this.auth.isAuthenticated()">
+        <span *ngIf="this.auth.isAuthenticated()" placement="bottom" ngbTooltip='{{ auth.getUserDisplayname}}'>
           <li class="nav-item dropdown mr-3" ngbDropdown>
             <a class="nav-link" ngbDropdownToggle id="dropdownSignedIn">
               <span *ngIf="auth.getUserPicture">

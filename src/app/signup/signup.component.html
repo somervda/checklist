@@ -15,7 +15,13 @@
       <input type="password" class="form-control" id="inputPassword" name="inputPassword" placeholder="Enter your password"
         [(ngModel)]="password">
     </div>
-    <p class="card-text text-center"><button style="width: 150px" (click)="this.auth.signup(email,password)">
+    <div class="form-group">
+      <label for="inputDisplayname">Display Name</label>
+      <input type="text" class="form-control" id="inputDisplayname" name="inputDisplayname"
+       placeholder="Enter the name you want to show in the application"
+        [(ngModel)]="displayname">
+    </div>
+    <p class="card-text text-center"><button style="width: 150px" (click)="this.auth.signup(email,password,displayname)">
         <i class="fas fa-user-plus"></i> Sign Up</button></p>
 
   </div>

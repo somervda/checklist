@@ -74,15 +74,26 @@ export class AuthService {
       });
   }
 
-  signup(email: string, password: string) {
+  signup(email: string, password: string, displayname: string) {
     console.log("auth.signup:", email, " ", password);
     this.afAuth.auth
       .createUserWithEmailAndPassword(email, password)
       .then(authState => {
         // console.log("Signup: ", authState);
+
+        // https://ui-avatars.com/api/?name=Elon+Musk
+        authState.user.updateProfile({
+          displayName: displayname,
+          photoURL: "https://ui-avatars.com/api/?name=" + displayname 
+        })
+        .then(() => console.log("signup updateprofile success"))
+        .catch(error => console.log("Signup updateprofile Error: ", error));
+
         this.toastr.success(email, "Signed Up");
         this.ngZone.run(() => this.router.navigate(["/"]));
       })
+
+
       .catch(error => {
         // console.log("Signup Error: ", error);
         this.toastr.error(error.message, "Signup Failed");
@@ -92,6 +103,12 @@ export class AuthService {
   get getUserPicture(): string {
     if (this.afAuth.auth.currentUser && this.afAuth.auth.currentUser.photoURL)
       return this.afAuth.auth.currentUser.photoURL;
+    return null;
+  }
+
+  get getUserDisplayname(): string {
+    if (this.afAuth.auth.currentUser && this.afAuth.auth.currentUser.displayName)
+      return this.afAuth.auth.currentUser.displayName;
     return null;
   }
 }

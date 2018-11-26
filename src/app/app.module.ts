@@ -19,7 +19,8 @@ import { AppComponent } from "./app.component";
 import {
   NgbDropdownModule,
   NgbCarouselModule,
-  NgbCollapseModule
+  NgbCollapseModule,
+  NgbTooltipModule
 } from "@ng-bootstrap/ng-bootstrap";
 import { HomeComponent } from "./home/home.component";
 import { NotfoundComponent } from "./notfound/notfound.component";
@@ -60,6 +61,7 @@ import { SignupComponent } from './signup/signup.component';
     NgbCarouselModule,
     NgbCollapseModule,
     NgxDatatableModule,
+    NgbTooltipModule,
     RouterModule.forRoot([
       { path: "", component: HomeComponent },
       { path: "login", component: LoginComponent },
