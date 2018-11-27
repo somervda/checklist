@@ -33,6 +33,7 @@ import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { LoginComponent } from "./login/login.component";
 import { environment } from "src/environments/environment";
 import { SignupComponent } from './signup/signup.component';
+import { MychecklistsComponent } from './mychecklists/mychecklists.component';
 
 
 
@@ -49,7 +50,8 @@ import { SignupComponent } from './signup/signup.component';
     UsersettingsComponent,
     MychecklistComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    MychecklistsComponent
   ],
   imports: [
     BrowserModule,
@@ -68,7 +70,7 @@ import { SignupComponent } from './signup/signup.component';
       { path: "signup", component: SignupComponent },
       { path: "userprofile", component: UserprofileComponent },
       { path: "usersettings", component: UsersettingsComponent },
-      { path: "mychecklist", component: MychecklistComponent },
+      { path: "mychecklists", component: MychecklistsComponent },
       { path: "**", component: NotfoundComponent }
     ]),
     AngularFireModule.initializeApp(environment.fbConfig),
