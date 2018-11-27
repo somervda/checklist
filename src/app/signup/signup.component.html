@@ -1,5 +1,5 @@
 <br />
-<div class="card  mx-auto " style="width : 400px">
+<div class="card  mx-auto " style="width : 350px">
   <div class="card-header text-center  ">
     <h4>Sign Up</h4>
   </div>
@@ -17,8 +17,7 @@
     </div>
     <div class="form-group">
       <label for="inputDisplayname">Display Name</label>
-      <input type="text" class="form-control" id="inputDisplayname" name="inputDisplayname"
-       placeholder="Enter the name you want to show in the application"
+      <input type="text" class="form-control" id="inputDisplayname" name="inputDisplayname" placeholder="Enter your name"
         [(ngModel)]="displayname">
     </div>
     <p class="card-text text-center"><button style="width: 150px" (click)="this.auth.signup(email,password,displayname)">

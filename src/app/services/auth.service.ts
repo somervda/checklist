@@ -2,7 +2,6 @@ import { Injectable, NgZone } from "@angular/core";
 import { Router } from "@angular/router";
 import { environment } from "../../environments/environment";
 
-
 import { ToastrService } from "ngx-toastr";
 
 import { AngularFireAuth } from "@angular/fire/auth";
@@ -15,12 +14,11 @@ export class AuthService {
     private toastr: ToastrService,
     public afAuth: AngularFireAuth,
     private ngZone: NgZone
-  ) { }
+  ) {}
 
   logout() {
     // sessionStorage.removeItem("profile");
     // sessionStorage.removeItem("token");
-
 
     this.afAuth.auth.signOut();
     console.log("Auth logged out, local storage cleared");
@@ -33,7 +31,9 @@ export class AuthService {
   }
 
   loginGoogle() {
-    // see https://firebase.google.com/docs/auth/web/google-signin
+    // see https://firebase.google.com/docs/auth/web/google-
+    this.persistSeason();
+
     var provider = new firebase.auth.GoogleAuthProvider();
     // see google options at https://developers.google.com/identity/protocols/OpenIDConnect#authenticationuriparameters
     provider.setCustomParameters({
@@ -61,6 +61,8 @@ export class AuthService {
 
   loginEmail(email: string, password: string) {
     //console.log("auth.loginEmail:", email, " ", password)
+    this.persistSeason();
+
     this.afAuth.auth
       .signInWithEmailAndPassword(email, password)
       .then(authState => {
@@ -76,23 +78,25 @@ export class AuthService {
 
   signup(email: string, password: string, displayname: string) {
     console.log("auth.signup:", email, " ", password);
+    this.persistSeason();
+
     this.afAuth.auth
       .createUserWithEmailAndPassword(email, password)
       .then(authState => {
         // console.log("Signup: ", authState);
 
         // https://ui-avatars.com/api/?name=Elon+Musk
-        authState.user.updateProfile({
-          displayName: displayname,
-          photoURL: "https://ui-avatars.com/api/?name=" + displayname 
-        })
-        .then(() => console.log("signup updateprofile success"))
-        .catch(error => console.log("Signup updateprofile Error: ", error));
+        authState.user
+          .updateProfile({
+            displayName: displayname,
+            photoURL: "https://ui-avatars.com/api/?name=" + displayname
+          })
+          .then(() => console.log("signup updateprofile success"))
+          .catch(error => console.log("Signup updateprofile Error: ", error));
 
         this.toastr.success(email, "Signed Up");
         this.ngZone.run(() => this.router.navigate(["/"]));
       })
-
 
       .catch(error => {
         // console.log("Signup Error: ", error);
@@ -107,8 +111,31 @@ export class AuthService {
   }
 
   get getUserDisplayname(): string {
-    if (this.afAuth.auth.currentUser && this.afAuth.auth.currentUser.displayName)
+    if (
+      this.afAuth.auth.currentUser &&
+      this.afAuth.auth.currentUser.displayName
+    )
       return this.afAuth.auth.currentUser.displayName;
     return null;
+  }
+
+  persistSeason() {
+    // See https://firebase.google.com/docs/auth/web/auth-state-persistence
+    // This function will return immediately even though promise may still be
+    // being actioned. See documentation , future authentication will wait for this function
+    // to complete and persistance will be set appropriately
+
+    this.afAuth.auth
+      .setPersistence(firebase.auth.Auth.Persistence.SESSION)
+      .then(function() {
+        // Existing and future Auth states are now persisted in the current
+        // session only. Closing the window would clear any existing state even
+        // if a user forgets to sign out.
+        console.log("persistSeason worked");
+      })
+      .catch(function(error) {
+        // Handle Errors here.
+        console.log("persistSeason error ", error);
+      });
   }
 }

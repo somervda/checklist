@@ -1,13 +1,13 @@
 <br />
-<div class="card  mx-auto " style="width : 400px">
+<div class="card  mx-auto " style="width : 350px">
   <div class="card-header text-center  ">
     <h4>Login</h4>
   </div>
   <div class="card-body mb-20">
-
-    <p class="card-text text-center"><button style="width: 150px" (click)="this.auth.loginGoogle()"><i class="fab fa-google"></i>
+    <p class="card-text text-center"><button style="width: 80%" (click)="this.auth.loginGoogle()"><i class="fab fa-google"></i>
         Google</button></p>
-    <hr />
+    <p class="text-center">or</p>
+
     <div class="form-group">
       <label for="inputEmail">Email</label>
       <input type="text" class="form-control" id="inputEmail" name="inputEmail" placeholder="Enter your email"
@@ -18,7 +18,7 @@
       <input type="password" class="form-control" id="inputPassword" name="inputPassword" placeholder="Enter your password"
         [(ngModel)]="password">
     </div>
-    <p class="card-text text-center"><button style="width: 150px" (click)="this.auth.loginEmail(email,password)">
+    <p class="card-text text-center"><button style="width: 80%" (click)="this.auth.loginEmail(email,password)">
         <i class=" far
         fa-envelope"></i> eMail</button></p>
     <hr />
