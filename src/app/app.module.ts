@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
 
 // Firebase
 import { AngularFireModule } from '@angular/fire';
-import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 
 import { ToastrModule } from "ngx-toastr";
@@ -74,7 +74,7 @@ import { MychecklistsComponent } from './mychecklists/mychecklists.component';
       { path: "**", component: NotfoundComponent }
     ]),
     AngularFireModule.initializeApp(environment.fbConfig),
-    AngularFireDatabaseModule,
+    AngularFirestoreModule,
     AngularFireAuthModule
   ],
   providers: [AuthService, ClapiService],

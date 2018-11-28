@@ -1,5 +1,7 @@
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { Component, OnInit } from '@angular/core';
-import { AngularFireDatabase} from '@angular/fire/database'
+import { FirebaseStorage } from '@angular/fire';
+import { AngularFirestore } from '@angular/fire/firestore'
 
 @Component({
   selector: 'app-mychecklists',
@@ -8,11 +10,12 @@ import { AngularFireDatabase} from '@angular/fire/database'
 })
 export class MychecklistsComponent implements OnInit {
 
-  constructor( private db: AngularFireDatabase) { }
+  constructor(private db: AngularFirestore) { }
 
   ngOnInit() {
-    this.db.list("/checklists").valueChanges   
-    .then()
+    this.db.collection("/checklists").get().subscribe(data => console.log("Chacklists data", data));
+    //this.db.list("/checklists").valueChanges   
+
   }
 
 }
