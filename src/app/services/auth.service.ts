@@ -23,7 +23,9 @@ export class AuthService {
     this.afAuth.auth.signOut();
     console.log("Auth logged out, local storage cleared");
     this.router.navigate(["/"]);
-    this.toastr.success("Signed out");
+    this.toastr.success("", "Signed out", {
+      timeOut: 1000
+    });
   }
 
   isAuthenticated() {
@@ -48,14 +50,18 @@ export class AuthService {
         //   this.sessionStore.setUserPicture(
         //     authState.additionalUserInfo.profile["picture"]
         //   );
-        this.toastr.success("Signed In");
+        this.toastr.success("", "Signed In", {
+          timeOut: 1000
+        });
         // Need to run navigates within the angular ngZone or it redirects too early
         // https://stackoverflow.com/questions/51455545/when-to-use-ngzone-run
         this.ngZone.run(() => this.router.navigate(["/"]));
       })
       .catch(error => {
         console.log("GoogleLogin Error: ", error);
-        this.toastr.error("Signed In Failed");
+        this.toastr.error(error.message, "Signed In Failed", {
+          timeOut: 7000
+        });
       });
   }
 
@@ -67,12 +73,16 @@ export class AuthService {
       .signInWithEmailAndPassword(email, password)
       .then(authState => {
         console.log("EmailLogin: ", authState);
-        this.toastr.success("Signed In");
+        this.toastr.success("", "Signed In", {
+          timeOut: 1000
+        });
         this.ngZone.run(() => this.router.navigate(["/"]));
       })
       .catch(error => {
         console.log("EmailLogin Error: ", error);
-        this.toastr.error("Signed In Failed");
+        this.toastr.error(error.message, "Signed In Failed", {
+          timeOut: 7000
+        });
       });
   }
 

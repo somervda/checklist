@@ -1,8 +1,5 @@
-import { AngularFirestoreModule } from "@angular/fire/firestore";
-import { Component, OnInit, OnDestroy } from "@angular/core";
-import { FirebaseStorage } from "@angular/fire";
+import { Component, OnInit } from "@angular/core";
 import { AngularFirestore } from "@angular/fire/firestore";
-import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-mychecklists",
