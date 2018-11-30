@@ -9,25 +9,15 @@ import { Subscription } from "rxjs";
   templateUrl: "./mychecklists.component.html",
   styleUrls: ["./mychecklists.component.css"]
 })
-export class MychecklistsComponent implements OnInit, OnDestroy {
-  checklists = [];
-  checklistSubscription: Subscription;
+export class MychecklistsComponent implements OnInit {
+  checklists$;
 
   constructor(private db: AngularFirestore) {}
 
   ngOnInit() {
     // See https://www.udemy.com/the-complete-angular-master-class/learn/v4/t/lecture/7673810?start=0
-    this.checklistSubscription = this.db
-      .collection("/checklists")
-      .snapshotChanges()
-      .subscribe(snapshot => {
-        this.checklists = snapshot;
-        console.log("Checklists docs", snapshot);
-      });
+    // Using observable and async to manage lifetime of subscription in sync with lifetime of the component
+    this.checklists$ = this.db.collection("/checklists").snapshotChanges();
     //this.db.list("/checklists").valueChanges
-  }
-
-  ngOnDestroy() {
-    this.checklistSubscription.unsubscribe();
   }
 }
