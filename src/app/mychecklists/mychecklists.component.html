@@ -1,4 +1,5 @@
 <br />
 <ul>
-  <li *ngFor="let doc of checklists">{{ doc.id }} - {{ doc.data().title }}</li>
+  <li *ngFor="let docSnapshot of checklists">
+    {{ docSnapshot.payload.doc.id }} {{ docSnapshot.payload.doc.data().title }}</li>
 </ul>
