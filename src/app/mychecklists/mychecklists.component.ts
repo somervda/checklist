@@ -12,7 +12,12 @@ export class MychecklistsComponent implements OnInit {
   checklists$;
   checklists;
 
-  columns = [{ prop: "title", name: "Id" }, { prop: "author", name: "Title" }];
+  // See https://swimlane.gitbook.io/ngx-datatable/api/column/inputs
+  columns = [
+    { prop: "id", name: "Id", width: 200 },
+    { prop: "title", name: "Title" },
+    { prop: "author", name: "Author" }
+  ];
 
   constructor(private db: AngularFirestore) {}
 
@@ -23,9 +28,7 @@ export class MychecklistsComponent implements OnInit {
     // use map operator to normaize snapshotchanges to a more easily managed array of objects that have document id  // and data at same level
     // see https://stackoverflow.com/questions/48795092/angular-httpclient-map-observable-array-of-objects
 
-    this.checklists$ = this.db.collection("/checklists").valueChanges();
-
-    this.db
+    this.checklists$ = this.db
       .collection("/checklists")
       .snapshotChanges()
       .pipe(
@@ -35,16 +38,30 @@ export class MychecklistsComponent implements OnInit {
               { id: row.payload.doc.id },
               row.payload.doc.data()
             );
-            // return {
-            //   xmas: "25"
-            // };
-            console.log("row", row);
           })
         )
-      )
-      .subscribe(snapshot => {
-        this.checklists = snapshot;
-        console.log("snapshot: ", snapshot);
-      });
+      );
+
+    // this.db
+    //   .collection("/checklists")
+    //   .snapshotChanges()
+    //   .pipe(
+    //     map(data =>
+    //       data.map(row => {
+    //         return Object.assign(
+    //           { id: row.payload.doc.id },
+    //           row.payload.doc.data()
+    //         );
+    //         // return {
+    //         //   xmas: "25"
+    //         // };
+    //         console.log("row", row);
+    //       })
+    //     )
+    //   )
+    //   .subscribe(snapshot => {
+    //     this.checklists = snapshot;
+    //     console.log("snapshot: ", snapshot);
+    //   });
   }
 }
