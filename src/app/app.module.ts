@@ -28,7 +28,6 @@ import { FooterbarComponent } from "./footerbar/footerbar.component";
 import { NavigationbarComponent } from "./navigationbar/navigationbar.component";
 import { UserprofileComponent } from "./userprofile/userprofile.component";
 import { UsersettingsComponent } from "./usersettings/usersettings.component";
-import { MychecklistComponent } from "./mychecklist/mychecklist.component";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { LoginComponent } from "./login/login.component";
 import { environment } from "src/environments/environment";
@@ -47,7 +46,6 @@ import { ChecklistComponent } from "./checklist/checklist.component";
     NavigationbarComponent,
     UserprofileComponent,
     UsersettingsComponent,
-    MychecklistComponent,
     LoginComponent,
     SignupComponent,
     MychecklistsComponent,
