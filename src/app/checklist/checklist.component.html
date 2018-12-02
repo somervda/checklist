@@ -2,3 +2,7 @@
   Title : {{ (checklist$ | async)?.data().title }}<br />
   Author : {{ (checklist$ | async)?.data().author }}
 </p>
+<hr />
+<div *ngFor="let checklistItem of  checklistItems$ | async">
+  <app-checklistitem [id]="checklistItem.payload.doc.id"></app-checklistitem>
+</div>

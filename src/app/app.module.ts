@@ -34,6 +34,7 @@ import { environment } from "src/environments/environment";
 import { SignupComponent } from "./signup/signup.component";
 import { MychecklistsComponent } from "./mychecklists/mychecklists.component";
 import { ChecklistComponent } from "./checklist/checklist.component";
+import { ChecklistitemComponent } from './checklistitem/checklistitem.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { ChecklistComponent } from "./checklist/checklist.component";
     LoginComponent,
     SignupComponent,
     MychecklistsComponent,
-    ChecklistComponent
+    ChecklistComponent,
+    ChecklistitemComponent
   ],
   imports: [
     BrowserModule,
