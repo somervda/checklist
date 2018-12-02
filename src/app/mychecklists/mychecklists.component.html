@@ -6,17 +6,17 @@
       <h3>My Checklists</h3>
       <ngx-datatable class="bootstrap" [rows]="checklists$ | async" [columns]="columns" [columnMode]="'standard'"
         [footerHeight]="50" [rowHeight]="'auto'">
-        <!--         <ngx-datatable-column name="ID" width="300">
-          <ng-template let-value="value" ngx-datatable-cell-template>
-            <span class="mx-1">{{ value.id }} - </span>
-          </ng-template>
-        </ngx-datatable-column> 
         <ngx-datatable-column name="Name" width="300">
           <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-            {{value}}
+            <span class="mx-1"><a routerLink="/checklist/{{ row.id }}">{{row.title}}</a></span>
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Category" width="100" headerClass="bg-warning">
+        <ngx-datatable-column name="Author" width="250">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            {{row.author}}
+          </ng-template>
+        </ngx-datatable-column>
+        <!--  <ngx-datatable-column name="Category" width="100" headerClass="bg-warning">
           <ng-template let-value="value" ngx-datatable-cell-template>
             {{value}}
           </ng-template>

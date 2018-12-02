@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { AngularFirestore } from "@angular/fire/firestore";
-import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 
 @Component({
@@ -10,7 +9,6 @@ import { map } from "rxjs/operators";
 })
 export class MychecklistsComponent implements OnInit {
   checklists$;
-  checklists;
 
   // See https://swimlane.gitbook.io/ngx-datatable/api/column/inputs
   columns = [
@@ -32,8 +30,8 @@ export class MychecklistsComponent implements OnInit {
       .collection("/checklists")
       .snapshotChanges()
       .pipe(
-        map(data =>
-          data.map(row => {
+        map(documentChangeAction =>
+          documentChangeAction.map(row => {
             return Object.assign(
               { id: row.payload.doc.id },
               row.payload.doc.data()
@@ -41,27 +39,5 @@ export class MychecklistsComponent implements OnInit {
           })
         )
       );
-
-    // this.db
-    //   .collection("/checklists")
-    //   .snapshotChanges()
-    //   .pipe(
-    //     map(data =>
-    //       data.map(row => {
-    //         return Object.assign(
-    //           { id: row.payload.doc.id },
-    //           row.payload.doc.data()
-    //         );
-    //         // return {
-    //         //   xmas: "25"
-    //         // };
-    //         console.log("row", row);
-    //       })
-    //     )
-    //   )
-    //   .subscribe(snapshot => {
-    //     this.checklists = snapshot;
-    //     console.log("snapshot: ", snapshot);
-    //   });
   }
 }

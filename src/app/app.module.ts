@@ -5,12 +5,12 @@ import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { FormsModule } from '@angular/forms';
+import { FormsModule } from "@angular/forms";
 
 // Firebase
-import { AngularFireModule } from '@angular/fire';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireModule } from "@angular/fire";
+import { AngularFirestoreModule } from "@angular/fire/firestore";
+import { AngularFireAuthModule } from "@angular/fire/auth";
 
 import { ToastrModule } from "ngx-toastr";
 import { HttpClientModule } from "@angular/common/http";
@@ -32,10 +32,9 @@ import { MychecklistComponent } from "./mychecklist/mychecklist.component";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { LoginComponent } from "./login/login.component";
 import { environment } from "src/environments/environment";
-import { SignupComponent } from './signup/signup.component';
-import { MychecklistsComponent } from './mychecklists/mychecklists.component';
-
-
+import { SignupComponent } from "./signup/signup.component";
+import { MychecklistsComponent } from "./mychecklists/mychecklists.component";
+import { ChecklistComponent } from "./checklist/checklist.component";
 
 @NgModule({
   declarations: [
@@ -51,7 +50,8 @@ import { MychecklistsComponent } from './mychecklists/mychecklists.component';
     MychecklistComponent,
     LoginComponent,
     SignupComponent,
-    MychecklistsComponent
+    MychecklistsComponent,
+    ChecklistComponent
   ],
   imports: [
     BrowserModule,
@@ -71,6 +71,7 @@ import { MychecklistsComponent } from './mychecklists/mychecklists.component';
       { path: "userprofile", component: UserprofileComponent },
       { path: "usersettings", component: UsersettingsComponent },
       { path: "mychecklists", component: MychecklistsComponent },
+      { path: "checklist/:id", component: ChecklistComponent },
       { path: "**", component: NotfoundComponent }
     ]),
     AngularFireModule.initializeApp(environment.fbConfig),
@@ -80,4 +81,4 @@ import { MychecklistsComponent } from './mychecklists/mychecklists.component';
   providers: [AuthService, ClapiService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
