@@ -1,3 +1,4 @@
 <p>
-  checklist works!
+  Title : {{ (checklist$ | async)?.data().title }}<br />
+  Author : {{ (checklist$ | async)?.data().author }}
 </p>
