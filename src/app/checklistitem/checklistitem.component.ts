@@ -7,11 +7,17 @@ import { AngularFirestore } from "@angular/fire/firestore";
   styleUrls: ["./checklistitem.component.css"]
 })
 export class ChecklistitemComponent implements OnInit {
-  @Input() id;
+  @Input() id: string;
   checklistItem$;
+  checked = true;
   constructor(private db: AngularFirestore) {}
 
   ngOnInit() {
     this.checklistItem$ = this.db.doc("/checklistItems/" + this.id).get();
+    this.checklistItem$.subscribe(data => (this.checked = data.data().value));
+  }
+
+  onClick(event) {
+    console.log("Checked:", this.checked);
   }
 }

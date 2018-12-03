@@ -1,3 +1,4 @@
-<p>
-  {{ (checklistItem$ | async)?.data().prompt }} <input type="checkbox">
-</p>
+<p>{{ (checklistItem$ | async)?.data().prompt }}
+  <input name="true" type="checkbox" (click)="onClick($event)" [(ngModel)]="checked"></p>
+
+<!-- [checked]="(checklistItem$ | async)?.data().value"  -->
