@@ -1,9 +1,8 @@
-<p text="right"><a><i class="fas fa-edit"></i></a></p>
-<p>
-  Title : {{ (checklist$ | async)?.data().title }}<br />
-  Author : {{ (checklist$ | async)?.data().author }}
-</p>
+<!-- <p text="right"><a><i class="fas fa-edit"></i></a></p> -->
+<h2>Title : {{ (checklist$ | async)?.data().title }}</h2>
+Author : {{ (checklist$ | async)?.data().author }}
+
 <hr />
-<div *ngFor="let checklistItem of  checklistItems$ | async">
-  <app-checklistitem [id]="checklistItem.payload.doc.id"></app-checklistitem>
+<div *ngFor="let checklistItem of  checklistItems$ | async;  index as i">
+  <app-checklistitem [id]="checklistItem.payload.doc.id" [index]="i"></app-checklistitem>
 </div>
