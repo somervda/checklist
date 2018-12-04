@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, OnDestroy } from "@angular/core";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { Observable, Subscription } from "rxjs";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-checklistitem",
@@ -13,7 +14,7 @@ export class ChecklistitemComponent implements OnInit, OnDestroy {
   checklistItem$;
   checklistItemSubscribe: Subscription;
   checked = true;
-  constructor(private db: AngularFirestore) {}
+  constructor(private db: AngularFirestore, private toastr: ToastrService) {}
 
   ngOnInit() {
     this.checklistItem$ = this.db.doc("/checklistItems/" + this.id).get();
@@ -22,7 +23,20 @@ export class ChecklistitemComponent implements OnInit, OnDestroy {
   }
 
   onClick() {
-    console.log("Checked:", !this.checked);
+    //console.log("Checked:", !this.checked);
+    this.db
+      .doc("/checklistItems/" + this.id)
+      .update({ value: !this.checked })
+      .then(() => {
+        //console.log("Checked Update successfully");
+      })
+      .catch(error => {
+        this.toastr.error(error.message, "Checkbox update failed", {
+          timeOut: 5000
+        });
+        // Reset check box
+        this.checked = !this.checked;
+      });
   }
 
   ngOnDestroy() {

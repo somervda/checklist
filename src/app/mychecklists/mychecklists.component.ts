@@ -13,8 +13,7 @@ export class MychecklistsComponent implements OnInit {
   // See https://swimlane.gitbook.io/ngx-datatable/api/column/inputs
   columns = [
     { prop: "id", name: "Id", width: 200 },
-    { prop: "title", name: "Title" },
-    { prop: "author", name: "Author" }
+    { prop: "id", name: "designerLink" }
   ];
 
   constructor(private db: AngularFirestore) {}

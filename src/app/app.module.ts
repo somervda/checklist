@@ -34,7 +34,8 @@ import { environment } from "src/environments/environment";
 import { SignupComponent } from "./signup/signup.component";
 import { MychecklistsComponent } from "./mychecklists/mychecklists.component";
 import { ChecklistComponent } from "./checklist/checklist.component";
-import { ChecklistitemComponent } from './checklistitem/checklistitem.component';
+import { ChecklistitemComponent } from "./checklistitem/checklistitem.component";
+import { ChecklistdesignerComponent } from "./checklistdesigner/checklistdesigner.component";
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { ChecklistitemComponent } from './checklistitem/checklistitem.component'
     SignupComponent,
     MychecklistsComponent,
     ChecklistComponent,
-    ChecklistitemComponent
+    ChecklistitemComponent,
+    ChecklistdesignerComponent
   ],
   imports: [
     BrowserModule,
@@ -72,6 +74,7 @@ import { ChecklistitemComponent } from './checklistitem/checklistitem.component'
       { path: "usersettings", component: UsersettingsComponent },
       { path: "mychecklists", component: MychecklistsComponent },
       { path: "checklist/:id", component: ChecklistComponent },
+      { path: "checklistdesigner/:id", component: ChecklistdesignerComponent },
       { path: "**", component: NotfoundComponent }
     ]),
     AngularFireModule.initializeApp(environment.fbConfig),

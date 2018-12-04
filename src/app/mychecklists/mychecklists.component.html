@@ -1,23 +1,33 @@
-<br />
-
 <div class="container">
   <div class="row mt-3">
     <span class="mx-auto ">
       <h3>My Checklists</h3>
       <ngx-datatable class="bootstrap" [rows]="checklists$ | async" [columns]="columns" [columnMode]="'standard'"
-        [footerHeight]="50" [rowHeight]="'auto'">
+        [rowHeight]="'auto'">
         <ngx-datatable-column name="Name" width="300">
           <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
             <span class="mx-1"><a routerLink="/checklist/{{ row.id }}">{{row.title}}</a></span>
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Author" width="250">
+        <!-- <ngx-datatable-column name="Author" width="250">
           <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
             {{row.author}}
           </ng-template>
+        </ngx-datatable-column> -->
+
+        <!--         <ngx-datatable-column name="Design" width="100">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <span class="mx-1"><a routerLink="/checklistdesigner/{{ row.id }}">[Design]</a></span>
+          </ng-template>
+        </ngx-datatable-column> -->
+
+        <!--         <ngx-datatable-column name="Design" width="100">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <button type="button" class="btn btn-outline-secondary mr-2 p-0 px-1" routerLink="/checklistdesigner/{{ row.id }}">Design</button>
+          </ng-template>
         </ngx-datatable-column>
+ -->
 
       </ngx-datatable>
-    </span>
-  </div>
+    </span> </div>
 </div>

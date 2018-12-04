@@ -22,7 +22,7 @@ export class ChecklistComponent implements OnInit {
       this.checklistItems$ = this.db
         .collection("checklistItems", ref => ref.where("checklistId", "==", id))
         .snapshotChanges();
-      this.checklistItems$.subscribe(snap => console.log(snap));
+      //this.checklistItems$.subscribe(snap => console.log(snap));
     });
   }
 }
