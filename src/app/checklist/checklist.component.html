@@ -1,12 +1,11 @@
 <!-- <p text="right"><a><i class="fas fa-edit"></i></a></p> -->
-<span class="float-left">
-  <h3>{{ (checklist$ | async)?.data().title }}</h3>
-</span>
-<span class="float-right"><button type="button" class="btn btn-outline-secondary mt-2 px-1 mr-1 p-0 " routerLink="/checklistdesigner/{{ (checklist$ | async)?.id }}"
-    title="Checklists Designer"><i class="fas fa-pencil-alt"></i></button>
-</span>
-<br />
-<br />
+
+<h3 class="d-inline-block">{{ (checklist$ | async)?.data().title }}</h3>
+
+<button type="button" class="btn btn-outline-secondary mt-0 px-1 mr-1 p-0 float-right " routerLink="/checklistdesigner/{{ (checklist$ | async)?.id }}"
+  title="Checklists Designer"><i class="fas fa-pencil-alt"></i></button>
+
+
 
 <p class="text-left">Author : {{ (checklist$ | async)?.data().author }}</p>
 <hr />
