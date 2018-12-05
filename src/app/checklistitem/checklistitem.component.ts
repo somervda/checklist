@@ -17,18 +17,26 @@ export class ChecklistitemComponent implements OnInit, OnDestroy {
   constructor(private db: AngularFirestore, private toastr: ToastrService) {}
 
   ngOnInit() {
-    this.checklistItem$ = this.db.doc("/checklistItems/" + this.id).get();
-    this.checklistItem$.subscribe(data => (this.checked = data.data().value));
+    // Get observable of changes to the checklistsitem so real time changes are actioned
+    this.checklistItem$ = this.db
+      .doc("/checklistItems/" + this.id)
+      .snapshotChanges();
+    // Also subscribe to observable to keep check local value
+    // (not sure how to do this more elegantly) up to date.
+    this.checklistItem$.subscribe(snapshot => {
+      this.checked = snapshot.payload.data().value;
+      // console.log("subscribe to checklistsitem$", snapshot);
+    });
     //console.log("Oninit subscribed", this.checklistItemSubscribe);
   }
 
   onClick() {
-    //console.log("Checked:", !this.checked);
+    // console.log("Checked:", !this.checked);
     this.db
       .doc("/checklistItems/" + this.id)
       .update({ value: !this.checked })
       .then(() => {
-        //console.log("Checked Update successfully");
+        // console.log("Checked Update successfully");
       })
       .catch(error => {
         this.toastr.error(error.message, "Checkbox update failed", {
@@ -42,8 +50,8 @@ export class ChecklistitemComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     // Looks like the subscription already gets cleaned up because it is associated with
     // the async observable
-    /*     console.log("unsubscribe before", this.checklistItemSubscribe);
-    this.checklistItemSubscribe.unsubscribe();
-    console.log("unsubscribe after", this.checklistItemSubscribe); */
+    console.log("unsubscribe before", this.checklistItemSubscribe);
+    // this.checklistItemSubscribe.unsubscribe();
+    // console.log("unsubscribe after", this.checklistItemSubscribe);
   }
 }

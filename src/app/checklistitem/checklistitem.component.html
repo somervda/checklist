@@ -1,7 +1,7 @@
 <p>
   <input name="true" type="checkbox" (click)="onClick()" [(ngModel)]="checked">
   {{index + 1}}.
-  {{ (checklistItem$ | async)?.data().prompt }}
+  {{ (checklistItem$ | async)?.payload.data().prompt }}
 </p>
 
 <!-- [checked]="(checklistItem$ | async)?.data().value"  -->

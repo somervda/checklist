@@ -3,12 +3,14 @@
 <h3 class="d-inline-block">{{ (checklist$ | async)?.data().title }}</h3>
 
 <button type="button" class="btn btn-outline-secondary mt-0 px-1 mr-1 p-0 float-right " routerLink="/checklistdesigner/{{ (checklist$ | async)?.id }}"
-  title="Checklists Designer"><i class="fas fa-pencil-alt"></i></button>
+  placement="left" ngbTooltip='Modify Checklist Design'><i class="fas fa-pencil-alt"></i></button>
 
 
 
 <p class="text-left">Author : {{ (checklist$ | async)?.data().author }}</p>
 <hr />
-<div *ngFor="let checklistItem of  checklistItems$ | async;  index as i">
-  <app-checklistitem [id]="checklistItem.payload.doc.id" [index]="i"></app-checklistitem>
+<!-- <div *ngFor="let checklistItem of  checklistItems$ | async;  index as i"> 
+   <app-checklistitem [id]="checklistItem.payload.doc.id" [index]="i"></app-checklistitem>-->
+<div *ngFor="let checklistitem of  checklistitems;  index as i">
+  <app-checklistitem [id]="checklistitem.id" [index]="i"></app-checklistitem>
 </div>
