@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { AngularFirestore } from "@angular/fire/firestore";
-import { ToastrModule, ToastrService } from "ngx-toastr";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-checklist",

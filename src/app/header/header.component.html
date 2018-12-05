@@ -1,0 +1,8 @@
+<nav class="navbar navbar-dark bg-dark py-0">
+  <div class="navbar-brand mr-auto">{{name}}</div>
+  <!--  Any right side action button only rendered when all button inputs are passed -->
+  <span *ngIf="rightButtonRoute && rightButtonIconClass && rightButtonTooltip">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button type="button" class="btn btn-outline-secondary mt-0 px-1 mr-1 ml-10 p-0 float-right text-white" routerLink="{{rightButtonRoute}}"
+      placement="left" ngbTooltip="{{rightButtonTooltip}}"><i class="fas {{rightButtonIconClass}}"></i></button>
+  </span>
+</nav>
