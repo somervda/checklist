@@ -3,6 +3,8 @@ import { Component, OnInit } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { AngularFirestore } from "@angular/fire/firestore";
 
+import { Checklist } from "../models/checklist";
+
 @Component({
   selector: "app-checklistdesigner",
   templateUrl: "./checklistdesigner.component.html",
@@ -11,6 +13,7 @@ import { AngularFirestore } from "@angular/fire/firestore";
 export class ChecklistdesignerComponent implements OnInit {
   checklist$;
   id; // id is used to indicate if this will be in add mode or update mode
+  model = new Checklist("", "");
 
   constructor(
     private route: ActivatedRoute,

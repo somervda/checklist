@@ -7,6 +7,31 @@
   <nav class="navbar navbar-dark bg-secondary py-0">
     <div class="navbar-brand mr-auto">New Checklist</div>
     <button type="button" class="btn btn-outline-white mt-0 px-1 mr-1 ml-10 p-0 float-right " (click)="onAddClick()"
-      placement="left" ngbTooltip="Click to add"><i class="fas fa-plus"></i> Add</button>
+      placement="left" ngbTooltip="Click to add" [disabled]="!f.valid"><i class="fas fa-plus"></i> Add</button>
   </nav>
 </span>
+
+<!-- Checklists Form -->
+<form name="form" #f="ngForm">
+  <!-- title -->
+  <div class="form-group">
+    <label for="title">Title *</label>
+    <input type="text" class="form-control" name="title" [(ngModel)]="model.title" id="title" #title="ngModel" required
+      minlength="10" maxlength="100" placeholder="Title" />
+    <div *ngIf="title.touched && !title.valid">
+      <div *ngIf="title.errors.required" class="alert alert-danger">Title is required</div>
+      <div *ngIf="title.errors.minlength" class="alert alert-danger">Title must be at least 10 characters long</div>
+    </div>
+  </div>
+  <!-- description -->
+  <div class="form-group">
+    <label for="description">Description *</label>
+    <textarea class="form-control" name="description" [(ngModel)]="model.description" id="description" #description="ngModel"
+      required minlength="25" maxlength="1000" placeholder="Description" rows="5"></textarea>
+    <div *ngIf="description.touched && !description.valid">
+      <div *ngIf="description.errors.required" class="alert alert-danger">Description is required</div>
+      <div *ngIf="description.errors.minlength" class="alert alert-danger">Description must be at least 25 characters
+        long</div>
+    </div>
+  </div>
+</form>
