@@ -21,7 +21,7 @@ export class AuthService {
     // sessionStorage.removeItem("token");
 
     this.afAuth.auth.signOut();
-    console.log("Auth logged out, local storage cleared");
+    // console.log("Auth logged out, local storage cleared");
     this.router.navigate(["/"]);
     this.toastr.success("", "Signed out", {
       timeOut: 1000
@@ -141,7 +141,7 @@ export class AuthService {
         // Existing and future Auth states are now persisted in the current
         // session only. Closing the window would clear any existing state even
         // if a user forgets to sign out.
-        console.log("persistSeason worked");
+        // console.log("persistSeason worked");
       })
       .catch(function(error) {
         // Handle Errors here.
