@@ -49,8 +49,9 @@ export class ChecklistitemComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     // Looks like the subscription already gets cleaned up because it is associated with
-    // the async observable
-    console.log("unsubscribe before", this.checklistItemSubscribe);
+    // the async observable. Code below was so I could confirm that the
+    // checklistItemSubscribe subscription is cleaned up
+    // console.log("unsubscribe before", this.checklistItemSubscribe);
     // this.checklistItemSubscribe.unsubscribe();
     // console.log("unsubscribe after", this.checklistItemSubscribe);
   }
