@@ -27,7 +27,8 @@ export class ChecklistdesignerComponent implements OnInit {
       if (this.id)
         this.checklist$ = this.db.doc("/checklists/" + this.id).get();
       this.checklist.title = "xxx";
-      this.checklist["template"]["description"] = "shshs";
+      this.checklist.template = {id: "", title: "" , description:""};
+      this.checklist.template.description="xxx";
       console.log(this.checklist);
     });
   }
