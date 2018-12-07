@@ -1,9 +1,11 @@
+import { AuthService } from "./../services/auth.service";
+import { Subscription } from "rxjs";
 import { ActivatedRoute } from "@angular/router";
 import { Component, OnInit } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { AngularFirestore } from "@angular/fire/firestore";
 
-import { ChecklistModel } from "../models/checklistModel";
+import { ChecklistModel, ChecklistStatus } from "../models/checklistModel";
 
 @Component({
   selector: "app-checklistdesigner",
@@ -18,17 +20,25 @@ export class ChecklistdesignerComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private db: AngularFirestore,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private auth: AuthService
   ) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe(paramMap => {
       this.id = paramMap.get("id");
-      if (this.id)
-        this.checklist$ = this.db.doc("/checklists/" + this.id).get();
-      this.checklist.title = "xxx";
-      this.checklist.template = {id: "", title: "" , description:""};
-      this.checklist.template.description="xxx";
+      if (this.id) {
+        // Only set up loading from firebase if not in Add mode
+        this.checklist$ = this.db
+          .doc("/checklists/" + this.id)
+          .snapshotChanges();
+        this.checklist$.subscribe(doc => {
+          console.log("Checklist Designer subscribed doc", doc);
+          this.checklist.title = doc.payload.data().title;
+          this.checklist.id = doc.id;
+        });
+      }
+
       console.log(this.checklist);
     });
   }
@@ -36,6 +46,19 @@ export class ChecklistdesignerComponent implements OnInit {
   onAddClick() {
     // Create a new checklist using form data (and no field validation errors)
     // then get the new id and route back to designer in modify mode (Has id)
-    console.log("Add a new checklist");
+    this.checklist.owner = this.auth.getUserEmail;
+    console.log("Add a new checklist", this.checklist);
+    let x = <object>this.checklist;
+    console.log(x);
+    // Add a new document with a generated id. Note, need to cast to generic object
+    this.db
+      .collection("checklists")
+      .add(JSON.parse(JSON.stringify(this.checklist)))
+      .then(function(docRef) {
+        console.log("Document written with ID: ", docRef.id);
+      })
+      .catch(function(error) {
+        console.error("Error adding document: ", error);
+      });
   }
 }

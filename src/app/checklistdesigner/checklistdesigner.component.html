@@ -14,6 +14,7 @@
 <!-- Checklists Form -->
 <div class="container">
   <form name="form" #f="ngForm">
+    <!-- <div *ngIf="(Checklist$ | async) as checklist"> -->
     <!-- title -->
     <div class="form-group">
       <label for="title">Title *</label>
@@ -36,5 +37,7 @@
           long</div>
       </div>
     </div>
+
+    <!-- </div> -->
   </form>
 </div>
