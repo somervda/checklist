@@ -47,15 +47,21 @@ export class ChecklistdesignerComponent implements OnInit {
     // Create a new checklist using form data (and no field validation errors)
     // then get the new id and route back to designer in modify mode (Has id)
     this.checklist.owner = this.auth.getUserEmail;
+    this.checklist.dateCreated = new Date();
     console.log("Add a new checklist", this.checklist);
-    let x = <object>this.checklist;
-    console.log(x);
     // Add a new document with a generated id. Note, need to cast to generic object
     this.db
       .collection("checklists")
       .add(JSON.parse(JSON.stringify(this.checklist)))
       .then(function(docRef) {
         console.log("Document written with ID: ", docRef.id);
+        this.toastr.success("DocRef: ",
+         "Checklist created",
+         {
+          timeOut: 2000
+        });
+        this.ngZone.run(() => this.router.navigate(["/checklistdesigner/" + docRef.id]));
+
       })
       .catch(function(error) {
         console.error("Error adding document: ", error);

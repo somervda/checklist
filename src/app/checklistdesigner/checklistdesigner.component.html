@@ -1,6 +1,6 @@
 <span *ngIf="id">
   <app-header name="Checklist Designer" rightButtonIconClass="fa-arrow-left" rightButtonTooltip="Return&nbsp;to&nbsp;Checklist"
-    rightButtonRoute="/checklist/{{ (checklist$ | async)?.id }}"></app-header>
+    rightButtonRoute="/checklist/{{ id }}"></app-header>
 </span>
 <!-- Special nav bar if adding a checklist -->
 <span *ngIf="!id">

@@ -3,6 +3,7 @@
 export class ChecklistModel {
   // Duplicates the actual document id but will be useful to have it in the document fields as well
   // especially if the checklistModel is used to define the template object (when applicable)
+  // id will only be filled in for the template 
   public id: string;
   public title: string;
   public description: string;
