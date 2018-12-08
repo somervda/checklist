@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { map } from "rxjs/operators";
+import { ChecklistStatus } from "../models/checklistModel";
 
 @Component({
   selector: "app-mychecklists",
@@ -9,11 +10,13 @@ import { map } from "rxjs/operators";
 })
 export class MychecklistsComponent implements OnInit {
   checklists$;
+  ChecklistStatus = ChecklistStatus;
 
   // See https://swimlane.gitbook.io/ngx-datatable/api/column/inputs
   columns = [
     { prop: "id", name: "Id", width: 200 },
-    { prop: "id", name: "designerLink" }
+    { prop: "id", name: "designerLink" },
+    { prop: "status", name: "status" }
   ];
 
   constructor(private db: AngularFirestore) {}

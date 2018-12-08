@@ -29,7 +29,7 @@
     <div class="form-group">
       <label for="description">Description *</label>
       <textarea class="form-control" name="description" [(ngModel)]="checklist.description" id="description"
-        #description="ngModel" required minlength="25" maxlength="1000" placeholder="Description" rows="5"></textarea>
+        #description="ngModel" required minlength="25" maxlength="1000" placeholder="Description" rows="3"></textarea>
       <div *ngIf="description.touched && !description.valid">
         <div *ngIf="description?.errors.required" class="alert alert-danger">Description is required</div>
         <div *ngIf="description?.errors.minlength" class="alert alert-danger">Description must be at least 25

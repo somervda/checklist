@@ -3,7 +3,7 @@
 export class ChecklistModel {
   // Duplicates the actual document id but will be useful to have it in the document fields as well
   // especially if the checklistModel is used to define the template object (when applicable)
-  // id will only be filled in for the template 
+  // id will only be filled in for the template
   public id: string;
   public title: string;
   public description: string;
@@ -49,8 +49,8 @@ export class ChecklistModel {
 }
 
 export enum ChecklistStatus {
-  active = 0,
-  completed = 1,
-  underConstruction = 2,
-  deleted = 3
+  Active = 0,
+  Complete = 1,
+  Under_Construction = 2,
+  Deleted = 3
 }

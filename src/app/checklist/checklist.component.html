@@ -8,6 +8,7 @@
 <!-- Body -->
 <div class="container">
   <h3>{{ (checklist$ | async)?.data().title }}</h3>
+  <p class="text-left"> {{ (checklist$ | async)?.data().description }}</p>
   <p class="text-left">Owner : {{ (checklist$ | async)?.data().owner }}</p>
 
   <!-- Checklist Items -->
