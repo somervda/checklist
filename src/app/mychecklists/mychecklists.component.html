@@ -1,33 +1,32 @@
 <app-header name="My Checklists"></app-header>
 <div class="container">
   <div class="row mt-3">
-    <span class="mx-auto ">
-      <ngx-datatable class="bootstrap" [rows]="checklists$ | async" [columns]="columns" [columnMode]="'standard'"
-        [rowHeight]="'auto'">
-        <ngx-datatable-column name="Name" width="300">
-          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-            <span class="mx-1"><a routerLink="/checklist/{{ row.id }}">{{row.title}}</a></span>
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="Status" width="250">
-          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-            {{ ChecklistStatus[row.status]}}
-          </ng-template>
-        </ngx-datatable-column>
+    <ngx-datatable class="bootstrap ngx-datatable" [rows]="checklists$ | async" [columns]="columns" [columnMode]="'standard'"
+      [rowHeight]="35" [footerHeight]="50" [limit]="20" width="350">
+      <ngx-datatable-column name="Name" width="200">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <span class="mx-1"><a routerLink="/checklist/{{ row.id }}">{{row.title}}</a></span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Status">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          {{ ChecklistStatus[row.status]}}
+        </ng-template>
+      </ngx-datatable-column>
 
-        <!--         <ngx-datatable-column name="Design" width="100">
+      <!--         <ngx-datatable-column name="Design" width="100">
           <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
             <span class="mx-1"><a routerLink="/checklistdesigner/{{ row.id }}">[Design]</a></span>
           </ng-template>
         </ngx-datatable-column> -->
 
-        <!--         <ngx-datatable-column name="Design" width="100">
+      <!--         <ngx-datatable-column name="Design" width="100">
           <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
             <button type="button" class="btn btn-outline-secondary mr-2 p-0 px-1" routerLink="/checklistdesigner/{{ row.id }}">Design</button>
           </ng-template>
         </ngx-datatable-column>
  -->
 
-      </ngx-datatable>
-    </span> </div>
+    </ngx-datatable>
+  </div>
 </div>
