@@ -1,0 +1,17 @@
+<span *ngIf="id">
+  <app-header name="Checklist Item Designer" rightButtonIconClass="fa-arrow-left" rightButtonTooltip="Return&nbsp;to&nbsp;Checklist"
+    rightButtonRoute="/checklist/{{ id }}"></app-header>
+</span>
+<!-- Special nav bar if adding a checklist -->
+<span *ngIf="!id">
+  <nav class="navbar navbar-dark bg-secondary py-0">
+    <div class="navbar-brand mr-auto">New Checklist Item</div>
+    <button type="button" class="btn btn-outline-white mt-0 px-1 mr-1 ml-10 p-0 float-right " (click)="onAddClick()"
+      placement="left" ngbTooltip="Click to add" [disabled]="!f.valid"><i class="fas fa-plus"></i> Add</button>
+  </nav>
+</span>
+
+<div class="container">
+  <form name="form" #f="ngForm">
+  </form>
+</div>

@@ -1,9 +1,8 @@
 <nav class="navbar navbar-expand-sm navbar-dark p-0" style="background-color: rgb(0,77,64)">
 
   <div class="container">
-    <a class="navbar-brand pl-1 p-0" routerLink="" title="ourCheckLists.com"><span style="font-size: 30px; color:antiquewhite(192, 170, 141)"><i
+    <a class="navbar-brand pl-1 p-0" routerLink="" title="ourCheckLists.com" (click)="collapse()"><span style="font-size: 30px; color:antiquewhite(192, 170, 141)"><i
           class="fas fa-clipboard-list"></i></span></a>
-
     <!--
       Note: needed to use a isNavBarCollapsed action to make this work got ng-bootstrap implementation
     -->
@@ -13,10 +12,8 @@
     </button>
     <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="navbarCollapse">
       <ul class="navbar-nav">
-
-
         <li class="nav-item px-2">
-          <a routerLink="" routerLinkActive="active" class="nav-link ">&nbsp;Home</a>
+          <a routerLink="" routerLinkActive="active" class="nav-link " (click)="collapse()">&nbsp;Home</a>
         </li>
         <span *ngIf=" auth.isAuthenticated()">
           <!-- Publishing Menu -->

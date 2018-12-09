@@ -16,6 +16,7 @@ export class ChecklistdesignerComponent implements OnInit {
   checklist$;
   id; // id is used to indicate if this will be in add mode or update mode
   checklist = new ChecklistModel();
+  checklistitems;
 
   constructor(
     private route: ActivatedRoute,
@@ -39,7 +40,25 @@ export class ChecklistdesignerComponent implements OnInit {
           this.checklist.title = doc.payload.data().title;
           this.checklist.description = doc.payload.data().description;
           this.checklist.id = doc.id;
+          this.checklist.isTemplate = doc.payload.data().isTemplate;
         });
+
+        // Get a list of checklist items
+        this.db
+          .collection("checklistItems", ref =>
+            ref.where("checklistId", "==", this.id)
+          )
+          .get()
+          .toPromise()
+          .then(snapshot => {
+            this.checklistitems = snapshot.docs;
+            // console.log("getter", this.checklistitems);
+          })
+          .catch(error => {
+            this.toastr.error(error.message, "Failed to get checkbox items", {
+              timeOut: 5000
+            });
+          });
       }
 
       console.log(this.checklist);
@@ -69,5 +88,9 @@ export class ChecklistdesignerComponent implements OnInit {
       .catch(function(error) {
         console.error("Error adding document: ", error);
       });
+  }
+
+  onItemAddClick() {
+    this.router.navigate(["/checklistitemdesigner"]);
   }
 }

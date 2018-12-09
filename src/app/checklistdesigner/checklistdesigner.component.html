@@ -37,7 +37,27 @@
           long</div>
       </div>
     </div>
+    <!-- isTemplate , can only be set when first adding the
+       checklist (and when creating a template using a checklist copy-->
+    <div class="form-group" *ngIf="!id">
+      <label for="isTemplate" placement="right" ngbTooltip="Checklist templates can only be used to create new checklists.">Is
+        a Template&nbsp;
+      </label>
+      <input type="checkbox" name="isTemplate" [(ngModel)]="checklist.isTemplate" id="isTemplate" #isTemplate="ngModel">
 
-    <!-- </div> -->
+    </div>
+    <div class="form-group" *ngIf="id && checklist.isTemplate" class="text-info">Is a template</div>
+
+    <!-- Checklistitems -->
+    <nav class="navbar navbar-dark bg-secondary py-0">
+      <div class="navbar-brand mr-auto">Checklist Items</div>
+      <button type="button" class="btn btn-outline-white mt-0 px-1 mr-1 ml-10 p-0 float-right " (click)="onItemAddClick()"
+        placement="left" ngbTooltip="Click to add"><i class="fas fa-plus"></i> Add New Checklist
+        Item</button>
+    </nav>
+
+    <div *ngFor="let checklistitem of  checklistitems;  index as i">
+      <div>{{ i + 1 }} <a routerLink="/checklistitemdesigner/{{checklistitem.id}}" title="Click to design this checklist item">{{checklistitem.data().prompt}}</a></div>
+    </div>
   </form>
 </div>

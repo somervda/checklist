@@ -37,6 +37,7 @@ import { ChecklistComponent } from "./checklist/checklist.component";
 import { ChecklistitemComponent } from "./checklistitem/checklistitem.component";
 import { ChecklistdesignerComponent } from "./checklistdesigner/checklistdesigner.component";
 import { HeaderComponent } from "./header/header.component";
+import { ChecklistitemdesignerComponent } from "./checklistitemdesigner/checklistitemdesigner.component";
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { HeaderComponent } from "./header/header.component";
     ChecklistComponent,
     ChecklistitemComponent,
     ChecklistdesignerComponent,
-    HeaderComponent
+    HeaderComponent,
+    ChecklistitemdesignerComponent
   ],
   imports: [
     BrowserModule,
@@ -78,6 +80,14 @@ import { HeaderComponent } from "./header/header.component";
       { path: "checklist/:id", component: ChecklistComponent },
       { path: "checklistdesigner/:id", component: ChecklistdesignerComponent },
       { path: "checklistdesigner", component: ChecklistdesignerComponent },
+      {
+        path: "checklistitemdesigner/:id",
+        component: ChecklistitemdesignerComponent
+      },
+      {
+        path: "checklistitemdesigner",
+        component: ChecklistitemdesignerComponent
+      },
       { path: "**", component: NotfoundComponent }
     ]),
     AngularFireModule.initializeApp(environment.fbConfig),
