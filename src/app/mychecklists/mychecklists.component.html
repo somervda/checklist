@@ -1,14 +1,15 @@
 <app-header name="My Checklists"></app-header>
 <div class="container">
-  <div class="row mt-3">
-    <ngx-datatable class="bootstrap ngx-datatable" [rows]="checklists$ | async" [columns]="columns" [columnMode]="'standard'"
-      [rowHeight]="35" [footerHeight]="50" [limit]="20" width="350">
-      <ngx-datatable-column name="Name" width="200">
+  <div class="row mx-1">
+    <!-- Datatable - see https://swimlane.gitbook.io/ngx-datatable/api/table/inputs -->
+    <ngx-datatable class="bootstrap ngx-datatable" [columnMode]="'flex'" [rows]="checklists$ | async" [columns]="columns"
+      [loadingIndicator]="true" [rowHeight]="35" [footerHeight]="50" [limit]="20" style="width: 100%">
+      <ngx-datatable-column name="Name" [flexGrow]="2">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
           <span class="mx-1"><a routerLink="/checklist/{{ row.id }}">{{row.title}}</a></span>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Status">
+      <ngx-datatable-column name="Status" [flexGrow]="1">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
           {{ ChecklistStatus[row.status]}}
         </ng-template>
