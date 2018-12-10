@@ -15,6 +15,7 @@ import { ChecklistModel, ChecklistStatus } from "../models/checklistModel";
 export class ChecklistdesignerComponent implements OnInit {
   checklist$;
   id; // id is used to indicate if this will be in add mode or update mode
+  action;
   checklist = new ChecklistModel();
   checklistitems;
 
@@ -29,9 +30,10 @@ export class ChecklistdesignerComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe(paramMap => {
+      this.action = paramMap.get("action");
       this.id = paramMap.get("id");
-      if (this.id) {
-        // Only set up loading from firebase if not in Add mode
+      if (this.action == "U" && this.id) {
+        // Only set up loading from firebase if in Add mode
         this.checklist$ = this.db
           .doc("/checklists/" + this.id)
           .snapshotChanges();
@@ -44,21 +46,23 @@ export class ChecklistdesignerComponent implements OnInit {
         });
 
         // Get a list of checklist items
-        this.db
-          .collection("checklistItems", ref =>
-            ref.where("checklistId", "==", this.id)
-          )
-          .get()
-          .toPromise()
-          .then(snapshot => {
-            this.checklistitems = snapshot.docs;
-            // console.log("getter", this.checklistitems);
-          })
-          .catch(error => {
-            this.toastr.error(error.message, "Failed to get checkbox items", {
-              timeOut: 5000
+        if (this.action == "U") {
+          this.db
+            .collection("checklistItems", ref =>
+              ref.where("checklistId", "==", this.id)
+            )
+            .get()
+            .toPromise()
+            .then(snapshot => {
+              this.checklistitems = snapshot.docs;
+              // console.log("getter", this.checklistitems);
+            })
+            .catch(error => {
+              this.toastr.error(error.message, "Failed to get checkbox items", {
+                timeOut: 5000
+              });
             });
-          });
+        }
       }
 
       console.log(this.checklist);
@@ -81,9 +85,9 @@ export class ChecklistdesignerComponent implements OnInit {
         this.toastr.success("DocRef: " + docRef.id, "Checklist Created", {
           timeOut: 3000
         });
-        this.ngZone.run(() =>
-          this.router.navigate(["/checklistdesigner/" + docRef.id])
-        );
+        // this.ngZone.run(() =>
+        //   this.router.navigate(["/checklistdesignerx/U/" + docRef.id])
+        //);
       })
       .catch(function(error) {
         console.error("Error adding document: ", error);
@@ -91,6 +95,6 @@ export class ChecklistdesignerComponent implements OnInit {
   }
 
   onItemAddClick() {
-    this.router.navigate(["/checklistitemdesigner"]);
+    this.router.navigate(["/checklistitemdesigner/A/" + this.id]);
   }
 }

@@ -1,9 +1,9 @@
-<span *ngIf="id">
+<span *ngIf="action == 'U'">
   <app-header name="Checklist Designer" rightButtonIconClass="fa-arrow-left" rightButtonTooltip="Return&nbsp;to&nbsp;Checklist"
     rightButtonRoute="/checklist/{{ id }}"></app-header>
 </span>
 <!-- Special nav bar if adding a checklist -->
-<span *ngIf="!id">
+<span *ngIf="action == 'A'">
   <nav class="navbar navbar-dark bg-secondary py-0">
     <div class="navbar-brand mr-auto">New Checklist</div>
     <button type="button" class="btn btn-outline-white mt-0 px-1 mr-1 ml-10 p-0 float-right " (click)="onAddClick()"
@@ -39,7 +39,7 @@
     </div>
     <!-- isTemplate , can only be set when first adding the
        checklist (and when creating a template using a checklist copy-->
-    <div class="form-group" *ngIf="!id">
+    <div class="form-group" *ngIf="action == 'A'">
       <label for="isTemplate" placement="right" ngbTooltip="Checklist templates can only be used to create new checklists.">Is
         a Template&nbsp;
       </label>
@@ -47,17 +47,18 @@
 
     </div>
     <div class="form-group" *ngIf="id && checklist.isTemplate" class="text-info">Is a template</div>
+    <div *ngIf="action=='U'">
+      <!-- Checklistitems -->
+      <nav class="navbar navbar-dark bg-secondary py-0">
+        <div class="navbar-brand mr-auto">Checklist Items</div>
+        <button type="button" class="btn btn-outline-white mt-0 px-1 mr-1 ml-10 p-0 float-right " (click)="onItemAddClick()"
+          placement="left" ngbTooltip="Click to add"><i class="fas fa-plus"></i> Add New Checklist
+          Item</button>
+      </nav>
 
-    <!-- Checklistitems -->
-    <nav class="navbar navbar-dark bg-secondary py-0">
-      <div class="navbar-brand mr-auto">Checklist Items</div>
-      <button type="button" class="btn btn-outline-white mt-0 px-1 mr-1 ml-10 p-0 float-right " (click)="onItemAddClick()"
-        placement="left" ngbTooltip="Click to add"><i class="fas fa-plus"></i> Add New Checklist
-        Item</button>
-    </nav>
-
-    <div *ngFor="let checklistitem of  checklistitems;  index as i">
-      <div>{{ i + 1 }} <a routerLink="/checklistitemdesigner/{{checklistitem.id}}" title="Click to design this checklist item">{{checklistitem.data().prompt}}</a></div>
+      <div *ngFor="let checklistitem of  checklistitems;  index as i">
+        <div>{{ i + 1 }} <a routerLink="/checklistitemdesigner/U/{{checklistitem.id}}" title="Click to design this checklist item">{{checklistitem.data().prompt}}</a></div>
+      </div>
     </div>
   </form>
 </div>

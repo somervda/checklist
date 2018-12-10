@@ -7,11 +7,15 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./checklistitemdesigner.component.css"]
 })
 export class ChecklistitemdesignerComponent implements OnInit {
+  // id is the checklist id when action = A
+  // id is the checklistitem id when action = U
   id;
+  action;
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe(paramMap => {
+      this.action = paramMap.get("action");
       this.id = paramMap.get("id");
     });
   }

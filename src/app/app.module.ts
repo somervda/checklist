@@ -78,14 +78,20 @@ import { ChecklistitemdesignerComponent } from "./checklistitemdesigner/checklis
       { path: "usersettings", component: UsersettingsComponent },
       { path: "mychecklists", component: MychecklistsComponent },
       { path: "checklist/:id", component: ChecklistComponent },
-      { path: "checklistdesigner/:id", component: ChecklistdesignerComponent },
-      { path: "checklistdesigner", component: ChecklistdesignerComponent },
       {
-        path: "checklistitemdesigner/:id",
+        path: "checklistdesigner/:action",
+        component: ChecklistdesignerComponent
+      },
+      {
+        path: "checklistdesigner/:action/:id",
+        component: ChecklistdesignerComponent
+      },
+      {
+        path: "checklistitemdesigner/:action",
         component: ChecklistitemdesignerComponent
       },
       {
-        path: "checklistitemdesigner",
+        path: "checklistitemdesigner/:action/:id",
         component: ChecklistitemdesignerComponent
       },
       { path: "**", component: NotfoundComponent }
