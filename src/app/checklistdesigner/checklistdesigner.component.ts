@@ -85,9 +85,9 @@ export class ChecklistdesignerComponent implements OnInit {
         this.toastr.success("DocRef: " + docRef.id, "Checklist Created", {
           timeOut: 3000
         });
-        // this.ngZone.run(() =>
-        //   this.router.navigate(["/checklistdesignerx/U/" + docRef.id])
-        //);
+        this.ngZone.run(() =>
+          this.router.navigate(["/checklistdesigner/U/" + docRef.id])
+        );
       })
       .catch(function(error) {
         console.error("Error adding document: ", error);
