@@ -37,5 +37,17 @@
           long</div>
       </div>
     </div>
+    <!-- ResultType -->
+    <div class="form-group">
+      <label for="resultType" placement="top" ngbTooltip="Options for how the checklist item is to be collected from the user. i.e. Simple checkbox, as a rating, and options on if it can be marked as Not Applicable.">Get
+        result As *</label>
+      <select class="form-control" name="resultType" [(ngModel)]="checklistItem.resultType" id="resultType" #resultType="ngModel"
+        (change)="onResultTypeUpdate()">
+        <option value="{{ ChecklistItemResultType.checkbox }}">Checkbox</option>
+        <option value="{{ ChecklistItemResultType.checkboxNA }}">Checkbox or NA</option>
+        <option value="{{ ChecklistItemResultType.rating }}">Rating</option>
+        <option value="{{ ChecklistItemResultType.ratingNA }}">Rating or NA</option>
+      </select>
+    </div>
   </form>
 </div>

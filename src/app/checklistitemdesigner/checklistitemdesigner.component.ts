@@ -2,7 +2,8 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Component, OnInit, NgZone } from "@angular/core";
 import {
   ChecklistItemModel,
-  ChecklistItemStatus
+  ChecklistItemStatus,
+  ChecklistItemResultType
 } from "../models/checklistItemModel";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { ToastrService } from "ngx-toastr";
@@ -20,6 +21,7 @@ export class ChecklistitemdesignerComponent implements OnInit {
   action;
   checklistItem = new ChecklistItemModel();
   checklistItem$;
+  ChecklistItemResultType = ChecklistItemResultType;
 
   constructor(
     private route: ActivatedRoute,
@@ -46,11 +48,16 @@ export class ChecklistitemdesignerComponent implements OnInit {
           this.checklistItem.id = doc.payload.id;
           this.checklistItem.checklistId = doc.payload.data().checklistId;
           this.checklistItem.description = doc.payload.data().description;
+          this.checklistItem.resultType = doc.payload.data().resultType;
           console.log(
             "ChecklistItem Designer subscribed checklistItem",
             this.checklistItem
           );
         });
+      }
+      if (this.action == "A") {
+        // Set default for an add
+        this.checklistItem.resultType = ChecklistItemResultType.checkbox;
       }
     });
   }
@@ -69,8 +76,8 @@ export class ChecklistitemdesignerComponent implements OnInit {
       .add(JSON.parse(JSON.stringify(this.checklistItem)))
       .then(docRef => {
         console.log("ChecklistItem written with ID: ", docRef.id);
-        this.toastr.success("DocRef: " + docRef.id, "ChecklistItem Created", {
-          timeOut: 3000
+        this.toastr.success("", "ChecklistItem Created", {
+          timeOut: 1000
         });
         this.ngZone.run(() =>
           this.router.navigate(["/checklistitemdesigner/U/" + docRef.id])
@@ -96,5 +103,19 @@ export class ChecklistitemdesignerComponent implements OnInit {
       .update({ description: this.checklistItem.description })
       .then(data => console.log("description updated"))
       .catch(error => console.log("description updated error ", error));
+  }
+
+  onResultTypeUpdate() {
+    console.log(
+      "onResultTypeUpdate",
+      "/checklistItems/" + this.id,
+      "resulttype:",
+      this.checklistItem.resultType
+    );
+    this.db
+      .doc("/checklistItems/" + this.id)
+      .update({ resultType: this.checklistItem.resultType })
+      .then(data => console.log("resultType updated"))
+      .catch(error => console.log("resultType updated error ", error));
   }
 }
