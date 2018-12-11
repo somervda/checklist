@@ -20,7 +20,8 @@ import {
   NgbDropdownModule,
   NgbCarouselModule,
   NgbCollapseModule,
-  NgbTooltipModule
+  NgbTooltipModule,
+  NgbRatingModule
 } from "@ng-bootstrap/ng-bootstrap";
 import { HomeComponent } from "./home/home.component";
 import { NotfoundComponent } from "./notfound/notfound.component";
@@ -70,6 +71,7 @@ import { ChecklistitemdesignerComponent } from "./checklistitemdesigner/checklis
     NgbCollapseModule,
     NgxDatatableModule,
     NgbTooltipModule,
+    NgbRatingModule,
     RouterModule.forRoot([
       { path: "", component: HomeComponent },
       { path: "login", component: LoginComponent },

@@ -15,7 +15,10 @@
   <hr />
   <!-- <div *ngFor="let checklistItem of  checklistItems$ | async;  index as i"> 
    <app-checklistitem [id]="checklistItem.payload.doc.id" [index]="i"></app-checklistitem>-->
+
+
   <div *ngFor="let checklistitem of  checklistitems;  index as i">
     <app-checklistitem [id]="checklistitem.id" [index]="i"></app-checklistitem>
   </div>
+
 </div>

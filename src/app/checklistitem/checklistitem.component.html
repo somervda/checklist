@@ -1,7 +1,29 @@
-<p>
-  <input name="true" type="checkbox" (click)="onClick()" [(ngModel)]="checked">
+<!-- <input type="radio" name="result{{index}}" value="{{ChecklistItemResult.false}}">No
+<input type="radio" name="result{{index}}" value="{{ChecklistItemResult.true}}">Yes
+<input type="radio" name="result{{index}}" value="{{ChecklistItemResult.NA}}">N/A -->
+<div class="py-1">
   {{index + 1}}.
   {{ (checklistItem$ | async)?.payload.data().prompt }}
-</p>
+  <input name="true" type="checkbox" (click)="onClick()" [(ngModel)]="checked">
+  <!-- <ngb-rating max="5"></ngb-rating> -->
+
+
+  <button type="button" class="btn btn-light   mt-0 px-1 mr-1 ml-10 p-0 float-right" (click)="dropdownOpen = !dropdownOpen">
+    <div *ngIf="dropdownOpen"><i class="fas fa-caret-up"></i></div>
+    <div *ngIf="!dropdownOpen"><i class="fas fa-caret-down"></i></div>
+  </button>
+</div>
+<div *ngIf="dropdownOpen" class="container">
+  <div class="bg-light p-2" style="border-width: 1px; border-color: black;border-style: solid;">
+    {{checklistItem.description}}
+    <!-- user comments -->
+    <div class="form-group">
+      <textarea class="form-control" name="userComment" [(ngModel)]="checklistItem.userComment" id="userComment"
+        #userComment="ngModel" maxlength="1000" placeholder="Enter any user comments" rows="3" (blur)="onUserCommentUpdate()"></textarea>
+    </div>
+  </div>
+
+</div>
+
 
 <!-- [checked]="(checklistItem$ | async)?.data().value"  -->
