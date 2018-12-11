@@ -6,4 +6,13 @@ export class ChecklistItemModel {
   public prompt: string;
   public description: string;
   public checklistId: string;
+  public owner: string;
+  public dateCreated: Date;
+  public status: ChecklistItemStatus;
+  public template: object;
+}
+
+export enum ChecklistItemStatus {
+  Active = 0,
+  Deleted = 1
 }

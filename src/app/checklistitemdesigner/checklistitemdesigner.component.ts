@@ -1,6 +1,9 @@
 import { ActivatedRoute, Router } from "@angular/router";
 import { Component, OnInit, NgZone } from "@angular/core";
-import { ChecklistItemModel } from "../models/checklistItemModel";
+import {
+  ChecklistItemModel,
+  ChecklistItemStatus
+} from "../models/checklistItemModel";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "../services/auth.service";
@@ -52,5 +55,46 @@ export class ChecklistitemdesignerComponent implements OnInit {
     });
   }
 
-  onAddClick() {}
+  onAddClick() {
+    // Create a new checklistitem using form data (and no field validation errors)
+    // then get the new id and route back to designer in modify mode (Has id)
+    this.checklistItem.owner = this.auth.getUserEmail;
+    this.checklistItem.dateCreated = new Date();
+    this.checklistItem.status = ChecklistItemStatus.Active;
+    this.checklistItem.checklistId = this.id;
+    console.log("Add a new checklistItem", this.checklistItem);
+    // Add a new document with a generated id. Note, need to cast to generic object
+    this.db
+      .collection("checklistItems")
+      .add(JSON.parse(JSON.stringify(this.checklistItem)))
+      .then(docRef => {
+        console.log("ChecklistItem written with ID: ", docRef.id);
+        this.toastr.success("DocRef: " + docRef.id, "ChecklistItem Created", {
+          timeOut: 3000
+        });
+        this.ngZone.run(() =>
+          this.router.navigate(["/checklistitemdesigner/U/" + docRef.id])
+        );
+      })
+      .catch(function(error) {
+        console.error("Error adding checklistItem: ", error);
+      });
+  }
+
+  onPromptUpdate() {
+    console.log("onDescriptionUpdate", "/checklistItemItems/" + this.id);
+    this.db
+      .doc("/checklistItems/" + this.id)
+      .update({ prompt: this.checklistItem.prompt })
+      .then(data => console.log("prompt updated"))
+      .catch(error => console.log("prompt updated error ", error));
+  }
+  onDescriptionUpdate() {
+    console.log("onDescriptionUpdate", "/checklistItems/" + this.id);
+    this.db
+      .doc("/checklistItems/" + this.id)
+      .update({ description: this.checklistItem.description })
+      .then(data => console.log("description updated"))
+      .catch(error => console.log("description updated error ", error));
+  }
 }
