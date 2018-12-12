@@ -1,5 +1,5 @@
 import { ActivatedRoute, Router } from "@angular/router";
-import { Component, OnInit, NgZone } from "@angular/core";
+import { Component, OnInit, NgZone, OnDestroy } from "@angular/core";
 import {
   ChecklistItemModel,
   ChecklistItemStatus,
@@ -14,7 +14,7 @@ import { AuthService } from "../services/auth.service";
   templateUrl: "./checklistitemdesigner.component.html",
   styleUrls: ["./checklistitemdesigner.component.css"]
 })
-export class ChecklistitemdesignerComponent implements OnInit {
+export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
   // id is the checklist id when action = A
   // id is the checklistitem id when action = U
   id;
@@ -42,17 +42,9 @@ export class ChecklistitemdesignerComponent implements OnInit {
         this.checklistItem$ = this.db
           .doc("/checklistItems/" + this.id)
           .snapshotChanges();
-        this.checklistItem$.subscribe(doc => {
-          console.log("ChecklistItem Designer subscribed doc", doc.payload);
-          this.checklistItem.prompt = doc.payload.data().prompt;
-          this.checklistItem.id = doc.payload.id;
-          this.checklistItem.checklistId = doc.payload.data().checklistId;
-          this.checklistItem.description = doc.payload.data().description;
-          this.checklistItem.resultType = doc.payload.data().resultType;
-          console.log(
-            "ChecklistItem Designer subscribed checklistItem",
-            this.checklistItem
-          );
+        this.checklistItem$.subscribe(snapshot => {
+          console.log("checklistItemDesigner ngOnInit subscribe");
+          this.checklistItem.loadFromObject(snapshot.payload.data());
         });
       }
       if (this.action == "A") {
@@ -89,33 +81,36 @@ export class ChecklistitemdesignerComponent implements OnInit {
   }
 
   onPromptUpdate() {
-    console.log("onDescriptionUpdate", "/checklistItemItems/" + this.id);
-    this.db
-      .doc("/checklistItems/" + this.id)
-      .update({ prompt: this.checklistItem.prompt })
-      .then(data => console.log("prompt updated"))
-      .catch(error => console.log("prompt updated error ", error));
+    this.dbFieldUpdate(this.id, "prompt", this.checklistItem.prompt);
   }
   onDescriptionUpdate() {
-    console.log("onDescriptionUpdate", "/checklistItems/" + this.id);
-    this.db
-      .doc("/checklistItems/" + this.id)
-      .update({ description: this.checklistItem.description })
-      .then(data => console.log("description updated"))
-      .catch(error => console.log("description updated error ", error));
+    this.dbFieldUpdate(this.id, "description", this.checklistItem.description);
   }
 
   onResultTypeUpdate() {
+    this.dbFieldUpdate(this.id, "resultType", this.checklistItem.resultType);
+  }
+
+  private dbFieldUpdate(docId: string, fieldName: string, newValue: any) {
     console.log(
-      "onResultTypeUpdate",
-      "/checklistItems/" + this.id,
-      "resulttype:",
-      this.checklistItem.resultType
+      fieldName + " before Update",
+      docId,
+      newValue,
+      this.auth.getUserEmail
     );
+    let updateObject = {};
+    updateObject[fieldName] = newValue;
+    console.log(updateObject);
     this.db
-      .doc("/checklistItems/" + this.id)
-      .update({ resultType: this.checklistItem.resultType })
-      .then(data => console.log("resultType updated"))
-      .catch(error => console.log("resultType updated error ", error));
+      .doc("/checklistItems/" + docId)
+      .update(updateObject)
+      .then(data => console.log(fieldName + " updated"))
+      .catch(error => console.log(fieldName + " update error ", error));
+  }
+
+  ngOnDestroy() {
+    // Incase there is no use of async in the html template , then need to clean up the subscription
+    console.log("checklistitem designer ngOnDestroy", this.checklistItem$);
+    //if (this.checklistItem$) this.checklistItem$.unsubscribe();
   }
 }

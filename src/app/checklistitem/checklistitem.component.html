@@ -4,7 +4,7 @@
 <div class="py-1">
   {{index + 1}}.
   {{ (checklistItem$ | async)?.payload.data().prompt }}
-  <input name="true" type="checkbox" (click)="onClick()" [(ngModel)]="checked">
+  <input name="true" type="checkbox" (click)="onClick()" [(ngModel)]="checklistItem.isChecked">
   <!-- <ngb-rating max="5"></ngb-rating> -->
 
 
@@ -20,8 +20,16 @@
     <div class="form-group">
       <textarea class="form-control" name="userComment" [(ngModel)]="checklistItem.userComment" id="userComment"
         #userComment="ngModel" maxlength="1000" placeholder="Enter any user comments" rows="3" (blur)="onUserCommentUpdate()"></textarea>
+      <!-- isNA , can only be set when checklistItem.result type supports NA-->
+      <div class="form-group" *ngIf="checklistItem.resultType == ChecklistItemResultType.checkboxNA || checklistItem.resultType == ChecklistItemResultType.ratingNA ">
+        <label for="isNA">Not Applicable&nbsp;
+        </label>
+        <input type="checkbox" name="isNA" [(ngModel)]="checklistItem.isNA" id="isNA" #isNA="ngModel" (click)="onNAUpdate()">
+      </div>
     </div>
   </div>
+
+
 
 </div>
 

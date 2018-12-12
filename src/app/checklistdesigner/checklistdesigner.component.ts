@@ -14,7 +14,7 @@ import { ChecklistModel, ChecklistStatus } from "../models/checklistModel";
 })
 export class ChecklistdesignerComponent implements OnInit {
   checklist$;
-  id; // id is used to indicate if this will be in add mode or update mode
+  id;
   action;
   checklist = new ChecklistModel();
   checklistitems;
@@ -92,6 +92,30 @@ export class ChecklistdesignerComponent implements OnInit {
       .catch(function(error) {
         console.error("Error adding document: ", error);
       });
+  }
+
+  onTitleUpdate() {
+    this.dbFieldUpdate(this.id, "title", this.checklist.title);
+  }
+  onDescriptionUpdate() {
+    this.dbFieldUpdate(this.id, "description", this.checklist.description);
+  }
+
+  private dbFieldUpdate(docId: string, fieldName: string, newValue: any) {
+    console.log(
+      fieldName + " before Update",
+      docId,
+      newValue,
+      this.auth.getUserEmail
+    );
+    let updateObject = {};
+    updateObject[fieldName] = newValue;
+    console.log(updateObject);
+    this.db
+      .doc("/checklists/" + docId) // Update to firestore collection
+      .update(updateObject)
+      .then(data => console.log(fieldName + " updated"))
+      .catch(error => console.log(fieldName + " update error ", error));
   }
 
   onItemAddClick() {
