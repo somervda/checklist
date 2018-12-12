@@ -21,6 +21,7 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
   action;
   checklistItem = new ChecklistItemModel();
   checklistItem$;
+  checklistItemSubscription;
   ChecklistItemResultType = ChecklistItemResultType;
 
   constructor(
@@ -42,10 +43,12 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
         this.checklistItem$ = this.db
           .doc("/checklistItems/" + this.id)
           .snapshotChanges();
-        this.checklistItem$.subscribe(snapshot => {
-          console.log("checklistItemDesigner ngOnInit subscribe");
-          this.checklistItem.loadFromObject(snapshot.payload.data());
-        });
+        this.checklistItemSubscription = this.checklistItem$.subscribe(
+          snapshot => {
+            console.log("checklistItemDesigner ngOnInit subscribe");
+            this.checklistItem.loadFromObject(snapshot.payload.data());
+          }
+        );
       }
       if (this.action == "A") {
         // Set default for an add
@@ -110,7 +113,12 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     // Incase there is no use of async in the html template , then need to clean up the subscription
-    console.log("checklistitem designer ngOnDestroy", this.checklistItem$);
-    //if (this.checklistItem$) this.checklistItem$.unsubscribe();
+
+    console.log(
+      "checklistitem designer ngOnDestroy",
+      this.checklistItemSubscription
+    );
+    if (this.checklistItemSubscription)
+      this.checklistItemSubscription.unsubscribe();
   }
 }
