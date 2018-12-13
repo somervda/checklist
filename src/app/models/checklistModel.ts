@@ -18,6 +18,23 @@ export class ChecklistModel {
   // the checklist (Optional)
   public template: object;
 
+  loadFromObject(data, id) {
+    this.title = data.title;
+    this.description = data.description;
+    this.id = id;
+    this.isTemplate = data.isTemplate;
+  }
+
+  dbFieldUpdate(docId: string, fieldName: string, newValue: any, db) {
+    console.log(fieldName + " before Update", docId, newValue);
+    let updateObject = {};
+    updateObject[fieldName] = newValue;
+    db.doc("/checklists/" + docId) // Update to firestore collection
+      .update(updateObject)
+      .then(data => console.log(fieldName + " updated"))
+      .catch(error => console.log(fieldName + " update error ", error));
+  }
+
   constructor() {}
 
   // // id

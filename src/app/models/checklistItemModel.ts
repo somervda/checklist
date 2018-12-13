@@ -21,14 +21,25 @@ export class ChecklistItemModel {
 
   // Utility Functions
 
-  loadFromObject(data) {
+  loadFromObject(data, id) {
     this.result = data.result;
     this.prompt = data.prompt;
-    this.id = data.id;
+    this.id = id;
     this.checklistId = data.checklistId;
     this.description = data.description;
     this.resultType = data.resultType;
     this.userComment = data.userComment;
+  }
+
+  dbFieldUpdate(docId: string, fieldName: string, newValue: any, db) {
+    console.log(fieldName + " before Update", docId, newValue);
+    let updateObject = {};
+    updateObject[fieldName] = newValue;
+    console.log(updateObject);
+    db.doc("/checklistItems/" + docId)
+      .update(updateObject)
+      .then(data => console.log(fieldName + " updated"))
+      .catch(error => console.log(fieldName + " update error ", error));
   }
 
   // Gets and sets

@@ -38,7 +38,7 @@ export class ChecklistitemComponent implements OnInit, OnDestroy {
     // Also subscribe to observable to keep check local value
     // (not sure how to do this more elegantly) up to date.
     this.checklistItem$.subscribe(snapshot => {
-      this.checklistItem.loadFromObject(snapshot.payload.data());
+      this.checklistItem.loadFromObject(snapshot.payload.data(), snapshot.id);
     });
   }
 
@@ -50,32 +50,25 @@ export class ChecklistitemComponent implements OnInit, OnDestroy {
       resultValue = ChecklistItemResult.true;
     }
 
-    this.dbFieldUpdate(this.id, "result", resultValue);
+    this.checklistItem.dbFieldUpdate(this.id, "result", resultValue, this.db);
   }
 
   onUserCommentUpdate() {
-    this.dbFieldUpdate(this.id, "userComment", this.checklistItem.userComment);
+    this.checklistItem.dbFieldUpdate(
+      this.id,
+      "userComment",
+      this.checklistItem.userComment,
+      this.db
+    );
   }
 
   onNAUpdate() {
-    this.dbFieldUpdate(this.id, "isNA", this.checklistItem.isNA);
-  }
-
-  private dbFieldUpdate(docId: string, fieldName: string, newValue: any) {
-    console.log(
-      fieldName + " before Update",
-      docId,
-      newValue,
-      this.auth.getUserEmail
+    this.checklistItem.dbFieldUpdate(
+      this.id,
+      "isNA",
+      this.checklistItem.isNA,
+      this.db
     );
-    let updateObject = {};
-    updateObject[fieldName] = newValue;
-    console.log(updateObject);
-    this.db
-      .doc("/checklistItems/" + docId)
-      .update(updateObject)
-      .then(data => console.log(fieldName + " updated"))
-      .catch(error => console.log(fieldName + " update error ", error));
   }
 
   ngOnDestroy() {

@@ -39,10 +39,7 @@ export class ChecklistdesignerComponent implements OnInit {
           .snapshotChanges();
         this.checklist$.subscribe(doc => {
           console.log("Checklist Designer subscribed doc", doc);
-          this.checklist.title = doc.payload.data().title;
-          this.checklist.description = doc.payload.data().description;
-          this.checklist.id = doc.id;
-          this.checklist.isTemplate = doc.payload.data().isTemplate;
+          this.checklist.loadFromObject(doc.payload.data(), doc.id);
         });
 
         // Get a list of checklist items
@@ -95,27 +92,20 @@ export class ChecklistdesignerComponent implements OnInit {
   }
 
   onTitleUpdate() {
-    this.dbFieldUpdate(this.id, "title", this.checklist.title);
+    this.checklist.dbFieldUpdate(
+      this.id,
+      "title",
+      this.checklist.title,
+      this.db
+    );
   }
   onDescriptionUpdate() {
-    this.dbFieldUpdate(this.id, "description", this.checklist.description);
-  }
-
-  private dbFieldUpdate(docId: string, fieldName: string, newValue: any) {
-    console.log(
-      fieldName + " before Update",
-      docId,
-      newValue,
-      this.auth.getUserEmail
+    this.checklist.dbFieldUpdate(
+      this.id,
+      "description",
+      this.checklist.description,
+      this.db
     );
-    let updateObject = {};
-    updateObject[fieldName] = newValue;
-    console.log(updateObject);
-    this.db
-      .doc("/checklists/" + docId) // Update to firestore collection
-      .update(updateObject)
-      .then(data => console.log(fieldName + " updated"))
-      .catch(error => console.log(fieldName + " update error ", error));
   }
 
   onItemAddClick() {

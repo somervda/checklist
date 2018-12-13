@@ -46,7 +46,10 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
         this.checklistItemSubscription = this.checklistItem$.subscribe(
           snapshot => {
             console.log("checklistItemDesigner ngOnInit subscribe");
-            this.checklistItem.loadFromObject(snapshot.payload.data());
+            this.checklistItem.loadFromObject(
+              snapshot.payload.data(),
+              snapshot.id
+            );
           }
         );
       }
@@ -84,31 +87,29 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
   }
 
   onPromptUpdate() {
-    this.dbFieldUpdate(this.id, "prompt", this.checklistItem.prompt);
+    this.checklistItem.dbFieldUpdate(
+      this.id,
+      "prompt",
+      this.checklistItem.prompt,
+      this.db
+    );
   }
   onDescriptionUpdate() {
-    this.dbFieldUpdate(this.id, "description", this.checklistItem.description);
+    this.checklistItem.dbFieldUpdate(
+      this.id,
+      "description",
+      this.checklistItem.description,
+      this.db
+    );
   }
 
   onResultTypeUpdate() {
-    this.dbFieldUpdate(this.id, "resultType", this.checklistItem.resultType);
-  }
-
-  private dbFieldUpdate(docId: string, fieldName: string, newValue: any) {
-    console.log(
-      fieldName + " before Update",
-      docId,
-      newValue,
-      this.auth.getUserEmail
+    this.checklistItem.dbFieldUpdate(
+      this.id,
+      "resultType",
+      this.checklistItem.resultType,
+      this.db
     );
-    let updateObject = {};
-    updateObject[fieldName] = newValue;
-    console.log(updateObject);
-    this.db
-      .doc("/checklistItems/" + docId)
-      .update(updateObject)
-      .then(data => console.log(fieldName + " updated"))
-      .catch(error => console.log(fieldName + " update error ", error));
   }
 
   ngOnDestroy() {
