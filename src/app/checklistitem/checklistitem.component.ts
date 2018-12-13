@@ -57,6 +57,8 @@ export class ChecklistitemComponent implements OnInit, OnDestroy {
     }
 
     this.checklistItem.dbFieldUpdate(this.id, "result", resultValue, this.db);
+    // var clicked: string = this.checklistItem.result.toString();
+    // this.toastr.info(clicked, "onClick");
   }
 
   onUserCommentUpdate() {

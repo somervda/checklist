@@ -8,7 +8,7 @@
     <span
       *ngIf="checklistItem.isNA"
       placement="top"
-      ngbTooltip="Not Applicable: Expand and turn off Not Applicable flag if you want to record a result for this item"
+      ngbTooltip="Not Applicable: Turn off 'Not Applicable' flag if you want to record a result for this item"
     >
       (N/A)</span
     >
@@ -26,6 +26,7 @@
     (click)="onClick()"
     [(ngModel)]="checklistItem.isChecked"
   />
+  <!-- Conditional show rating -->
   <span
     *ngIf="
       (checklistItem.resultType == ChecklistItemResultType.rating ||
@@ -34,8 +35,7 @@
     "
   >
     <ngb-rating max="5"></ngb-rating>
-    Rate</span
-  >
+  </span>
 
   <button
     type="button"
