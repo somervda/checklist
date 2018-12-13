@@ -34,7 +34,9 @@
       !checklistItem.isNA
     "
   >
-    <ngb-rating max="5"></ngb-rating>
+    <ngb-rating max="5" (leave)="onRatingUpdate()" 
+    [(ngModel)]="checklistItem.rating"></ngb-rating>
+    <!-- x {{ checklistItem.result}} x -->
   </span>
 
   <button

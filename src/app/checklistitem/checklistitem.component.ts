@@ -97,6 +97,11 @@ export class ChecklistitemComponent implements OnInit, OnDestroy {
     this.checklistItem.dbFieldUpdate(this.id, "result", resultValue, this.db);
   }
 
+  onRatingUpdate() {
+    console.log("ChecklistItem onRatingUpdate", this.checklistItem.rating," ", this.checklistItem.result);
+    this.checklistItem.dbFieldUpdate(this.id, "result", this.checklistItem.result, this.db);
+  }
+
   ngOnDestroy() {
     // Looks like the subscription already gets cleaned up because it is associated with
     // the async observable. Code below was so I could confirm that the
