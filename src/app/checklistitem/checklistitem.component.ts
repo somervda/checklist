@@ -39,6 +39,12 @@ export class ChecklistitemComponent implements OnInit, OnDestroy {
     // (not sure how to do this more elegantly) up to date.
     this.checklistItem$.subscribe(snapshot => {
       this.checklistItem.loadFromObject(snapshot.payload.data(), snapshot.id);
+      console.log(
+        "Checklistitem subscribe isNA:",
+        this.checklistItem.isNA,
+        " result:",
+        this.checklistItem.result
+      );
     });
   }
 
@@ -63,12 +69,30 @@ export class ChecklistitemComponent implements OnInit, OnDestroy {
   }
 
   onNAUpdate() {
-    this.checklistItem.dbFieldUpdate(
-      this.id,
-      "isNA",
+    console.log(
+      "Checklistitem onNAUpdate isNA:",
       this.checklistItem.isNA,
-      this.db
+      " result:",
+      this.checklistItem.result,
+      " event:",
+      event
     );
+    let resultValue;
+    if (!this.checklistItem.isNA) {
+      resultValue = ChecklistItemResult.NA;
+    } else {
+      // Reset to default result based on result type
+      if (
+        this.checklistItem.resultType == ChecklistItemResultType.checkbox ||
+        this.checklistItem.resultType == ChecklistItemResultType.checkboxNA
+      )
+        resultValue = ChecklistItemResult.false;
+      else {
+        resultValue = ChecklistItemResult.low;
+      }
+    }
+
+    this.checklistItem.dbFieldUpdate(this.id, "result", resultValue, this.db);
   }
 
   ngOnDestroy() {

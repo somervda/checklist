@@ -3,7 +3,8 @@ import { Component, OnInit, NgZone, OnDestroy } from "@angular/core";
 import {
   ChecklistItemModel,
   ChecklistItemStatus,
-  ChecklistItemResultType
+  ChecklistItemResultType,
+  ChecklistItemResult
 } from "../models/checklistItemModel";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { ToastrService } from "ngx-toastr";
@@ -67,7 +68,20 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
     this.checklistItem.dateCreated = new Date();
     this.checklistItem.status = ChecklistItemStatus.Active;
     this.checklistItem.checklistId = this.id;
+    // Set default result settings
+    if (
+      this.checklistItem.resultType == ChecklistItemResultType.checkbox ||
+      this.checklistItem.resultType == ChecklistItemResultType.checkboxNA
+    )
+      this.checklistItem.result = ChecklistItemResult.false;
+    if (
+      this.checklistItem.resultType == ChecklistItemResultType.rating ||
+      this.checklistItem.resultType == ChecklistItemResultType.ratingNA
+    )
+      this.checklistItem.result = ChecklistItemResult.low;
+
     console.log("Add a new checklistItem", this.checklistItem);
+
     // Add a new document with a generated id. Note, need to cast to generic object
     this.db
       .collection("checklistItems")
