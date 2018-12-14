@@ -1,101 +1,112 @@
 <!-- Grey out and show N/A when the item has been marked as N/A -->
 <div class="pt-2">
-  <span
-    [class.text-muted]="checklistItem.isNA"
-    [class.font-italic]="checklistItem.isNA"
-  >
-    {{ index + 1 }}. {{ (checklistItem$ | async)?.payload.data().prompt }}
-    <span
-      *ngIf="checklistItem.isNA"
-      placement="top"
-      ngbTooltip="Not Applicable: Turn off 'Not Applicable' flag if you want to record a result for this item"
-    >
-      (N/A)</span
-    >
-  </span>
+  <div class="row">
+    <div class="col-11">
+      <span
+        [class.text-muted]="checklistItem.isNA"
+        [class.font-italic]="checklistItem.isNA"
+      >
+        {{ index + 1 }}. {{ (checklistItem$ | async)?.payload.data().prompt }}
+        <span
+          *ngIf="checklistItem.isNA"
+          placement="top"
+          ngbTooltip="Not Applicable: Turn off 'Not Applicable' flag if you want to record a result for this item"
+        >
+          (N/A)</span
+        >
+      </span>
 
-  <!-- Conditional show checkbox -->
-  <input
-    name="true"
-    type="checkbox"
-    *ngIf="
-      (checklistItem.resultType == ChecklistItemResultType.checkbox ||
-        checklistItem.resultType == ChecklistItemResultType.checkboxNA) &&
-      !checklistItem.isNA
-    "
-    (click)="onClick()"
-    [(ngModel)]="checklistItem.isChecked"
-  />
-  <!-- Conditional show rating -->
-  <span
-    *ngIf="
-      (checklistItem.resultType == ChecklistItemResultType.rating ||
-        checklistItem.resultType == ChecklistItemResultType.ratingNA) &&
-      !checklistItem.isNA
-    "
-  >
-    <ngb-rating
-      max="5"
-      (leave)="onRatingUpdate()"
-      [(ngModel)]="checklistItem.rating"
-    >
-      <ng-template let-fill="fill">
-        <span class="star" [class.filled]="fill === 100">&#9733;</span>
-      </ng-template>
-    </ngb-rating>
-  </span>
-
-  <!-- dropdown toggle -->
-
-  <button
-    type="button"
-    class="btn btn-light   mt-0 px-1 mr-1 ml-10 p-0 float-right"
-    (click)="dropdownOpen = !dropdownOpen"
-  >
-    <div *ngIf="dropdownOpen"><i class="fas fa-caret-up"></i></div>
-    <div *ngIf="!dropdownOpen"><i class="fas fa-caret-down"></i></div>
-  </button>
-  <br />
-</div>
-<div *ngIf="dropdownOpen" class="container">
-  <div
-    class="bg-light p-2"
-    style="border-width: 1px; border-color: black;border-style: solid;"
-  >
-    {{ checklistItem.description }}
-    <!-- user comments -->
-    <div class="form-group">
-      <textarea
-        class="form-control"
-        name="userComment"
-        [(ngModel)]="checklistItem.userComment"
-        id="userComment"
-        #userComment="ngModel"
-        maxlength="1000"
-        placeholder="Enter any user comments"
-        rows="3"
-        (blur)="onUserCommentUpdate()"
-      ></textarea>
-      <!-- isNA , can only be set when checklistItem.result type supports NA -->
-      <div
-        class="form-group"
+      <!-- Conditional show checkbox -->
+      <input
+        name="true"
+        type="checkbox"
         *ngIf="
-          checklistItem.resultType == ChecklistItemResultType.checkboxNA ||
-          checklistItem.resultType == ChecklistItemResultType.ratingNA
+          (checklistItem.resultType == ChecklistItemResultType.checkbox ||
+            checklistItem.resultType == ChecklistItemResultType.checkboxNA) &&
+          !checklistItem.isNA
+        "
+        (click)="onClick()"
+        [(ngModel)]="checklistItem.isChecked"
+      />
+      <!-- Conditional show rating -->
+      <span
+        *ngIf="
+          (checklistItem.resultType == ChecklistItemResultType.rating ||
+            checklistItem.resultType == ChecklistItemResultType.ratingNA) &&
+          !checklistItem.isNA
         "
       >
-        <label for="isNA">Not Applicable&nbsp; </label>
-        <input
-          type="checkbox"
-          name="isNA"
-          [(ngModel)]="checklistItem.isNA"
-          id="isNA"
-          #isNA="ngModel"
-          (click)="onNAUpdate()"
-        />
+        <ngb-rating
+          max="5"
+          (leave)="onRatingUpdate()"
+          [(ngModel)]="checklistItem.rating"
+        >
+          <ng-template let-fill="fill">
+            <span class="star" [class.filled]="fill === 100">&#9733;</span>
+          </ng-template>
+        </ngb-rating>
+      </span>
+    </div>
+    <!-- end of col -->
+    <div class="col-1">
+      <!-- dropdown toggle -->
+
+      <button
+        type="button"
+        class="btn btn-light   mt-0 px-1 mr-1 ml-10 p-0 float-right"
+        (click)="dropdownOpen = !dropdownOpen"
+      >
+        <div *ngIf="dropdownOpen"><i class="fas fa-caret-up"></i></div>
+        <div *ngIf="!dropdownOpen"><i class="fas fa-caret-down"></i></div>
+      </button>
+      <br />
+    </div>
+    <!-- end of col -->
+  </div>
+
+  <!-- Drop down content -->
+  <div *ngIf="dropdownOpen" class="container">
+    <div
+      class="bg-light p-2 mt-1"
+      style="border-width: 1px; border-color: black;border-style: solid;"
+    >
+      {{ checklistItem.description }}
+      <!-- user comments -->
+      <div class="form-group">
+        <textarea
+          class="form-control"
+          name="userComment"
+          [(ngModel)]="checklistItem.userComment"
+          id="userComment"
+          #userComment="ngModel"
+          maxlength="1000"
+          placeholder="Enter any user comments"
+          rows="3"
+          (blur)="onUserCommentUpdate()"
+        ></textarea>
+        <!--
+          isNA , can only be set when checklistItem.result type supports NA
+        -->
+        <div
+          class="form-group"
+          *ngIf="
+            checklistItem.resultType == ChecklistItemResultType.checkboxNA ||
+            checklistItem.resultType == ChecklistItemResultType.ratingNA
+          "
+        >
+          <label for="isNA">Not Applicable&nbsp; </label>
+          <input
+            type="checkbox"
+            name="isNA"
+            [(ngModel)]="checklistItem.isNA"
+            id="isNA"
+            #isNA="ngModel"
+            (click)="onNAUpdate()"
+          />
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- [checked]="(checklistItem$ | async)?.data().value" -->
+  <!-- [checked]="(checklistItem$ | async)?.data().value" -->
+</div>
