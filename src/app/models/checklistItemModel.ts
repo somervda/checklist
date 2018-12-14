@@ -10,6 +10,7 @@ export class ChecklistItemModel {
   public owner: string;
   public dateCreated: Date;
   public status: ChecklistItemStatus;
+  public evidence : string;
   // allowNA indicates that the user can mark the item as Not Applicable
   // when filling out the checklist
   public allowNA: boolean;
@@ -29,6 +30,7 @@ export class ChecklistItemModel {
     this.description = data.description;
     this.resultType = data.resultType;
     this.userComment = data.userComment;
+    this.evidence = data.evidence;
   }
 
   dbFieldUpdate(docId: string, fieldName: string, newValue: any, db) {

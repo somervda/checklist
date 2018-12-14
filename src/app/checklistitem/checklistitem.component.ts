@@ -70,6 +70,15 @@ export class ChecklistitemComponent implements OnInit, OnDestroy {
     );
   }
 
+  onEvidenceUpdate() {
+    this.checklistItem.dbFieldUpdate(
+      this.id,
+      "evidence",
+      this.checklistItem.evidence,
+      this.db
+    );
+  }
+
   onNAUpdate() {
     console.log(
       "Checklistitem onNAUpdate isNA:",

@@ -1,5 +1,5 @@
 <!-- Grey out and show N/A when the item has been marked as N/A -->
-<div class="pt-2">
+<div class="pt-3">
   <div class="row">
     <div class="col-11">
       <span
@@ -20,6 +20,8 @@
       <input
         name="isChecked"
         type="checkbox"
+        class="form-control ml-2"
+        style="height: 1.1rem; width: 1.1rem; display: inline;"
         *ngIf="
           (checklistItem.resultType == ChecklistItemResultType.checkbox ||
             checklistItem.resultType == ChecklistItemResultType.checkboxNA) &&
@@ -73,8 +75,10 @@
       style="border-width: 1px; border-color: black;border-style: solid;"
     >
       {{ checklistItem.description }}
-      <!-- user comments -->
+      
       <div class="form-group">
+        <!-- user comments -->
+          <label for="userComment">Comments</label>
         <textarea
           class="form-control"
           name="userComment"
@@ -86,11 +90,24 @@
           rows="3"
           (blur)="onUserCommentUpdate()"
         ></textarea>
+                <!-- evidence collected -->
+                <label for="userComment">Evidence collected</label>
+                <textarea
+                  class="form-control"
+                  name="evidence"
+                  [(ngModel)]="checklistItem.evidence"
+                  id="evidence"
+                  #evidence="ngModel"
+                  maxlength="1000"
+                  placeholder="Enter info on evidence collected"
+                  rows="3"
+                  (blur)="onEvidenceUpdate()"
+                ></textarea>
         <!--
           isNA , can only be set when checklistItem.result type supports NA
         -->
         <div
-          class="form-group"
+          class="form-group mt-1"
           *ngIf="
             checklistItem.resultType == ChecklistItemResultType.checkboxNA ||
             checklistItem.resultType == ChecklistItemResultType.ratingNA
@@ -100,6 +117,8 @@
           <input
             type="checkbox"
             name="isNA"
+            class="form-control"
+            style="height: 1.1rem; width: 1.1rem; display: inline;"
             [(ngModel)]="checklistItem.isNA"
             id="isNA"
             #isNA="ngModel"
