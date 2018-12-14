@@ -1,13 +1,25 @@
 <span *ngIf="action == 'U'">
-  <app-header name="Checklist Designer" rightButtonIconClass="fa-arrow-left" rightButtonTooltip="Return&nbsp;to&nbsp;Checklist"
-    rightButtonRoute="/checklist/{{ id }}"></app-header>
+  <app-header
+    name="Checklist Designer"
+    rightButtonIconClass="fa-arrow-left"
+    rightButtonTooltip="Return&nbsp;to&nbsp;Checklist"
+    rightButtonRoute="/checklist/{{ id }}"
+  ></app-header>
 </span>
 <!-- Special nav bar if adding a checklist -->
 <span *ngIf="action == 'A'">
-  <nav class="navbar navbar-dark bg-secondary py-0">
+  <nav class="navbar navbar-dark  py-0" style="background-color: rgb(0,77,64)">
     <div class="navbar-brand mr-auto">New Checklist</div>
-    <button type="button" class="btn btn-outline-white mt-0 px-1 mr-1 ml-10 p-0 float-right " (click)="onAddClick()"
-      placement="left" ngbTooltip="Click to add" [disabled]="!f.valid"><i class="fas fa-plus"></i> Add</button>
+    <button
+      type="button"
+      class="btn btn-outline-white mt-0 px-1 mr-1 ml-10 p-0 float-right "
+      (click)="onAddClick()"
+      placement="left"
+      ngbTooltip="Click to add"
+      [disabled]="!f.valid"
+    >
+      <i class="fas fa-plus"></i> Add
+    </button>
   </nav>
 </span>
 
@@ -18,46 +30,103 @@
     <!-- title -->
     <div class="form-group">
       <label for="title">Title *</label>
-      <input type="text" class="form-control" name="title" [(ngModel)]="checklist.title" id="title" #title="ngModel"
-        required minlength="10" maxlength="100" placeholder="Title" (blur)="onTitleUpdate()" />
+      <input
+        type="text"
+        class="form-control"
+        name="title"
+        [(ngModel)]="checklist.title"
+        id="title"
+        #title="ngModel"
+        required
+        minlength="10"
+        maxlength="100"
+        placeholder="Title"
+        (blur)="onTitleUpdate()"
+      />
       <div *ngIf="title.touched && !title.valid">
-        <div *ngIf="title?.errors.required" class="alert alert-danger">Title is required</div>
-        <div *ngIf="title?.errors.minlength" class="alert alert-danger">Title must be at least 10 characters long</div>
+        <div *ngIf="title?.errors.required" class="alert alert-danger">
+          Title is required
+        </div>
+        <div *ngIf="title?.errors.minlength" class="alert alert-danger">
+          Title must be at least 10 characters long
+        </div>
       </div>
     </div>
     <!-- description -->
     <div class="form-group">
       <label for="description">Description *</label>
-      <textarea class="form-control" name="description" [(ngModel)]="checklist.description" id="description"
-        #description="ngModel" required minlength="25" maxlength="1000" placeholder="Description" rows="3" (blur)="onDescriptionUpdate()"></textarea>
+      <textarea
+        class="form-control"
+        name="description"
+        [(ngModel)]="checklist.description"
+        id="description"
+        #description="ngModel"
+        required
+        minlength="25"
+        maxlength="1000"
+        placeholder="Description"
+        rows="3"
+        (blur)="onDescriptionUpdate()"
+      ></textarea>
       <div *ngIf="description.touched && !description.valid">
-        <div *ngIf="description?.errors.required" class="alert alert-danger">Description is required</div>
-        <div *ngIf="description?.errors.minlength" class="alert alert-danger">Description must be at least 25
-          characters
-          long</div>
+        <div *ngIf="description?.errors.required" class="alert alert-danger">
+          Description is required
+        </div>
+        <div *ngIf="description?.errors.minlength" class="alert alert-danger">
+          Description must be at least 25 characters long
+        </div>
       </div>
     </div>
-    <!-- isTemplate , can only be set when first adding the
-       checklist (and when creating a template using a checklist copy-->
+    <!--
+      isTemplate , can only be set when first adding the
+      checklist (and when creating a template using a checklist copy
+    -->
     <div class="form-group" *ngIf="action == 'A'">
-      <label for="isTemplate" placement="right" ngbTooltip="Checklist templates can only be used to create new checklists.">Is
-        a Template&nbsp;
+      <label
+        for="isTemplate"
+        placement="right"
+        ngbTooltip="Checklist templates can only be used to create new checklists."
+        >Is a Template&nbsp;
       </label>
-      <input type="checkbox" name="isTemplate" [(ngModel)]="checklist.isTemplate" id="isTemplate" #isTemplate="ngModel">
-
+      <input
+        type="checkbox"
+        name="isTemplate"
+        [(ngModel)]="checklist.isTemplate"
+        id="isTemplate"
+        #isTemplate="ngModel"
+      />
     </div>
-    <div class="form-group" *ngIf="id && checklist.isTemplate" class="text-info">Is a template</div>
-    <div *ngIf="action=='U'">
+    <div
+      class="form-group"
+      *ngIf="id && checklist.isTemplate"
+      class="text-info"
+    >
+      Is a template
+    </div>
+    <div *ngIf="action == 'U'">
       <!-- Checklistitems -->
       <nav class="navbar navbar-dark bg-secondary py-0">
         <div class="navbar-brand mr-auto">Checklist Items</div>
-        <button type="button" class="btn btn-outline-white mt-0 px-1 mr-1 ml-10 p-0 float-right " (click)="onItemAddClick()"
-          placement="left" ngbTooltip="Click to add"><i class="fas fa-plus"></i> Add New Checklist
-          Item</button>
+        <button
+          type="button"
+          class="btn btn-outline-white mt-0 px-1 mr-1 ml-10 p-0 float-right "
+          (click)="onItemAddClick()"
+          placement="left"
+          ngbTooltip="Click to add"
+        >
+          <i class="fas fa-plus"></i> Add New Checklist Item
+        </button>
       </nav>
 
-      <div *ngFor="let checklistitem of  checklistitems;  index as i">
-        <div>{{ i + 1 }} <a routerLink="/checklistitemdesigner/U/{{checklistitem.id}}" title="Click to design this checklist item">{{checklistitem.data().prompt}}</a></div>
+      <div *ngFor="let checklistitem of checklistitems; index as i">
+        <div>
+          {{ i + 1 }}
+          <a
+            routerLink="/checklistitemdesigner/U/{{checklistitem.id}}"
+            title="Click to design this checklist item"
+            >{{ checklistitem.data().prompt }}</a
+          >
+        </div>
       </div>
     </div>
   </form>

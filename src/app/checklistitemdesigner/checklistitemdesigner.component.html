@@ -1,52 +1,104 @@
-<span *ngIf="action =='U'">
-  <app-header name="Checklist Item Designer" rightButtonIconClass="fa-arrow-left" rightButtonTooltip="Return&nbsp;to&nbsp;Checklist"
-    rightButtonRoute="/checklistdesigner/U/{{ checklistItem.checklistId }}"></app-header>
+<span *ngIf="action == 'U'">
+  <app-header
+    name="Checklist Item Designer"
+    rightButtonIconClass="fa-arrow-left"
+    rightButtonTooltip="Return&nbsp;to&nbsp;Checklist"
+    rightButtonRoute="/checklistdesigner/U/{{ checklistItem.checklistId }}"
+  ></app-header>
 </span>
 <!-- Special nav bar if adding a checklist -->
 <span *ngIf="action == 'A'">
-  <nav class="navbar navbar-dark bg-secondary py-0">
+  <nav class="navbar navbar-dark  py-0" style="background-color: rgb(0,77,64)">
     <div class="navbar-brand mr-auto">New Checklist Item</div>
-    <button type="button" class="btn btn-outline-white mt-0 px-1 mr-1 ml-10 p-0 float-right " (click)="onAddClick()"
-      placement="left" ngbTooltip="Click to add" [disabled]="!f.valid"><i class="fas fa-plus"></i> Add</button>
+    <button
+      type="button"
+      class="btn btn-outline-white mt-0 px-1 mr-1 ml-10 p-0 float-right "
+      (click)="onAddClick()"
+      placement="left"
+      ngbTooltip="Click to add"
+      [disabled]="!f.valid"
+    >
+      <i class="fas fa-plus"></i> Add
+    </button>
   </nav>
 </span>
 
 <div class="container">
   <form name="form" #f="ngForm">
-
     <!-- prompt -->
     <div class="form-group">
       <label for="prompt">Prompt *</label>
-      <input type="text" class="form-control" name="prompt" [(ngModel)]="checklistItem.prompt" id="prompt" #prompt="ngModel"
-        required minlength="10" maxlength="100" placeholder="Prompt" (blur)="onPromptUpdate()" />
-      <div *ngIf="
-        prompt.touched && !prompt.valid">
-        <div *ngIf="prompt?.errors.required" class="alert alert-danger">Prompt is required</div>
-        <div *ngIf="prompt?.errors.minlength" class="alert alert-danger">Prompt must be at least 10 characters long</div>
+      <input
+        type="text"
+        class="form-control"
+        name="prompt"
+        [(ngModel)]="checklistItem.prompt"
+        id="prompt"
+        #prompt="ngModel"
+        required
+        minlength="10"
+        maxlength="100"
+        placeholder="Prompt"
+        (blur)="onPromptUpdate()"
+      />
+      <div *ngIf="prompt.touched && !prompt.valid">
+        <div *ngIf="prompt?.errors.required" class="alert alert-danger">
+          Prompt is required
+        </div>
+        <div *ngIf="prompt?.errors.minlength" class="alert alert-danger">
+          Prompt must be at least 10 characters long
+        </div>
       </div>
     </div>
     <!-- description -->
     <div class="form-group">
       <label for="description">Description *</label>
-      <textarea class="form-control" name="description" [(ngModel)]="checklistItem.description" id="description"
-        #description="ngModel" required minlength="25" maxlength="1000" placeholder="Description" rows="3" (blur)="onDescriptionUpdate()"></textarea>
+      <textarea
+        class="form-control"
+        name="description"
+        [(ngModel)]="checklistItem.description"
+        id="description"
+        #description="ngModel"
+        required
+        minlength="25"
+        maxlength="1000"
+        placeholder="Description"
+        rows="3"
+        (blur)="onDescriptionUpdate()"
+      ></textarea>
       <div *ngIf="description.touched && !description.valid">
-        <div *ngIf="description?.errors.required" class="alert alert-danger">Description is required</div>
-        <div *ngIf="description?.errors.minlength" class="alert alert-danger">Description must be at least 25
-          characters
-          long</div>
+        <div *ngIf="description?.errors.required" class="alert alert-danger">
+          Description is required
+        </div>
+        <div *ngIf="description?.errors.minlength" class="alert alert-danger">
+          Description must be at least 25 characters long
+        </div>
       </div>
     </div>
     <!-- ResultType -->
     <div class="form-group">
-      <label for="resultType" placement="top" ngbTooltip="Options for how the checklist item is to be collected from the user. i.e. Simple checkbox, as a rating, and options on if it can be marked as Not Applicable.">Get
-        result As *</label>
-      <select class="form-control" name="resultType" [(ngModel)]="checklistItem.resultType" id="resultType" #resultType="ngModel"
-        (change)="onResultTypeUpdate()">
+      <label
+        for="resultType"
+        placement="top"
+        ngbTooltip="Options for how the checklist item is to be collected from the user. i.e. Simple checkbox, as a rating, and options on if it can be marked as Not Applicable."
+        >Get result As *</label
+      >
+      <select
+        class="form-control"
+        name="resultType"
+        [(ngModel)]="checklistItem.resultType"
+        id="resultType"
+        #resultType="ngModel"
+        (change)="onResultTypeUpdate()"
+      >
         <option value="{{ ChecklistItemResultType.checkbox }}">Checkbox</option>
-        <option value="{{ ChecklistItemResultType.checkboxNA }}">Checkbox or NA</option>
+        <option value="{{ ChecklistItemResultType.checkboxNA }}"
+          >Checkbox or NA</option
+        >
         <option value="{{ ChecklistItemResultType.rating }}">Rating</option>
-        <option value="{{ ChecklistItemResultType.ratingNA }}">Rating or NA</option>
+        <option value="{{ ChecklistItemResultType.ratingNA }}"
+          >Rating or NA</option
+        >
       </select>
     </div>
   </form>

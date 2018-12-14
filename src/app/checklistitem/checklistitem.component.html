@@ -1,5 +1,5 @@
 <!-- Grey out and show N/A when the item has been marked as N/A -->
-<div class="py-1">
+<div class="pt-2">
   <span
     [class.text-muted]="checklistItem.isNA"
     [class.font-italic]="checklistItem.isNA"
@@ -34,10 +34,18 @@
       !checklistItem.isNA
     "
   >
-    <ngb-rating max="5" (leave)="onRatingUpdate()" 
-    [(ngModel)]="checklistItem.rating"></ngb-rating>
-    <!-- x {{ checklistItem.result}} x -->
+    <ngb-rating
+      max="5"
+      (leave)="onRatingUpdate()"
+      [(ngModel)]="checklistItem.rating"
+    >
+      <ng-template let-fill="fill">
+        <span class="star" [class.filled]="fill === 100">&#9733;</span>
+      </ng-template>
+    </ngb-rating>
   </span>
+
+  <!-- dropdown toggle -->
 
   <button
     type="button"
@@ -47,6 +55,7 @@
     <div *ngIf="dropdownOpen"><i class="fas fa-caret-up"></i></div>
     <div *ngIf="!dropdownOpen"><i class="fas fa-caret-down"></i></div>
   </button>
+  <br />
 </div>
 <div *ngIf="dropdownOpen" class="container">
   <div

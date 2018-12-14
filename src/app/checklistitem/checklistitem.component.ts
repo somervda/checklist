@@ -98,8 +98,18 @@ export class ChecklistitemComponent implements OnInit, OnDestroy {
   }
 
   onRatingUpdate() {
-    console.log("ChecklistItem onRatingUpdate", this.checklistItem.rating," ", this.checklistItem.result);
-    this.checklistItem.dbFieldUpdate(this.id, "result", this.checklistItem.result, this.db);
+    console.log(
+      "ChecklistItem onRatingUpdate",
+      this.checklistItem.rating,
+      " ",
+      this.checklistItem.result
+    );
+    this.checklistItem.dbFieldUpdate(
+      this.id,
+      "result",
+      this.checklistItem.result,
+      this.db
+    );
   }
 
   ngOnDestroy() {
