@@ -18,7 +18,7 @@
 
       <!-- Conditional show checkbox -->
       <input
-        name="true"
+        name="isChecked"
         type="checkbox"
         *ngIf="
           (checklistItem.resultType == ChecklistItemResultType.checkbox ||
@@ -27,6 +27,8 @@
         "
         (click)="onClick()"
         [(ngModel)]="checklistItem.isChecked"
+        id="isChecked"
+        #isChecked="ngModel"
       />
       <!-- Conditional show rating -->
       <span
