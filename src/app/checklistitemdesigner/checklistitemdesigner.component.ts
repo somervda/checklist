@@ -78,7 +78,7 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
       this.checklistItem.resultType == ChecklistItemResultType.rating ||
       this.checklistItem.resultType == ChecklistItemResultType.ratingNA
     )
-      this.checklistItem.result = ChecklistItemResult.low;
+      this.checklistItem.result = ChecklistItemResult.medium;
 
     console.log("Add a new checklistItem", this.checklistItem);
 

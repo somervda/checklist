@@ -83,7 +83,7 @@ export class ChecklistitemComponent implements OnInit, OnDestroy {
       ) {
         resultValue = ChecklistItemResult.false;
       } else {
-        resultValue = ChecklistItemResult.low;
+        resultValue = ChecklistItemResult.medium;
       }
     }
 
