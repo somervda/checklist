@@ -1,0 +1,18 @@
+<!--
+  The native html checkbox was not working properly on
+   safari and iOS , I think the browser must fire an extra click event when the ngModel updates
+   (and reverses the update just made)
+-->
+<span *ngIf="!checked"
+  ><i
+    class="far fa-square"
+    style="font-size: 1.2rem;"
+    (click)="onClick(false)"
+  ></i></span
+><span *ngIf="checked"
+  ><i
+    class="far fa-check-square"
+    style="font-size: 1.2rem;"
+    (click)="onClick(true)"
+  ></i
+></span>

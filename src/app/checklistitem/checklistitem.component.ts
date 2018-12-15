@@ -8,6 +8,7 @@ import { Component, OnInit, Input, OnDestroy } from "@angular/core";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { Observable, Subscription } from "rxjs";
 import { ToastrService } from "ngx-toastr";
+import { checkAndUpdateDirectiveDynamic } from "@angular/core/src/view/provider";
 
 @Component({
   selector: "app-checklistitem",
@@ -38,6 +39,10 @@ export class ChecklistitemComponent implements OnInit, OnDestroy {
     // Also subscribe to observable to keep check local value
     // (not sure how to do this more elegantly) up to date.
     this.checklistItem$.subscribe(snapshot => {
+      // this.toastr.info("", "init", {
+      //   timeOut: 1000
+      // });
+
       this.checklistItem.loadFromObject(snapshot.payload.data(), snapshot.id);
       console.log(
         "Checklistitem subscribe isNA:",
@@ -46,19 +51,6 @@ export class ChecklistitemComponent implements OnInit, OnDestroy {
         this.checklistItem.result
       );
     });
-  }
-
-  onClick() {
-    let resultValue;
-    if (this.checklistItem.isChecked) {
-      resultValue = ChecklistItemResult.false;
-    } else {
-      resultValue = ChecklistItemResult.true;
-    }
-
-    this.checklistItem.dbFieldUpdate(this.id, "result", resultValue, this.db);
-    // var clicked: string = this.checklistItem.result.toString();
-    // this.toastr.info(clicked, "onClick");
   }
 
   onUserCommentUpdate() {
@@ -79,26 +71,18 @@ export class ChecklistitemComponent implements OnInit, OnDestroy {
     );
   }
 
-  onNAUpdate() {
-    console.log(
-      "Checklistitem onNAUpdate isNA:",
-      this.checklistItem.isNA,
-      " result:",
-      this.checklistItem.result,
-      " event:",
-      event
-    );
+  onNAUpdate(checked: boolean) {
     let resultValue;
-    if (!this.checklistItem.isNA) {
+    if (checked) {
       resultValue = ChecklistItemResult.NA;
     } else {
       // Reset to default result based on result type
       if (
         this.checklistItem.resultType == ChecklistItemResultType.checkbox ||
         this.checklistItem.resultType == ChecklistItemResultType.checkboxNA
-      )
+      ) {
         resultValue = ChecklistItemResult.false;
-      else {
+      } else {
         resultValue = ChecklistItemResult.low;
       }
     }
@@ -128,5 +112,22 @@ export class ChecklistitemComponent implements OnInit, OnDestroy {
     // console.log("unsubscribe before", this.checklistItemSubscribe);
     // this.checklistItemSubscribe.unsubscribe();
     // console.log("unsubscribe after", this.checklistItemSubscribe);
+  }
+
+  oncbClick(checked: boolean) {
+    if (checked)
+      this.checklistItem.dbFieldUpdate(
+        this.id,
+        "result",
+        ChecklistItemResult.false,
+        this.db
+      );
+    else
+      this.checklistItem.dbFieldUpdate(
+        this.id,
+        "result",
+        ChecklistItemResult.true,
+        this.db
+      );
   }
 }

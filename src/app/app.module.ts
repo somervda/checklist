@@ -39,6 +39,7 @@ import { ChecklistitemComponent } from "./checklistitem/checklistitem.component"
 import { ChecklistdesignerComponent } from "./checklistdesigner/checklistdesigner.component";
 import { HeaderComponent } from "./header/header.component";
 import { ChecklistitemdesignerComponent } from "./checklistitemdesigner/checklistitemdesigner.component";
+import { CheckboxComponent } from './checkbox/checkbox.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { ChecklistitemdesignerComponent } from "./checklistitemdesigner/checklis
     ChecklistitemComponent,
     ChecklistdesignerComponent,
     HeaderComponent,
-    ChecklistitemdesignerComponent
+    ChecklistitemdesignerComponent,
+    CheckboxComponent
   ],
   imports: [
     BrowserModule,

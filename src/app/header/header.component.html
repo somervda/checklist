@@ -1,8 +1,20 @@
-<nav class="navbar navbar-dark  py-0"  style="background-color: rgb(0,77,64)">
-  <div class="navbar-brand mr-auto">{{name}}</div>
-  <!--  Any right side action button only rendered when all button inputs are passed -->
-  <span *ngIf="rightButtonRoute && rightButtonIconClass && rightButtonTooltip">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <button type="button" class="btn btn-outline-secondary mt-0 px-1 mr-1 ml-10 p-0 float-right text-white" routerLink="{{rightButtonRoute}}"
-      placement="left" ngbTooltip="{{rightButtonTooltip}}"><i class="fas {{rightButtonIconClass}}"></i></button>
-  </span>
+<nav class="navbar navbar-dark  py-0" style="background-color: rgb(0,77,64)">
+  <div class="container">
+    <div class="navbar-brand pl-1 p-0">{{ name }}</div>
+    <!--
+      Any right side action button only rendered when all button inputs are passed
+    -->
+    <span *ngIf="rightButtonRoute && rightButtonIconClass && rightButtonTooltip"
+      >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <button
+        type="button"
+        class="btn btn-outline-secondary mt-0 px-1 mr-1 ml-10 p-0 float-right text-white"
+        routerLink="{{rightButtonRoute}}"
+        placement="left"
+        ngbTooltip="{{rightButtonTooltip}}"
+      >
+        <i class="fas {{rightButtonIconClass}}"></i>
+      </button>
+    </span>
+  </div>
 </nav>
