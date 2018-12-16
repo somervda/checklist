@@ -1,4 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import { AuthService } from "./../services/auth.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Component, OnInit, NgZone } from "@angular/core";
+import { ToastrService } from "ngx-toastr";
+import { AngularFirestore } from "@angular/fire/firestore";
+
+import { CommunityModel } from "../models/communityModel";
 
 @Component({
   selector: "app-communitydesigner",
@@ -6,10 +12,10 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./communitydesigner.component.css"]
 })
 export class CommunitydesignerComponent implements OnInit {
-  checklist$;
+  community$;
   id;
   action;
-  checklist = new CommunityModel();
+  community = new CommunityModel();
 
   constructor(
     private route: ActivatedRoute,
@@ -26,56 +32,31 @@ export class CommunitydesignerComponent implements OnInit {
       this.id = paramMap.get("id");
       if (this.action == "U" && this.id) {
         // Only set up loading from firebase if in Add mode
-        this.checklist$ = this.db
-          .doc("/checklists/" + this.id)
+        this.community$ = this.db
+          .doc("/communities/" + this.id)
           .snapshotChanges();
-        this.checklist$.subscribe(doc => {
-          console.log("Checklist Designer subscribed doc", doc);
-          this.checklist.loadFromObject(doc.payload.data(), doc.id);
+        this.community$.subscribe(doc => {
+          console.log("Community Designer subscribed doc", doc);
+          this.community.loadFromObject(doc.payload.data(), doc.id);
         });
-
-        // Get a list of checklist items
-        if (this.action == "U") {
-          this.db
-            .collection("checklistItems", ref =>
-              ref.where("checklistId", "==", this.id)
-            )
-            .get()
-            .toPromise()
-            .then(snapshot => {
-              this.checklistitems = snapshot.docs;
-              // console.log("getter", this.checklistitems);
-            })
-            .catch(error => {
-              this.toastr.error(error.message, "Failed to get checkbox items", {
-                timeOut: 5000
-              });
-            });
-        }
       }
-
-      console.log(this.checklist);
     });
   }
 
   onAddClick() {
-    // Create a new checklist using form data (and no field validation errors)
-    // then get the new id and route back to designer in modify mode (Has id)
-    this.checklist.owner = this.auth.getUserEmail;
-    this.checklist.dateCreated = new Date();
-    this.checklist.status = ChecklistStatus.Active;
-    console.log("Add a new checklist", this.checklist);
+    this.community.status = "active";
+    console.log("Add a new community", this.community);
     // Add a new document with a generated id. Note, need to cast to generic object
     this.db
-      .collection("checklists")
-      .add(JSON.parse(JSON.stringify(this.checklist)))
+      .collection("communities")
+      .add(JSON.parse(JSON.stringify(this.community)))
       .then(docRef => {
         console.log("Document written with ID: ", docRef.id);
-        this.toastr.success("DocRef: " + docRef.id, "Checklist Created", {
+        this.toastr.success("DocRef: " + docRef.id, "Community Created", {
           timeOut: 3000
         });
         this.ngZone.run(() =>
-          this.router.navigate(["/checklistdesigner/U/" + docRef.id])
+          this.router.navigate(["/communitydesigner/U/" + docRef.id])
         );
       })
       .catch(function(error) {
@@ -84,23 +65,15 @@ export class CommunitydesignerComponent implements OnInit {
   }
 
   onNameUpdate() {
-    this.checklist.dbFieldUpdate(
-      this.id,
-      "title",
-      this.checklist.title,
-      this.db
-    );
-  }
-  onDescriptionUpdate() {
-    this.checklist.dbFieldUpdate(
-      this.id,
-      "description",
-      this.checklist.description,
-      this.db
-    );
+    this.community.dbFieldUpdate(this.id, "name", this.community.name, this.db);
   }
 
-  onItemAddClick() {
-    this.router.navigate(["/checklistitemdesigner/A/" + this.id]);
+  onDescriptionUpdate() {
+    this.community.dbFieldUpdate(
+      this.id,
+      "description",
+      this.community.description,
+      this.db
+    );
   }
 }

@@ -10,4 +10,14 @@ export class CommunityModel {
     this.id = id;
     this.status = data.status;
   }
+
+  dbFieldUpdate(docId: string, fieldName: string, newValue: any, db) {
+    console.log(fieldName + " before Update", docId, newValue);
+    let updateObject = {};
+    updateObject[fieldName] = newValue;
+    db.doc("/communities/" + docId) // Update to firestore collection
+      .update(updateObject)
+      .then(data => console.log(fieldName + " updated"))
+      .catch(error => console.log(fieldName + " update error ", error));
+  }
 }
