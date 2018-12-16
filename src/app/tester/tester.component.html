@@ -1,1 +1,7 @@
 <app-header name="Test Component"></app-header>
+
+<span *ngFor="let user of users">
+  {{ user.data().email }} - {{ user.data().communities[communityId].name }} [{{
+    user.data().communities[communityId].accessState
+  }}]<br />
+</span>
