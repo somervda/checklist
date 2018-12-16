@@ -45,8 +45,18 @@
           <li class="nav-item dropdown px-2" ngbDropdown>
             <a class="nav-link" ngbDropdownToggle> Community </a>
             <div class="dropdown-menu" ngbDropdownMenu>
-              <a class="dropdown-item">My Communities</a>
-              <a class="dropdown-item">Add new Community</a>
+              <a
+                class="dropdown-item"
+                routerLink="mycommunities"
+                routerLinkActive="active"
+                >My Communities</a
+              >
+              <a
+                class="dropdown-item"
+                routerLinkActive="active"
+                routerLink="communitydesigner/A"
+                >Add new Community</a
+              >
               <a class="dropdown-item">Community Reports</a>
             </div>
           </li>

@@ -39,7 +39,10 @@ import { ChecklistitemComponent } from "./checklistitem/checklistitem.component"
 import { ChecklistdesignerComponent } from "./checklistdesigner/checklistdesigner.component";
 import { HeaderComponent } from "./header/header.component";
 import { ChecklistitemdesignerComponent } from "./checklistitemdesigner/checklistitemdesigner.component";
-import { CheckboxComponent } from './checkbox/checkbox.component';
+import { CheckboxComponent } from "./checkbox/checkbox.component";
+import { MycommunitiesComponent } from "./mycommunities/mycommunities.component";
+import { CommunityComponent } from "./community/community.component";
+import { CommunitydesignerComponent } from "./communitydesigner/communitydesigner.component";
 
 @NgModule({
   declarations: [
@@ -60,7 +63,10 @@ import { CheckboxComponent } from './checkbox/checkbox.component';
     ChecklistdesignerComponent,
     HeaderComponent,
     ChecklistitemdesignerComponent,
-    CheckboxComponent
+    CheckboxComponent,
+    MycommunitiesComponent,
+    CommunityComponent,
+    CommunitydesignerComponent
   ],
   imports: [
     BrowserModule,
@@ -80,6 +86,7 @@ import { CheckboxComponent } from './checkbox/checkbox.component';
       { path: "signup", component: SignupComponent },
       { path: "userprofile", component: UserprofileComponent },
       { path: "usersettings", component: UsersettingsComponent },
+      // Checklist
       { path: "mychecklists", component: MychecklistsComponent },
       { path: "checklist/:id", component: ChecklistComponent },
       {
@@ -97,6 +104,17 @@ import { CheckboxComponent } from './checkbox/checkbox.component';
       {
         path: "checklistitemdesigner/:action/:id",
         component: ChecklistitemdesignerComponent
+      },
+      // Community
+      { path: "mycommunities", component: MycommunitiesComponent },
+      { path: "community/:id", component: CommunityComponent },
+      {
+        path: "communitydesigner/:action",
+        component: CommunitydesignerComponent
+      },
+      {
+        path: "communitydesigner/:action/:id",
+        component: CommunitydesignerComponent
       },
       { path: "**", component: NotfoundComponent }
     ]),
