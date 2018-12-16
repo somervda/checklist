@@ -1,3 +1,16 @@
-<p>
-  community works!
-</p>
+<!--
+  Standard Header : Note use non breaking tooltip string to stop tooltip drifting into main menu
+-->
+<app-header
+  name="Community"
+  rightButtonRoute="/communitydesigner/U/{{ (community$ | async)?.id }}"
+  rightButtonTooltip="Edit&nbsp;Community"
+  rightButtonIconClass="fa-pencil-alt"
+>
+</app-header>
+
+<!-- Body -->
+<div class="container">
+  <h3>{{ (community$ | async)?.data().name }}</h3>
+  <p class="text-left">{{ (community$ | async)?.data().description }}</p>
+</div>
