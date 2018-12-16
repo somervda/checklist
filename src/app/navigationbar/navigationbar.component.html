@@ -137,6 +137,14 @@
                 <i class="fas fa-cog"></i> Settings
               </a>
               <a
+                routerLink="/tester"
+                routerLinkActive="active"
+                class="dropdown-item"
+                (click)="collapse()"
+              >
+                <i class="fas fa-wrench"></i> Test Component
+              </a>
+              <a
                 class="dropdown-item"
                 (click)="!this.auth.logout(); collapse()"
               >

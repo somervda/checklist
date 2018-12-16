@@ -43,6 +43,7 @@ import { CheckboxComponent } from "./checkbox/checkbox.component";
 import { MycommunitiesComponent } from "./mycommunities/mycommunities.component";
 import { CommunityComponent } from "./community/community.component";
 import { CommunitydesignerComponent } from "./communitydesigner/communitydesigner.component";
+import { TesterComponent } from "./tester/tester.component";
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { CommunitydesignerComponent } from "./communitydesigner/communitydesigne
     CheckboxComponent,
     MycommunitiesComponent,
     CommunityComponent,
-    CommunitydesignerComponent
+    CommunitydesignerComponent,
+    TesterComponent
   ],
   imports: [
     BrowserModule,
@@ -115,6 +117,10 @@ import { CommunitydesignerComponent } from "./communitydesigner/communitydesigne
       {
         path: "communitydesigner/:action/:id",
         component: CommunitydesignerComponent
+      },
+      {
+        path: "tester",
+        component: TesterComponent
       },
       { path: "**", component: NotfoundComponent }
     ]),

@@ -1,3 +1,4 @@
+import { AngularFirestore } from "@angular/fire/firestore";
 import { Injectable, NgZone } from "@angular/core";
 import { Router } from "@angular/router";
 import { environment } from "../../environments/environment";
@@ -13,6 +14,7 @@ export class AuthService {
     private router: Router,
     private toastr: ToastrService,
     public afAuth: AngularFireAuth,
+    public db: AngularFirestore,
     private ngZone: NgZone
   ) {}
 
@@ -50,6 +52,7 @@ export class AuthService {
         //   this.sessionStore.setUserPicture(
         //     authState.additionalUserInfo.profile["picture"]
         //   );
+        this.loginActions();
         this.toastr.success("", "Signed In", {
           timeOut: 1000
         });
@@ -73,6 +76,7 @@ export class AuthService {
       .signInWithEmailAndPassword(email, password)
       .then(authState => {
         console.log("EmailLogin: ", authState);
+        this.loginActions();
         this.toastr.success("", "Signed In", {
           timeOut: 1000
         });
@@ -101,17 +105,44 @@ export class AuthService {
             displayName: displayname,
             photoURL: "https://ui-avatars.com/api/?name=" + displayname
           })
-          .then(() => console.log("signup updateprofile success"))
-          .catch(error => console.log("Signup updateprofile Error: ", error));
-
-        this.toastr.success(email, "Signed Up");
-        this.ngZone.run(() => this.router.navigate(["/"]));
+          .then(() => {
+            console.log("signup updateprofile success");
+            this.loginActions();
+            this.toastr.success(email, "Signed Up");
+            this.ngZone.run(() => this.router.navigate(["/"]));
+          })
+          .catch(error => {
+            console.log("Signup updateprofile Error: ", error);
+            this.toastr.error(error, "Signed Up Failed");
+          });
       })
 
       .catch(error => {
         // console.log("Signup Error: ", error);
         this.toastr.error(error.message, "Signup Failed");
       });
+  }
+
+  private loginActions() {
+    //Actions to perform on successful login
+    console.log("Auth loginActions");
+
+    var userRef = this.db
+      .collection("users")
+      .doc(this.afAuth.auth.currentUser.uid);
+
+    // user setWithMerge to create user if does not exist
+    var setWithMerge = userRef
+      .set(
+        {
+          email: this.afAuth.auth.currentUser.email,
+          lastLogin: new Date()
+        },
+        { merge: true }
+      )
+      .catch(error =>
+        this.toastr.error(error.message, "logonActions users update failed")
+      );
   }
 
   get getUserPicture(): string {
