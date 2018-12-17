@@ -42,6 +42,11 @@ export class UserModel {
   deleteCommunity(id: string) {
     delete this.communities[id];
   }
+
+  // getters
+  get isSystemAdministrator(): boolean {
+    return true;
+  }
 }
 
 export enum CommunityAccessState {

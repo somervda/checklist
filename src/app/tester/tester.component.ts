@@ -54,5 +54,15 @@ export class TesterComponent implements OnInit {
 
     // 03 test that user information is retained in the auth service (singleton? service)
     console.log("Test #3", this.auth.user);
+
+    // 04 test iterating through communities in user
+
+    for (var community in this.auth.user.communities) {
+      console.log(
+        "Test #4",
+        community + " - ",
+        this.auth.user.communities[community]
+      );
+    }
   }
 }
