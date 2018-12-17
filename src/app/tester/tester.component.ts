@@ -1,3 +1,5 @@
+import { AuthService } from "./../services/auth.service";
+import { UserModel, CommunityAccessState } from "./../models/userModel";
 import { Subscription } from "rxjs";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { Component, OnInit } from "@angular/core";
@@ -12,23 +14,15 @@ export class TesterComponent implements OnInit {
   communityId: string = "Tw8CPGkAwTxjUxW7dnNg";
   //communityId: string = "Ufrqt16S1Yr1c7cG7eqq";
 
-  constructor(private db: AngularFirestore) {}
+  CommunityAccessState: CommunityAccessState;
+  user = new UserModel();
+
+  constructor(private db: AngularFirestore, private auth: AuthService) {}
 
   ngOnInit() {
+    // 01 - test querying based on user community map
     const accessField: string =
       "communities." + this.communityId + ".accessState";
-
-    // this.db
-    //   .collection("users", ref =>
-    //     ref.where(
-    //       "communities",
-    //       "array-contains",
-    //       "{ community:'Tw8CPGkAwTxjUxW7dnNg',roleState:'member'}"
-    //     )
-    //   )
-    //   .get()
-    //   .toPromise()
-    //   .then(data => console.log("array of maps test", data));
 
     this.db
       .collection(
@@ -42,8 +36,23 @@ export class TesterComponent implements OnInit {
       .get()
       .toPromise()
       .then(data => {
-        console.log(" docs collection", data.docs);
+        console.log("Test #1  docs collection", data.docs);
         this.users = data.docs;
       });
+
+    // 02 Test user model
+    //this.user.loadFromObject({ communities: {} }, "commId");
+    console.log("Test #2 loadFromObject user:", this.user.communities);
+
+    this.user.mergeCommunity("commId", "111", CommunityAccessState.leader);
+    console.log("Test #2 mergeCommunity user:", this.user);
+    this.user.mergeCommunity("commId2", "111", CommunityAccessState.member);
+    console.log("Test #2 mergeCommunity user:", this.user);
+
+    //this.user.deleteCommunity("commId2");
+    console.log("Test #2 mergeCommunity user:", this.user);
+
+    // 03 test that user information is retained in the auth service (singleton? service)
+    console.log("Test #3", this.auth.user);
   }
 }

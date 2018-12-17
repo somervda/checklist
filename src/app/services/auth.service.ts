@@ -1,3 +1,4 @@
+import { UserModel } from "./../models/userModel";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { Injectable, NgZone } from "@angular/core";
 import { Router } from "@angular/router";
@@ -10,7 +11,8 @@ import * as firebase from "firebase/app";
 
 @Injectable()
 export class AuthService {
-  public user;
+  public user = new UserModel();
+  public user$;
   constructor(
     private router: Router,
     private toastr: ToastrService,
@@ -128,14 +130,16 @@ export class AuthService {
     //Actions to perform on successful login
     console.log("Auth loginActions");
 
-    var userRef = this.db
-      .collection("users")
-      .doc(this.afAuth.auth.currentUser.uid);
+    var userRef = this.db.doc("users/" + this.afAuth.auth.currentUser.uid);
 
     // user setWithMerge to create user if does not exist
+    // only merge fields that come from the authentication table
+    // that way, if the user already has user information (i.e. communities)
+    // it will not be overwritten after authentication
     var setWithMerge = userRef
       .set(
         {
+          id: this.afAuth.auth.currentUser.uid,
           email: this.afAuth.auth.currentUser.email,
           displayName: this.afAuth.auth.currentUser.displayName,
           lastLogin: new Date()
@@ -143,8 +147,12 @@ export class AuthService {
         { merge: true }
       )
       .then(() => {
-        userRef.get().subscribe(doc => this.user);
-        console.log("snapshot user :", this.user);
+        // After updating the usersrecord , subscribe to the doc and set user based on the subscription
+        this.user$ = userRef.snapshotChanges();
+        this.user$.subscribe(doc => {
+          this.user.loadFromObject(doc.payload.data(), doc.payload.id);
+          console.log("logonActions user :", doc, this.user);
+        });
       })
       .catch(error =>
         this.toastr.error(error.message, "logonActions users update failed")
