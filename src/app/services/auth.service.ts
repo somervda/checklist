@@ -10,6 +10,7 @@ import * as firebase from "firebase/app";
 
 @Injectable()
 export class AuthService {
+  public user;
   constructor(
     private router: Router,
     private toastr: ToastrService,
@@ -136,10 +137,15 @@ export class AuthService {
       .set(
         {
           email: this.afAuth.auth.currentUser.email,
+          displayName: this.afAuth.auth.currentUser.displayName,
           lastLogin: new Date()
         },
         { merge: true }
       )
+      .then(() => {
+        userRef.get().subscribe(doc => this.user);
+        console.log("snapshot user :", this.user);
+      })
       .catch(error =>
         this.toastr.error(error.message, "logonActions users update failed")
       );
