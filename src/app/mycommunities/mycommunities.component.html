@@ -7,7 +7,7 @@
     <ngx-datatable
       class="bootstrap ngx-datatable"
       [columnMode]="'flex'"
-      [rows]="communities$ | async"
+      [rows]="auth.user.communitiesArray"
       [loadingIndicator]="true"
       [rowHeight]="35"
       [footerHeight]="50"
@@ -41,5 +41,49 @@
         </ng-template>
       </ngx-datatable-column>
     </ngx-datatable>
+
+    <!--
+      Original version based on iterating communities table
+
+
+
+        <ngx-datatable
+        class="bootstrap ngx-datatable"
+        [columnMode]="'flex'"
+        [rows]="communities$ | async"
+        [loadingIndicator]="true"
+        [rowHeight]="35"
+        [footerHeight]="50"
+        [limit]="20"
+        style="width: 100%"
+        [sorts]="[
+          {
+            prop: 'name',
+            dir: 'asc'
+          }
+        ]"
+      >
+        <ngx-datatable-column name="Name" [flexGrow]="2" [sortable]="false">
+          <ng-template
+            let-row="row"
+            let-value="value"
+            ngx-datatable-cell-template
+          >
+            <span class="mx-1"
+              ><a routerLink="/community/{{ row.id }}">{{ row.name }}</a></span
+            >
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Status" [flexGrow]="1">
+          <ng-template
+            let-row="row"
+            let-value="value"
+            ngx-datatable-cell-template
+          >
+            {{ row.status }}
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    -->
   </div>
 </div>
