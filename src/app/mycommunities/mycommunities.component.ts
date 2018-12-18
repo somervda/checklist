@@ -10,6 +10,7 @@ import { map } from "rxjs/operators";
 })
 export class MycommunitiesComponent implements OnInit {
   //communities$;
+  communities = [];
 
   // See https://swimlane.gitbook.io/ngx-datatable/api/column/inputs
 
@@ -34,5 +35,7 @@ export class MycommunitiesComponent implements OnInit {
     //       })
     //     )
     //   );
+    this.communities = this.auth.user.communitiesAsArray;
+    console.log("MyCommunities onInit :", this.communities);
   }
 }

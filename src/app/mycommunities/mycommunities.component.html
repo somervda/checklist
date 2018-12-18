@@ -7,7 +7,7 @@
     <ngx-datatable
       class="bootstrap ngx-datatable"
       [columnMode]="'flex'"
-      [rows]="auth.user.communitiesArray"
+      [rows]="communities"
       [loadingIndicator]="true"
       [rowHeight]="35"
       [footerHeight]="50"
@@ -31,13 +31,13 @@
           >
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Status" [flexGrow]="1">
+      <ngx-datatable-column name="State" [flexGrow]="1">
         <ng-template
           let-row="row"
           let-value="value"
           ngx-datatable-cell-template
         >
-          {{ row.status }}
+          {{ this.auth.user.accessStateAsString(row.accessState) }}
         </ng-template>
       </ngx-datatable-column>
     </ngx-datatable>

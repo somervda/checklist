@@ -44,6 +44,44 @@ export class UserModel {
   deleteCommunity(id: string) {
     delete this.communities[id];
   }
+
+  accessStateAsString(accessState: CommunityAccessState): string {
+    switch (accessState) {
+      case CommunityAccessState.member:
+        return "Member";
+      case CommunityAccessState.membershipInvited:
+        return "Invited to be a member";
+      case CommunityAccessState.membershipDeclined:
+        return "Declined Member";
+      case CommunityAccessState.leader:
+        return "Leader";
+      case CommunityAccessState.leadershipInvited:
+        return "Invited to be leader";
+      case CommunityAccessState.leadershipDeclined:
+        return "Declined leadership";
+      default:
+        return "Unknown";
+    }
+  }
+
+  // Getters and Setters
+
+  get communitiesAsArray(): any[] {
+    // for use in ng-datatable etc
+    console.log("communitiesAsArray");
+    let communityArray = [];
+    for (let community in this.communities) {
+      const communityObject = {
+        id: community,
+        name: this.communities[community].name,
+        accessState: this.communities[community].accessState
+      };
+
+      communityArray.push(communityObject);
+    }
+    console.log("communitiesAsArray:", communityArray);
+    return communityArray;
+  }
 }
 
 export enum CommunityAccessState {
