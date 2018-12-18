@@ -167,5 +167,12 @@
         </span>
       </ul>
     </div>
+    <span
+      class="navbar-brand"
+      *ngIf="auth.user.isSystemAdministrator == true"
+      style="color: gold;"
+    >
+      <i class="fas fa-certificate" title="Is System Administrator"></i>
+    </span>
   </div>
 </nav>

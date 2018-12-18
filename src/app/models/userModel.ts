@@ -2,6 +2,7 @@ export class UserModel {
   public id: string;
   public displayName: string;
   public email: string;
+  public isSystemAdministrator: boolean = false;
   public lastLogin: Date;
   public communities = {}; // holds map of communities associated with the user
 
@@ -10,6 +11,7 @@ export class UserModel {
     this.displayName = data.displayName;
     this.email = data.email;
     this.lastLogin = data.lastLogin;
+    this.isSystemAdministrator = data.isSystemAdministrator;
     this.communities = data.communities;
   }
 
@@ -41,11 +43,6 @@ export class UserModel {
 
   deleteCommunity(id: string) {
     delete this.communities[id];
-  }
-
-  // getters
-  get isSystemAdministrator(): boolean {
-    return true;
   }
 }
 
