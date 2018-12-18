@@ -1,3 +1,4 @@
+import { auth } from "firebase";
 import { UserModel } from "./../models/userModel";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { Injectable, NgZone } from "@angular/core";
@@ -187,7 +188,7 @@ export class AuthService {
     // to complete and persistance will be set appropriately
 
     this.afAuth.auth
-      .setPersistence(firebase.auth.Auth.Persistence.SESSION)
+      .setPersistence(firebase.auth.Auth.Persistence.NONE)
       .then(function() {
         // Existing and future Auth states are now persisted in the current
         // session only. Closing the window would clear any existing state even
