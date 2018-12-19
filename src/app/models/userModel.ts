@@ -68,7 +68,7 @@ export class UserModel {
 
   get communitiesAsArray(): any[] {
     // for use in ng-datatable etc
-    console.log("communitiesAsArray");
+    // console.log("communitiesAsArray");
     let communityArray = [];
     for (let community in this.communities) {
       const communityObject = {
@@ -79,7 +79,7 @@ export class UserModel {
 
       communityArray.push(communityObject);
     }
-    console.log("communitiesAsArray:", communityArray);
+    // console.log("communitiesAsArray:", communityArray);
     return communityArray;
   }
 }

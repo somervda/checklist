@@ -62,7 +62,7 @@ export class ChecklistdesignerComponent implements OnInit {
         }
       }
 
-      console.log(this.checklist);
+      //console.log("checklistdesigner oninit",this.checklist);
     });
   }
 

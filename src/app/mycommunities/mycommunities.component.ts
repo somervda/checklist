@@ -36,6 +36,6 @@ export class MycommunitiesComponent implements OnInit {
     //     )
     //   );
     this.communities = this.auth.user.communitiesAsArray;
-    console.log("MyCommunities onInit :", this.communities);
+    // console.log("MyCommunities onInit :", this.communities);
   }
 }

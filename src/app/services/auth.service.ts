@@ -14,20 +14,38 @@ import * as firebase from "firebase/app";
 export class AuthService {
   public user = new UserModel();
   public user$;
+
+  public authStateChanges;
+
   constructor(
     private router: Router,
     private toastr: ToastrService,
     public afAuth: AngularFireAuth,
     public db: AngularFirestore,
     private ngZone: NgZone
-  ) {}
+  ) {
+    // Set  up a authentication watched to reload user info when user is authenticated
+    // this covers inition signon and when the user refreshes the browser.
+    this.authStateChanges = this.afAuth.auth.onAuthStateChanged(authuser => {
+      console.log("onAuthStateChanges authuser", authuser);
+      this.loadUser();
+    });
+  }
+
+  loadUser() {
+    console.log("loadUser refresh user");
+    if (this.isAuthenticated()) {
+      var userRef = this.db.doc("users/" + this.afAuth.auth.currentUser.uid);
+      this.user$ = userRef.snapshotChanges();
+      this.user$.subscribe(doc => {
+        this.user.loadFromObject(doc.payload.data(), doc.payload.id);
+        console.log("constructor user :", doc, this.user);
+      });
+    }
+  }
 
   logout() {
-    // sessionStorage.removeItem("profile");
-    // sessionStorage.removeItem("token");
-
     this.afAuth.auth.signOut();
-    // console.log("Auth logged out, local storage cleared");
     this.router.navigate(["/"]);
     this.toastr.success("", "Signed out", {
       timeOut: 1000
@@ -148,12 +166,7 @@ export class AuthService {
         { merge: true }
       )
       .then(() => {
-        // After updating the usersrecord , subscribe to the doc and set user based on the subscription
-        this.user$ = userRef.snapshotChanges();
-        this.user$.subscribe(doc => {
-          this.user.loadFromObject(doc.payload.data(), doc.payload.id);
-          console.log("logonActions user :", doc, this.user);
-        });
+        this.loadUser();
       })
       .catch(error =>
         this.toastr.error(error.message, "logonActions users update failed")
@@ -188,7 +201,7 @@ export class AuthService {
     // to complete and persistance will be set appropriately
 
     this.afAuth.auth
-      .setPersistence(firebase.auth.Auth.Persistence.NONE)
+      .setPersistence(firebase.auth.Auth.Persistence.SESSION)
       .then(function() {
         // Existing and future Auth states are now persisted in the current
         // session only. Closing the window would clear any existing state even
