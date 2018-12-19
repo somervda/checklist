@@ -3,16 +3,24 @@
   <ngb-accordion #acc="ngbAccordion">
     <ngb-panel>
       <ng-template ngbPanelTitle> <span>Filters</span> </ng-template>
-      <ng-template ngbPanelContent style="text-align: left;">
-        Show where I am the owner? <app-checkbox checked="true"></app-checkbox>
+      <ng-template ngbPanelContent >     
+        Show checklist where I am the owner? <app-checkbox checked="true"></app-checkbox>
         <br />
-        Community
-        <select>
+        Show checklists from the following communities
+        <select class="dropdown form-control">
           <option value="volvo" selected>None</option>
           <option value="saab">Philidelphia Boat Owners</option>
           <option value="mercedes">Public</option>
           <option value="audi">Software Development</option>
-        </select>
+        </select> <br />   
+        Show checklists with the following status  
+        <select class="dropdown  form-control">
+            <option value="volvo" selected>All</option>
+          <option value="volvo" >Active</option>
+          <option value="saab">Completed</option>
+          <option value="mercedes">Overdue</option>
+          <option value="audi">Under Construction</option>
+        </select>    
       </ng-template>
     </ngb-panel>
   </ngb-accordion>
