@@ -12,8 +12,12 @@ export class ChecklistModel {
   //
   public status: ChecklistStatus;
   public dateCreated: Date;
-  // owner can be a user email or community name
+  // dateTargeted is when the checklist should be completed by
+  public dateTargeted: Date;
+  // owner is the auth uid, owner can update and design the checklist
   public owner: string;
+  // communityId is optional if the checklist is only a personal checklist
+  public communityId: string;
   // Template is a copy of the original checklist/template that was used to create
   // the checklist (Optional)
   public template: object;
@@ -23,6 +27,10 @@ export class ChecklistModel {
     this.description = data.description;
     this.id = id;
     this.isTemplate = data.isTemplate;
+    this.owner = data.owner;
+    this.communityId = data.communityId;
+    this.dateTargeted = data.dateTargeted;
+    this.dateCreated = data.dateCreated;
   }
 
   dbFieldUpdate(docId: string, fieldName: string, newValue: any, db) {
@@ -33,6 +41,17 @@ export class ChecklistModel {
       .update(updateObject)
       .then(data => console.log(fieldName + " updated"))
       .catch(error => console.log(fieldName + " update error ", error));
+  }
+
+  get isOverdue(): boolean {
+    if (this.dateTargeted) {
+      if (
+        this.dateTargeted <= new Date() &&
+        this.status == ChecklistStatus.Active
+      )
+        return true;
+    }
+    return false;
   }
 
   constructor() {}

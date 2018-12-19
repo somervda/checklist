@@ -97,13 +97,13 @@
         <span
           *ngIf="this.auth.isAuthenticated()"
           placement="bottom"
-          ngbTooltip="{{ auth.getUserDisplayname}}"
+          ngbTooltip="{{ auth.getUserDisplayname }}"
         >
           <li class="nav-item dropdown mr-3" ngbDropdown>
             <a class="nav-link" ngbDropdownToggle id="dropdownSignedIn">
               <span *ngIf="auth.getUserPicture">
                 &nbsp;&nbsp;&nbsp;<img
-                  src="{{auth.getUserPicture}}"
+                  src="{{ auth.getUserPicture }}"
                   class="rounded-circle"
                   style="width : 25px; height : 25px;"
                 />
@@ -167,12 +167,8 @@
         </span>
       </ul>
     </div>
-    <span
-      class="navbar-brand"
-      *ngIf="auth.user.isSystemAdministrator == true"
-      style="color: gold;"
-    >
-      <i class="fas fa-certificate" title="Is System Administrator"></i>
+    <span class="navbar-brand" *ngIf="auth.user.isSystemAdministrator == true">
+      <i class="fas fa-medal" title="Is System Administrator"></i>
     </span>
   </div>
 </nav>
