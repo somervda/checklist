@@ -1,5 +1,21 @@
 <app-header name="My Checklists"></app-header>
 <div class="container">
+  <ngb-accordion #acc="ngbAccordion">
+    <ngb-panel>
+      <ng-template ngbPanelTitle> <span>Filters</span> </ng-template>
+      <ng-template ngbPanelContent style="text-align: left;">
+        Show where I am the owner? <app-checkbox checked="true"></app-checkbox>
+        <br />
+        Community
+        <select>
+          <option value="volvo" selected>None</option>
+          <option value="saab">Philidelphia Boat Owners</option>
+          <option value="mercedes">Public</option>
+          <option value="audi">Software Development</option>
+        </select>
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
   <div class="row mx-1">
     <!--
       Datatable - see https://swimlane.gitbook.io/ngx-datatable/api/table/inputs

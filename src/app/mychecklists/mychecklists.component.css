@@ -1,1 +1,3 @@
-
+::ng-deep .card {
+  text-align: right;
+}

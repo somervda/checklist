@@ -17,6 +17,7 @@ import { HttpClientModule } from "@angular/common/http";
 
 import { AppComponent } from "./app.component";
 import {
+  NgbAccordionModule,
   NgbDropdownModule,
   NgbCarouselModule,
   NgbCollapseModule,
@@ -82,6 +83,7 @@ import { TesterComponent } from "./tester/tester.component";
     NgxDatatableModule,
     NgbTooltipModule,
     NgbRatingModule,
+    NgbAccordionModule,
     RouterModule.forRoot([
       { path: "", component: HomeComponent },
       { path: "login", component: LoginComponent },
