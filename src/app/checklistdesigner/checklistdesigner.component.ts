@@ -69,7 +69,10 @@ export class ChecklistdesignerComponent implements OnInit {
   onAddClick() {
     // Create a new checklist using form data (and no field validation errors)
     // then get the new id and route back to designer in modify mode (Has id)
-    this.checklist.owner = this.auth.getUserEmail;
+    this.checklist.owner = {
+      uid: this.auth.getUserUID,
+      displayName: this.auth.getUserDisplayname
+    };
     this.checklist.dateCreated = new Date();
     this.checklist.status = ChecklistStatus.Active;
     console.log("Add a new checklist", this.checklist);

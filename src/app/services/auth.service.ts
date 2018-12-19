@@ -194,6 +194,12 @@ export class AuthService {
     return null;
   }
 
+  get getUserUID(): string {
+    if (this.afAuth.auth.currentUser && this.afAuth.auth.currentUser.uid)
+      return this.afAuth.auth.currentUser.uid;
+    return null;
+  }
+
   persistSeason() {
     // See https://firebase.google.com/docs/auth/web/auth-state-persistence
     // This function will return immediately even though promise may still be

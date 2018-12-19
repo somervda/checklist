@@ -15,9 +15,9 @@ export class ChecklistModel {
   // dateTargeted is when the checklist should be completed by
   public dateTargeted: Date;
   // owner is the auth uid, owner can update and design the checklist
-  public owner: string;
+  public owner: { uid: string; displayName: string };
   // communityId is optional if the checklist is only a personal checklist
-  public communityId: string;
+  public community: { communityId: string; name: string };
   // Template is a copy of the original checklist/template that was used to create
   // the checklist (Optional)
   public template: object;
@@ -28,7 +28,7 @@ export class ChecklistModel {
     this.id = id;
     this.isTemplate = data.isTemplate;
     this.owner = data.owner;
-    this.communityId = data.communityId;
+    this.community = data.community;
     this.dateTargeted = data.dateTargeted;
     this.dateCreated = data.dateCreated;
   }
