@@ -7,7 +7,9 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "serve1": "ng serve --host=192.168.1.223 -o",
+    "serve2": "ng serve --host=192.168.1.115 --public-host=somerville.noip.me -o"
   },
   "private": true,
   "dependencies": {

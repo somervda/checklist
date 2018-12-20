@@ -1,8 +1,10 @@
 import { AuthService } from "./../services/auth.service";
 import { UserModel, CommunityAccessState } from "./../models/userModel";
-import { Subscription } from "rxjs";
+import { Subscription, Observable } from "rxjs";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { Component, OnInit } from "@angular/core";
+import { map, combineLatest } from "rxjs/operators";
+//import { Subject } from "rxjs/Subject";
 
 @Component({
   selector: "app-tester",
@@ -64,5 +66,44 @@ export class TesterComponent implements OnInit {
         this.auth.user.communities[community]
       );
     }
+
+    // 05 - merging firestore queries to simulate a OR
+
+    // Query for checklists by owner
+    var ownerRef = this.db.collection("checklists/", ref =>
+      ref.where("title", ">=", "")
+    );
+
+    // Query for checklists by community
+    var communityRef = this.db.collection("checklists/", ref =>
+      ref.where("community.communityId", "==", "Tw8CPGkAwTxjUxW7dnNg")
+    );
+
+    // Create Observables.
+    var ownerCL$; // = new Subject();
+    var communityCL$; //= new Subject();
+
+    // Hook values from callback to the observable
+    ownerRef.get().subscribe(data => {
+      ownerCL$ = data;
+      console.log("Test #5 data", ownerCL$);
+    });
+
+    // communityCL$ = communityRef.snapshotChanges().pipe(
+    //   map(row => {
+    //     console.log("communityrow", row);
+    //     return Object.assign(row.values);
+    //   })
+    // );
+
+    console.log("Test #5 ownerCL$", ownerCL$);
+
+    let ownerORcommunity$ = combineLatest(
+      ownerRef.valueChanges(),
+      communityRef.valueChanges()
+    );
+    //ownerORcommunity$().subscribe();
+
+    console.log("Test #5 ownerORcommunity$", ownerORcommunity$);
   }
 }
