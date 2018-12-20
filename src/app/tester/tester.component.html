@@ -5,3 +5,9 @@
     user.data().communities[communityId].accessState
   }}]<br />
 </span>
+
+<span *ngFor="let cl of (ownerORcommunity$ | async)">
+  {{ cl.id }} - {{ cl.title }}
+  <span class="bg-info" *ngIf="cl.community">{{ cl?.community?.name }}</span
+  ><br />
+</span>

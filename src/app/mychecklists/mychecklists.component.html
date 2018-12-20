@@ -3,8 +3,13 @@
   <ngb-accordion #acc="ngbAccordion">
     <ngb-panel>
       <ng-template ngbPanelTitle> <span>Filters</span> </ng-template>
-      <ng-template ngbPanelContent >     
-        Show checklist where I am the owner? <app-checkbox checked="true"></app-checkbox>
+      <ng-template ngbPanelContent>
+        Show checklist where I am the owner?
+        <app-checkbox
+          [checked]="showOwned"
+          (clickUnChecked)="showOwner(false)"
+          (clickChecked)="showOwner(true)"
+        ></app-checkbox>
         <br />
         Show checklists from the following communities
         <select class="dropdown form-control">
@@ -12,15 +17,16 @@
           <option value="saab">Philidelphia Boat Owners</option>
           <option value="mercedes">Public</option>
           <option value="audi">Software Development</option>
-        </select> <br />   
-        Show checklists with the following status  
+        </select>
+        <br />
+        Show checklists with the following status
         <select class="dropdown  form-control">
-            <option value="volvo" selected>All</option>
-          <option value="volvo" >Active</option>
+          <option value="volvo" selected>All</option>
+          <option value="volvo">Active</option>
           <option value="saab">Completed</option>
           <option value="mercedes">Overdue</option>
           <option value="audi">Under Construction</option>
-        </select>    
+        </select>
       </ng-template>
     </ngb-panel>
   </ngb-accordion>
@@ -62,6 +68,16 @@
           ngx-datatable-cell-template
         >
           {{ ChecklistStatus[row.status] }}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Community" [flexGrow]="1">
+        <ng-template
+          let-row="row"
+          let-value="value"
+          ngx-datatable-cell-template
+        >
+          {{ row?.community?.name }}
         </ng-template>
       </ngx-datatable-column>
     </ngx-datatable>

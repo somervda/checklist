@@ -1,6 +1,6 @@
 import { AuthService } from "./../services/auth.service";
 import { UserModel, CommunityAccessState } from "./../models/userModel";
-import { Subscription, Observable } from "rxjs";
+//import { Subscription, Observable } from "rxjs";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { Component, OnInit } from "@angular/core";
 import { map, combineLatest } from "rxjs/operators";
@@ -15,6 +15,7 @@ export class TesterComponent implements OnInit {
   users;
   communityId: string = "Tw8CPGkAwTxjUxW7dnNg";
   //communityId: string = "Ufrqt16S1Yr1c7cG7eqq";
+  ownerORcommunity$;
 
   CommunityAccessState: CommunityAccessState;
   user = new UserModel();
@@ -67,43 +68,53 @@ export class TesterComponent implements OnInit {
       );
     }
 
-    // 05 - merging firestore queries to simulate a OR
+    // 05 - merging 2 firestore queries to simulate a OR
 
-    // Query for checklists by owner
+    // Query1 for checklists by owner
     var ownerRef = this.db.collection("checklists/", ref =>
-      ref.where("title", ">=", "")
+      ref.where("owner.uid", "==", "zb4s3QmJ67XdqFyun1gCRGUWyvN2")
     );
 
-    // Query for checklists by community
+    // Query2 for checklists by community
     var communityRef = this.db.collection("checklists/", ref =>
       ref.where("community.communityId", "==", "Tw8CPGkAwTxjUxW7dnNg")
     );
 
-    // Create Observables.
-    var ownerCL$; // = new Subject();
-    var communityCL$; //= new Subject();
-
-    // Hook values from callback to the observable
-    ownerRef.get().subscribe(data => {
-      ownerCL$ = data;
-      console.log("Test #5 data", ownerCL$);
-    });
-
-    // communityCL$ = communityRef.snapshotChanges().pipe(
-    //   map(row => {
-    //     console.log("communityrow", row);
-    //     return Object.assign(row.values);
-    //   })
-    // );
-
-    console.log("Test #5 ownerCL$", ownerCL$);
-
-    let ownerORcommunity$ = combineLatest(
-      ownerRef.valueChanges(),
-      communityRef.valueChanges()
+    // Create simplifies Observables of arrays.
+    var ownerCL$ = ownerRef.snapshotChanges().pipe(
+      map(documentChangeAction =>
+        documentChangeAction.map(row => {
+          return Object.assign(
+            { id: row.payload.doc.id },
+            row.payload.doc.data()
+          );
+        })
+      )
     );
-    //ownerORcommunity$().subscribe();
 
-    console.log("Test #5 ownerORcommunity$", ownerORcommunity$);
+    var communityCL$ = communityRef.snapshotChanges().pipe(
+      map(documentChangeAction =>
+        documentChangeAction.map(row => {
+          return Object.assign(
+            { id: row.payload.doc.id },
+            row.payload.doc.data()
+          );
+        })
+      )
+    );
+
+    ownerCL$.subscribe(data => console.log("Test #5 ownerCL$", data));
+
+    communityCL$.subscribe(data => console.log("Test #5 communityCL$", data));
+
+    // role the two arrays from the combineLatest operation to make one long array (using the ... array operator)
+    this.ownerORcommunity$ = ownerCL$.pipe(
+      combineLatest(communityCL$),
+      map(([cl1, cl2]) => [...cl1, ...cl2])
+    );
+    // Show results
+    this.ownerORcommunity$.subscribe(data =>
+      console.log("Test #5 ownerORcommunity$", data)
+    );
   }
 }
