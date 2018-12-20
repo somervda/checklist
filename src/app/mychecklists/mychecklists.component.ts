@@ -15,18 +15,34 @@ export class MychecklistsComponent implements OnInit {
   ChecklistStatus = ChecklistStatus;
 
   showOwned: boolean = true;
+  selectedCommunity: string = "None";
+  checklistStatusAsArray;
 
   // See https://swimlane.gitbook.io/ngx-datatable/api/column/inputs
 
   constructor(private db: AngularFirestore, private auth: AuthService) {}
 
   ngOnInit() {
+    let map: { id: number; name: string }[] = [];
+
+    for (var n in this.ChecklistStatus) {
+      if (typeof this.ChecklistStatus[n] === "number") {
+        map.push({ id: <any>this.ChecklistStatus[n], name: n });
+      }
+    }
+    this.checklistStatusAsArray = map;
+    console.log("ChecklistStatus.getChecklistStatusAsArray", map);
     this.refreshChicklists();
   }
 
   showOwner(checked: boolean) {
     if (checked) this.showOwned = true;
     else this.showOwned = false;
+    this.refreshChicklists();
+  }
+
+  showCommunity() {
+    //console.log("showCommunity", this.selectedCommunity);
     this.refreshChicklists();
   }
 
@@ -45,9 +61,16 @@ export class MychecklistsComponent implements OnInit {
     });
 
     // Query2 for checklists by community
-    var communityRef = this.db.collection("checklists/", ref =>
-      ref.where("community.communityId", "==", "Tw8CPGkAwTxjUxW7dnNg")
-    );
+    var communityRef = this.db.collection("checklists/", ref => {
+      let retVal = ref as any;
+      // Default will select communityId = None (nothing selected)
+      retVal = retVal.where(
+        "community.communityId",
+        "==",
+        this.selectedCommunity
+      );
+      return retVal;
+    });
 
     // Create simplifies Observables of arrays.
 
