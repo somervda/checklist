@@ -21,7 +21,7 @@ export class MychecklistsComponent implements OnInit {
 
   // See https://swimlane.gitbook.io/ngx-datatable/api/column/inputs
 
-  constructor(private db: AngularFirestore, private auth: AuthService) {}
+  constructor(private db: AngularFirestore, public auth: AuthService) {}
 
   ngOnInit() {
     let map: { id: number; name: string }[] = [];
@@ -64,7 +64,7 @@ export class MychecklistsComponent implements OnInit {
         retVal = retVal.where("owner.uid", "==", ""); // Force no owned checklists to be selected
       }
       if (this.selectedStatus != -1) {
-        retVal = retVal.where("status", "==", this.selectedStatus);
+        retVal = retVal.where("status", "==", Number(this.selectedStatus));
       }
       console.log("refreshChecklists owner retVal", retVal);
       return retVal;
@@ -80,7 +80,7 @@ export class MychecklistsComponent implements OnInit {
         this.selectedCommunity
       );
       if (this.selectedStatus != -1) {
-        retVal = retVal.where("status", "==", this.selectedStatus);
+        retVal = retVal.where("status", "==", Number(this.selectedStatus));
       }
       console.log("refreshChecklists community retVal", retVal);
       return retVal;

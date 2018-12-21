@@ -46,6 +46,7 @@ export class AuthService {
 
   logout() {
     this.afAuth.auth.signOut();
+    this.user = new UserModel();
     this.router.navigate(["/"]);
     this.toastr.success("", "Signed out", {
       timeOut: 1000
