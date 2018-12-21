@@ -66,6 +66,7 @@ export class MychecklistsComponent implements OnInit {
       if (this.selectedStatus != -1) {
         retVal = retVal.where("status", "==", this.selectedStatus);
       }
+      console.log("refreshChecklists owner retVal", retVal);
       return retVal;
     });
 
@@ -81,7 +82,7 @@ export class MychecklistsComponent implements OnInit {
       if (this.selectedStatus != -1) {
         retVal = retVal.where("status", "==", this.selectedStatus);
       }
-      console.log("refreshChecklists retVal", retVal);
+      console.log("refreshChecklists community retVal", retVal);
       return retVal;
     });
 
