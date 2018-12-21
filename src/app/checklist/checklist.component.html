@@ -6,6 +6,7 @@
   rightButtonRoute="/checklistdesigner/U/{{ (checklist$ | async)?.id }}"
   rightButtonTooltip="Modify&nbsp;Checklist&nbsp;Design"
   rightButtonIconClass="fa-pencil-alt"
+  [rightButtonShow]="showDesignerButton"
 >
 </app-header>
 

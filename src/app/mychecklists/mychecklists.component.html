@@ -2,7 +2,17 @@
 <div class="container">
   <ngb-accordion #acc="ngbAccordion">
     <ngb-panel>
-      <ng-template ngbPanelTitle> <span>Filters</span> </ng-template>
+      <ng-template ngbPanelTitle>
+        <span
+          placement="bottom"
+          ngbTooltip="Show&nbsp;owned?&nbsp;{{ showOwned }} Community&nbsp;{{
+            selectedCommunity
+          }} status:&nbsp;{{
+            selectedStatus
+          }} Click&nbsp;to&nbsp;update&nbsp;filters."
+          >Filters</span
+        >
+      </ng-template>
       <ng-template ngbPanelContent>
         <div>
           Show checklist where I am the owner?
@@ -67,7 +77,7 @@
         }
       ]"
     >
-      <ngx-datatable-column name="Name" [flexGrow]="2" [sortable]="false">
+      <ngx-datatable-column name="Name" [flexGrow]="3" [sortable]="false">
         <ng-template
           let-row="row"
           let-value="value"
@@ -88,15 +98,56 @@
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Community" [flexGrow]="1">
-        <ng-template
-          let-row="row"
-          let-value="value"
-          ngx-datatable-cell-template
-        >
-          {{ row?.community?.name }}
+      <ngx-datatable-column name="Ownership" [flexGrow]="1">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template
+          ><span *ngIf="row?.owner?.uid == auth.getUserUID">
+            <i
+              class="fas fa-user mr-2"
+              placement="top"
+              ngbTooltip="Owner: {{ row?.owner?.displayName }}"
+              style="color: blue"
+            ></i
+          ></span>
+          <span *ngIf="row?.owner?.uid != auth.getUserUID">
+            <i
+              class="fas fa-user mr-2"
+              placement="top"
+              ngbTooltip="Owner: {{ row?.owner?.displayName }}"
+              style="color: skyblue"
+            ></i
+          ></span>
+          <span *ngIf="row.community">
+            <span *ngIf="row.community?.communityId == selectedCommunity">
+              <i
+                class="fas fa-users mr-2"
+                placement="top"
+                ngbTooltip="Community: {{ row?.community?.name }}"
+                style="color:maroon"
+              ></i
+            ></span>
+            <span *ngIf="row.community?.communityId != selectedCommunity">
+              <i
+                class="fas fa-users mr-2"
+                placement="top"
+                ngbTooltip="Community: {{ row?.community?.name }}"
+                style="color:lightcoral"
+              ></i></span
+          ></span>
         </ng-template>
       </ngx-datatable-column>
     </ngx-datatable>
+  </div>
+  <div
+    class="bg-light border-black border mt-1 mx-1 p-1 rounded text-black-50 text-center"
+    style="font-size: 70%"
+  >
+    <i class="fas fa-user" style="color: blue; font-size: 70%;"></i> Owned by
+    current user
+    <i class="fas fa-user " style="color: skyblue; font-size: 70%;"></i> Owned
+    by a different user
+    <i class="fas fa-users" style="color: maroon; font-size: 70%;"></i> Member
+    of selected community
+    <i class="fas fa-users" style="color:lightcoral; font-size: 70%;"></i>
+    Member of another community
   </div>
 </div>

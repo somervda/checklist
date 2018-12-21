@@ -10,6 +10,7 @@ export class HeaderComponent implements OnInit {
   @Input() rightButtonRoute: string;
   @Input() rightButtonTooltip: string;
   @Input() rightButtonIconClass: string;
+  @Input() rightButtonShow: boolean = true;
 
   constructor() {}
 

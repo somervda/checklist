@@ -1,7 +1,10 @@
+import { AuthService } from "./../services/auth.service";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { ToastrService } from "ngx-toastr";
+import { auth } from "firebase";
+import { CommunityAccessState } from "../models/userModel";
 
 @Component({
   selector: "app-checklist",
@@ -12,17 +15,56 @@ export class ChecklistComponent implements OnInit {
   checklist$;
   //checklistItems$;
   checklistitems;
+  showDesignerButton: boolean = false;
+  CommunityAccessState = CommunityAccessState;
 
   constructor(
     private route: ActivatedRoute,
     private db: AngularFirestore,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private auth: AuthService
   ) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe(paramMap => {
       var id = paramMap.get("id");
       this.checklist$ = this.db.doc("/checklists/" + id).get();
+      this.checklist$.subscribe(doc => {
+        console.log("onInit doc", doc.data());
+        // Update screan options based on user access
+        if (doc.data().owner && doc.data().owner.uid) {
+          if (doc.data().owner.uid == this.auth.getUserUID)
+            this.showDesignerButton = true;
+        }
+        console.log(
+          "Checklist onInit 1 :",
+          this.auth.user,
+          doc.data().community.communityId
+        );
+        console.log(
+          "Checklist onInit 1.5 :",
+          this.auth.user.communities["Ufrqt16S1Yr1c7cG7eqq"]
+        );
+        if (
+          this.auth.user.communities &&
+          doc.data().community &&
+          doc.data().community.communityId &&
+          this.auth.user.communities[doc.data().community.communityId] &&
+          this.auth.user.communities[doc.data().community.communityId]
+            .accessState
+        ) {
+          console.log(
+            "Checklist onInit 2 :",
+            this.auth.user.communities[doc.data().community.communityId]
+              .accessState
+          );
+          if (
+            this.auth.user.communities[doc.data().community.communityId]
+              .accessState == CommunityAccessState.leader
+          )
+            this.showDesignerButton = true;
+        }
+      });
 
       // Get checklistItems
       // this.checklistItems$ = this.db
