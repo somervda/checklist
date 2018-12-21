@@ -32,8 +32,12 @@
         </select>
         <br />
         <span class="pt-1 pb-0">Show checklists with the following status</span>
-        <select class="dropdown  form-control">
-          <option value="volvo" selected>All</option>
+        <select
+          class="dropdown  form-control"
+          (change)="filterByStatus()"
+          [(ngModel)]="selectedStatus"
+        >
+          <option value="-1" selected>All</option>
           <option
             *ngFor="let status of checklistStatusAsArray"
             value="{{ status.id }}"

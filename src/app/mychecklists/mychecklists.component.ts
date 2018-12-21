@@ -16,6 +16,7 @@ export class MychecklistsComponent implements OnInit {
 
   showOwned: boolean = true;
   selectedCommunity: string = "None";
+  selectedStatus: number = -1;
   checklistStatusAsArray;
 
   // See https://swimlane.gitbook.io/ngx-datatable/api/column/inputs
@@ -32,21 +33,26 @@ export class MychecklistsComponent implements OnInit {
     }
     this.checklistStatusAsArray = map;
     console.log("ChecklistStatus.getChecklistStatusAsArray", map);
-    this.refreshChicklists();
+    this.refreshChecklists();
   }
 
   showOwner(checked: boolean) {
     if (checked) this.showOwned = true;
     else this.showOwned = false;
-    this.refreshChicklists();
+    this.refreshChecklists();
   }
 
   showCommunity() {
     //console.log("showCommunity", this.selectedCommunity);
-    this.refreshChicklists();
+    this.refreshChecklists();
   }
 
-  refreshChicklists() {
+  filterByStatus() {
+    console.log("filterByStatus", this.selectedStatus);
+    this.refreshChecklists();
+  }
+
+  refreshChecklists() {
     // 2 queries are run (owner query and community query) then are combined into one observable
     // see https://stackoverflow.com/questions/50930604/optional-parameter-and-clausule-where
 
@@ -56,6 +62,9 @@ export class MychecklistsComponent implements OnInit {
       retVal = retVal.where("owner.uid", "==", this.auth.getUserUID); // Default select checklists owned by user
       if (this.showOwned == false) {
         retVal = retVal.where("owner.uid", "==", ""); // Force no owned checklists to be selected
+      }
+      if (this.selectedStatus != -1) {
+        retVal = retVal.where("status", "==", this.selectedStatus);
       }
       return retVal;
     });
@@ -69,6 +78,10 @@ export class MychecklistsComponent implements OnInit {
         "==",
         this.selectedCommunity
       );
+      if (this.selectedStatus != -1) {
+        retVal = retVal.where("status", "==", this.selectedStatus);
+      }
+      console.log("refreshChecklists retVal", retVal);
       return retVal;
     });
 
