@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { AuthService } from "./../services/auth.service";
+import { Component, OnInit } from "@angular/core";
+import { CommunityAccessState } from "../models/userModel";
 
 @Component({
-  selector: 'userprofile',
-  templateUrl: './userprofile.component.html',
-  styleUrls: ['./userprofile.component.css']
+  selector: "userprofile",
+  templateUrl: "./userprofile.component.html",
+  styleUrls: ["./userprofile.component.css"]
 })
 export class UserprofileComponent implements OnInit {
+  CommunityAccessState = CommunityAccessState;
 
-  constructor() { }
+  constructor(public auth: AuthService) {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

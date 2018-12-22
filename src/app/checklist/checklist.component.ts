@@ -39,11 +39,15 @@ export class ChecklistComponent implements OnInit {
         console.log(
           "Checklist onInit 1 :",
           this.auth.user,
+          " -2- ",
+          this.auth.user.communities,
+          "  -3- ",
           doc.data().community.communityId
         );
         console.log(
           "Checklist onInit 1.5 :",
-          this.auth.user.communities["Ufrqt16S1Yr1c7cG7eqq"]
+          this.auth.user.communities["Tw8CPGkAwTxjUxW7dnNg"]
+          //   this.auth.user.getCommunityDetails("Tw8CPGkAwTxjUxW7dnNg")
         );
         if (
           this.auth.user.communities &&

@@ -1,3 +1,32 @@
-<p>
-  userprofile works!
-</p>
+<app-header name="My Profile"> </app-header>
+<div class="container">
+  <div class="row">
+    <div class="col-3 font-weight-bold">eMail</div>
+    <div class="col-8">{{ auth.getUserEmail }}</div>
+
+    <div class="w-100"></div>
+
+    <div class="col-3 font-weight-bold">Display Name</div>
+    <div class="col-8">{{ auth.getUserDisplayname }}</div>
+    <div class="w-100"></div>
+
+    <div class="col-3 font-weight-bold">Picture</div>
+    <div class="col-8"><img src="{{ auth.getUserPicture }}" /></div>
+    <div class="w-100"></div>
+
+    <div class="col-3 font-weight-bold">Uid</div>
+    <div class="col-8">{{ auth.getUserUID }}</div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col-12">
+      <p class="font-weight-bold">Communities</p>
+      <div class="container">
+        <span *ngFor="let community of auth.user.communitiesAsArray">
+          {{ community?.name }} -
+          {{ CommunityAccessState[(community?.accessState)] }} <br />
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

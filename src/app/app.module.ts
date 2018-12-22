@@ -29,7 +29,6 @@ import { NotfoundComponent } from "./notfound/notfound.component";
 import { FooterbarComponent } from "./footerbar/footerbar.component";
 import { NavigationbarComponent } from "./navigationbar/navigationbar.component";
 import { UserprofileComponent } from "./userprofile/userprofile.component";
-import { UsersettingsComponent } from "./usersettings/usersettings.component";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { LoginComponent } from "./login/login.component";
 import { environment } from "src/environments/environment";
@@ -56,7 +55,6 @@ import { TesterComponent } from "./tester/tester.component";
     FooterbarComponent,
     NavigationbarComponent,
     UserprofileComponent,
-    UsersettingsComponent,
     LoginComponent,
     SignupComponent,
     MychecklistsComponent,
@@ -89,7 +87,6 @@ import { TesterComponent } from "./tester/tester.component";
       { path: "login", component: LoginComponent },
       { path: "signup", component: SignupComponent },
       { path: "userprofile", component: UserprofileComponent },
-      { path: "usersettings", component: UsersettingsComponent },
       // Checklist
       { path: "mychecklists", component: MychecklistsComponent },
       { path: "checklist/:id", component: ChecklistComponent },

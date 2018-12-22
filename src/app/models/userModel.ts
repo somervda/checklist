@@ -12,6 +12,7 @@ export class UserModel {
     this.email = data.email;
     this.lastLogin = data.lastLogin;
     this.isSystemAdministrator = data.isSystemAdministrator;
+    console.log("userModel loadFromObject", data.communities);
     this.communities = data.communities;
   }
 
@@ -62,6 +63,15 @@ export class UserModel {
       default:
         return "Unknown";
     }
+  }
+
+  getCommunityDetails(communityId: string) {
+    const communityObject = {
+      id: communityId,
+      name: this.communities[communityId].name,
+      accessState: this.communities[communityId].accessState
+    };
+    return communityObject;
   }
 
   // Getters and Setters
