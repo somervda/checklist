@@ -22,4 +22,6 @@ export class CheckboxComponent implements OnInit {
     if (state) this.clickUnChecked.emit();
     else this.clickChecked.emit();
   }
+
+  
 }
