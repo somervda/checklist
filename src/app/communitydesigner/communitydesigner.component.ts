@@ -1,6 +1,6 @@
 import { AuthService } from "./../services/auth.service";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Component, OnInit, NgZone } from "@angular/core";
+import { Component, OnInit, NgZone, OnDestroy } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { AngularFirestore } from "@angular/fire/firestore";
 
@@ -11,11 +11,12 @@ import { CommunityModel } from "../models/communityModel";
   templateUrl: "./communitydesigner.component.html",
   styleUrls: ["./communitydesigner.component.css"]
 })
-export class CommunitydesignerComponent implements OnInit {
+export class CommunitydesignerComponent implements OnInit, OnDestroy {
   community$;
   id;
   action;
   community = new CommunityModel();
+  communitySubscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -35,9 +36,12 @@ export class CommunitydesignerComponent implements OnInit {
         this.community$ = this.db
           .doc("/communities/" + this.id)
           .snapshotChanges();
-        this.community$.subscribe(doc => {
-          console.log("Community Designer subscribed doc", doc);
-          this.community.loadFromObject(doc.payload.data(), doc.id);
+        this.communitySubscription = this.community$.subscribe(snapshot => {
+          console.log("Community Designer subscribed snapshot", snapshot);
+          this.community = {
+            id: snapshot.payload.id,
+            ...snapshot.payload.data()
+          } as CommunityModel;
         });
       }
     });
@@ -75,5 +79,9 @@ export class CommunitydesignerComponent implements OnInit {
       this.community.description,
       this.db
     );
+  }
+
+  ngOnDestroy() {
+    this.communitySubscription.unsubscribe();
   }
 }

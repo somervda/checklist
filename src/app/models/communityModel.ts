@@ -4,12 +4,12 @@ export class CommunityModel {
   public description: string;
   public status: string;
 
-  loadFromObject(data, id) {
-    this.name = data.name;
-    this.description = data.description;
-    this.id = id;
-    this.status = data.status;
-  }
+  // loadFromObject(data, id) {
+  //   this.name = data.name;
+  //   this.description = data.description;
+  //   this.id = id;
+  //   this.status = data.status;
+  // }
 
   dbFieldUpdate(docId: string, fieldName: string, newValue: any, db) {
     console.log(fieldName + " before Update", docId, newValue);

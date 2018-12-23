@@ -26,8 +26,13 @@ export class CommunityComponent implements OnInit, OnDestroy {
       // See example at https://www.techiediaries.com/angular-firestore-tutorial/
       this.community$ = this.db.doc("/communities/" + id).snapshotChanges();
       this.communitySubscription = this.community$.subscribe(snapshot => {
-        this.community.loadFromObject(snapshot.payload.data(), snapshot.id);
-        console.log("community onInit data", snapshot);
+        this.community = {
+          id: snapshot.payload.id,
+          ...snapshot.payload.data()
+        } as CommunityModel;
+
+        //this.community.loadFromObject(snapshot.payload.data(), snapshot.id);
+        console.log("community onInit data", snapshot, this.community);
       });
     });
   }
