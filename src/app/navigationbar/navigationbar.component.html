@@ -49,15 +49,19 @@
                 class="dropdown-item"
                 routerLink="mycommunities"
                 routerLinkActive="active"
+                (click)="collapse()"
                 >My Communities</a
               >
               <a
                 class="dropdown-item"
                 routerLinkActive="active"
                 routerLink="communitydesigner/A"
+                (click)="collapse()"
                 >Add new Community</a
               >
-              <a class="dropdown-item">Community Reports</a>
+              <a class="dropdown-item" (click)="collapse()"
+                >Community Reports</a
+              >
             </div>
           </li>
         </span>
@@ -86,7 +90,7 @@
                 (click)="collapse()"
                 >Create a new Checklist</a
               >
-              <a class="dropdown-item">Report</a>
+              <a class="dropdown-item" (click)="collapse()">Report</a>
             </div>
           </li>
         </span>
