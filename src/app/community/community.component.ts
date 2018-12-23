@@ -1,3 +1,4 @@
+import { UserModel, CommunityAccessState } from "./../models/userModel";
 import { CommunityModel } from "./../models/communityModel";
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
@@ -13,6 +14,12 @@ export class CommunityComponent implements OnInit, OnDestroy {
   community$;
   community = new CommunityModel();
   communitySubscription;
+  users: UserModel[];
+  users$;
+  userSubscription;
+  user = new UserModel();
+ 
+  CommunityAccessState = CommunityAccessState;
 
   constructor(
     private route: ActivatedRoute,
@@ -21,6 +28,7 @@ export class CommunityComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    
     this.route.paramMap.subscribe(paramMap => {
       var id = paramMap.get("id");
       // See example at https://www.techiediaries.com/angular-firestore-tutorial/
@@ -31,8 +39,29 @@ export class CommunityComponent implements OnInit, OnDestroy {
           ...snapshot.payload.data()
         } as CommunityModel;
 
+        // Get users in the community
+        const communityMapQuery = "communities." + id + ".name";
+        this.users$ = this.db
+          .collection("users/", ref => ref.where(communityMapQuery, ">=", ""))
+          .snapshotChanges();
+        this.userSubscription = this.users$.subscribe(data => {
+          this.users = data.map(e => {
+            return {
+              id: e.payload.doc.id,
+              ...e.payload.doc.data()
+            } as UserModel;
+          });
+
+          console.log(
+            "community onInit usersubscription",
+            communityMapQuery,
+            data,
+            this.users
+          );
+        });
+
         //this.community.loadFromObject(snapshot.payload.data(), snapshot.id);
-        console.log("community onInit data", snapshot, this.community);
+        console.log("community onInit data", this.community);
       });
     });
   }
@@ -40,5 +69,6 @@ export class CommunityComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     console.log("community ondestroy");
     this.communitySubscription.unsubscribe();
+    this.userSubscription.unsubscribe();
   }
 }

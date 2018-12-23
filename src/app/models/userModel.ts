@@ -46,7 +46,7 @@ export class UserModel {
     delete this.communities[id];
   }
 
-  accessStateAsString(accessState: CommunityAccessState): string {
+ public accessStateAsString(accessState: CommunityAccessState): string {
     switch (accessState) {
       case CommunityAccessState.member:
         return "Member";
