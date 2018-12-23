@@ -3,7 +3,7 @@
 -->
 <app-header
   name="Community"
-  rightButtonRoute="/communitydesigner/U/{{ (community$ | async)?.id }}"
+  rightButtonRoute="/communitydesigner/U/{{ community?.id }}"
   rightButtonTooltip="Edit&nbsp;Community"
   rightButtonIconClass="fa-pencil-alt"
 >
@@ -11,6 +11,6 @@
 
 <!-- Body -->
 <div class="container">
-  <h3>{{ (community$ | async)?.data().name }}</h3>
-  <p class="text-left">{{ (community$ | async)?.data().description }}</p>
+  <h3>{{ community?.name }}</h3>
+  <p class="text-left">{{ community?.description }}</p>
 </div>

@@ -1,4 +1,5 @@
-import { Component, OnInit } from "@angular/core";
+import { CommunityModel } from "./../models/communityModel";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { ToastrService } from "ngx-toastr";
@@ -8,8 +9,10 @@ import { ToastrService } from "ngx-toastr";
   templateUrl: "./community.component.html",
   styleUrls: ["./community.component.css"]
 })
-export class CommunityComponent implements OnInit {
+export class CommunityComponent implements OnInit, OnDestroy {
   community$;
+  community = new CommunityModel();
+  communitySubscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -20,7 +23,17 @@ export class CommunityComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(paramMap => {
       var id = paramMap.get("id");
-      this.community$ = this.db.doc("/communities/" + id).get();
+      // See example at https://www.techiediaries.com/angular-firestore-tutorial/
+      this.community$ = this.db.doc("/communities/" + id).snapshotChanges();
+      this.communitySubscription = this.community$.subscribe(snapshot => {
+        this.community.loadFromObject(snapshot.payload.data(), snapshot.id);
+        console.log("community onInit data", snapshot);
+      });
     });
+  }
+
+  ngOnDestroy() {
+    console.log("community ondestroy");
+    this.communitySubscription.unsubscribe();
   }
 }
