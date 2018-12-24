@@ -9,8 +9,11 @@ import { CommunityAccessState } from "../models/userModel";
 })
 export class UserprofileComponent implements OnInit {
   CommunityAccessState = CommunityAccessState;
-
+  communities;
   constructor(public auth: AuthService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+
+    this.communities = this.auth.user.communitiesAsArray;
+  }
 }

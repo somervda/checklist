@@ -10,23 +10,52 @@
     <div class="col-8">{{ auth.getUserDisplayname }}</div>
     <div class="w-100"></div>
 
-    <div class="col-3 font-weight-bold">Picture</div>
-    <div class="col-8"><img src="{{ auth.getUserPicture }}" /></div>
-    <div class="w-100"></div>
-
     <div class="col-3 font-weight-bold">Uid</div>
     <div class="col-8">{{ auth.getUserUID }}</div>
+    <div class="w-100"></div>
+
+    <div class="col-3 font-weight-bold">Picture</div>
+    <div class="col-8"><img src="{{ auth.getUserPicture }}" /></div>
   </div>
-  <hr />
-  <div class="row">
+  <br />
+
+  <!-- Community List -->
+  <div class="row border ">
     <div class="col-12">
-      <p class="font-weight-bold">Communities</p>
-      <div class="container">
-        <span *ngFor="let community of auth.user.communitiesAsArray">
-          {{ community?.name }} -
-          {{ CommunityAccessState[(community?.accessState)] }} <br />
-        </span>
-      </div>
+      <p class="font-weight-bold mb-0">My Communities</p>
+      <ngx-datatable
+        class="bootstrap ngx-datatable mt-0"
+        [columnMode]="'flex'"
+        [rows]="communities"
+        [loadingIndicator]="true"
+        [rowHeight]="35"
+        [footerHeight]="false"
+        [limit]="20"
+        style="width: 100%"
+      >
+        <ngx-datatable-column
+          name="Community Name"
+          [flexGrow]="2"
+          [sortable]="true"
+        >
+          <ng-template
+            let-row="row"
+            let-value="value"
+            ngx-datatable-cell-template
+          >
+            <span class="mx-1">{{ row.name }}</span>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="State" [flexGrow]="1" [sortable]="true">
+          <ng-template
+            let-row="row"
+            let-value="value"
+            ngx-datatable-cell-template
+          >
+            {{ this.auth.user.accessStateAsString(row.accessState) }}
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
     </div>
   </div>
 </div>

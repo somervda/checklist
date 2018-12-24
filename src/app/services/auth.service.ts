@@ -162,7 +162,8 @@ export class AuthService {
           id: this.afAuth.auth.currentUser.uid,
           email: this.afAuth.auth.currentUser.email,
           displayName: this.afAuth.auth.currentUser.displayName,
-          lastLogin: new Date()
+          lastLogin: new Date(),
+          communities: { PUBLIC: { accessState: 0, name: "Public" } }
         },
         { merge: true }
       )
