@@ -1,3 +1,4 @@
+import { ChecklistModel } from "./../models/checklistModel";
 import { AuthService } from "./../services/auth.service";
 import { Component, OnInit } from "@angular/core";
 import { AngularFirestore } from "@angular/fire/firestore";
@@ -70,22 +71,6 @@ export class MychecklistsComponent implements OnInit {
       return retVal;
     });
 
-    // Query2 for checklists by community
-    var communityRef = this.db.collection("checklists/", ref => {
-      let retVal = ref as any;
-      // Default will select communityId = None (nothing selected)
-      retVal = retVal.where(
-        "community.communityId",
-        "==",
-        this.selectedCommunity
-      );
-      if (this.selectedStatus != -1) {
-        retVal = retVal.where("status", "==", Number(this.selectedStatus));
-      }
-      console.log("refreshChecklists community retVal", retVal);
-      return retVal;
-    });
-
     // Create simplifies Observables of arrays.
 
     // See https://www.udemy.com/the-complete-angular-master-class/learn/v4/t/lecture/7673810?start=0
@@ -97,24 +82,44 @@ export class MychecklistsComponent implements OnInit {
     const ownerCL$ = ownerRef.snapshotChanges().pipe(
       map(documentChangeAction =>
         documentChangeAction.map(row => {
-          return Object.assign(
-            { id: row.payload.doc.id },
-            row.payload.doc.data()
-          );
+          return {
+            id: row.payload.doc.id,
+            ...row.payload.doc.data()
+          } as ChecklistModel;
         })
       )
     );
 
-    const communityCL$ = communityRef.snapshotChanges().pipe(
-      map(documentChangeAction =>
-        documentChangeAction.map(row => {
-          return Object.assign(
-            { id: row.payload.doc.id },
-            row.payload.doc.data()
-          );
-        })
-      )
-    );
+    //Build and array of observables over the checklists in communities that the user has access to
+    var communityCLArray$ = [];
+
+    this.auth.user.communitiesAsArray.forEach(userCommunity => {
+      // Query2 for checklists by community
+      var communityRef = this.db.collection("checklists/", ref => {
+        let retVal = ref as any;
+        // Default will select communityId = None (nothing selected)
+        retVal = retVal.where("community.communityId", "==", userCommunity.id);
+        if (this.selectedStatus != -1) {
+          retVal = retVal.where("status", "==", Number(this.selectedStatus));
+        }
+        console.log("refreshChecklists community retVal", retVal);
+        return retVal;
+      });
+
+      // Push the observable for matching checklists onto the observable array (OR query)
+      communityCLArray$.push(
+        communityRef.snapshotChanges().pipe(
+          map(documentChangeAction =>
+            documentChangeAction.map(row => {
+              return {
+                id: row.payload.doc.id,
+                ...row.payload.doc.data()
+              } as ChecklistModel;
+            })
+          )
+        )
+      );
+    });
 
     // ownerCL$.subscribe(data => console.log("Test #5 ownerCL$", data));
 
@@ -122,10 +127,12 @@ export class MychecklistsComponent implements OnInit {
 
     // role the two arrays from the combineLatest operation to make one long array (using the ... array operator)
     this.checklists$ = ownerCL$;
-    this.checklists$ = this.checklists$.pipe(
-      combineLatest(communityCL$),
-      map(([cl1, cl2]) => [...cl1, ...cl2])
-    );
+    communityCLArray$.forEach(communityCLArrayEntry$ => {
+      this.checklists$ = this.checklists$.pipe(
+        combineLatest(communityCLArrayEntry$),
+        map(([cl1, cl2]) => [...cl1, ...cl2])
+      );
+    });
     // Show results
     this.checklists$.subscribe(data => console.log("Init checklists$", data));
   }
