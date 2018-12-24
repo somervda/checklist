@@ -121,7 +121,8 @@ export class MychecklistsComponent implements OnInit {
     // communityCL$.subscribe(data => console.log("Test #5 communityCL$", data));
 
     // role the two arrays from the combineLatest operation to make one long array (using the ... array operator)
-    this.checklists$ = ownerCL$.pipe(
+    this.checklists$ = ownerCL$;
+    this.checklists$ = this.checklists$.pipe(
       combineLatest(communityCL$),
       map(([cl1, cl2]) => [...cl1, ...cl2])
     );

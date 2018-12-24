@@ -24,16 +24,19 @@
         </div>
         <br />
         <span class="pt-1 pb-0"
-          >Show checklists from the following communities</span
+          >Show checklists owned by...</span
         >
         <select
           class="dropdown form-control"
           (change)="showCommunity()"
           [(ngModel)]="selectedCommunity"
         >
-          <option value="None" selected
-            >None : Don't show any community checklists</option
+          <option value="All" selected
+            >All : Owned by me or my communities</option
           >
+          <option value="Owned" selected
+          >Owned by me</option
+        >
           <option
             *ngFor="let community of auth.user.communitiesAsArray"
             value="{{ community.id }}"
