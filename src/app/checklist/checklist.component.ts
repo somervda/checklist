@@ -40,9 +40,7 @@ export class ChecklistComponent implements OnInit {
           "Checklist onInit 1 :",
           this.auth.user,
           " -2- ",
-          this.auth.user.communities,
-          "  -3- ",
-          doc.data().community.communityId
+          this.auth.user.communities
         );
         console.log(
           "Checklist onInit 1.5 :",

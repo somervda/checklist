@@ -7,7 +7,7 @@
     [(ngModel)]="selectedOwnership"
   >
     <option value="All" selected>All : Owned by me or my communities</option>
-    <option value="Owned" selected>Owned by me</option>
+    <option value="Owned">Owned by me</option>
     <option
       *ngFor="let community of auth.user.communitiesAsArray"
       value="{{ community.id }}"
@@ -82,14 +82,14 @@
           ></span>
           <span *ngIf="row?.owner?.uid != auth.getUserUID">
             <i
-              class="fas fa-user mr-2"
+              class="fas fa-user-slash mr-2"
               placement="top"
               ngbTooltip="Owner: {{ row?.owner?.displayName }}"
               style="color: skyblue"
             ></i
           ></span>
           <span *ngIf="row.community">
-            <span *ngIf="row.community?.communityId == selectedCommunity">
+            <span *ngIf="auth.user.communities[(row.community?.communityId)]">
               <i
                 class="fas fa-users mr-2"
                 placement="top"
@@ -97,7 +97,7 @@
                 style="color:maroon"
               ></i
             ></span>
-            <span *ngIf="row.community?.communityId != selectedCommunity">
+            <span *ngIf="!auth.user.communities[(row.community?.communityId)]">
               <i
                 class="fas fa-users mr-2"
                 placement="top"
@@ -113,12 +113,12 @@
     class="bg-light border-black border mt-1 mx-1 p-1 rounded text-black-50 text-center"
     style="font-size: 70%"
   >
-    <i class="fas fa-user" style="color: blue; font-size: 70%;"></i> Owned by
-    current user
-    <i class="fas fa-user " style="color: skyblue; font-size: 70%;"></i> Owned
-    by a different user
+    <i class="fas fa-user" style="color: blue; font-size: 70%;"></i> I am the
+    owner.
+    <i class="fas fa-user-slash " style="color: skyblue; font-size: 70%;"></i> I
+    am not the owner.
     <i class="fas fa-users" style="color: maroon; font-size: 70%;"></i> Member
-    of one of my communities
+    of my communities
     <i class="fas fa-users" style="color:lightcoral; font-size: 70%;"></i>
     Member of another community
   </div>

@@ -1,6 +1,6 @@
 import { ChecklistModel } from "./../models/checklistModel";
 import { AuthService } from "./../services/auth.service";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { map, combineLatest } from "rxjs/operators";
 import { ChecklistStatus } from "../models/checklistModel";
@@ -12,9 +12,10 @@ import { observable, empty } from "rxjs";
   templateUrl: "./mychecklists.component.html",
   styleUrls: ["./mychecklists.component.css"]
 })
-export class MychecklistsComponent implements OnInit {
+export class MychecklistsComponent implements OnInit, OnDestroy {
   checklists$;
   ChecklistStatus = ChecklistStatus;
+  checklistSubscription;
 
   showOwned: boolean = true;
   selectedOwnership: string = "None";
@@ -35,7 +36,10 @@ export class MychecklistsComponent implements OnInit {
     }
     this.checklistStatusAsArray = map;
     console.log("ChecklistStatus.getChecklistStatusAsArray", map);
-    this.refreshChecklists();
+    this.auth.user$.subscribe(e => {
+      console.log("mychecklists onInit user$.subscribe");
+      this.refreshChecklists();
+    });
   }
 
   showOwner(checked: boolean) {
@@ -58,7 +62,7 @@ export class MychecklistsComponent implements OnInit {
     // 2 queries are run (owner query and community query) then are combined into one observable
     // see https://stackoverflow.com/questions/50930604/optional-parameter-and-clausule-where
 
-    // Query1 for checklists by owner , only query if the ownership selector is All or Owner
+    // *** 1. Query1 for checklists by owner , only query if the ownership selector is All or Owner
     var ownerRef = this.db.collection("checklists/", ref => {
       let retVal = ref as any;
       retVal = retVal.where("owner.uid", "==", this.auth.getUserUID); // Select checklists owned by user
@@ -94,7 +98,7 @@ export class MychecklistsComponent implements OnInit {
       )
     );
 
-    //Build and array of observables over the checklists in communities that the user can access
+    // *** 2. Build and array of observables over the checklists in communities that the user can access
     var communityCLArray$ = [];
     var communitiesToQuery = this.auth.user.communitiesAsArray; // select all user communities bt default
     if (this.selectedOwnership != "All" && this.selectedOwnership != "Owned") {
@@ -138,11 +142,7 @@ export class MychecklistsComponent implements OnInit {
       });
     }
 
-    // ownerCL$.subscribe(data => console.log("Test #5 ownerCL$", data));
-
-    // communityCL$.subscribe(data => console.log("Test #5 communityCL$", data));
-
-    // role the two arrays from the combineLatest operation to make one long array (using the ... array operator)
+    // *** 3. role the  arrays from the combineLatest operation to make one long array (using the ... array operator)
     this.checklists$ = ownerCL$;
     communityCLArray$.forEach(communityCLArrayEntry$ => {
       this.checklists$ = this.checklists$.pipe(
@@ -150,7 +150,13 @@ export class MychecklistsComponent implements OnInit {
         map(([cl1, cl2]) => [...cl1, ...cl2])
       );
     });
-    // Show results
-    this.checklists$.subscribe(data => console.log("Init checklists$", data));
+    // Subscribe to show results
+    this.checklistSubscription = this.checklists$.subscribe(data =>
+      console.log("Init checklists$", data)
+    );
+  }
+
+  ngOnDestroy() {
+    this.checklistSubscription.unsubscribe();
   }
 }
