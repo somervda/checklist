@@ -164,6 +164,6 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.checklistSubscription.unsubscribe();
+    if (this.checklistSubscription) this.checklistSubscription.unsubscribe();
   }
 }

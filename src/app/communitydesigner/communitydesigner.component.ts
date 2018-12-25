@@ -82,6 +82,6 @@ export class CommunitydesignerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.communitySubscription.unsubscribe();
+    if (this.communitySubscription) this.communitySubscription.unsubscribe();
   }
 }

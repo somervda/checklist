@@ -18,7 +18,7 @@ export class CommunityComponent implements OnInit, OnDestroy {
   users$;
   userSubscription;
   user = new UserModel();
- 
+
   CommunityAccessState = CommunityAccessState;
 
   constructor(
@@ -28,7 +28,6 @@ export class CommunityComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    
     this.route.paramMap.subscribe(paramMap => {
       var id = paramMap.get("id");
       // See example at https://www.techiediaries.com/angular-firestore-tutorial/
@@ -68,7 +67,7 @@ export class CommunityComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     console.log("community ondestroy");
-    this.communitySubscription.unsubscribe();
-    this.userSubscription.unsubscribe();
+    if (this.communitySubscription) this.communitySubscription.unsubscribe();
+    if (this.userSubscription) this.userSubscription.unsubscribe();
   }
 }
