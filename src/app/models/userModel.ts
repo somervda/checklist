@@ -6,14 +6,14 @@ export class UserModel {
   public lastLogin: Date;
   public communities = {}; // holds map of communities associated with the user
 
-  loadFromObject(data, id) {
-    this.id = id; // Use the object ID
-    this.displayName = data.displayName;
-    this.email = data.email;
-    this.lastLogin = data.lastLogin;
-    this.isSystemAdministrator = data.isSystemAdministrator;
-    console.log("userModel loadFromObject", data.communities);
-    this.communities = data.communities;
+  loadFromObject(payload) {
+    this.id = payload.id; // Use the object ID
+    this.displayName = payload.data().displayName;
+    this.email = payload.data().email;
+    this.lastLogin = payload.data().lastLogin;
+    this.isSystemAdministrator = payload.data().isSystemAdministrator;
+    console.log("userModel loadFromObject", payload.data().communities);
+    this.communities = payload.data().communities;
   }
 
   dbFieldUpdate(docId: string, fieldName: string, newValue: any, db) {
@@ -46,7 +46,7 @@ export class UserModel {
     delete this.communities[id];
   }
 
- public accessStateAsString(accessState: CommunityAccessState): string {
+  public accessStateAsString(accessState: CommunityAccessState): string {
     switch (accessState) {
       case CommunityAccessState.member:
         return "Member";

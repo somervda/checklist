@@ -38,10 +38,7 @@ export class CommunitydesignerComponent implements OnInit, OnDestroy {
           .snapshotChanges();
         this.communitySubscription = this.community$.subscribe(snapshot => {
           console.log("Community Designer subscribed snapshot", snapshot);
-          this.community = {
-            id: snapshot.payload.id,
-            ...snapshot.payload.data()
-          } as CommunityModel;
+          this.community.loadFromObject(snapshot.payload);
         });
       }
     });
@@ -73,6 +70,7 @@ export class CommunitydesignerComponent implements OnInit, OnDestroy {
   }
 
   onDescriptionUpdate() {
+    console.log("onDescriptionUpdate", this.community.description);
     this.community.dbFieldUpdate(
       this.id,
       "description",

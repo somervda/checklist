@@ -37,9 +37,9 @@ export class AuthService {
     if (this.isAuthenticated()) {
       var userRef = this.db.doc("users/" + this.afAuth.auth.currentUser.uid);
       this.user$ = userRef.snapshotChanges();
-      this.user$.subscribe(doc => {
-        this.user.loadFromObject(doc.payload.data(), doc.payload.id);
-        console.log("constructor user :", doc, this.user);
+      this.user$.subscribe(snapshot => {
+        this.user.loadFromObject(snapshot.payload);
+        console.log("constructor user :", snapshot, this.user);
       });
     }
   }

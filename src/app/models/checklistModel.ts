@@ -22,15 +22,15 @@ export class ChecklistModel {
   // the checklist (Optional)
   public template: object;
 
-  loadFromObject(data, id) {
-    this.title = data.title;
-    this.description = data.description;
-    this.id = id;
-    this.isTemplate = data.isTemplate;
-    this.owner = data.owner;
-    this.community = data.community;
-    this.dateTargeted = data.dateTargeted;
-    this.dateCreated = data.dateCreated;
+  loadFromObject(payload) {
+    this.title = payload.data().title;
+    this.description = payload.data().description;
+    this.id = payload.id;
+    this.isTemplate = payload.data().isTemplate;
+    this.owner = payload.data().owner;
+    this.community = payload.data().community;
+    this.dateTargeted = payload.data().dateTargeted;
+    this.dateCreated = payload.data().dateCreated;
   }
 
   dbFieldUpdate(docId: string, fieldName: string, newValue: any, db) {
@@ -55,33 +55,6 @@ export class ChecklistModel {
   }
 
   constructor() {}
-
-  // // id
-  // public set id(id: string) {
-  //   this._id = id;
-  // }
-
-  // public get id(): string {
-  //   return this._id;
-  // }
-
-  // // description
-  // public set description(description: string) {
-  //   this._description = description;
-  // }
-
-  // public get description(): string {
-  //   return this._description;
-  // }
-
-  // // title
-  // public set title(title: string) {
-  //   this._title = title;
-  // }
-
-  // public get title(): string {
-  //   return this._title;
-  // }
 }
 
 export enum ChecklistStatus {

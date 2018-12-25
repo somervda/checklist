@@ -43,7 +43,7 @@ export class ChecklistitemComponent implements OnInit, OnDestroy {
       //   timeOut: 1000
       // });
 
-      this.checklistItem.loadFromObject(snapshot.payload.data(), snapshot.id);
+      this.checklistItem.loadFromObject(snapshot.payload);
       console.log(
         "Checklistitem subscribe isNA:",
         this.checklistItem.isNA,

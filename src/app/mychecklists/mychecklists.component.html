@@ -14,35 +14,38 @@
 </nav>
 
 <div class="container">
-  <div class="border rounded p-2 mt-2" *ngIf="filterToggle">
-    <span class="pt-1 pb-0">Owner</span>
-    <select
-      class="dropdown form-control"
-      (change)="onChangeOwnership()"
-      [(ngModel)]="selectedOwnership"
-    >
-      <option value="All">All</option>
-      <option value="Owned">Owned by Me</option>
-      <option
-        *ngFor="let community of auth.user.communitiesAsArray"
-        value="{{ community.id }}"
-        >Community: {{ community.name }}</option
+  <div class="card mt-1" *ngIf="filterToggle">
+    <div class="card-header text-center font-weight-bold py-1">Filter</div>
+    <div class="card-body">
+      <span class="pt-1 pb-0">Owner</span>
+      <select
+        class="dropdown form-control"
+        (change)="onChangeOwnership()"
+        [(ngModel)]="selectedOwnership"
       >
-    </select>
-    <br />
-    <span class="pt-1 pb-0 ">Status</span>
-    <select
-      class="dropdown  form-control"
-      (change)="filterByStatus()"
-      [(ngModel)]="selectedStatus"
-    >
-      <option value="-1" selected>All</option>
-      <option
-        *ngFor="let status of checklistStatusAsArray"
-        value="{{ status.id }}"
-        >{{ status.name }}</option
+        <option value="All">All</option>
+        <option value="Owned">Owned by Me</option>
+        <option
+          *ngFor="let community of auth.user.communitiesAsArray"
+          value="{{ community.id }}"
+          >Community: {{ community.name }}</option
+        >
+      </select>
+      <br />
+      <span class="pt-1 pb-0 ">Status</span>
+      <select
+        class="dropdown  form-control"
+        (change)="filterByStatus()"
+        [(ngModel)]="selectedStatus"
       >
-    </select>
+        <option value="-1" selected>All</option>
+        <option
+          *ngFor="let status of checklistStatusAsArray"
+          value="{{ status.id }}"
+          >{{ status.name }}</option
+        >
+      </select>
+    </div>
   </div>
 
   <div class="row mx-1">
@@ -135,7 +138,7 @@
     am not the owner.
     <i class="fas fa-users" style="color: maroon; font-size: 70%;"></i> Member
     of my communities
-    <i class="fas fa-users" style="color:lightcoral; font-size: 70%;"></i>
-    Member of another community
+    <i class="fas fa-users" style="color:lightcoral; font-size: 70%;"></i> Not a
+    member of my communities
   </div>
 </div>

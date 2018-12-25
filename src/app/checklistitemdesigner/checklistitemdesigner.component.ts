@@ -47,10 +47,7 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
         this.checklistItemSubscription = this.checklistItem$.subscribe(
           snapshot => {
             console.log("checklistItemDesigner ngOnInit subscribe");
-            this.checklistItem.loadFromObject(
-              snapshot.payload.data(),
-              snapshot.id
-            );
+            this.checklistItem.loadFromObject(snapshot.payload);
           }
         );
       }

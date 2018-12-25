@@ -39,7 +39,7 @@ export class ChecklistdesignerComponent implements OnInit {
           .snapshotChanges();
         this.checklist$.subscribe(doc => {
           console.log("Checklist Designer subscribed doc", doc);
-          this.checklist.loadFromObject(doc.payload.data(), doc.id);
+          this.checklist.loadFromObject(doc.payload);
         });
 
         // Get a list of checklist items
