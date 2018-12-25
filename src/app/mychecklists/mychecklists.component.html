@@ -1,33 +1,49 @@
-<app-header name="My Checklists"></app-header>
+<nav class="navbar navbar-dark  py-0" style="background-color: rgb(0,77,64)">
+  <div class="container">
+    <div class="navbar-brand pl-1 p-0">My Checklists</div>
+    <button
+      type="button"
+      class="btn btn-outline-white mt-0 px-1 mr-1 ml-10 p-0 float-right text-light "
+      (click)="filterToggler()"
+      placement="left"
+      ngbTooltip="Toggle Filter"
+    >
+      <i class="fas fa-filter"></i> Filter
+    </button>
+  </div>
+</nav>
+
 <div class="container">
-  <span class="pt-1 pb-0">Owner</span>
-  <select
-    class="dropdown form-control"
-    (change)="changeOwnership()"
-    [(ngModel)]="selectedOwnership"
-  >
-    <option value="All" selected>All : Owned by me or my communities</option>
-    <option value="Owned">Owned by me</option>
-    <option
-      *ngFor="let community of auth.user.communitiesAsArray"
-      value="{{ community.id }}"
-      >{{ community.name }}</option
+  <div class="border rounded p-2 mt-2" *ngIf="filterToggle">
+    <span class="pt-1 pb-0">Owner</span>
+    <select
+      class="dropdown form-control"
+      (change)="onChangeOwnership()"
+      [(ngModel)]="selectedOwnership"
     >
-  </select>
-  <br />
-  <span class="pt-1 pb-0">Status</span>
-  <select
-    class="dropdown  form-control"
-    (change)="filterByStatus()"
-    [(ngModel)]="selectedStatus"
-  >
-    <option value="-1" selected>All</option>
-    <option
-      *ngFor="let status of checklistStatusAsArray"
-      value="{{ status.id }}"
-      >{{ status.name }}</option
+      <option value="All">All</option>
+      <option value="Owned">Owned by Me</option>
+      <option
+        *ngFor="let community of auth.user.communitiesAsArray"
+        value="{{ community.id }}"
+        >Community: {{ community.name }}</option
+      >
+    </select>
+    <br />
+    <span class="pt-1 pb-0 ">Status</span>
+    <select
+      class="dropdown  form-control"
+      (change)="filterByStatus()"
+      [(ngModel)]="selectedStatus"
     >
-  </select>
+      <option value="-1" selected>All</option>
+      <option
+        *ngFor="let status of checklistStatusAsArray"
+        value="{{ status.id }}"
+        >{{ status.name }}</option
+      >
+    </select>
+  </div>
 
   <div class="row mx-1">
     <!--
@@ -39,7 +55,7 @@
       [rows]="checklists$ | async"
       [loadingIndicator]="true"
       [rowHeight]="35"
-      [footerHeight]="50"
+      [footerHeight]="30"
       [limit]="20"
       style="width: 100%"
       [sorts]="[

@@ -16,9 +16,10 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
   checklists$;
   ChecklistStatus = ChecklistStatus;
   checklistSubscription;
+  filterToggle: boolean = false;
 
   showOwned: boolean = true;
-  selectedOwnership: string = "None";
+  selectedOwnership: string = "All";
   selectedStatus: number = -1;
   checklistStatusAsArray;
 
@@ -35,11 +36,13 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
       }
     }
     this.checklistStatusAsArray = map;
-    console.log("ChecklistStatus.getChecklistStatusAsArray", map);
-    this.auth.user$.subscribe(e => {
-      console.log("mychecklists onInit user$.subscribe");
-      this.refreshChecklists();
-    });
+    console.log("onInit ChecklistStatus.getChecklistStatusAsArray", map);
+    // this.auth.user$.subscribe(e => {
+    //   console.log("mychecklists onInit user$.subscribe");
+    //   this.refreshChecklists();
+    // });
+    console.log("onInit user", this.auth.user);
+    this.refreshChecklists();
   }
 
   showOwner(checked: boolean) {
@@ -48,7 +51,7 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
     this.refreshChecklists();
   }
 
-  changeOwnership() {
+  onChangeOwnership() {
     //console.log("showCommunity", this.selectedCommunity);
     this.refreshChecklists();
   }
@@ -154,6 +157,10 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
     this.checklistSubscription = this.checklists$.subscribe(data =>
       console.log("Init checklists$", data)
     );
+  }
+
+  filterToggler() {
+    this.filterToggle = !this.filterToggle;
   }
 
   ngOnDestroy() {
