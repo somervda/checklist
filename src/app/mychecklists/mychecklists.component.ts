@@ -16,6 +16,7 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
   checklists$;
   ChecklistStatus = ChecklistStatus;
   checklistSubscription;
+  checklists = [] ;
   filterToggle: boolean = false;
 
   showOwned: boolean = true;
@@ -153,10 +154,22 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
         map(([cl1, cl2]) => [...cl1, ...cl2])
       );
     });
-    // Subscribe to show results
-    this.checklistSubscription = this.checklists$.subscribe(data =>
-      console.log("Init checklists$", data)
-    );
+    // Subscribe to show results and create array of checklists without duplicates
+    // There may be faster ways of doing this.
+    this.checklistSubscription = this.checklists$.subscribe(data =>{
+      console.log("Init checklists$", data);
+      this.checklists=[];
+      data.forEach(item => {
+        const id = item.id;
+        let isMatch =false;
+        this.checklists.forEach(  entry => {if (entry.id == item.id) isMatch=true;})
+        if(!isMatch) {
+          this.checklists.push(item);
+        }
+   });
+   console.log("Init checklists", this.checklists);
+
+    });
   }
 
   filterToggler() {
@@ -166,4 +179,6 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.checklistSubscription) this.checklistSubscription.unsubscribe();
   }
+
+  
 }
