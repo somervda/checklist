@@ -13,7 +13,7 @@
       <div class="navbar-brand pl-1 p-0">New Checklist</div>
       <button
         type="button"
-        class="btn btn-outline-white mt-0 px-1 mr-1 ml-10 p-0 float-right "
+        class="btn btn-outline-white mt-0 px-1 mr-1 ml-10 p-0 float-right text-light"
         (click)="onAddClick()"
         placement="left"
         ngbTooltip="Click to add"
@@ -98,10 +98,6 @@
       />
     </div>
 
-
-
-
-    
     <div
       class="form-group"
       *ngIf="id && checklist.isTemplate"
@@ -115,7 +111,7 @@
         <div class="navbar-brand mr-auto">Checklist Items</div>
         <button
           type="button"
-          class="btn btn-outline-white mt-0 px-1 mr-1 ml-10 p-0 float-right "
+          class="btn btn-outline-white mt-0 px-1 mr-1 ml-10 p-0 float-right text-light"
           (click)="onItemAddClick()"
           placement="left"
           ngbTooltip="Click to add"
@@ -128,7 +124,7 @@
         <div>
           {{ i + 1 }}
           <a
-            routerLink="/checklistitemdesigner/U/{{checklistitem.id}}"
+            routerLink="/checklistitemdesigner/U/{{ checklistitem.id }}"
             title="Click to design this checklist item"
             >{{ checklistitem.data().prompt }}</a
           >

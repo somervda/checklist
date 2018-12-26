@@ -16,7 +16,7 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
   checklists$;
   ChecklistStatus = ChecklistStatus;
   checklistSubscription;
-  checklists = [] ;
+  checklists = [];
   filterToggle: boolean = false;
 
   showOwned: boolean = true;
@@ -88,7 +88,7 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
     // See https://www.udemy.com/the-complete-angular-master-class/learn/v4/t/lecture/7673810?start=0
     // Using observable and async to manage lifetime of subscription in sync with lifetime of the component
 
-    // use map operator to normaize snapshotchanges to a more easily managed array of checklists objects
+    // use map operator to normalize snapshotchanges to a more easily managed array of checklists objects
     // see https://stackoverflow.com/questions/48795092/angular-httpclient-map-observable-array-of-objects
 
     const ownerCL$ = ownerRef.snapshotChanges().pipe(
@@ -154,21 +154,22 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
         map(([cl1, cl2]) => [...cl1, ...cl2])
       );
     });
-    // Subscribe to show results and create array of checklists without duplicates
-    // There may be faster ways of doing this.
-    this.checklistSubscription = this.checklists$.subscribe(data =>{
-      console.log("Init checklists$", data);
-      this.checklists=[];
+    // *** 4. Subscribe create array of checklists without duplicates
+    // There may be faster ways of doing dedups .
+    this.checklistSubscription = this.checklists$.subscribe(data => {
+      // console.log("Init checklists$", data);
+      this.checklists = [];
       data.forEach(item => {
         const id = item.id;
-        let isMatch =false;
-        this.checklists.forEach(  entry => {if (entry.id == item.id) isMatch=true;})
-        if(!isMatch) {
+        let isMatch = false;
+        this.checklists.forEach(entry => {
+          if (entry.id == item.id) isMatch = true;
+        });
+        if (!isMatch) {
           this.checklists.push(item);
         }
-   });
-   console.log("Init checklists", this.checklists);
-
+      });
+      //console.log("Init unique checklists", this.checklists);
     });
   }
 
@@ -179,6 +180,4 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.checklistSubscription) this.checklistSubscription.unsubscribe();
   }
-
-  
 }
