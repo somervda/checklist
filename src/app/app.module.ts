@@ -26,6 +26,7 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 
 import { NgxEditorModule } from "ngx-editor";
+import { PopoverModule } from "ngx-bootstrap"; // NgxEditorModule dependency
 
 import { HomeComponent } from "./home/home.component";
 import { NotfoundComponent } from "./notfound/notfound.component";
@@ -86,6 +87,7 @@ import { TesterComponent } from "./tester/tester.component";
     NgbRatingModule,
     NgbAccordionModule,
     NgxEditorModule,
+    PopoverModule,
     RouterModule.forRoot([
       { path: "", component: HomeComponent },
       { path: "login", component: LoginComponent },

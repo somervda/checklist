@@ -57,19 +57,21 @@
     <!-- description -->
     <div class="form-group">
       <label for="description">Description *</label>
-      <textarea
-        class="form-control"
-        name="description"
+
+      <app-ngx-editor
+        [placeholder]="'Enter description here...'"
+        [spellcheck]="true"
         [(ngModel)]="checklist.description"
-        id="description"
-        #description="ngModel"
-        required
-        minlength="25"
-        maxlength="1000"
-        placeholder="Description"
-        rows="5"
+        [config]="descriptionEditorConfig"
         (blur)="onDescriptionUpdate()"
-      ></textarea>
+        #description="ngModel"
+        maxlength="1000"
+        minlength="25"
+        id="description"
+        name="description"
+        required
+      ></app-ngx-editor>
+
       <div *ngIf="description.touched && !description.valid">
         <div *ngIf="description?.errors.required" class="alert alert-danger">
           Description is required

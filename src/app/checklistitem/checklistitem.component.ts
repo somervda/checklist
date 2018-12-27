@@ -25,6 +25,24 @@ export class ChecklistitemComponent implements OnInit, OnDestroy {
   ChecklistItemResultType = ChecklistItemResultType;
   dropdownOpen: boolean = false;
 
+  EditorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: "auto",
+    minHeight: "70px",
+    width: "auto",
+    minWidth: "0",
+    translate: "yes",
+    enableToolbar: true,
+    showToolbar: true,
+    imageEndPoint: "",
+    toolbar: [
+      ["bold", "italic", "underline"],
+      ["horizontalLine", "orderedList", "unorderedList"],
+      ["undo"]
+    ]
+  };
+
   constructor(
     private db: AngularFirestore,
     private toastr: ToastrService,

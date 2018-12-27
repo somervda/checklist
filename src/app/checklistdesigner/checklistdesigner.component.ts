@@ -19,6 +19,25 @@ export class ChecklistdesignerComponent implements OnInit {
   checklist = new ChecklistModel();
   checklistitems;
 
+  descriptionEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: "auto",
+    minHeight: "70px",
+    width: "auto",
+    minWidth: "0",
+    translate: "yes",
+    enableToolbar: true,
+    showToolbar: true,
+    placeholder: "Enter text here...",
+    imageEndPoint: "",
+    toolbar: [
+      ["bold", "italic", "underline"],
+      ["horizontalLine", "orderedList", "unorderedList"],
+      ["undo"]
+    ]
+  };
+
   constructor(
     private route: ActivatedRoute,
     private db: AngularFirestore,
