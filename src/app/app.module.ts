@@ -24,6 +24,9 @@ import {
   NgbTooltipModule,
   NgbRatingModule
 } from "@ng-bootstrap/ng-bootstrap";
+
+import { NgxEditorModule } from "ngx-editor";
+
 import { HomeComponent } from "./home/home.component";
 import { NotfoundComponent } from "./notfound/notfound.component";
 import { FooterbarComponent } from "./footerbar/footerbar.component";
@@ -82,6 +85,7 @@ import { TesterComponent } from "./tester/tester.component";
     NgbTooltipModule,
     NgbRatingModule,
     NgbAccordionModule,
+    NgxEditorModule,
     RouterModule.forRoot([
       { path: "", component: HomeComponent },
       { path: "login", component: LoginComponent },

@@ -2,7 +2,7 @@ import { AuthService } from "./../services/auth.service";
 import { UserModel, CommunityAccessState } from "./../models/userModel";
 //import { Subscription, Observable } from "rxjs";
 import { AngularFirestore } from "@angular/fire/firestore";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { map, combineLatest } from "rxjs/operators";
 //import { Subject } from "rxjs/Subject";
 
@@ -11,14 +11,56 @@ import { map, combineLatest } from "rxjs/operators";
   templateUrl: "./tester.component.html",
   styleUrls: ["./tester.component.css"]
 })
-export class TesterComponent implements OnInit {
+export class TesterComponent implements OnInit, OnDestroy {
   users;
   communityId: string = "Tw8CPGkAwTxjUxW7dnNg";
   //communityId: string = "Ufrqt16S1Yr1c7cG7eqq";
   ownerORcommunity$;
+  htmlContent;
 
   CommunityAccessState: CommunityAccessState;
   user = new UserModel();
+
+  //   {
+  //     "editable": true,
+  //     "spellcheck": true,
+  //     "height": "auto",
+  //     "minHeight": "0",
+  //     "width": "auto",
+  //     "minWidth": "0",
+  //     "translate": "yes",
+  //     "enableToolbar": true,
+  //     "showToolbar": true,
+  //     "placeholder": "Enter text here...",
+  //     "imageEndPoint": "",
+  //     "toolbar": [
+  //         ["bold", "italic", "underline", "strikeThrough", "superscript", "subscript"],
+  //         ["fontName", "fontSize", "color"],
+  //         ["justifyLeft", "justifyCenter", "justifyRight", "justifyFull", "indent", "outdent"],
+  //         ["cut", "copy", "delete", "removeFormat", "undo", "redo"],
+  //         ["paragraph", "blockquote", "removeBlockquote", "horizontalLine", "orderedList", "unorderedList"],
+  //         ["link", "unlink", "image", "video"]
+  //     ]
+  // }
+
+  editorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: "auto",
+    minHeight: "70px",
+    width: "auto",
+    minWidth: "0",
+    translate: "yes",
+    enableToolbar: true,
+    showToolbar: true,
+    placeholder: "Enter text here...",
+    imageEndPoint: "",
+    toolbar: [
+      ["bold", "italic", "underline"],
+      ["horizontalLine", "orderedList", "unorderedList"],
+      ["undo"]
+    ]
+  };
 
   constructor(private db: AngularFirestore, private auth: AuthService) {}
 
@@ -116,5 +158,9 @@ export class TesterComponent implements OnInit {
     this.ownerORcommunity$.subscribe(data =>
       console.log("Test #5 ownerORcommunity$", data)
     );
+  }
+
+  ngOnDestroy() {
+    console.log("htmlContent: ", this.htmlContent);
   }
 }

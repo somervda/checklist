@@ -28,6 +28,8 @@
     "bootstrap": "^4.2.1",
     "core-js": "^2.6.1",
     "firebase": "^5.7.1",
+    "ngx-bootstrap": "^3.1.3",
+    "ngx-editor": "^4.1.0",
     "ngx-toastr": "^9.1.1",
     "rxjs": "~6.3.3",
     "zone.js": "~0.8.26"

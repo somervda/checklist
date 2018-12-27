@@ -11,3 +11,18 @@
   <span class="bg-info" *ngIf="cl.community">{{ cl?.community?.name }}</span
   ><br />
 </span>
+
+<hr />
+Test basic file upload on iOS (safari mobile)
+<input id="file" type="file" accept="image/*" />
+
+<hr />
+
+<app-ngx-editor
+  [placeholder]="'Enter text here...'"
+  [spellcheck]="true"
+  [(ngModel)]="htmlContent"
+  [config]="editorConfig"
+></app-ngx-editor>
+
+<div [innerHTML]="htmlContent"></div>
