@@ -1,21 +1,34 @@
 <app-header name="My Profile"> </app-header>
 <div class="container">
   <div class="row">
-    <div class="col-3 font-weight-bold">eMail</div>
-    <div class="col-8">{{ auth.getUserEmail }}</div>
+    <div class="col-3 font-weight-bold" mt-1>eMail</div>
+    <div class="col-8 mt-1">{{ auth.getUserEmail }}</div>
 
     <div class="w-100"></div>
 
-    <div class="col-3 font-weight-bold">Display Name</div>
-    <div class="col-8">{{ auth.getUserDisplayname }}</div>
+    <div class="col-3 font-weight-bold  mt-1">Display Name</div>
+    <div class="col-8 mt-1">{{ auth.getUserDisplayname }}</div>
     <div class="w-100"></div>
 
-    <div class="col-3 font-weight-bold">Uid</div>
-    <div class="col-8">{{ auth.getUserUID }}</div>
+    <div class="col-3 font-weight-bold mt-1">Uid</div>
+    <div class="col-8 mt-1">{{ auth.getUserUID }}</div>
     <div class="w-100"></div>
 
-    <div class="col-3 font-weight-bold">Picture</div>
-    <div class="col-8"><img src="{{ auth.getUserPicture }}" /></div>
+    <div class="col-3 font-weight-bold mt-1">Picture</div>
+    <div class="col-8 mt-1"><img src="{{ auth.getUserPicture }}" /></div>
+
+    <div class="col-3 font-weight-bold mt-1">Initial Page Preference</div>
+    <div class="col-8 mt-1">
+      <select
+        class="dropdown  form-control"
+        (change)="changeInitialPagePreference()"
+        [(ngModel)]="auth.user.initialPagePreference"
+      >
+        <option value="mychecklists">My Checklists</option>
+        <option value="mycommunities">My Communities</option>
+        <option value="userprofile">User Profile</option>
+      </select>
+    </div>
   </div>
   <br />
 

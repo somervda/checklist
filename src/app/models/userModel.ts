@@ -5,6 +5,7 @@ export class UserModel {
   public isSystemAdministrator: boolean = false;
   public lastLogin: Date;
   public communities = {}; // holds map of communities associated with the user
+  public initialPagePreference: string;
 
   loadFromObject(payload) {
     this.id = payload.id; // Use the object ID
@@ -14,6 +15,7 @@ export class UserModel {
     this.isSystemAdministrator = payload.data().isSystemAdministrator;
     console.log("userModel loadFromObject", payload.data().communities);
     this.communities = payload.data().communities;
+    this.initialPagePreference = payload.data().initialPagePreference;
   }
 
   dbFieldUpdate(docId: string, fieldName: string, newValue: any, db) {

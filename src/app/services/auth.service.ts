@@ -46,7 +46,11 @@ export class AuthService {
 
         // Need to run navigates within the angular ngZone or it redirects too early
         // https://stackoverflow.com/questions/51455545/when-to-use-ngzone-run
-        this.ngZone.run(() => this.router.navigate(["mychecklists"]));
+        if (this.user.initialPagePreference)
+          this.ngZone.run(() =>
+            this.router.navigate([this.user.initialPagePreference])
+          );
+        else this.ngZone.run(() => this.router.navigate(["mychecklists"]));
       });
     }
   }
