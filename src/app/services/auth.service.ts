@@ -40,6 +40,13 @@ export class AuthService {
       this.user$.subscribe(snapshot => {
         this.user.loadFromObject(snapshot.payload);
         console.log("constructor user :", snapshot, this.user);
+        // When user data gets reloaded also refresh view to the defualt user home page (mychecklists)
+        // This is important to support refreshing the view after doing a browser refresh and
+        // to make a more natural workflow starting point after user signs in
+
+        // Need to run navigates within the angular ngZone or it redirects too early
+        // https://stackoverflow.com/questions/51455545/when-to-use-ngzone-run
+        this.ngZone.run(() => this.router.navigate(["mychecklists"]));
       });
     }
   }
@@ -79,9 +86,6 @@ export class AuthService {
         this.toastr.success("", "Signed In", {
           timeOut: 1000
         });
-        // Need to run navigates within the angular ngZone or it redirects too early
-        // https://stackoverflow.com/questions/51455545/when-to-use-ngzone-run
-        this.ngZone.run(() => this.router.navigate(["/"]));
       })
       .catch(error => {
         console.log("GoogleLogin Error: ", error);
@@ -103,7 +107,6 @@ export class AuthService {
         this.toastr.success("", "Signed In", {
           timeOut: 1000
         });
-        this.ngZone.run(() => this.router.navigate(["/"]));
       })
       .catch(error => {
         console.log("EmailLogin Error: ", error);
@@ -132,7 +135,6 @@ export class AuthService {
             console.log("signup updateprofile success");
             this.loginActions();
             this.toastr.success(email, "Signed Up");
-            this.ngZone.run(() => this.router.navigate(["/"]));
           })
           .catch(error => {
             console.log("Signup updateprofile Error: ", error);
