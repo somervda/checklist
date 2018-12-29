@@ -1,5 +1,5 @@
 import { auth } from "firebase";
-import { UserModel } from "./../models/userModel";
+import { UserModel, CommunityAccessState } from "./../models/userModel";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { Injectable, NgZone } from "@angular/core";
 import { Router } from "@angular/router";
@@ -52,11 +52,46 @@ export class AuthService {
 
           //   Need to run navigates within the angular ngZone or it redirects too early
           //   https://stackoverflow.com/questions/51455545/when-to-use-ngzone-run
-          if (this.user.initialPagePreference)
-            this.ngZone.run(() =>
-              this.router.navigate([this.user.initialPagePreference])
+          if (!this.user.initialPagePreference) {
+            // Set initialPagePreference yo mychecklists if not set
+            this.user.initialPagePreference = "mychecklists";
+            this.user.dbFieldUpdate(
+              this.afAuth.auth.currentUser.uid,
+              "initialPagePreference",
+              this.user.initialPagePreference,
+              this.db
             );
-          else this.ngZone.run(() => this.router.navigate(["mychecklists"]));
+          }
+
+          // Show toastr notification if invites are pending
+          CommunityAccessState: CommunityAccessState;
+          let inviteMsg: string = "";
+          this.user.communitiesAsArray.forEach(community => {
+            if (community.accessState == CommunityAccessState.membershipInvited)
+              inviteMsg +=
+                "Pending membership invitation for the " +
+                community.name +
+                " community. ";
+
+            if (community.accessState == CommunityAccessState.leadershipInvited)
+              inviteMsg +=
+                "Pending leadership invitation for the " +
+                community.name +
+                " community. ";
+          });
+          if (inviteMsg != "") {
+            this.toastr.info(
+              inviteMsg + " Go to your profile to accept or reject.",
+              "Community Invitations Pending",
+              {
+                timeOut: 10000
+              }
+            );
+          }
+
+          this.ngZone.run(() =>
+            this.router.navigate([this.user.initialPagePreference])
+          );
         });
 
       // Code before changing user refresh to a promise (single event subscription)
@@ -112,9 +147,6 @@ export class AuthService {
         //     authState.additionalUserInfo.profile["picture"]
         //   );
         this.loginActions();
-        this.toastr.success("", "Signed In", {
-          timeOut: 1000
-        });
       })
       .catch(error => {
         console.log("GoogleLogin Error: ", error);
@@ -133,9 +165,6 @@ export class AuthService {
       .then(authState => {
         console.log("EmailLogin: ", authState);
         this.loginActions();
-        this.toastr.success("", "Signed In", {
-          timeOut: 1000
-        });
       })
       .catch(error => {
         console.log("EmailLogin Error: ", error);
