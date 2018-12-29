@@ -13,7 +13,7 @@ import * as firebase from "firebase/app";
 @Injectable()
 export class AuthService {
   public user = new UserModel();
-  public user$;
+  //public user$;
 
   public authStateChanges;
 
@@ -33,25 +33,48 @@ export class AuthService {
   }
 
   loadUser() {
-    console.log("loadUser refresh user");
+    console.log("loadUser 1");
     if (this.isAuthenticated()) {
-      var userRef = this.db.doc("users/" + this.afAuth.auth.currentUser.uid);
-      this.user$ = userRef.snapshotChanges();
-      this.user$.subscribe(snapshot => {
-        this.user.loadFromObject(snapshot.payload);
-        console.log("constructor user :", snapshot, this.user);
-        // When user data gets reloaded also refresh view to the defualt user home page (mychecklists)
-        // This is important to support refreshing the view after doing a browser refresh and
-        // to make a more natural workflow starting point after user signs in
+      var userRef = this.db
+        .collection("users")
+        .doc(this.afAuth.auth.currentUser.uid);
+      userRef
+        .get()
+        .toPromise()
+        .then(doc => {
+          console.log("loadUser user 2 doc:", doc);
+          this.user.loadFromObject(doc);
+          console.log("loadUser user 3 this.user:", this.user);
 
-        // Need to run navigates within the angular ngZone or it redirects too early
-        // https://stackoverflow.com/questions/51455545/when-to-use-ngzone-run
-        if (this.user.initialPagePreference)
-          this.ngZone.run(() =>
-            this.router.navigate([this.user.initialPagePreference])
-          );
-        else this.ngZone.run(() => this.router.navigate(["mychecklists"]));
-      });
+          //   When user data gets reloaded also refresh view to the defualt user home page (mychecklists)
+          //   This is important to support refreshing the view after doing a browser refresh and
+          //   to make a more natural workflow starting point after user signs in
+
+          //   Need to run navigates within the angular ngZone or it redirects too early
+          //   https://stackoverflow.com/questions/51455545/when-to-use-ngzone-run
+          if (this.user.initialPagePreference)
+            this.ngZone.run(() =>
+              this.router.navigate([this.user.initialPagePreference])
+            );
+          else this.ngZone.run(() => this.router.navigate(["mychecklists"]));
+        });
+
+      // this.user$ = userRef.snapshotChanges();
+      // this.user$.subscribe(snapshot => {
+      //   this.user.loadFromObject(snapshot.payload);
+      //   console.log("constructor user :", snapshot, this.user);
+      //   // When user data gets reloaded also refresh view to the defualt user home page (mychecklists)
+      //   // This is important to support refreshing the view after doing a browser refresh and
+      //   // to make a more natural workflow starting point after user signs in
+
+      //   // Need to run navigates within the angular ngZone or it redirects too early
+      //   // https://stackoverflow.com/questions/51455545/when-to-use-ngzone-run
+      //   if (this.user.initialPagePreference)
+      //     this.ngZone.run(() =>
+      //       this.router.navigate([this.user.initialPagePreference])
+      //     );
+      //   else this.ngZone.run(() => this.router.navigate(["mychecklists"]));
+      // });
     }
   }
 

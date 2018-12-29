@@ -7,15 +7,15 @@ export class UserModel {
   public communities = {}; // holds map of communities associated with the user
   public initialPagePreference: string;
 
-  loadFromObject(payload) {
-    this.id = payload.id; // Use the object ID
-    this.displayName = payload.data().displayName;
-    this.email = payload.data().email;
-    this.lastLogin = payload.data().lastLogin;
-    this.isSystemAdministrator = payload.data().isSystemAdministrator;
-    console.log("userModel loadFromObject", payload.data().communities);
-    this.communities = payload.data().communities;
-    this.initialPagePreference = payload.data().initialPagePreference;
+  loadFromObject(doc) {
+    this.id = doc.id; // Use the object ID
+    this.displayName = doc.data().displayName;
+    this.email = doc.data().email;
+    this.lastLogin = doc.data().lastLogin;
+    this.isSystemAdministrator = doc.data().isSystemAdministrator;
+    console.log("userModel loadFromObject", doc.data().communities);
+    this.communities = doc.data().communities;
+    this.initialPagePreference = doc.data().initialPagePreference;
   }
 
   dbFieldUpdate(docId: string, fieldName: string, newValue: any, db) {
