@@ -59,6 +59,8 @@ export class AuthService {
           else this.ngZone.run(() => this.router.navigate(["mychecklists"]));
         });
 
+      // Code before changing user refresh to a promise (single event subscription)
+
       // this.user$ = userRef.snapshotChanges();
       // this.user$.subscribe(snapshot => {
       //   this.user.loadFromObject(snapshot.payload);
