@@ -17,7 +17,6 @@ import { HttpClientModule } from "@angular/common/http";
 
 import { AppComponent } from "./app.component";
 import {
-  NgbAccordionModule,
   NgbDropdownModule,
   NgbCarouselModule,
   NgbCollapseModule,
@@ -78,14 +77,13 @@ import { TesterComponent } from "./tester/tester.component";
     FormsModule,
     BrowserAnimationsModule, // required animations module
     HttpClientModule,
-    ToastrModule.forRoot(), // ToastrModule added
+    ToastrModule.forRoot({ preventDuplicates: true }), // ToastrModule added
     NgbDropdownModule,
     NgbCarouselModule,
     NgbCollapseModule,
     NgxDatatableModule,
     NgbTooltipModule,
     NgbRatingModule,
-    NgbAccordionModule,
     NgxEditorModule,
     PopoverModule,
     RouterModule.forRoot([

@@ -64,27 +64,30 @@ export class AuthService {
           }
 
           // Show toastr notification if invites are pending
+          // Show toastr notification if invites are pending
           CommunityAccessState: CommunityAccessState;
           let inviteMsg: string = "";
           this.user.communitiesAsArray.forEach(community => {
             if (community.accessState == CommunityAccessState.membershipInvited)
               inviteMsg +=
-                "Pending membership invitation for the " +
+                "Pending membership invitation for the <b>" +
                 community.name +
-                " community. ";
+                "</b> community. ";
 
             if (community.accessState == CommunityAccessState.leadershipInvited)
               inviteMsg +=
-                "Pending leadership invitation for the " +
+                "Pending leadership invitation for the <b>" +
                 community.name +
-                " community. ";
+                "</b> community. ";
           });
           if (inviteMsg != "") {
             this.toastr.info(
-              inviteMsg + " Go to your profile to accept or reject.",
+              inviteMsg +
+                "<br />Go to your <i>profile</i> page to accept or reject these invitations.",
               "Community Invitations Pending",
               {
-                timeOut: 10000
+                timeOut: 10000,
+                enableHtml: true
               }
             );
           }
