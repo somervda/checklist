@@ -123,7 +123,7 @@ export class AuthService {
     this.user = new UserModel();
     this.router.navigate(["/"]);
     this.toastr.success("", "Signed out", {
-      timeOut: 1000
+      timeOut: 500
     });
   }
 
