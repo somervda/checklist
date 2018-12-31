@@ -1,0 +1,14 @@
+/* You can add global styles to this file, and also import other style files */
+
+
+
+/* ngx-datatable styles
+  These get applied to the table globaly (I couldn't see a way to apply unique styles at the component level
+  due to the way component styles are qualified to only apply to local components, however only
+  the ngx-datatable class is qualified with the local identifier
+  see: https://github.com/swimlane/ngx-datatable/issues/834  */
+
+
+
+@import '~bootstrap/scss/bootstrap';
+@import '~ngx-toastr/toastr-bs4-alert';
