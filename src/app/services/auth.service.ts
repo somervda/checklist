@@ -83,7 +83,7 @@ export class AuthService {
           if (inviteMsg != "") {
             this.toastr.info(
               inviteMsg +
-                "<br />Go to your <i>profile</i> page to accept or reject these invitations.",
+                "<br />Go via <i>&quot;My Communities&quot;</i> &rarr; <i>&quot;Community&quot;</i> page to accept or reject these invitations.",
               "Community Invitations Pending",
               {
                 timeOut: 10000,

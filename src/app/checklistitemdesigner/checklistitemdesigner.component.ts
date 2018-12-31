@@ -13,7 +13,7 @@ import { AuthService } from "../services/auth.service";
 @Component({
   selector: "app-checklistitemdesigner",
   templateUrl: "./checklistitemdesigner.component.html",
-  styleUrls: ["./checklistitemdesigner.component.css"]
+  styleUrls: ["./checklistitemdesigner.component.scss"]
 })
 export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
   // id is the checklist id when action = A

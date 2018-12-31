@@ -9,7 +9,7 @@ import { CommunityAccessState } from "../models/userModel";
 @Component({
   selector: "app-checklist",
   templateUrl: "./checklist.component.html",
-  styleUrls: ["./checklist.component.css"]
+  styleUrls: ["./checklist.component.scss"]
 })
 export class ChecklistComponent implements OnInit {
   checklist$;

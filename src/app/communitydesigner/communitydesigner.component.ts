@@ -9,7 +9,7 @@ import { CommunityModel } from "../models/communityModel";
 @Component({
   selector: "app-communitydesigner",
   templateUrl: "./communitydesigner.component.html",
-  styleUrls: ["./communitydesigner.component.css"]
+  styleUrls: ["./communitydesigner.component.scss"]
 })
 export class CommunitydesignerComponent implements OnInit, OnDestroy {
   community$;

@@ -9,7 +9,7 @@ import { map, combineLatest } from "rxjs/operators";
 @Component({
   selector: "app-tester",
   templateUrl: "./tester.component.html",
-  styleUrls: ["./tester.component.css"]
+  styleUrls: ["./tester.component.scss"]
 })
 export class TesterComponent implements OnInit, OnDestroy {
   users;

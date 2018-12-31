@@ -6,7 +6,7 @@ import { map } from "rxjs/operators";
 @Component({
   selector: "app-mycommunities",
   templateUrl: "./mycommunities.component.html",
-  styleUrls: ["./mycommunities.component.css"]
+  styleUrls: ["./mycommunities.component.scss"]
 })
 export class MycommunitiesComponent implements OnInit {
   //communities$;

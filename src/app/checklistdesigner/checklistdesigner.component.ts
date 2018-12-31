@@ -10,7 +10,7 @@ import { ChecklistModel, ChecklistStatus } from "../models/checklistModel";
 @Component({
   selector: "app-checklistdesigner",
   templateUrl: "./checklistdesigner.component.html",
-  styleUrls: ["./checklistdesigner.component.css"]
+  styleUrls: ["./checklistdesigner.component.scss"]
 })
 export class ChecklistdesignerComponent implements OnInit {
   checklist$;

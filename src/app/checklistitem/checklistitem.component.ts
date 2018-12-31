@@ -13,7 +13,7 @@ import { checkAndUpdateDirectiveDynamic } from "@angular/core/src/view/provider"
 @Component({
   selector: "app-checklistitem",
   templateUrl: "./checklistitem.component.html",
-  styleUrls: ["./checklistitem.component.css"]
+  styleUrls: ["./checklistitem.component.scss"]
 })
 export class ChecklistitemComponent implements OnInit, OnDestroy {
   @Input() id: string;

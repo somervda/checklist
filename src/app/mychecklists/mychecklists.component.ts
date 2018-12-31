@@ -10,7 +10,7 @@ import { observable, empty } from "rxjs";
 @Component({
   selector: "app-mychecklists",
   templateUrl: "./mychecklists.component.html",
-  styleUrls: ["./mychecklists.component.css"]
+  styleUrls: ["./mychecklists.component.scss"]
 })
 export class MychecklistsComponent implements OnInit, OnDestroy {
   checklists$;

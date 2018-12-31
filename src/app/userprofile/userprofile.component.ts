@@ -6,7 +6,7 @@ import { CommunityAccessState } from "../models/userModel";
 @Component({
   selector: "userprofile",
   templateUrl: "./userprofile.component.html",
-  styleUrls: ["./userprofile.component.css"]
+  styleUrls: ["./userprofile.component.scss"]
 })
 export class UserprofileComponent implements OnInit {
   CommunityAccessState = CommunityAccessState;
