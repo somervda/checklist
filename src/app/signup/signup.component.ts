@@ -10,7 +10,13 @@ export class SignupComponent implements OnInit {
   email;
   password;
   displayname;
+  disabledSignup: boolean = true;
   constructor(public auth: AuthService) {}
 
   ngOnInit() {}
+
+  resolved(captchaResponse: string) {
+    this.disabledSignup = false;
+    console.log(`Resolved captcha with response ${captchaResponse}:`);
+  }
 }

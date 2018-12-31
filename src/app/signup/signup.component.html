@@ -1,27 +1,53 @@
 <br />
 <div class="card  mx-auto " style="width : 350px">
-  <div class="card-header text-center  ">
-    <h4>Sign Up</h4>
-  </div>
+  <div class="card-header text-center  "><h4>Sign Up</h4></div>
   <div class="card-body mb-20">
-
     <div class="form-group">
       <label for="inputEmail">Email</label>
-      <input type="text" class="form-control" id="inputEmail" name="inputEmail" placeholder="Enter your email"
-        [(ngModel)]="email">
+      <input
+        type="text"
+        class="form-control"
+        id="inputEmail"
+        name="inputEmail"
+        placeholder="Enter your email"
+        [(ngModel)]="email"
+      />
     </div>
     <div class="form-group">
       <label for="inputPassword">Password</label>
-      <input type="password" class="form-control" id="inputPassword" name="inputPassword" placeholder="Enter your password"
-        [(ngModel)]="password">
+      <input
+        type="password"
+        class="form-control"
+        id="inputPassword"
+        name="inputPassword"
+        placeholder="Enter your password"
+        [(ngModel)]="password"
+      />
     </div>
     <div class="form-group">
       <label for="inputDisplayname">Display Name</label>
-      <input type="text" class="form-control" id="inputDisplayname" name="inputDisplayname" placeholder="Enter your name"
-        [(ngModel)]="displayname">
+      <input
+        type="text"
+        class="form-control"
+        id="inputDisplayname"
+        name="inputDisplayname"
+        placeholder="Enter your name"
+        [(ngModel)]="displayname"
+      />
     </div>
-    <p class="card-text text-center"><button style="width: 150px" (click)="this.auth.signup(email,password,displayname)">
-        <i class="fas fa-user-plus"></i> Sign Up</button></p>
-
+    <re-captcha
+      (resolved)="resolved($event)"
+      siteKey="6LeU7YUUAAAAAB82eQw2tvl7ZVtaX2dhbVbOW-d5"
+    ></re-captcha>
+    <br />
+    <p class="card-text text-center">
+      <button
+        style="width: 150px"
+        [disabled]="disabledSignup"
+        (click)="this.auth.signup(email, password, displayname)"
+      >
+        <i class="fas fa-user-plus"></i> Sign Up
+      </button>
+    </p>
   </div>
 </div>

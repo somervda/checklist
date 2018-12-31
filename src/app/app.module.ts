@@ -15,6 +15,8 @@ import { AngularFireAuthModule } from "@angular/fire/auth";
 import { ToastrModule } from "ngx-toastr";
 import { HttpClientModule } from "@angular/common/http";
 
+import { RecaptchaModule } from "ng-recaptcha";
+
 import { AppComponent } from "./app.component";
 import {
   NgbDropdownModule,
@@ -86,6 +88,7 @@ import { TesterComponent } from "./tester/tester.component";
     NgbRatingModule,
     NgxEditorModule,
     PopoverModule,
+    RecaptchaModule,
     RouterModule.forRoot([
       { path: "", component: HomeComponent },
       { path: "login", component: LoginComponent },
