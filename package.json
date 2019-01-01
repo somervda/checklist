@@ -7,7 +7,7 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
+    "e2e": "cypress open",
     "serve1": "ng serve --host=192.168.1.223 -o",
     "serve2": "ng serve --host=192.168.1.115 --public-host=somerville.noip.me"
   },
@@ -45,6 +45,7 @@
     "@types/jasminewd2": "^2.0.6",
     "@types/node": "~8.9.4",
     "codelyzer": "~4.3.0",
+    "cypress": "^3.1.4",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~3.0.0",
