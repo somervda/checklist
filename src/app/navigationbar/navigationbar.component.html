@@ -83,6 +83,7 @@
               <a
                 routerLink="mychecklists"
                 routerLinkActive="active"
+                id="navMyChecklists"
                 class="dropdown-item"
                 (click)="collapse()"
                 >My CheckLists</a
@@ -148,6 +149,7 @@
               </a>
               <a
                 class="dropdown-item"
+                id="navSignout"
                 (click)="!this.auth.logout(); collapse()"
               >
                 <i class="fas fa-times"></i> Sign Out

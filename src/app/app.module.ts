@@ -79,7 +79,10 @@ import { TesterComponent } from "./tester/tester.component";
     FormsModule,
     BrowserAnimationsModule, // required animations module
     HttpClientModule,
-    ToastrModule.forRoot({ preventDuplicates: true }), // ToastrModule added
+    ToastrModule.forRoot({
+      preventDuplicates: true,
+      positionClass: "toast-top-right"
+    }), // ToastrModule added
     NgbDropdownModule,
     NgbCarouselModule,
     NgbCollapseModule,
