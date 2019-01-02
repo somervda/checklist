@@ -16,7 +16,8 @@ context("Create new checklist", () => {
       );
     });
     cy.get("#headerRightButton").click();
-    //cy.contains(checklistTitle);
+    // Wait for confirmation of checklist addition in the toastr
+    cy.contains("Checklist Created");
   });
 
   // it("02 Return to checklist designer via my checklists", () => {

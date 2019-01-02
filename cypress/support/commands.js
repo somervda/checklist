@@ -20,8 +20,8 @@ Cypress.Commands.add("login", (useremail, password) => {
   cy.get("#inputPassword").type(password);
   cy.get("#btnLogin").click();
   cy.get("#dropdownSignedIn");
-  // wait for checklists to be rendered before going back home
-  cy.contains("Test template");
+  // wait for checklists datatable rows to be rendered before going back home
+  cy.get("datatable-body-cell");
   cy.get("#navHome").click();
 });
 
