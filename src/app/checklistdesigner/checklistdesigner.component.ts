@@ -80,8 +80,7 @@ export class ChecklistdesignerComponent implements OnInit {
             });
         }
       }
-
-      //console.log("checklistdesigner oninit",this.checklist);
+   
     });
   }
 
