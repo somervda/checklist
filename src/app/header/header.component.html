@@ -19,6 +19,8 @@
         placement="left"
         id="headerRightButton"
         ngbTooltip="{{ rightButtonTooltip }}"
+        (click)="onRightButtonClick()"
+        [disabled]="rightButtonDisabled"
       >
         <i class="fas {{ rightButtonIconClass }}"></i>
       </button>
