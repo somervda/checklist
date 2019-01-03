@@ -20,11 +20,18 @@ context("Create new checklist", () => {
     cy.contains("Checklist Created");
   });
 
-  // it("02 Return to checklist designer via my checklists", () => {
-  //   cy.get("#navChecklists").click();
-  //   cy.get("#navMyChecklists").click();
-  //   cy.contains("checklistTitle").click();
-  // });
+  it("02 Add checklists item", () => {
+    cy.get("#addChecklistsItem").click();
+    cy.get("#prompt").type("Generated Item");
+    cy.get("#description").within(() => {
+      cy.get(".ngx-editor-textarea").type(
+        "Lorem ipsum cursus class urna nibh purus ."
+      );
+    });
+    cy.get("#resultType").select("1");
+    cy.get("#headerRightButton").click();
+    cy.contains("ChecklistItem Created");
+  });
 
   it("-- Logout --", () => {
     cy.logout();
