@@ -3,7 +3,7 @@
     name="Checklist Designer"
     rightButtonIconClass="fa-arrow-left"
     rightButtonTooltip="Return&nbsp;to&nbsp;Checklist"
-    rightButtonRoute="/checklist/{{ id }}"
+    (rightButtonClick)="onReturnToChecklistClick()"
   ></app-header>
 </span>
 <!-- Special nav bar if adding a checklist -->

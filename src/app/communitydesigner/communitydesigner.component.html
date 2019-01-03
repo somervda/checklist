@@ -3,7 +3,7 @@
     name="Community Designer"
     rightButtonIconClass="fa-arrow-left"
     rightButtonTooltip="Return&nbsp;to&nbsp;Community"
-    rightButtonRoute="/community/{{ id }}"
+    (rightButtonClick)="onReturnCommunityClick()"
   ></app-header>
 </span>
 <!-- Special nav bar if adding a checklist -->

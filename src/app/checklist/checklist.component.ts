@@ -1,6 +1,6 @@
 import { AuthService } from "./../services/auth.service";
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { ToastrService } from "ngx-toastr";
 import { auth } from "firebase";
@@ -15,11 +15,13 @@ export class ChecklistComponent implements OnInit {
   checklist$;
   //checklistItems$;
   checklistitems;
+  id ;
   showDesignerButton: boolean = false;
   CommunityAccessState = CommunityAccessState;
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private db: AngularFirestore,
     private toastr: ToastrService,
     private auth: AuthService
@@ -27,8 +29,8 @@ export class ChecklistComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe(paramMap => {
-      var id = paramMap.get("id");
-      this.checklist$ = this.db.doc("/checklists/" + id).get();
+      this.id = paramMap.get("id");
+      this.checklist$ = this.db.doc("/checklists/" + this.id).get();
       this.checklist$.subscribe(doc => {
         console.log("onInit doc", doc.data());
         // Update screan options based on user access
@@ -79,7 +81,7 @@ export class ChecklistComponent implements OnInit {
       // the checklistsitem component in real time, but lists of checklistitems
       // will not be refreshed each time back end changes occur (i.e. adding or deleting an item)
       this.db
-        .collection("checklistItems", ref => ref.where("checklistId", "==", id))
+        .collection("checklistItems", ref => ref.where("checklistId", "==", this.id))
         .get()
         .toPromise()
         .then(snapshot => {
@@ -92,5 +94,10 @@ export class ChecklistComponent implements OnInit {
           });
         });
     });
+  }
+
+  onDesignerClick() {
+     
+    this.router.navigate(["/checklistdesigner/U/" + this.id ]);
   }
 }

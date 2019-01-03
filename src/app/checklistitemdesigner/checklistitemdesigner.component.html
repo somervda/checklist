@@ -3,8 +3,9 @@
     name="Checklist Item Designer"
     rightButtonIconClass="fa-arrow-left"
     rightButtonTooltip="Return&nbsp;to&nbsp;Checklist"
-    rightButtonRoute="/checklistdesigner/U/{{ checklistItem.checklistId }}"
+    (rightButtonClick)="onReturnChecklistDesignerClick()"
   ></app-header>
+  
 </span>
 <!-- Special nav bar if adding a checklist -->
 <span *ngIf="action == 'A'">

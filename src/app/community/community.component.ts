@@ -1,7 +1,7 @@
 import { UserModel, CommunityAccessState } from "./../models/userModel";
 import { CommunityModel } from "./../models/communityModel";
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { ToastrService } from "ngx-toastr";
 
@@ -23,6 +23,7 @@ export class CommunityComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private db: AngularFirestore,
     private toastr: ToastrService
   ) {}
@@ -63,6 +64,10 @@ export class CommunityComponent implements OnInit, OnDestroy {
         console.log("community onInit data", this.community);
       });
     });
+  }
+
+  onDesignerClick() {
+    this.router.navigate(["/communitydesigner/U/" + this.community.id ]);
   }
 
   ngOnDestroy() {

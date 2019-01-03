@@ -3,7 +3,7 @@
 -->
 <app-header
   name="Community"
-  rightButtonRoute="/communitydesigner/U/{{ community?.id }}"
+  (rightButtonClick)="onDesignerClick()"
   rightButtonTooltip="Edit&nbsp;Community"
   rightButtonIconClass="fa-pencil-alt"
 >

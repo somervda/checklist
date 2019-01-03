@@ -142,6 +142,10 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
     );
   }
 
+  onReturnChecklistDesignerClick() {
+    this.router.navigate(["/checklistdesigner/U/" + this.checklistItem.checklistId ]);
+  }
+
   ngOnDestroy() {
     // Incase there is no use of async in the html template , then need to clean up the subscription
 

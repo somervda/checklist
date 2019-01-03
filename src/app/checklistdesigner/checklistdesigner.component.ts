@@ -135,6 +135,10 @@ export class ChecklistdesignerComponent implements OnInit {
     );
   }
 
+  onReturnToChecklistClick() {
+    this.router.navigate(["/checklist/" + this.id]);
+  }
+
   onItemAddClick() {
     this.router.navigate(["/checklistitemdesigner/A/" + this.id]);
   }

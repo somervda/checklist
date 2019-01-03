@@ -3,7 +3,8 @@
 -->
 <app-header
   name="Checklist"
-  rightButtonRoute="/checklistdesigner/U/{{ (checklist$ | async)?.id }}"
+ 
+  (rightButtonClick)="onDesignerClick()"
   rightButtonTooltip="Modify&nbsp;Checklist&nbsp;Design"
   rightButtonIconClass="fa-pencil-alt"
   [rightButtonShow]="showDesignerButton"

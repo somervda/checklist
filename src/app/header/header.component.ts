@@ -7,7 +7,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 })
 export class HeaderComponent implements OnInit {
   @Input() name: string;
-  @Input() rightButtonRoute: string;
   @Input() rightButtonTooltip: string;
   @Input() rightButtonIconClass: string;
   @Input() rightButtonShow: boolean = true;

@@ -98,6 +98,10 @@ export class CommunitydesignerComponent implements OnInit, OnDestroy {
     );
   }
 
+  onReturnCommunityClick() {
+    this.router.navigate(["/community/" +  this.id ]);
+  }
+
   ngOnDestroy() {
     if (this.communitySubscription) this.communitySubscription.unsubscribe();
   }
