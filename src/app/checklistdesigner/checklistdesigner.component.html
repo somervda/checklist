@@ -8,16 +8,15 @@
 </span>
 <!-- Special nav bar if adding a checklist -->
 <span *ngIf="action == 'A'">
-    <app-header
+  <app-header
     name="Checklist Designer"
     rightButtonIconClass="fa-plus"
     rightButtonTooltip="Click&nbsp;to&nbsp;add"
     rightButtonText=" Add"
     (rightButtonClick)="onReturnToChecklistClick()"
-    rightButtonDisabled="!f.valid"
+    [rightButtonDisabled]="!isValidForm"
   ></app-header>
 </span>
-
 
 <!-- <span *ngIf="action == 'A'">
   <nav class="navbar navbar-dark  py-0" style="background-color: rgb(0,77,64)">
@@ -40,7 +39,7 @@
 
 <!-- Checklists Form -->
 <div class="container">
-  <form name="form" #f="ngForm" >
+  <form name="form" #f="ngForm">
     <!-- <div *ngIf="(Checklist$ | async) as checklist"> -->
     <!-- title -->
     <div class="form-group">

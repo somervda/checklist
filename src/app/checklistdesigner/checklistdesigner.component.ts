@@ -1,23 +1,28 @@
 import { AuthService } from "./../services/auth.service";
 import { Subscription } from "rxjs";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Component, OnInit, NgZone } from "@angular/core";
+import { Component, OnInit, NgZone, ViewChild, OnDestroy } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { AngularFirestore } from "@angular/fire/firestore";
 
 import { ChecklistModel, ChecklistStatus } from "../models/checklistModel";
+import { NgForm } from "@angular/forms";
 
 @Component({
   selector: "app-checklistdesigner",
   templateUrl: "./checklistdesigner.component.html",
   styleUrls: ["./checklistdesigner.component.scss"]
 })
-export class ChecklistdesignerComponent implements OnInit {
+export class ChecklistdesignerComponent implements OnInit, OnDestroy {
   checklist$;
   id;
   action;
   checklist = new ChecklistModel();
   checklistitems;
+  isValidForm: boolean;
+  formSubscription;
+
+  @ViewChild(NgForm) f: NgForm;
 
   descriptionEditorConfig = {
     editable: true,
@@ -48,6 +53,12 @@ export class ChecklistdesignerComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    // Subscribe to form to get the validation state
+    this.formSubscription = this.f.statusChanges.subscribe(result => {
+      this.isValidForm = result == "VALID";
+      //console.log("state", this.isValidForm);
+    });
+
     this.route.paramMap.subscribe(paramMap => {
       this.action = paramMap.get("action");
       this.id = paramMap.get("id");
@@ -80,7 +91,6 @@ export class ChecklistdesignerComponent implements OnInit {
             });
         }
       }
-   
     });
   }
 
@@ -140,5 +150,9 @@ export class ChecklistdesignerComponent implements OnInit {
 
   onItemAddClick() {
     this.router.navigate(["/checklistitemdesigner/A/" + this.id]);
+  }
+
+  ngOnDestroy() {
+    if (this.formSubscription) this.formSubscription.unsubscribe();
   }
 }

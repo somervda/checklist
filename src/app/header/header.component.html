@@ -4,12 +4,7 @@
     <!--
       Any right side action button only rendered when all button inputs are passed
     -->
-    <span
-      *ngIf="
-        rightButtonIconClass &&
-        rightButtonTooltip &&
-        rightButtonShow
-      "
+    <span *ngIf="rightButtonIconClass && rightButtonTooltip && rightButtonShow"
       >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <button
         type="button"
@@ -20,7 +15,7 @@
         (click)="onRightButtonClick()"
         [disabled]="rightButtonDisabled"
       >
-        <i class="fas {{ rightButtonIconClass }}"></i> {{rightButtonText}}
+        <i class="fas {{ rightButtonIconClass }}"></i> {{ rightButtonText }}
       </button>
     </span>
   </div>

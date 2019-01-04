@@ -10,8 +10,8 @@ export class HeaderComponent implements OnInit {
   @Input() rightButtonTooltip: string;
   @Input() rightButtonIconClass: string;
   @Input() rightButtonShow: boolean = true;
-  @Input() rightButtonDisabled: boolean = false;
-  @Input() rightButtonText:string = "";
+  @Input() rightButtonDisabled: boolean;
+  @Input() rightButtonText: string = "";
   @Output() rightButtonClick = new EventEmitter();
 
   constructor() {}
