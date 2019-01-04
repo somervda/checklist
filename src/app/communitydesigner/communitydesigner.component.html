@@ -8,27 +8,19 @@
 </span>
 <!-- Special nav bar if adding a checklist -->
 <span *ngIf="action == 'A'">
-  <nav class="navbar navbar-dark  py-0" style="background-color: rgb(0,77,64)">
-    <div class="container">
-      <div class="navbar-brand pl-1 p-0">New Community</div>
-      <button
-        type="button"
-        class="btn  mt-0 px-1 mr-1 ml-10 p-0 float-right "
-        (click)="onAddClick()"
-        placement="left"
-        ngbTooltip="Click to add"
-        [disabled]="!f.valid"
-      >
-        <i class="fas fa-plus"></i> Add
-      </button>
-    </div>
-  </nav>
+  <app-header
+    name="Community Designer"
+    rightButtonIconClass="fa-plus"
+    rightButtonTooltip="Click&nbsp;to&nbsp;add"
+    rightButtonText=" Add"
+    (rightButtonClick)="onAddClick()"
+    [rightButtonDisabled]="!isValidForm"
+  ></app-header>
 </span>
 
 <!-- Community Form -->
 <div class="container">
-  <form name="form" #f="ngForm">
-    <!-- <div *ngIf="(Checklist$ | async) as checklist"> -->
+  <form name="form" #frmMain="ngForm">
     <!-- title -->
     <div class="form-group">
       <label for="title">Name *</label>

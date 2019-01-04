@@ -1,17 +1,10 @@
-<nav class="navbar navbar-dark  py-0" style="background-color: rgb(0,77,64)">
-  <div class="container">
-    <div class="navbar-brand pl-1 p-0">My Checklists</div>
-    <button
-      type="button"
-      class="btn  mt-0 px-1 mr-1 ml-10 p-0 float-right  "
-      (click)="filterToggler()"
-      placement="left"
-      ngbTooltip="Toggle Filter"
-    >
-      <i class="fas fa-filter"></i> Filter
-    </button>
-  </div>
-</nav>
+<app-header
+  name="My Checklists"
+  rightButtonIconClass="fa-filter"
+  rightButtonTooltip="Toggle Filter"
+  rightButtonText=" Filter"
+  (rightButtonClick)="filterToggler()"
+></app-header>
 
 <div class="container">
   <div class="card mt-1" *ngIf="filterToggle">

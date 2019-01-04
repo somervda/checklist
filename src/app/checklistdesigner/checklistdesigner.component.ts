@@ -22,7 +22,7 @@ export class ChecklistdesignerComponent implements OnInit, OnDestroy {
   isValidForm: boolean;
   formSubscription;
 
-  @ViewChild(NgForm) f: NgForm;
+  @ViewChild(NgForm) frmMain: NgForm;
 
   descriptionEditorConfig = {
     editable: true,
@@ -54,7 +54,7 @@ export class ChecklistdesignerComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // Subscribe to form to get the validation state
-    this.formSubscription = this.f.statusChanges.subscribe(result => {
+    this.formSubscription = this.frmMain.statusChanges.subscribe(result => {
       this.isValidForm = result == "VALID";
       //console.log("state", this.isValidForm);
     });

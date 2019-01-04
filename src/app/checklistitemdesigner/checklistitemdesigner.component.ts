@@ -1,5 +1,5 @@
 import { ActivatedRoute, Router } from "@angular/router";
-import { Component, OnInit, NgZone, OnDestroy } from "@angular/core";
+import { Component, OnInit, NgZone, OnDestroy, ViewChild } from "@angular/core";
 import {
   ChecklistItemModel,
   ChecklistItemStatus,
@@ -9,6 +9,7 @@ import {
 import { AngularFirestore } from "@angular/fire/firestore";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "../services/auth.service";
+import { NgForm } from "@angular/forms";
 
 @Component({
   selector: "app-checklistitemdesigner",
@@ -24,6 +25,10 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
   checklistItem$;
   checklistItemSubscription;
   ChecklistItemResultType = ChecklistItemResultType;
+  isValidForm: boolean;
+  formSubscription;
+
+  @ViewChild(NgForm) frmMain: NgForm;
 
   descriptionEditorConfig = {
     editable: true,
@@ -54,6 +59,12 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    // Subscribe to form to get the validation state
+    this.formSubscription = this.frmMain.statusChanges.subscribe(result => {
+      this.isValidForm = result == "VALID";
+      //console.log("state", this.isValidForm);
+    });
+
     this.route.paramMap.subscribe(paramMap => {
       this.action = paramMap.get("action");
       this.id = paramMap.get("id");
@@ -143,7 +154,9 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
   }
 
   onReturnChecklistDesignerClick() {
-    this.router.navigate(["/checklistdesigner/U/" + this.checklistItem.checklistId ]);
+    this.router.navigate([
+      "/checklistdesigner/U/" + this.checklistItem.checklistId
+    ]);
   }
 
   ngOnDestroy() {
@@ -155,5 +168,9 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
     );
     if (this.checklistItemSubscription)
       this.checklistItemSubscription.unsubscribe();
+
+    if (this.formSubscription) {
+      this.formSubscription.unsubscribe();
+    }
   }
 }

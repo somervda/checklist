@@ -1,10 +1,11 @@
 import { AuthService } from "./../services/auth.service";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Component, OnInit, NgZone, OnDestroy } from "@angular/core";
+import { Component, OnInit, NgZone, OnDestroy, ViewChild } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { AngularFirestore } from "@angular/fire/firestore";
 
 import { CommunityModel } from "../models/communityModel";
+import { NgForm } from "@angular/forms";
 
 @Component({
   selector: "app-communitydesigner",
@@ -17,6 +18,10 @@ export class CommunitydesignerComponent implements OnInit, OnDestroy {
   action;
   community = new CommunityModel();
   communitySubscription;
+  isValidForm: boolean;
+  formSubscription;
+
+  @ViewChild(NgForm) frmMain: NgForm;
 
   EditorConfig = {
     editable: true,
@@ -47,6 +52,11 @@ export class CommunitydesignerComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    // Subscribe to form to get the validation state
+    this.formSubscription = this.frmMain.statusChanges.subscribe(result => {
+      this.isValidForm = result == "VALID";
+    });
+
     this.route.paramMap.subscribe(paramMap => {
       this.action = paramMap.get("action");
       this.id = paramMap.get("id");
@@ -99,10 +109,12 @@ export class CommunitydesignerComponent implements OnInit, OnDestroy {
   }
 
   onReturnCommunityClick() {
-    this.router.navigate(["/community/" +  this.id ]);
+    this.router.navigate(["/community/" + this.id]);
   }
 
   ngOnDestroy() {
     if (this.communitySubscription) this.communitySubscription.unsubscribe();
+
+    if (this.formSubscription) this.formSubscription.unsubscribe();
   }
 }

@@ -5,10 +5,20 @@
     rightButtonTooltip="Return&nbsp;to&nbsp;Checklist"
     (rightButtonClick)="onReturnChecklistDesignerClick()"
   ></app-header>
-  
 </span>
 <!-- Special nav bar if adding a checklist -->
 <span *ngIf="action == 'A'">
+  <app-header
+    name="Checklist Item Designer"
+    rightButtonIconClass="fa-plus"
+    rightButtonTooltip="Click&nbsp;to&nbsp;add"
+    rightButtonText=" Add"
+    (rightButtonClick)="onAddClick()"
+    [rightButtonDisabled]="!isValidForm"
+  ></app-header>
+</span>
+
+<!-- <span *ngIf="action == 'A'">
   <nav class="navbar navbar-dark  py-0" style="background-color: rgb(0,77,64)">
     <div class="container">
       <div class="navbar-brand pl-1 p-0">New Checklist Item</div>
@@ -25,10 +35,10 @@
       </button>
     </div>
   </nav>
-</span>
+</span> -->
 
 <div class="container">
-  <form name="form" #f="ngForm">
+  <form name="form" #frmMain="ngForm">
     <!-- prompt -->
     <div class="form-group">
       <label for="prompt">Prompt *</label>
