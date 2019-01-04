@@ -19,20 +19,21 @@ export class UserprofileComponent implements OnInit {
     this.communities = this.auth.user.communitiesAsArray;
   }
 
-  changeInitialPagePreference() {
+  changeInitialPagePreference(initialPagePreference: string) {
+    console.log("changeInitialPagePreference", initialPagePreference);
     this.auth.user.dbFieldUpdate(
       this.auth.getUserUID,
       "initialPagePreference",
-      this.auth.user.initialPagePreference,
+      initialPagePreference,
       this.db
     );
   }
 
-  onDisplayNameUpdate() {
-    this.auth.updateUserProfile("Jim", this.auth.getUserPicture);
+  onDisplayNameUpdate(displayName: string) {
+    this.auth.updateUserProfile(displayName, this.auth.getUserPicture);
   }
 
-  onUserPictureUpdate() {
-    this.auth.updateUserProfile(this.auth.getUserDisplayname, "none");
+  onUserPictureUpdate(pictureURL: string) {
+    this.auth.updateUserProfile(this.auth.getUserDisplayname, pictureURL);
   }
 }

@@ -10,10 +10,11 @@
     <div class="col-8 mt-1">
       <input
         type="text"
+        #displayName
         class="form-control"
         value="{{ auth.getUserDisplayname }}"
         [disabled]="!auth.isProviderFirebase"
-        (blur)="onDisplayNameUpdate()"
+        (blur)="onDisplayNameUpdate(displayName.value)"
       />
     </div>
     <div class="w-100"></div>
@@ -27,9 +28,10 @@
       <input
         type="text"
         class="form-control"
+        #pictureURL
         value="{{ auth.getUserPicture }}"
         [disabled]="!auth.isProviderFirebase"
-        (blur)="onUserPictureUpdate()"
+        (blur)="onUserPictureUpdate(pictureURL.value)"
       />
       <img
         class="mt-1"
@@ -42,8 +44,9 @@
     <div class="col-8 mt-1">
       <select
         class="dropdown  form-control"
-        (change)="changeInitialPagePreference()"
-        [(ngModel)]="auth.user.initialPagePreference"
+        #initialPagePreference
+        (change)="changeInitialPagePreference(initialPagePreference.value)"
+        [value]="auth.user.initialPagePreference"
       >
         <option value="mychecklists">My Checklists</option>
         <option value="mycommunities">My Communities</option>
