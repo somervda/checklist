@@ -96,25 +96,6 @@ export class AuthService {
             this.router.navigate([this.user.initialPagePreference])
           );
         });
-
-      // Code before changing user refresh to a promise (single event subscription)
-
-      // this.user$ = userRef.snapshotChanges();
-      // this.user$.subscribe(snapshot => {
-      //   this.user.loadFromObject(snapshot.payload);
-      //   console.log("constructor user :", snapshot, this.user);
-      //   // When user data gets reloaded also refresh view to the defualt user home page (mychecklists)
-      //   // This is important to support refreshing the view after doing a browser refresh and
-      //   // to make a more natural workflow starting point after user signs in
-
-      //   // Need to run navigates within the angular ngZone or it redirects too early
-      //   // https://stackoverflow.com/questions/51455545/when-to-use-ngzone-run
-      //   if (this.user.initialPagePreference)
-      //     this.ngZone.run(() =>
-      //       this.router.navigate([this.user.initialPagePreference])
-      //     );
-      //   else this.ngZone.run(() => this.router.navigate(["mychecklists"]));
-      // });
     }
   }
 
@@ -236,6 +217,33 @@ export class AuthService {
       .catch(error =>
         this.toastr.error(error.message, "logonActions users update failed")
       );
+  }
+
+  get isProviderFirebase(): boolean {
+    let isFirebase: boolean = false;
+    this.afAuth.auth.currentUser.providerData.forEach(provider => {
+      if (provider.providerId == "password") isFirebase = true;
+    });
+    console.log("Provider:", this.afAuth.auth.currentUser.providerData);
+    return isFirebase;
+  }
+
+  updateUserProfile(displayName: string, photoURL: string) {
+    if (!photoURL || photoURL == "")
+      photoURL = "https://ui-avatars.com/api/?name=" + displayName;
+    if (this.isProviderFirebase) {
+      this.afAuth.auth.currentUser
+        .updateProfile({
+          displayName: displayName,
+          photoURL: photoURL
+        })
+        .then(function() {
+          console.log("updateUserProfile - success");
+        })
+        .catch(function(error) {
+          console.log("updateUserProfile error:", error);
+        });
+    }
   }
 
   get getUserPicture(): string {

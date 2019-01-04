@@ -7,7 +7,15 @@
     <div class="w-100"></div>
 
     <div class="col-3 font-weight-bold  mt-1">Display Name</div>
-    <div class="col-8 mt-1">{{ auth.getUserDisplayname }}</div>
+    <div class="col-8 mt-1">
+      <input
+        type="text"
+        class="form-control"
+        value="{{ auth.getUserDisplayname }}"
+        [disabled]="!auth.isProviderFirebase"
+        (blur)="onDisplayNameUpdate()"
+      />
+    </div>
     <div class="w-100"></div>
 
     <div class="col-3 font-weight-bold mt-1">Uid</div>
@@ -15,7 +23,20 @@
     <div class="w-100"></div>
 
     <div class="col-3 font-weight-bold mt-1">Picture</div>
-    <div class="col-8 mt-1"><img src="{{ auth.getUserPicture }}" /></div>
+    <div class="col-8 mt-1">
+      <input
+        type="text"
+        class="form-control"
+        value="{{ auth.getUserPicture }}"
+        [disabled]="!auth.isProviderFirebase"
+        (blur)="onUserPictureUpdate()"
+      />
+      <img
+        class="mt-1"
+        style="width:100px;height: 100px;"
+        src="{{ auth.getUserPicture }}"
+      />
+    </div>
 
     <div class="col-3 font-weight-bold mt-1">Initial Page Preference</div>
     <div class="col-8 mt-1">
