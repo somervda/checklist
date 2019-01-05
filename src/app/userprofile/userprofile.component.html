@@ -1,98 +1,106 @@
 <app-header name="My Profile"> </app-header>
 <div class="container">
-  <div class="row">
-    <div class="col-3 font-weight-bold" mt-1>eMail</div>
-    <div class="col-8 mt-1">{{ auth.getUserEmail }}</div>
+  <form name="form" #frmMain="ngForm">
+    <div class="row">
+      <div class="col-3 font-weight-bold" mt-1>eMail</div>
+      <div class="col-8 mt-1">{{ auth.getUserEmail }}</div>
 
-    <div class="w-100"></div>
+      <div class="w-100"></div>
 
-    <div class="col-3 font-weight-bold  mt-1">Display Name</div>
-    <div class="col-8 mt-1">
-      <input
-        type="text"
-        #displayName
-        class="form-control"
-        value="{{ auth.getUserDisplayname }}"
-        [disabled]="!auth.isProviderFirebase"
-        (blur)="onDisplayNameUpdate(displayName.value)"
-      />
-    </div>
-    <div class="w-100"></div>
+      <div class="col-3 font-weight-bold  mt-1">Display Name</div>
+      <div class="col-8 mt-1">
+        <input
+          type="text"
+          name="displayName"
+          [(ngModel)]="auth.getUserDisplayname"
+          #displayName="ngModel"
+          class="form-control"
+          [disabled]="!isProviderFirebase"
+          (blur)="onDisplayNameUpdate(displayName.value)"
+          required
+          minlength="3"
+          maxlength="25"
+          placeholder="Display name for user"
+        />
+        <div *ngIf="displayName.touched && !displayName.valid">
+          <div *ngIf="displayName?.errors.required" class="alert alert-danger">
+            A display name is required
+          </div>
+          <div *ngIf="displayName?.errors.minlength" class="alert alert-danger">
+            Display name must be at least 3 characters long
+          </div>
+        </div>
+      </div>
 
-    <div class="col-3 font-weight-bold mt-1">Uid</div>
-    <div class="col-8 mt-1">{{ auth.getUserUID }}</div>
-    <div class="w-100"></div>
+      <div class="w-100"></div>
 
-    <div class="col-3 font-weight-bold mt-1">Picture</div>
-    <div class="col-8 mt-1">
-      <input
-        type="text"
-        class="form-control"
-        #pictureURL
-        value="{{ auth.getUserPicture }}"
-        [disabled]="!auth.isProviderFirebase"
-        (blur)="onUserPictureUpdate(pictureURL.value)"
-      />
-      <img
-        class="mt-1"
-        style="width:100px;height: 100px;"
-        src="{{ auth.getUserPicture }}"
-      />
-    </div>
+      <div class="col-3 font-weight-bold mt-1">Uid</div>
+      <div class="col-8 mt-1">{{ auth.getUserUID }}</div>
+      <div class="w-100"></div>
 
-    <div class="col-3 font-weight-bold mt-1">Initial Page Preference</div>
-    <div class="col-8 mt-1">
-      <select
-        class="dropdown  form-control"
-        #initialPagePreference
-        (change)="changeInitialPagePreference(initialPagePreference.value)"
-        [value]="auth.user.initialPagePreference"
-      >
-        <option value="mychecklists">My Checklists</option>
-        <option value="mycommunities">My Communities</option>
-        <option value="userprofile">User Profile</option>
-      </select>
-    </div>
-  </div>
-  <br />
+      <div class="col-3 font-weight-bold mt-1">Picture</div>
+      <div class="col-8 mt-1">
+        <img
+          class="mt-1"
+          style="width:100px;height: 100px;"
+          src="{{ auth.getUserPicture }}"
+        />
+      </div>
 
-  <!-- Community List -->
-  <div class="row border ">
-    <div class="col-12">
-      <p class="font-weight-bold mb-0">My Communities</p>
-      <ngx-datatable
-        class="bootstrap ngx-datatable mt-0"
-        [columnMode]="'flex'"
-        [rows]="communities"
-        [loadingIndicator]="true"
-        [rowHeight]="35"
-        [footerHeight]="false"
-        [limit]="20"
-        style="width: 100%"
-      >
-        <ngx-datatable-column
-          name="Community Name"
-          [flexGrow]="2"
-          [sortable]="true"
+      <div class="col-3 font-weight-bold mt-1">Initial Page Preference</div>
+      <div class="col-8 mt-1">
+        <select
+          class="dropdown  form-control"
+          #initialPagePreference
+          (change)="changeInitialPagePreference(initialPagePreference.value)"
+          [value]="auth.user.initialPagePreference"
         >
-          <ng-template
-            let-row="row"
-            let-value="value"
-            ngx-datatable-cell-template
-          >
-            <span class="mx-1">{{ row.name }}</span>
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="State" [flexGrow]="1" [sortable]="true">
-          <ng-template
-            let-row="row"
-            let-value="value"
-            ngx-datatable-cell-template
-          >
-            {{ this.auth.user.accessStateAsString(row.accessState) }}
-          </ng-template>
-        </ngx-datatable-column>
-      </ngx-datatable>
+          <option value="mychecklists">My Checklists</option>
+          <option value="mycommunities">My Communities</option>
+          <option value="userprofile">User Profile</option>
+        </select>
+      </div>
     </div>
-  </div>
+    <br />
+
+    <!-- Community List -->
+    <div class="row border ">
+      <div class="col-12">
+        <p class="font-weight-bold mb-0">My Communities</p>
+        <ngx-datatable
+          class="bootstrap ngx-datatable mt-0"
+          [columnMode]="'flex'"
+          [rows]="communities"
+          [loadingIndicator]="true"
+          [rowHeight]="35"
+          [footerHeight]="false"
+          [limit]="20"
+          style="width: 100%"
+        >
+          <ngx-datatable-column
+            name="Community Name"
+            [flexGrow]="2"
+            [sortable]="true"
+          >
+            <ng-template
+              let-row="row"
+              let-value="value"
+              ngx-datatable-cell-template
+            >
+              <span class="mx-1">{{ row.name }}</span>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="State" [flexGrow]="1" [sortable]="true">
+            <ng-template
+              let-row="row"
+              let-value="value"
+              ngx-datatable-cell-template
+            >
+              {{ this.auth.user.accessStateAsString(row.accessState) }}
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </div>
+    </div>
+  </form>
 </div>

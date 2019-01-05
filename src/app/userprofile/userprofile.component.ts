@@ -1,22 +1,33 @@
 import { AngularFirestore } from "@angular/fire/firestore";
 import { AuthService } from "./../services/auth.service";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild, OnDestroy } from "@angular/core";
 import { CommunityAccessState } from "../models/userModel";
 import { StylingIndex } from "@angular/core/src/render3/interfaces/styling";
+import { NgForm } from "@angular/forms";
 
 @Component({
   selector: "userprofile",
   templateUrl: "./userprofile.component.html",
   styleUrls: ["./userprofile.component.scss"]
 })
-export class UserprofileComponent implements OnInit {
+export class UserprofileComponent implements OnInit, OnDestroy {
   CommunityAccessState = CommunityAccessState;
   communities;
+  isProviderFirebase: boolean = true;
+  formSubscription;
+  isValidForm: boolean;
+
+  @ViewChild(NgForm) frmMain: NgForm;
 
   constructor(public auth: AuthService, private db: AngularFirestore) {}
 
   ngOnInit() {
     this.communities = this.auth.user.communitiesAsArray;
+    this.isProviderFirebase = this.auth.isProviderFirebase;
+    // Subscribe to form to get the validation state
+    this.formSubscription = this.frmMain.statusChanges.subscribe(result => {
+      this.isValidForm = result == "VALID";
+    });
   }
 
   changeInitialPagePreference(initialPagePreference: string) {
@@ -30,10 +41,11 @@ export class UserprofileComponent implements OnInit {
   }
 
   onDisplayNameUpdate(displayName: string) {
-    this.auth.updateUserProfile(displayName, this.auth.getUserPicture);
+    // Always update the pictueURL based on display name
+    if (this.isValidForm) this.auth.updateUserProfile(displayName, "");
   }
 
-  onUserPictureUpdate(pictureURL: string) {
-    this.auth.updateUserProfile(this.auth.getUserDisplayname, pictureURL);
+  ngOnDestroy() {
+    if (this.formSubscription) this.formSubscription.unsubscribe();
   }
 }

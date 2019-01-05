@@ -224,11 +224,13 @@ export class AuthService {
     this.afAuth.auth.currentUser.providerData.forEach(provider => {
       if (provider.providerId == "password") isFirebase = true;
     });
-    console.log("Provider:", this.afAuth.auth.currentUser.providerData);
+    console.log("isProviderFirebase:", isFirebase);
     return isFirebase;
   }
 
   updateUserProfile(displayName: string, photoURL: string) {
+    console.log("updateUserProfile");
+    // to reset photoUrl pass in a blank photoURL parameter
     if (!photoURL || photoURL == "")
       photoURL = "https://ui-avatars.com/api/?name=" + displayName;
     if (this.isProviderFirebase) {
