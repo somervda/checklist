@@ -7,7 +7,7 @@
 
       <div class="w-100"></div>
 
-      <div class="col-3 font-weight-bold  mt-1">Display Name</div>
+      <div class="col-3 font-weight-bold  mt-1">Display Name *</div>
       <div class="col-8 mt-1">
         <input
           type="text"
@@ -19,8 +19,8 @@
           (blur)="onDisplayNameUpdate(displayName.value)"
           required
           minlength="3"
-          maxlength="25"
-          placeholder="Display name for user"
+          maxlength="30"
+          placeholder="Display name for user (Required)"
         />
         <div *ngIf="displayName.touched && !displayName.valid">
           <div *ngIf="displayName?.errors.required" class="alert alert-danger">

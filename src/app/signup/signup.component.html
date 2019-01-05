@@ -1,53 +1,122 @@
 <app-header name="Sign Up as new User"></app-header>
 <div class="card  mx-auto mt-2" style="width : 350px">
-  <div class="card-header text-center  "><h4>Sign Up</h4></div>
-  <div class="card-body mb-20">
-    <div class="form-group">
-      <label for="inputEmail">Email</label>
-      <input
-        type="text"
-        class="form-control"
-        id="inputEmail"
-        name="inputEmail"
-        placeholder="Enter your email"
-        [(ngModel)]="email"
-      />
+  <form name="form" #frmMain="ngForm">
+    <div class="card-header text-center  "><h4>Sign Up</h4></div>
+    <div class="card-body mb-20">
+      <div class="form-group">
+        <label for="inputEmail">Email*</label>
+        <input
+          type="email"
+          class="form-control"
+          id="inputEmail"
+          name="inputEmail"
+          #inEmail="ngModel"
+          placeholder="Enter your email (Required)"
+          [(ngModel)]="email"
+          required
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+          minlength="6"
+          maxlength="100"
+        />
+        <div *ngIf="inEmail.touched && !inEmail.valid">
+          <div *ngIf="inEmail?.errors.required" class="alert alert-danger">
+            Email is required
+          </div>
+          <div *ngIf="inEmail?.errors.minlength" class="alert alert-danger">
+            Email must be at least 6 characters long
+          </div>
+          <div *ngIf="inEmail?.errors.pattern" class="alert alert-danger">
+            Must be valid email address
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputPassword">Password*</label>
+        <input
+          type="password"
+          class="form-control"
+          id="inPassword1"
+          #inPassword1="ngModel"
+          name="inPassword1"
+          placeholder="Enter your password (Required)"
+          [(ngModel)]="password"
+          required
+          minlength="8"
+          maxlength="45"
+        />
+        <div *ngIf="inPassword1.touched && !inPassword1.valid">
+          <div *ngIf="inPassword1?.errors.required" class="alert alert-danger">
+            Password is required
+          </div>
+          <div *ngIf="inPassword1?.errors.minlength" class="alert alert-danger">
+            Password must be at least 6 characters long
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputConfirmPassword">Confirm Password*</label>
+        <input
+          type="password"
+          class="form-control"
+          id="inPassword2"
+          #inPassword2="ngModel"
+          name="inPassword2"
+          placeholder="Confirm Password"
+          [(ngModel)]="confirmPassword"
+          required
+          minlength="8"
+          maxlength="45"
+        />
+        <div *ngIf="inPassword1.touched || inPassword2.touched">
+          <div *ngIf="password != confirmPassword" class="alert alert-danger">
+            Confirmation password must match the password
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="displayName">Display Name*</label>
+        <input
+          type="text"
+          class="form-control"
+          id="inDisplayName"
+          name="inDisplayName"
+          #inDisplayName="ngModel"
+          placeholder="Enter your name"
+          [(ngModel)]="displayName"
+          required
+          minlength="3"
+          maxlength="30"
+          placeholder="Display Name (Required)"
+        />
+        <div *ngIf="inDisplayName.touched && !inDisplayName.valid">
+          <div
+            *ngIf="inDisplayName?.errors.required"
+            class="alert alert-danger"
+          >
+            A display name is required
+          </div>
+          <div
+            *ngIf="inDisplayName?.errors.minlength"
+            class="alert alert-danger"
+          >
+            Display name must be at least 3 characters long
+          </div>
+        </div>
+      </div>
+      <re-captcha
+        (resolved)="resolved($event)"
+        siteKey="6LeU7YUUAAAAAB82eQw2tvl7ZVtaX2dhbVbOW-d5"
+      ></re-captcha>
+      <br />
+      <p class="card-text text-center">
+        <button
+          style="width: 150px"
+          [disabled]="disabledSignup || !isValidForm"
+          (click)="this.auth.signup(email, password, displayName)"
+        >
+          <i class="fas fa-user-plus"></i> Sign Up
+        </button>
+      </p>
     </div>
-    <div class="form-group">
-      <label for="inputPassword">Password</label>
-      <input
-        type="password"
-        class="form-control"
-        id="inputPassword"
-        name="inputPassword"
-        placeholder="Enter your password"
-        [(ngModel)]="password"
-      />
-    </div>
-    <div class="form-group">
-      <label for="inputDisplayname">Display Name</label>
-      <input
-        type="text"
-        class="form-control"
-        id="inputDisplayname"
-        name="inputDisplayname"
-        placeholder="Enter your name"
-        [(ngModel)]="displayname"
-      />
-    </div>
-    <re-captcha
-      (resolved)="resolved($event)"
-      siteKey="6LeU7YUUAAAAAB82eQw2tvl7ZVtaX2dhbVbOW-d5"
-    ></re-captcha>
-    <br />
-    <p class="card-text text-center">
-      <button
-        style="width: 150px"
-        [disabled]="disabledSignup"
-        (click)="this.auth.signup(email, password, displayname)"
-      >
-        <i class="fas fa-user-plus"></i> Sign Up
-      </button>
-    </p>
-  </div>
+  </form>
 </div>
