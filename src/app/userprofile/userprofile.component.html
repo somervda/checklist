@@ -12,7 +12,7 @@
         <input
           type="text"
           name="displayName"
-          [(ngModel)]="auth.getUserDisplayname"
+          [(ngModel)]="auth.afAuth.auth.currentUser.displayName"
           #displayName="ngModel"
           class="form-control"
           [disabled]="!isProviderFirebase"
