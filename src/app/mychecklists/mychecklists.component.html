@@ -31,7 +31,7 @@
         (change)="filterByStatus()"
         [(ngModel)]="selectedStatus"
       >
-        <option value="-1" selected>All</option>
+        <!-- <option value="-1" selected>All</option> -->
         <option
           *ngFor="let status of checklistStatusAsArray"
           value="{{ status.id }}"

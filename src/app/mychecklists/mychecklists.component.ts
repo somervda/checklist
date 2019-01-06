@@ -21,7 +21,7 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
 
   showOwned: boolean = true;
   selectedOwnership: string = "All";
-  selectedStatus: number = -1;
+  selectedStatus: number = 0;
   checklistStatusAsArray;
 
   // See https://swimlane.gitbook.io/ngx-datatable/api/column/inputs
@@ -79,6 +79,7 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
       if (this.selectedStatus != -1) {
         retVal = retVal.where("status", "==", Number(this.selectedStatus));
       }
+      retVal = retVal.limit(100);
       //console.log("refreshChecklists owner retVal", retVal);
       return retVal;
     });
@@ -127,6 +128,7 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
             retVal = retVal.where("status", "==", Number(this.selectedStatus));
           }
           console.log("refreshChecklists community retVal", retVal);
+          retVal = retVal.limit(100);
           return retVal;
         });
 
@@ -148,24 +150,39 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
 
     // *** 3. role the  arrays from the combineLatest operation to make one long array (using the ... array operator)
     this.checklists$ = ownerCL$;
-    communityCLArray$.forEach(communityCLArrayEntry$ => {
+    communityCLArray$.forEach((communityCLArrayEntry$, index) => {
+      //let indexId = [{ indexer: 99 }];
       this.checklists$ = this.checklists$.pipe(
         combineLatest(communityCLArrayEntry$),
-        map(([cl1, cl2]) => [...cl1, ...cl2])
+        map(([cl1, cl2]) => {
+          // append a queryIndex indicator to the results to get counts on each query
+          // so we can work out if we exceeded the query limit (so tell user they need to do a filter)
+          cl2.forEach(clitem => (clitem.queryIndex = index + 1));
+
+          console.log("cl2:", cl2);
+          return [...cl1, ...cl2];
+        })
       );
     });
     // *** 4. Subscribe create array of checklists without duplicates
     // There may be faster ways of doing dedups .
+    // Also remove deleted items unless explicitly requested
     this.checklistSubscription = this.checklists$.subscribe(data => {
       // console.log("Init checklists$", data);
       this.checklists = [];
       data.forEach(item => {
+        console.log("Process checklistItems", item);
         const id = item.id;
         let isMatch = false;
         this.checklists.forEach(entry => {
           if (entry.id == item.id) isMatch = true;
         });
-        if (!isMatch) {
+        // Deleted items filtered by default
+        if (
+          !isMatch
+          // &&
+          //((showDeleted && isDeleted) || (!showDeleted && !isDeleted))
+        ) {
           this.checklists.push(item);
         }
       });
