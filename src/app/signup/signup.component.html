@@ -3,6 +3,7 @@
   <form name="form" #frmMain="ngForm">
     <div class="card-header text-center  "><h4>Sign Up</h4></div>
     <div class="card-body mb-20">
+      <!-- email -->
       <div class="form-group">
         <label for="inputEmail">Email*</label>
         <input
@@ -30,6 +31,7 @@
           </div>
         </div>
       </div>
+      <!-- password1 -->
       <div class="form-group">
         <label for="inputPassword">Password*</label>
         <input
@@ -53,6 +55,7 @@
           </div>
         </div>
       </div>
+      <!-- password2 -->
       <div class="form-group">
         <label for="inputConfirmPassword">Confirm Password*</label>
         <input
@@ -73,6 +76,7 @@
           </div>
         </div>
       </div>
+      <!-- displayName -->
       <div class="form-group">
         <label for="displayName">Display Name*</label>
         <input
@@ -103,11 +107,13 @@
           </div>
         </div>
       </div>
+      <!-- recaptcha -->
       <re-captcha
         (resolved)="resolved($event)"
         siteKey="6LeU7YUUAAAAAB82eQw2tvl7ZVtaX2dhbVbOW-d5"
       ></re-captcha>
       <br />
+      <!-- signup button -->
       <p class="card-text text-center">
         <button
           style="width: 150px"
