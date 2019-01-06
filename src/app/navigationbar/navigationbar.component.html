@@ -124,6 +124,16 @@
                   style="width : 30px"
                 ></i>
               </span>
+              <span
+                class="navbar-brand ml-1 "
+                *ngIf="auth.user.isSystemAdministrator == true"
+              >
+                <i
+                  class="fas fa-star"
+                  title="Is System Administrator"
+                  style="color:goldenrod"
+                ></i>
+              </span>
             </a>
             <div
               class="dropdown-menu"
@@ -172,8 +182,5 @@
         </span>
       </ul>
     </div>
-    <span class="navbar-brand" *ngIf="auth.user.isSystemAdministrator == true">
-      <i class="fas fa-medal" title="Is System Administrator"></i>
-    </span>
   </div>
 </nav>
