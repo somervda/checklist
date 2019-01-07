@@ -22,7 +22,11 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
   showOwned: boolean = true;
   selectedOwnership: string = "All";
   selectedStatus: number = 0;
+  selectedAge: number = 9999;
   checklistStatusAsArray;
+
+  queryLimit = 100;
+  queryLimitExceeded = false;
 
   // See https://swimlane.gitbook.io/ngx-datatable/api/column/inputs
 
@@ -62,7 +66,13 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
     this.refreshChecklists();
   }
 
+  filterByAge() {
+    console.log("filterByAge", this.selectedAge);
+    //this.refreshChecklists();
+  }
+
   refreshChecklists() {
+    this.queryLimitExceeded = false;
     // 2 queries are run (owner query and community query) then are combined into one observable
     // see https://stackoverflow.com/questions/50930604/optional-parameter-and-clausule-where
 
@@ -79,7 +89,7 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
       if (this.selectedStatus != -1) {
         retVal = retVal.where("status", "==", Number(this.selectedStatus));
       }
-      retVal = retVal.limit(100);
+      retVal = retVal.limit(this.queryLimit);
       //console.log("refreshChecklists owner retVal", retVal);
       return retVal;
     });
@@ -128,7 +138,7 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
             retVal = retVal.where("status", "==", Number(this.selectedStatus));
           }
           console.log("refreshChecklists community retVal", retVal);
-          retVal = retVal.limit(100);
+          retVal = retVal.limit(this.queryLimit);
           return retVal;
         });
 
@@ -155,11 +165,14 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
       this.checklists$ = this.checklists$.pipe(
         combineLatest(communityCLArrayEntry$),
         map(([cl1, cl2]) => {
-          // append a queryIndex indicator to the results to get counts on each query
-          // so we can work out if we exceeded the query limit (so tell user they need to do a filter)
-          cl2.forEach(clitem => (clitem.queryIndex = index + 1));
+          // Check number of items retrieved in each query does not exceed the queryLimit
 
-          console.log("cl2:", cl2);
+          if (index == 0) {
+            if (cl1.length >= this.queryLimit) this.queryLimitExceeded = true;
+          }
+          if (cl2.length >= this.queryLimit) this.queryLimitExceeded = true;
+
+          // append the cl2 array to the cl1 array
           return [...cl1, ...cl2];
         })
       );
@@ -171,7 +184,7 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
       // console.log("Init checklists$", data);
       this.checklists = [];
       data.forEach(item => {
-        console.log("Process checklistItems", item);
+        //console.log("Process checklistItems", item);
         const id = item.id;
         let isMatch = false;
         this.checklists.forEach(entry => {

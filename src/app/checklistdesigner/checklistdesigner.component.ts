@@ -1,5 +1,5 @@
 import { AuthService } from "./../services/auth.service";
-import { Subscription } from "rxjs";
+
 import { ActivatedRoute, Router } from "@angular/router";
 import { Component, OnInit, NgZone, ViewChild, OnDestroy } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
@@ -7,6 +7,9 @@ import { AngularFirestore } from "@angular/fire/firestore";
 
 import { ChecklistModel, ChecklistStatus } from "../models/checklistModel";
 import { NgForm } from "@angular/forms";
+
+import * as firebase from "firebase/app";
+import "firebase/firestore";
 
 @Component({
   selector: "app-checklistdesigner",
@@ -106,13 +109,19 @@ export class ChecklistdesignerComponent implements OnInit, OnDestroy {
       uid: this.auth.getUserUID,
       displayName: displayName
     };
+    this.checklist.community = {
+      communityId: "",
+      name: ""
+    };
+
     this.checklist.dateCreated = new Date();
     this.checklist.status = ChecklistStatus.Active;
-    console.log("Add a new checklist", this.checklist);
+
+    console.log("Add a new checklist", this.checklist, this.checklist.asObject);
     // Add a new document with a generated id. Note, need to cast to generic object
     this.db
       .collection("checklists")
-      .add(JSON.parse(JSON.stringify(this.checklist)))
+      .add(this.checklist.asObject)
       .then(docRef => {
         console.log("Document written with ID: ", docRef.id);
         this.toastr.success("DocRef: " + docRef.id, "Checklist Created", {
