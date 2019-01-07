@@ -8,9 +8,6 @@ import { AngularFirestore } from "@angular/fire/firestore";
 import { ChecklistModel, ChecklistStatus } from "../models/checklistModel";
 import { NgForm } from "@angular/forms";
 
-import * as firebase from "firebase/app";
-import "firebase/firestore";
-
 @Component({
   selector: "app-checklistdesigner",
   templateUrl: "./checklistdesigner.component.html",
@@ -22,6 +19,7 @@ export class ChecklistdesignerComponent implements OnInit, OnDestroy {
   action;
   checklist = new ChecklistModel();
   checklistitems;
+  model;
   isValidForm: boolean;
   formSubscription;
 
@@ -105,20 +103,17 @@ export class ChecklistdesignerComponent implements OnInit, OnDestroy {
       displayName = this.auth.getUserDisplayname;
     }
 
-    this.checklist.owner = {
-      uid: this.auth.getUserUID,
-      displayName: displayName
-    };
-    this.checklist.community = {
-      communityId: "",
-      name: ""
-    };
+    this.checklist.owner.uid = this.auth.getUserUID;
+    this.checklist.owner.displayName = displayName;
 
-    this.checklist.dateCreated = new Date();
+    this.checklist.community.communityId = "";
+    this.checklist.community.name = "";
+
+    this.checklist.dateCreated = new Date(); // Be better to use the server date time
     this.checklist.status = ChecklistStatus.Active;
 
     console.log("Add a new checklist", this.checklist, this.checklist.asObject);
-    // Add a new document with a generated id. Note, need to cast to generic object
+    // Add a new document
     this.db
       .collection("checklists")
       .add(this.checklist.asObject)

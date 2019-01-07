@@ -99,6 +99,37 @@
     >
       Is a template
     </div>
+
+    <!-- Target date -->
+
+    <div class="form-group">
+      <label
+        for="targetDate"
+        placement="right"
+        ngbTooltip="Date when the checklist is expected to be completed/closed"
+        >Targeted Completion</label
+      >
+      <div class="input-group">
+        <input
+          class="form-control"
+          placeholder="yyyy-mm-dd"
+          name="targetDate"
+          [(ngModel)]="model"
+          ngbDatepicker
+          #targetDate="ngbDatepicker"
+        />
+        <div class="input-group-append">
+          <button
+            class="btn btn-outline-secondary calendar"
+            (click)="targetDate.toggle()"
+            type="button"
+          >
+            <i class="fas fa-calendar-alt"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
     <div *ngIf="action == 'U'">
       <!-- Checklistitems -->
       <nav class="navbar navbar-dark bg-secondary py-0">

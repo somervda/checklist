@@ -23,7 +23,8 @@ import {
   NgbCarouselModule,
   NgbCollapseModule,
   NgbTooltipModule,
-  NgbRatingModule
+  NgbRatingModule,
+  NgbDatepickerModule
 } from "@ng-bootstrap/ng-bootstrap";
 
 import { NgxEditorModule } from "ngx-editor";
@@ -89,6 +90,7 @@ import { TesterComponent } from "./tester/tester.component";
     NgxDatatableModule,
     NgbTooltipModule,
     NgbRatingModule,
+    NgbDatepickerModule,
     NgxEditorModule,
     PopoverModule,
     RecaptchaModule,
