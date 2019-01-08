@@ -3,7 +3,6 @@
 -->
 <app-header
   name="Checklist"
- 
   (rightButtonClick)="onDesignerClick()"
   rightButtonTooltip="Modify&nbsp;Checklist&nbsp;Design"
   rightButtonIconClass="fa-pencil-alt"
@@ -13,14 +12,21 @@
 
 <!-- Body -->
 <div class="container">
-  <h3>{{ (checklist$ | async)?.data().title }}</h3>
-  <div
-    class="text-left"
-    [innerHtml]="(checklist$ | async)?.data().description"
-  ></div>
-  <p class="text-left">
-    Owner : {{ (checklist$ | async)?.data().owner.displayName }}
-  </p>
+  <h3>{{ checklist.title }}</h3>
+  <div class="text-left" [innerHtml]="checklist.description"></div>
+
+  <div class="row">
+    <div class="col-sm"><b>Owner</b>: {{ checklist?.owner?.displayName }}</div>
+    <div class="col-sm"><b>Community</b>: {{ checklist?.community?.name }}</div>
+  </div>
+  <div class="row">
+    <div class="col-sm">
+      <b>Created</b>: {{ checklist?.dateCreatedShortDate }}
+    </div>
+    <div class="col-sm">
+      <b>Targeting</b>: {{ checklist?.dateTargetedShortDate }}
+    </div>
+  </div>
 
   <!-- Checklist Items -->
   <hr class="p-0 m-0" />

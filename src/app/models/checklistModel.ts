@@ -6,7 +6,7 @@ export class ChecklistModel {
   // Duplicates the actual document id but will be useful to have it in the document fields as well
   // especially if the checklistModel is used to define the template object (when applicable)
   // id will only be filled in for the template
-  public id: string ;
+  public id: string;
   public title: string;
   public description: string;
   // Templates can only be used to create checklists , not as a checklist with its own data
@@ -17,9 +17,9 @@ export class ChecklistModel {
   // dateTargeted is when the checklist should be completed by
   public dateTargeted: Date = new Date();
   // owner is the auth uid, owner can update and design the checklist
-  public owner: { uid : string, displayName: string};
+  public owner: { uid: string; displayName: string };
   // communityId is optional if the checklist is only a personal checklist
-  public community : { communityId : string, name : string };
+  public community: { communityId: string; name: string };
   // Template is a copy of the original checklist/template that was used to create
   // the checklist (Optional)
   public template: object = {};
@@ -31,8 +31,8 @@ export class ChecklistModel {
     this.isTemplate = payload.data().isTemplate;
     this.owner = payload.data().owner;
     this.community = payload.data().community;
-    this.dateTargeted = payload.data().dateTargeted;
-    this.dateCreated = payload.data().dateCreated;
+    this.dateTargeted = payload.data().dateTargeted.toDate();
+    this.dateCreated = payload.data().dateCreated.toDate();
   }
 
   dbFieldUpdate(docId: string, fieldName: string, newValue: any, db) {
@@ -63,6 +63,26 @@ export class ChecklistModel {
     };
   }
 
+  get dateCreatedShortDate(): string {
+    if (this.isValidDate(this.dateCreated))
+      return this.dateCreated.toLocaleDateString();
+    return "";
+  }
+
+  get dateTargetedShortDate(): string {
+    if (this.isValidDate(this.dateTargeted))
+      return this.dateTargeted.toLocaleDateString();
+    return "";
+  }
+
+  isValidDate(date) {
+    return (
+      date &&
+      Object.prototype.toString.call(date) === "[object Date]" &&
+      !isNaN(date)
+    );
+  }
+
   get isOverdue(): boolean {
     if (this.dateTargeted) {
       if (
@@ -75,9 +95,8 @@ export class ChecklistModel {
   }
 
   constructor() {
-    this.owner = {uid : "", displayName : ""};
-    this.community = {communityId: "", name : ""};
-
+    this.owner = { uid: "", displayName: "" };
+    this.community = { communityId: "", name: "" };
   }
 }
 

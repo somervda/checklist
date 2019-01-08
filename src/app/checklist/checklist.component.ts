@@ -1,5 +1,6 @@
+import { ChecklistModel } from "./../models/checklistModel";
 import { AuthService } from "./../services/auth.service";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { ToastrService } from "ngx-toastr";
@@ -11,13 +12,15 @@ import { CommunityAccessState } from "../models/userModel";
   templateUrl: "./checklist.component.html",
   styleUrls: ["./checklist.component.scss"]
 })
-export class ChecklistComponent implements OnInit {
+export class ChecklistComponent implements OnInit, OnDestroy {
   checklist$;
   //checklistItems$;
   checklistitems;
-  id ;
+  id;
   showDesignerButton: boolean = false;
   CommunityAccessState = CommunityAccessState;
+  checklist = new ChecklistModel();
+  checklistSubscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,8 +34,10 @@ export class ChecklistComponent implements OnInit {
     this.route.paramMap.subscribe(paramMap => {
       this.id = paramMap.get("id");
       this.checklist$ = this.db.doc("/checklists/" + this.id).get();
-      this.checklist$.subscribe(doc => {
+      this.checklistSubscription = this.checklist$.subscribe(doc => {
         console.log("onInit doc", doc.data());
+        this.checklist.loadFromObject(doc);
+
         // Update screan options based on user access
         if (doc.data().owner && doc.data().owner.uid) {
           if (doc.data().owner.uid == this.auth.getUserUID)
@@ -81,7 +86,9 @@ export class ChecklistComponent implements OnInit {
       // the checklistsitem component in real time, but lists of checklistitems
       // will not be refreshed each time back end changes occur (i.e. adding or deleting an item)
       this.db
-        .collection("checklistItems", ref => ref.where("checklistId", "==", this.id))
+        .collection("checklistItems", ref =>
+          ref.where("checklistId", "==", this.id)
+        )
         .get()
         .toPromise()
         .then(snapshot => {
@@ -97,7 +104,10 @@ export class ChecklistComponent implements OnInit {
   }
 
   onDesignerClick() {
-     
-    this.router.navigate(["/checklistdesigner/U/" + this.id ]);
+    this.router.navigate(["/checklistdesigner/U/" + this.id]);
+  }
+
+  ngOnDestroy() {
+    if (this.checklistSubscription) this.checklistSubscription.unsubscribe();
   }
 }

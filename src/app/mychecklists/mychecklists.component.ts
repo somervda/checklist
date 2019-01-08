@@ -112,10 +112,11 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
     const ownerCL$ = ownerRef.snapshotChanges().pipe(
       map(documentChangeAction =>
         documentChangeAction.map(row => {
-          return {
-            id: row.payload.doc.id,
-            ...row.payload.doc.data()
-          } as ChecklistModel;
+          // Need to set the id after creating the checklistitem
+          // otherwise the id get cleared out when the data() is applied
+          let checklistItem = row.payload.doc.data();
+          checklistItem["id"] = row.payload.doc.id;
+          return checklistItem as ChecklistModel;
         })
       )
     );
@@ -163,10 +164,11 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
           communityRef.snapshotChanges().pipe(
             map(documentChangeAction =>
               documentChangeAction.map(row => {
-                return {
-                  id: row.payload.doc.id,
-                  ...row.payload.doc.data()
-                } as ChecklistModel;
+                // Need to set the id after creating the checklistitem
+                // otherwise the id get cleared out when the data() is applied
+                let checklistItem = row.payload.doc.data();
+                checklistItem["id"] = row.payload.doc.id;
+                return checklistItem as ChecklistModel;
               })
             )
           )
