@@ -102,7 +102,7 @@ export class ChecklistdesignerComponent implements OnInit, OnDestroy {
     if (this.auth.getUserDisplayname) {
       displayName = this.auth.getUserDisplayname;
     }
-
+console.log ("Add new checklist uid", this.auth.getUserUID);
     this.checklist.owner.uid = this.auth.getUserUID;
     this.checklist.owner.displayName = displayName;
 
