@@ -22,7 +22,7 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
   showOwned: boolean = true;
   selectedOwnership: string = "All";
   selectedStatus: number = 0;
-  selectedAge: number = 9999;
+  selectedAge: number = -1;
   checklistStatusAsArray;
 
   queryLimit = 100;
@@ -68,7 +68,7 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
 
   filterByAge() {
     console.log("filterByAge", this.selectedAge);
-    //this.refreshChecklists();
+    this.refreshChecklists();
   }
 
   refreshChecklists() {
@@ -88,6 +88,13 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
       }
       if (this.selectedStatus != -1) {
         retVal = retVal.where("status", "==", Number(this.selectedStatus));
+      }
+      if (this.selectedAge != -1) {
+        retVal = retVal.where(
+          "dateCreated",
+          ">",
+          this.addDays(new Date(), this.selectedAge * -1)
+        );
       }
       retVal = retVal.limit(this.queryLimit);
       //console.log("refreshChecklists owner retVal", retVal);
@@ -136,6 +143,15 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
           );
           if (this.selectedStatus != -1) {
             retVal = retVal.where("status", "==", Number(this.selectedStatus));
+          }
+
+          console.log("Query1 selectedAge", this.selectedAge);
+          if (this.selectedAge != -1) {
+            retVal = retVal.where(
+              "dateCreated",
+              ">",
+              this.addDays(new Date(), this.selectedAge * -1)
+            );
           }
           console.log("refreshChecklists community retVal", retVal);
           retVal = retVal.limit(this.queryLimit);
@@ -209,5 +225,11 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this.checklistSubscription) this.checklistSubscription.unsubscribe();
+  }
+
+  addDays(date, days) {
+    var result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
   }
 }
