@@ -4,12 +4,12 @@ import { firestore } from "firebase";
 // This model is more for helping with the consistancy of the checklist documents
 // in the firestore db but
 export class ChecklistModel {
-  // Duplicates the actual document id but will be useful to have it in the document fields as well
+  // Id Duplicates the actual document id but will be useful to have it in the document fields as well
   // especially if the checklistModel is used to define the template object (when applicable)
   // id will only be filled in for the template
-  public id: string;
-  public title: string;
-  public description: string;
+  public id: string = "";
+  public title: string = "";
+  public description: string = "";
   // Templates can only be used to create checklists , not as a checklist with its own data
   public isTemplate: boolean = false;
   //
