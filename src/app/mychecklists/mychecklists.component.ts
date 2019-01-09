@@ -202,7 +202,7 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
       // console.log("Init checklists$", data);
       this.checklists = [];
       data.forEach(item => {
-        console.log("Process checklistItems", item);
+        //console.log("Process checklistItems", item);
         const id = item.id;
         let isMatch = false;
         this.checklists.forEach(entry => {

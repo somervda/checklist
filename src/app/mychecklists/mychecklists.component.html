@@ -130,7 +130,7 @@
                 style="color:maroon"
               ></i
             ></span>
-            <span *ngIf="!auth.user.communities[(row.community?.communityId)]">
+            <span *ngIf="row.community?.communityId != '' &&   !auth.user.communities[(row.community?.communityId)]">
               <i
                 class="fas fa-users mr-2"
                 placement="top"

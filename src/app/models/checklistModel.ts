@@ -1,5 +1,6 @@
 import { AngularFirestore } from "@angular/fire/firestore";
 import { ToastrService } from "ngx-toastr";
+import { firestore } from "firebase";
 // This model is more for helping with the consistancy of the checklist documents
 // in the firestore db but
 export class ChecklistModel {
@@ -31,8 +32,30 @@ export class ChecklistModel {
     this.isTemplate = payload.data().isTemplate;
     this.owner = payload.data().owner;
     this.community = payload.data().community;
-    this.dateTargeted = payload.data().dateTargeted.toDate();
-    this.dateCreated = payload.data().dateCreated.toDate();
+
+    // Hold dates in the model as datatype Date
+    // convert from firestore Timestamp object
+
+    if (
+      payload.data().dateTargeted &&
+      payload.data().dateTargeted.__proto__.constructor.name == "Timestamp"
+    )
+      this.dateTargeted = payload.data().dateTargeted.toDate();
+    else this.dateTargeted = null;
+
+    if (
+      payload.data().dateCreated &&
+      payload.data().dateCreated.__proto__.constructor.name == "Timestamp"
+    )
+      this.dateCreated = payload.data().dateCreated.toDate();
+    else this.dateCreated = null;
+
+    console.log(
+      "checklistsModel load from object",
+      payload.data(),
+      " dateCreated:",
+      this.dateCreated
+    );
   }
 
   dbFieldUpdate(docId: string, fieldName: string, newValue: any, db) {
