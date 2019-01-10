@@ -35,19 +35,22 @@ export class ChecklistModel {
 
     // Hold dates in the model as datatype Date
     // convert from firestore Timestamp object
-
+    // Note: nanoseconds can often be set to 0 they messes up existence coercion test so
+    // I do an extra check that the value is not numeric 0
     if (
       payload.data().dateTargeted &&
       payload.data().dateTargeted.seconds &&
-      payload.data().dateTargeted.nanoseconds 
-    )
+      (payload.data().dateTargeted.nanoseconds ||
+        payload.data().dateTargeted.nanoseconds === 0)
+    ) {
       this.dateTargeted = payload.data().dateTargeted.toDate();
-    else this.dateTargeted = null;
+    } else this.dateTargeted = null;
 
     if (
       payload.data().dateCreated &&
       payload.data().dateCreated.seconds &&
-      payload.data().dateCreated.nanoseconds 
+      (payload.data().dateCreated.nanoseconds ||
+        payload.data().dateCreated.nanoseconds === 0)
     )
       this.dateCreated = payload.data().dateCreated.toDate();
     else this.dateCreated = null;
