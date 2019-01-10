@@ -38,14 +38,16 @@ export class ChecklistModel {
 
     if (
       payload.data().dateTargeted &&
-      payload.data().dateTargeted.__proto__.constructor.name == "Timestamp"
+      payload.data().dateTargeted.seconds &&
+      payload.data().dateTargeted.nanoseconds 
     )
       this.dateTargeted = payload.data().dateTargeted.toDate();
     else this.dateTargeted = null;
 
     if (
       payload.data().dateCreated &&
-      payload.data().dateCreated.__proto__.constructor.name == "Timestamp"
+      payload.data().dateCreated.seconds &&
+      payload.data().dateCreated.nanoseconds 
     )
       this.dateCreated = payload.data().dateCreated.toDate();
     else this.dateCreated = null;

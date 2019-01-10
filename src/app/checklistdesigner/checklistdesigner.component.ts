@@ -71,6 +71,12 @@ export class ChecklistdesignerComponent implements OnInit, OnDestroy {
         this.checklist$.subscribe(doc => {
           console.log("Checklist Designer subscribed doc", doc);
           this.checklist.loadFromObject(doc.payload);
+          if (this.checklist.dateTargeted != null)
+            this.model = {
+              year: this.checklist.dateTargeted.getFullYear(),
+              month: this.checklist.dateTargeted.getMonth() + 1,
+              day: this.checklist.dateTargeted.getDate()
+            };
         });
 
         // Get a list of checklist items
