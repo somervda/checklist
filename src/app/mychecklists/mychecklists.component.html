@@ -89,13 +89,13 @@
           let-value="value"
           ngx-datatable-cell-template
         >
-          <span class="mx-1" *ngIf="row.isOverdue">
-            <i class="far fa-clock" style="color: red;"></i>
+          <span class="mx-1">
+            <a routerLink="/checklist/{{ row.id }}">{{ row.title }}</a>
           </span>
-
-          <span class="mx-1"
-            ><a routerLink="/checklist/{{ row.id }}">{{ row.title }}</a></span
-          >
+          <span class="mx-1" *ngIf="row.isOverdue">
+            <i class="far fa-clock" style="color: red;" placement="top"
+            ngbTooltip="Overdue : Active checklist with target date in the past"></i>
+          </span>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="Status" [flexGrow]="1">

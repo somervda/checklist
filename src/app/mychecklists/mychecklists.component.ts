@@ -127,6 +127,7 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
           // otherwise the id get cleared out when the data() is applied
           let checklistItem = row.payload.doc.data();
           checklistItem["id"] = row.payload.doc.id;
+          checklistItem["isOverdue"] = this.isOverdue(checklistItem);
           return checklistItem as ChecklistModel;
         })
       )
@@ -189,6 +190,7 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
                 // otherwise the id get cleared out when the data() is applied
                 let checklistItem = row.payload.doc.data();
                 checklistItem["id"] = row.payload.doc.id;
+                checklistItem["isOverdue"] = this.isOverdue(checklistItem);
                 return checklistItem as ChecklistModel;
               })
             )
@@ -250,5 +252,21 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
     var result = new Date(date);
     result.setDate(result.getDate() + days);
     return result;
+  }
+
+  isOverdue(checklist): boolean {
+    
+    if (checklist.dateTargeted) {
+      console.log("isOverdue", checklist.title, checklist.dateTargeted, checklist.status);
+      if (
+        checklist.dateTargeted.seconds <= (Date.now() / 1000) 
+         && checklist.status == ChecklistStatus.Active
+      )
+      {
+        console.log("isOverdure True!!");
+        return true;
+      }
+    }
+    return false; 
   }
 }
