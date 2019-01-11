@@ -114,10 +114,13 @@
           class="form-control"
           placeholder="yyyy-mm-dd"
           name="targetDate"
+          (dateSelect)="onTargetDateUpdate()"
+          (blur)="onTargetDateUpdate()"
           [(ngModel)]="model"
           ngbDatepicker
           #targetDate="ngbDatepicker"
         />
+
         <div class="input-group-append">
           <button
             class="btn btn-outline-secondary calendar"

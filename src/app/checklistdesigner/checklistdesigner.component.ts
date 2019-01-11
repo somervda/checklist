@@ -19,7 +19,7 @@ export class ChecklistdesignerComponent implements OnInit, OnDestroy {
   action;
   checklist = new ChecklistModel();
   checklistitems;
-  model;
+  model: { year: number; month: number; day: number };
   isValidForm: boolean;
   formSubscription;
 
@@ -152,6 +152,31 @@ export class ChecklistdesignerComponent implements OnInit, OnDestroy {
       this.checklist.description,
       this.db
     );
+  }
+
+  onTargetDateUpdate() {
+    //console.log("onTargetDateUpdate model:", this.model);
+    let modelDate = this.modelAsDate();
+    console.log("modelDate:", modelDate);
+    if (modelDate === undefined)
+      this.checklist.dbFieldUpdate(this.id, "dateTargeted", {}, this.db);
+    else
+      this.checklist.dbFieldUpdate(this.id, "dateTargeted", modelDate, this.db);
+  }
+
+  modelAsDate(): Date {
+    if (this.model && this.model.year && this.model.month && this.model.day) {
+      let modelDate = new Date(
+        this.model.year,
+        this.model.month - 1,
+        this.model.day,
+        0,
+        0,
+        0
+      );
+      return modelDate;
+    }
+    return undefined;
   }
 
   onReturnToChecklistClick() {
