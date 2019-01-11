@@ -50,6 +50,9 @@ import { MycommunitiesComponent } from "./mycommunities/mycommunities.component"
 import { CommunityComponent } from "./community/community.component";
 import { CommunitydesignerComponent } from "./communitydesigner/communitydesigner.component";
 import { TesterComponent } from "./tester/tester.component";
+import { ThemeComponent } from './theme/theme.component';
+import { ThemesComponent } from './themes/themes.component';
+import { ThemedesignerComponent } from './themedesigner/themedesigner.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +76,10 @@ import { TesterComponent } from "./tester/tester.component";
     MycommunitiesComponent,
     CommunityComponent,
     CommunitydesignerComponent,
-    TesterComponent
+    TesterComponent,
+    ThemeComponent,
+    ThemesComponent,
+    ThemedesignerComponent
   ],
   imports: [
     BrowserModule,
