@@ -14,9 +14,9 @@ export class ChecklistModel {
   public isTemplate: boolean = false;
   //
   public status: ChecklistStatus;
-  public dateCreated: Date = new Date();
+  public dateCreated: Date = null;
   // dateTargeted is when the checklist should be completed by
-  public dateTargeted: Date = new Date();
+  public dateTargeted: Date = null;
   // owner is the auth uid, owner can update and design the checklist
   public owner: { uid: string; displayName: string };
   // communityId is optional if the checklist is only a personal checklist
@@ -112,7 +112,9 @@ export class ChecklistModel {
   }
 
   get isOverdue(): boolean {
+    console.log("isOverdue");
     if (this.dateTargeted) {
+      console.log("isOverdue", this.title, this.dateTargeted, this.status);
       if (
         this.dateTargeted <= new Date() &&
         this.status == ChecklistStatus.Active

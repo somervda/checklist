@@ -41,7 +41,7 @@
       </select>
 
       <!-- age selector -->
-      <span class="pt-1 pb-0 ">Age</span>
+      <span class="pt-1 pb-0 ">Age or Overdue</span>
       <select
         class="dropdown  form-control"
         (change)="filterByAge()"
@@ -89,6 +89,10 @@
           let-value="value"
           ngx-datatable-cell-template
         >
+          <span class="mx-1" *ngIf="row.isOverdue">
+            <i class="far fa-clock" style="color: red;"></i>
+          </span>
+
           <span class="mx-1"
             ><a routerLink="/checklist/{{ row.id }}">{{ row.title }}</a></span
           >
@@ -152,6 +156,7 @@
     class="bg-light border-black border mt-1 mx-1 p-1 rounded text-black-50 text-center"
     style="font-size: 70%"
   >
+    <i class="far fa-clock" style="color: red;font-size:  70%;"></i> Overdue
     <i class="fas fa-user" style="color: blue; font-size: 70%;"></i> I am the
     owner.
     <i class="fas fa-user-slash " style="color: skyblue; font-size: 70%;"></i> I
