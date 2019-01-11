@@ -41,6 +41,51 @@
             >&nbsp;Home</a
           >
         </li>
+
+        <span *ngIf="auth.user.isSystemAdministrator">
+          <!-- Administration Menu -->
+          <li class="nav-item dropdown px-2" ngbDropdown>
+            <a class="nav-link" id="navAdministrator" ngbDropdownToggle>
+              Administration
+            </a>
+            <div class="dropdown-menu" ngbDropdownMenu>
+              <a
+                class="dropdown-item"
+                routerLink="themes"
+                id="navThemes"
+                routerLinkActive="active"
+                (click)="collapse()"
+                >Themes</a
+              >
+              <a
+                class="dropdown-item"
+                routerLinkActive="active"
+                id="navAddTheme"
+                routerLink="themedesigner/A"
+                (click)="collapse()"
+                >Add new Theme</a
+              >
+              <hr />
+              <a
+                class="dropdown-item"
+                routerLink="activities"
+                id="navActivities"
+                routerLinkActive="active"
+                (click)="collapse()"
+                >Activities</a
+              >
+              <a
+                class="dropdown-item"
+                routerLinkActive="active"
+                id="navAddActivity"
+                routerLink="activitydesigner/A"
+                (click)="collapse()"
+                >Add new Activity</a
+              >
+            </div>
+          </li>
+        </span>
+
         <span *ngIf="auth.isAuthenticated()">
           <!-- Community Menu -->
           <li class="nav-item dropdown px-2" ngbDropdown>
@@ -124,7 +169,7 @@
                   style="width : 30px"
                 ></i>
               </span>
-              <span
+              <!-- <span
                 class="navbar-brand ml-1 mr-0"
                 *ngIf="auth.user.isSystemAdministrator == true"
               >
@@ -133,7 +178,7 @@
                   title="Is System Administrator"
                   style="color:goldenrod"
                 ></i>
-              </span>
+              </span> -->
             </a>
             <div
               class="dropdown-menu"

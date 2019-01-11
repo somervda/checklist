@@ -135,6 +135,18 @@ import { ThemedesignerComponent } from './themedesigner/themedesigner.component'
         path: "communitydesigner/:action/:id",
         component: CommunitydesignerComponent
       },
+      // Themes
+      { path: "themes", component: ThemesComponent },
+      { path: "theme/:id", component: ThemeComponent },
+      {
+        path: "themedesigner/:action",
+        component: ThemedesignerComponent
+      },
+      {
+        path: "themedesigner/:action/:id",
+        component: ThemedesignerComponent
+      },
+      // Misc
       {
         path: "tester",
         component: TesterComponent
