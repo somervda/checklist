@@ -25,7 +25,7 @@
           >Community: {{ community.name }}</option
         >
       </select>
-      
+
       <!-- Status selector -->
       <span class="pt-1 pb-0 ">Status</span>
       <select
@@ -48,6 +48,7 @@
         [(ngModel)]="selectedAge"
       >
         <option value="-1" selected>All</option>
+        <option value="0">Overdue</option>
         <option value="1">1 Day</option>
         <option value="7">7 Days</option>
         <option value="30">30 Days</option>
@@ -130,7 +131,12 @@
                 style="color:maroon"
               ></i
             ></span>
-            <span *ngIf="row.community?.communityId != '' &&   !auth.user.communities[(row.community?.communityId)]">
+            <span
+              *ngIf="
+                row.community?.communityId != '' &&
+                !auth.user.communities[(row.community?.communityId)]
+              "
+            >
               <i
                 class="fas fa-users mr-2"
                 placement="top"

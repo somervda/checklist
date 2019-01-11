@@ -89,15 +89,26 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
       if (this.selectedStatus != -1) {
         retVal = retVal.where("status", "==", Number(this.selectedStatus));
       }
-      if (this.selectedAge != -1) {
-        retVal = retVal.where(
-          "dateCreated",
-          ">",
-          this.addDays(new Date(), this.selectedAge * -1)
-        );
+
+      switch (Number(this.selectedAge)) {
+        case -1:
+          // All - no additional filter
+          break;
+        case 0:
+          // Overdue
+          retVal = retVal.where("dateTargeted", "<", new Date());
+          break;
+        default:
+          retVal = retVal.where(
+            "dateCreated",
+            ">",
+            this.addDays(new Date(), this.selectedAge * -1)
+          );
+          break;
       }
+
       retVal = retVal.limit(this.queryLimit);
-      //console.log("refreshChecklists owner retVal", retVal);
+      console.log("refreshChecklists owner retVal", retVal);
       return retVal;
     });
 
@@ -147,13 +158,23 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
           }
 
           console.log("Query1 selectedAge", this.selectedAge);
-          if (this.selectedAge != -1) {
-            retVal = retVal.where(
-              "dateCreated",
-              ">",
-              this.addDays(new Date(), this.selectedAge * -1)
-            );
+          switch (Number(this.selectedAge)) {
+            case -1:
+              // All - no additional filter
+              break;
+            case 0:
+              // Overdue
+              retVal = retVal.where("dateTargeted", "<", new Date());
+              break;
+            default:
+              retVal = retVal.where(
+                "dateCreated",
+                ">",
+                this.addDays(new Date(), this.selectedAge * -1)
+              );
+              break;
           }
+
           console.log("refreshChecklists community retVal", retVal);
           retVal = retVal.limit(this.queryLimit);
           return retVal;
