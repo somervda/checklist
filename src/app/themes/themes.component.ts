@@ -33,6 +33,6 @@ export class ThemesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    //if (this.themeSubscription) this.themeSubscription.unsubscribe();
+    if (this.themeSubscription) this.themeSubscription.unsubscribe();
   }
 }

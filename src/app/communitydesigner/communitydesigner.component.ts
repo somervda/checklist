@@ -6,6 +6,7 @@ import { AngularFirestore } from "@angular/fire/firestore";
 
 import { CommunityModel } from "../models/communityModel";
 import { NgForm } from "@angular/forms";
+import { AuditlogService } from "../services/auditlog.service";
 
 @Component({
   selector: "app-communitydesigner",
@@ -48,7 +49,8 @@ export class CommunitydesignerComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
     private router: Router,
     private auth: AuthService,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private als: AuditlogService
   ) {}
 
   ngOnInit() {
@@ -67,7 +69,7 @@ export class CommunitydesignerComponent implements OnInit, OnDestroy {
           .snapshotChanges();
         this.communitySubscription = this.community$.subscribe(snapshot => {
           console.log("Community Designer subscribed snapshot", snapshot);
-          this.community.loadFromObject(snapshot.payload);
+          this.community = new CommunityModel(snapshot.payload);
         });
       }
     });
@@ -79,9 +81,15 @@ export class CommunitydesignerComponent implements OnInit, OnDestroy {
     // Add a new document with a generated id. Note, need to cast to generic object
     this.db
       .collection("communities")
-      .add(JSON.parse(JSON.stringify(this.community)))
+      .add(this.community.json)
       .then(docRef => {
-        console.log("Document written with ID: ", docRef.id);
+        this.als.logUpdate(
+          docRef.id,
+          "communities",
+          "ADD",
+          this.community.json
+        );
+        //console.log("Document written with ID: ", docRef.id);
         this.toastr.success("DocRef: " + docRef.id, "Community Created", {
           timeOut: 3000
         });
@@ -95,7 +103,13 @@ export class CommunitydesignerComponent implements OnInit, OnDestroy {
   }
 
   onNameUpdate() {
-    this.community.dbFieldUpdate(this.id, "name", this.community.name, this.db);
+    this.community.dbFieldUpdate(
+      this.id,
+      "name",
+      this.community.name,
+      this.db,
+      this.als
+    );
   }
 
   onDescriptionUpdate() {
@@ -104,7 +118,8 @@ export class CommunitydesignerComponent implements OnInit, OnDestroy {
       this.id,
       "description",
       this.community.description,
-      this.db
+      this.db,
+      this.als
     );
   }
 
