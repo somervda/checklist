@@ -5,6 +5,7 @@ import { ToastrService } from "ngx-toastr";
 import { AuthService } from "../services/auth.service";
 import { NgForm } from "@angular/forms";
 import { ThemeModel } from "../models/themeModel";
+import { AuditlogService } from "../services/auditlog.service";
 
 @Component({
   selector: "app-themedesigner",
@@ -47,7 +48,8 @@ export class ThemedesignerComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
     private router: Router,
     private auth: AuthService,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private als: AuditlogService
   ) {}
 
   ngOnInit() {

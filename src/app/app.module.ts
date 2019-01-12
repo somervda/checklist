@@ -50,9 +50,10 @@ import { MycommunitiesComponent } from "./mycommunities/mycommunities.component"
 import { CommunityComponent } from "./community/community.component";
 import { CommunitydesignerComponent } from "./communitydesigner/communitydesigner.component";
 import { TesterComponent } from "./tester/tester.component";
-import { ThemeComponent } from './theme/theme.component';
-import { ThemesComponent } from './themes/themes.component';
-import { ThemedesignerComponent } from './themedesigner/themedesigner.component';
+import { ThemeComponent } from "./theme/theme.component";
+import { ThemesComponent } from "./themes/themes.component";
+import { ThemedesignerComponent } from "./themedesigner/themedesigner.component";
+import { AuditlogService } from "./services/auditlog.service";
 
 @NgModule({
   declarations: [
@@ -157,7 +158,7 @@ import { ThemedesignerComponent } from './themedesigner/themedesigner.component'
     AngularFirestoreModule,
     AngularFireAuthModule
   ],
-  providers: [AuthService, ClapiService],
+  providers: [AuthService, ClapiService, AuditlogService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

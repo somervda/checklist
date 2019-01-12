@@ -2,9 +2,9 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-
 export const environment = {
   production: false,
+  auditLog: true,
   // url of the checklists rest api services in the cloud
   clapiurl: "http://somerville.noip.me:3000",
   // clapiurl: "http://localhost:3000",
@@ -16,8 +16,6 @@ export const environment = {
     storageBucket: "oclist-18796.appspot.com",
     messagingSenderId: "715462389766"
   }
-
-
 };
 
 /*
