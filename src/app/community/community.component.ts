@@ -24,8 +24,7 @@ export class CommunityComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private db: AngularFirestore,
-    private toastr: ToastrService
+    private db: AngularFirestore
   ) {}
 
   ngOnInit() {
@@ -67,7 +66,7 @@ export class CommunityComponent implements OnInit, OnDestroy {
   }
 
   onDesignerClick() {
-    this.router.navigate(["/communitydesigner/U/" + this.community.id ]);
+    this.router.navigate(["/communitydesigner/U/" + this.community.id]);
   }
 
   ngOnDestroy() {

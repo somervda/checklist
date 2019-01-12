@@ -1,3 +1,13 @@
-<p>
-  theme works!
-</p>
+<app-header
+  name="Theme"
+  (rightButtonClick)="onDesignerClick()"
+  rightButtonTooltip="Edit&nbsp;Theme"
+  rightButtonIconClass="fa-pencil-alt"
+>
+</app-header>
+
+<!-- Body -->
+<div class="container">
+  <h3>{{ theme?.name }}</h3>
+  <div class="text-left" [innerHtml]="theme?.description"></div>
+</div>
