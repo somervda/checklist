@@ -1,12 +1,9 @@
-import { AuditlogService } from "../services/auditlog.service";
-import { allSettled } from "q";
-
 export class ThemeModel {
   public id: string;
   public name: string;
   public description: string;
 
-  constructor(private als: AuditlogService, doc?) {
+  constructor(doc?) {
     // Overloaded constructor, either will initialize based on
     // a firestore document being passed , or will initialize to default values
     console.log("themeMode constructor doc:", doc);
@@ -29,13 +26,13 @@ export class ThemeModel {
     };
   }
 
-  dbFieldUpdate(docId: string, fieldName: string, newValue: any, db) {
+  dbFieldUpdate(docId: string, fieldName: string, newValue: any, db, als) {
     let updateObject = {};
     updateObject[fieldName] = newValue;
     db.doc("/themes/" + docId) // Update to firestore collection
       .update(updateObject)
       .then(data => console.log(fieldName + " updated"))
       .catch(error => console.error(fieldName + " update error ", error));
-    this.als.logUpdate(docId, "themes", fieldName, newValue);
+    // als.logUpdate(docId, "themes", fieldName, newValue);
   }
 }

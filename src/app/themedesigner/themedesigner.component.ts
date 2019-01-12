@@ -79,6 +79,7 @@ export class ThemedesignerComponent implements OnInit, OnDestroy {
       .collection("themes")
       .add(this.theme.json)
       .then(docRef => {
+        //this.als.logUpdate(docRef.id,"themes","ADD",this.theme.json);
         console.log("Document written with ID: ", docRef.id);
         this.toastr.success("DocRef: " + docRef.id, "Theme Created", {
           timeOut: 3000
@@ -93,7 +94,13 @@ export class ThemedesignerComponent implements OnInit, OnDestroy {
   }
 
   onNameUpdate() {
-    this.theme.dbFieldUpdate(this.id, "name", this.theme.name, this.db);
+    this.theme.dbFieldUpdate(
+      this.id,
+      "name",
+      this.theme.name,
+      this.db,
+      this.als
+    );
   }
 
   onDescriptionUpdate() {
@@ -102,7 +109,8 @@ export class ThemedesignerComponent implements OnInit, OnDestroy {
       this.id,
       "description",
       this.theme.description,
-      this.db
+      this.db,
+      this.als
     );
   }
 
