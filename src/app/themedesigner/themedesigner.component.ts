@@ -79,7 +79,7 @@ export class ThemedesignerComponent implements OnInit, OnDestroy {
       .collection("themes")
       .add(this.theme.json)
       .then(docRef => {
-        //this.als.logUpdate(docRef.id,"themes","ADD",this.theme.json);
+        this.als.logUpdate(docRef.id,"themes","ADD",this.theme.json);
         console.log("Document written with ID: ", docRef.id);
         this.toastr.success("DocRef: " + docRef.id, "Theme Created", {
           timeOut: 3000

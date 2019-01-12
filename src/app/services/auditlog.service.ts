@@ -10,13 +10,13 @@ import { environment } from "src/environments/environment";
 export class AuditlogService {
   constructor(
     private db: AngularFirestore,
-    private auth: AuthService,
-    private auditLog: AuditLogModel
+    private auth: AuthService
+    // , private auditLog: AuditLogModel
   ) {}
 
   logUpdate(docId, collection, fieldName, newValue) {
-    // Write changes to an auditlog
-    if (environment.auditLog) {
+    // Write changes to an auditlogentry
+    if (environment.auditLog && docId) {
       const auditLogEntry = new AuditLogModel({
         docId: docId,
         collection: collection,

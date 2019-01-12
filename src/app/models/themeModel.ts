@@ -27,12 +27,14 @@ export class ThemeModel {
   }
 
   dbFieldUpdate(docId: string, fieldName: string, newValue: any, db, als) {
-    let updateObject = {};
-    updateObject[fieldName] = newValue;
-    db.doc("/themes/" + docId) // Update to firestore collection
-      .update(updateObject)
-      .then(data => console.log(fieldName + " updated"))
-      .catch(error => console.error(fieldName + " update error ", error));
-    // als.logUpdate(docId, "themes", fieldName, newValue);
+    if (docId && fieldName) {
+      let updateObject = {};
+      updateObject[fieldName] = newValue;
+      db.doc("/themes/" + docId) // Update to firestore collection
+        .update(updateObject)
+        .then(data => console.log(fieldName + " updated"))
+        .catch(error => console.error(fieldName + " update error ", error));
+      als.logUpdate(docId, "themes", fieldName, newValue);
+    }
   }
 }
