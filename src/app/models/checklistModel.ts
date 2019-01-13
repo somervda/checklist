@@ -132,6 +132,7 @@ export class ChecklistModel {
       this.isTemplate = doc.data().isTemplate;
       this.owner = doc.data().owner;
       this.community = doc.data().community;
+      this.status = doc.data().status;
 
       // Hold dates in the model as datatype Date
       // convert from firestore Timestamp object
@@ -165,6 +166,7 @@ export class ChecklistModel {
       this.title = "";
       this.description = "";
       this.id = "";
+      this.status = ChecklistStatus.Active;
       this.isTemplate = false;
       this.owner = { uid: "", displayName: "" };
       this.community = { communityId: "", name: "" };
