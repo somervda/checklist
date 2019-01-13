@@ -70,7 +70,7 @@ export class ChecklistdesignerComponent implements OnInit, OnDestroy {
           .snapshotChanges();
         this.checklist$.subscribe(doc => {
           console.log("Checklist Designer subscribed doc", doc);
-          this.checklist.loadFromObject(doc.payload);
+          this.checklist = new ChecklistModel(doc.payload);
           if (this.checklist.dateTargeted != null)
             this.model = {
               year: this.checklist.dateTargeted.getFullYear(),
@@ -115,14 +115,15 @@ export class ChecklistdesignerComponent implements OnInit, OnDestroy {
     this.checklist.community.communityId = "";
     this.checklist.community.name = "";
 
-    this.checklist.dateCreated = new Date(); // Be better to use the server date time
+    this.checklist.dateCreated = new Date(); // Be better to use the server datetime
+
     this.checklist.status = ChecklistStatus.Active;
 
-    console.log("Add a new checklist", this.checklist, this.checklist.asObject);
+    console.log("Add a new checklist", this.checklist, this.checklist.json);
     // Add a new document
     this.db
       .collection("checklists")
-      .add(this.checklist.asObject)
+      .add(this.checklist.json)
       .then(docRef => {
         console.log("Document written with ID: ", docRef.id);
         this.toastr.success("DocRef: " + docRef.id, "Checklist Created", {

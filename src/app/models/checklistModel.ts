@@ -25,43 +25,43 @@ export class ChecklistModel {
   // the checklist (Optional)
   public template: object = {};
 
-  loadFromObject(payload) {
-    this.title = payload.data().title;
-    this.description = payload.data().description;
-    this.id = payload.id;
-    this.isTemplate = payload.data().isTemplate;
-    this.owner = payload.data().owner;
-    this.community = payload.data().community;
+  // loadFromObject(payload) {
+  //   this.title = payload.data().title;
+  //   this.description = payload.data().description;
+  //   this.id = payload.id;
+  //   this.isTemplate = payload.data().isTemplate;
+  //   this.owner = payload.data().owner;
+  //   this.community = payload.data().community;
 
-    // Hold dates in the model as datatype Date
-    // convert from firestore Timestamp object
-    // Note: nanoseconds can often be set to 0 they messes up existence coercion test so
-    // I do an extra check that the value is not numeric 0
-    if (
-      payload.data().dateTargeted &&
-      payload.data().dateTargeted.seconds &&
-      (payload.data().dateTargeted.nanoseconds ||
-        payload.data().dateTargeted.nanoseconds === 0)
-    ) {
-      this.dateTargeted = payload.data().dateTargeted.toDate();
-    } else this.dateTargeted = null;
+  //   // Hold dates in the model as datatype Date
+  //   // convert from firestore Timestamp object
+  //   // Note: nanoseconds can often be set to 0 they messes up existence coercion test so
+  //   // I do an extra check that the value is not numeric 0
+  //   if (
+  //     payload.data().dateTargeted &&
+  //     payload.data().dateTargeted.seconds &&
+  //     (payload.data().dateTargeted.nanoseconds ||
+  //       payload.data().dateTargeted.nanoseconds === 0)
+  //   ) {
+  //     this.dateTargeted = payload.data().dateTargeted.toDate();
+  //   } else this.dateTargeted = null;
 
-    if (
-      payload.data().dateCreated &&
-      payload.data().dateCreated.seconds &&
-      (payload.data().dateCreated.nanoseconds ||
-        payload.data().dateCreated.nanoseconds === 0)
-    )
-      this.dateCreated = payload.data().dateCreated.toDate();
-    else this.dateCreated = null;
+  //   if (
+  //     payload.data().dateCreated &&
+  //     payload.data().dateCreated.seconds &&
+  //     (payload.data().dateCreated.nanoseconds ||
+  //       payload.data().dateCreated.nanoseconds === 0)
+  //   )
+  //     this.dateCreated = payload.data().dateCreated.toDate();
+  //   else this.dateCreated = null;
 
-    console.log(
-      "checklistsModel load from object",
-      payload.data(),
-      " dateCreated:",
-      this.dateCreated
-    );
-  }
+  //   console.log(
+  //     "checklistsModel load from object",
+  //     payload.data(),
+  //     " dateCreated:",
+  //     this.dateCreated
+  //   );
+  // }
 
   dbFieldUpdate(docId: string, fieldName: string, newValue: any, db) {
     console.log(fieldName + " before Update", docId, newValue);
@@ -73,7 +73,7 @@ export class ChecklistModel {
       .catch(error => console.log(fieldName + " update error ", error));
   }
 
-  get asObject() {
+  get json() {
     return {
       id: this.id,
       title: this.title,
@@ -124,15 +124,59 @@ export class ChecklistModel {
     return false;
   }
 
-  constructor() {
-    this.owner = { uid: "", displayName: "" };
-    this.community = { communityId: "", name: "" };
+  constructor(doc?) {
+    if (doc) {
+      this.title = doc.data().title;
+      this.description = doc.data().description;
+      this.id = doc.id;
+      this.isTemplate = doc.data().isTemplate;
+      this.owner = doc.data().owner;
+      this.community = doc.data().community;
+
+      // Hold dates in the model as datatype Date
+      // convert from firestore Timestamp object
+      // Note: nanoseconds can often be set to 0 they messes up existence coercion test so
+      // I do an extra check that the value is not numeric 0
+      if (
+        doc.data().dateTargeted &&
+        doc.data().dateTargeted.seconds &&
+        (doc.data().dateTargeted.nanoseconds ||
+          doc.data().dateTargeted.nanoseconds === 0)
+      ) {
+        this.dateTargeted = doc.data().dateTargeted.toDate();
+      } else this.dateTargeted = null;
+
+      if (
+        doc.data().dateCreated &&
+        doc.data().dateCreated.seconds &&
+        (doc.data().dateCreated.nanoseconds ||
+          doc.data().dateCreated.nanoseconds === 0)
+      )
+        this.dateCreated = doc.data().dateCreated.toDate();
+      else this.dateCreated = null;
+
+      console.log(
+        "checklistsModel load from object",
+        doc.data(),
+        " dateCreated:",
+        this.dateCreated
+      );
+    } else {
+      this.title = "";
+      this.description = "";
+      this.id = "";
+      this.isTemplate = false;
+      this.owner = { uid: "", displayName: "" };
+      this.community = { communityId: "", name: "" };
+      this.dateTargeted = null;
+      this.dateCreated = null;
+    }
   }
 }
 
 export enum ChecklistStatus {
-  Active = 0,
-  Complete = 1,
+  Active = 1,
   Under_Construction = 2,
-  Deleted = 3
+  Deleted = 3,
+  Complete = 4
 }

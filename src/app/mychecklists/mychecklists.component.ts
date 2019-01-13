@@ -21,7 +21,7 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
 
   showOwned: boolean = true;
   selectedOwnership: string = "All";
-  selectedStatus: number = 0;
+  selectedStatus: number = ChecklistStatus.Active;
   selectedAge: number = -1;
   checklistStatusAsArray;
 
@@ -255,18 +255,21 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
   }
 
   isOverdue(checklist): boolean {
-    
     if (checklist.dateTargeted) {
-      console.log("isOverdue", checklist.title, checklist.dateTargeted, checklist.status);
+      console.log(
+        "isOverdue",
+        checklist.title,
+        checklist.dateTargeted,
+        checklist.status
+      );
       if (
-        checklist.dateTargeted.seconds <= (Date.now() / 1000) 
-         && checklist.status == ChecklistStatus.Active
-      )
-      {
+        checklist.dateTargeted.seconds <= Date.now() / 1000 &&
+        checklist.status == ChecklistStatus.Active
+      ) {
         console.log("isOverdure True!!");
         return true;
       }
     }
-    return false; 
+    return false;
   }
 }

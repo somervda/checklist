@@ -35,8 +35,8 @@ export class ChecklistComponent implements OnInit, OnDestroy {
       this.id = paramMap.get("id");
       this.checklist$ = this.db.doc("/checklists/" + this.id).get();
       this.checklistSubscription = this.checklist$.subscribe(doc => {
-        console.log("onInit doc", doc.data());
-        this.checklist.loadFromObject(doc);
+        //console.log("onInit doc", doc.data());
+        this.checklist = new ChecklistModel(doc);
 
         // Update screan options based on user access
         if (doc.data().owner && doc.data().owner.uid) {
