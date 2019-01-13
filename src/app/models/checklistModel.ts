@@ -25,52 +25,19 @@ export class ChecklistModel {
   // the checklist (Optional)
   public template: object = {};
 
-  // loadFromObject(payload) {
-  //   this.title = payload.data().title;
-  //   this.description = payload.data().description;
-  //   this.id = payload.id;
-  //   this.isTemplate = payload.data().isTemplate;
-  //   this.owner = payload.data().owner;
-  //   this.community = payload.data().community;
-
-  //   // Hold dates in the model as datatype Date
-  //   // convert from firestore Timestamp object
-  //   // Note: nanoseconds can often be set to 0 they messes up existence coercion test so
-  //   // I do an extra check that the value is not numeric 0
-  //   if (
-  //     payload.data().dateTargeted &&
-  //     payload.data().dateTargeted.seconds &&
-  //     (payload.data().dateTargeted.nanoseconds ||
-  //       payload.data().dateTargeted.nanoseconds === 0)
-  //   ) {
-  //     this.dateTargeted = payload.data().dateTargeted.toDate();
-  //   } else this.dateTargeted = null;
-
-  //   if (
-  //     payload.data().dateCreated &&
-  //     payload.data().dateCreated.seconds &&
-  //     (payload.data().dateCreated.nanoseconds ||
-  //       payload.data().dateCreated.nanoseconds === 0)
-  //   )
-  //     this.dateCreated = payload.data().dateCreated.toDate();
-  //   else this.dateCreated = null;
-
-  //   console.log(
-  //     "checklistsModel load from object",
-  //     payload.data(),
-  //     " dateCreated:",
-  //     this.dateCreated
-  //   );
-  // }
-
-  dbFieldUpdate(docId: string, fieldName: string, newValue: any, db) {
-    console.log(fieldName + " before Update", docId, newValue);
-    let updateObject = {};
-    updateObject[fieldName] = newValue;
-    db.doc("/checklists/" + docId) // Update to firestore collection
-      .update(updateObject)
-      .then(data => console.log(fieldName + " updated"))
-      .catch(error => console.log(fieldName + " update error ", error));
+  dbFieldUpdate(docId: string, fieldName: string, newValue: any, db, als) {
+    if (docId && fieldName) {
+      console.log(fieldName + " before Update", docId, newValue);
+      let updateObject = {};
+      updateObject[fieldName] = newValue;
+      db.doc("/checklists/" + docId) // Update to firestore collection
+        .update(updateObject)
+        .then(data => {
+          console.log(fieldName + " updated");
+          als.logUpdate(docId, "checklists", fieldName, newValue);
+        })
+        .catch(error => console.log(fieldName + " update error ", error));
+    }
   }
 
   get json() {

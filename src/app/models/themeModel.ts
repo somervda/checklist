@@ -32,9 +32,11 @@ export class ThemeModel {
       updateObject[fieldName] = newValue;
       db.doc("/themes/" + docId) // Update to firestore collection
         .update(updateObject)
-        .then(data => console.log(fieldName + " updated"))
+        .then(data => {
+          console.log(fieldName + " updated");
+          als.logUpdate(docId, "themes", fieldName, newValue);
+        })
         .catch(error => console.error(fieldName + " update error ", error));
-      als.logUpdate(docId, "themes", fieldName, newValue);
     }
   }
 }

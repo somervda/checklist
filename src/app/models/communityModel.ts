@@ -41,9 +41,11 @@ export class CommunityModel {
       updateObject[fieldName] = newValue;
       db.doc("/communities/" + docId) // Update to firestore collection
         .update(updateObject)
-        .then(data => console.log(fieldName + " updated"))
+        .then(data => {
+          console.log(fieldName + " updated");
+          als.logUpdate(docId, "communities", fieldName, newValue);
+        })
         .catch(error => console.error(fieldName + " update error ", error));
-      als.logUpdate(docId, "communities", fieldName, newValue);
     }
   }
 }

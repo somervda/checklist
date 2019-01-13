@@ -7,6 +7,7 @@ import { AngularFirestore } from "@angular/fire/firestore";
 
 import { ChecklistModel, ChecklistStatus } from "../models/checklistModel";
 import { NgForm } from "@angular/forms";
+import { AuditlogService } from "../services/auditlog.service";
 
 @Component({
   selector: "app-checklistdesigner",
@@ -50,7 +51,8 @@ export class ChecklistdesignerComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
     private router: Router,
     private auth: AuthService,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private als: AuditlogService
   ) {}
 
   ngOnInit() {
@@ -126,6 +128,7 @@ export class ChecklistdesignerComponent implements OnInit, OnDestroy {
       .add(this.checklist.json)
       .then(docRef => {
         console.log("Document written with ID: ", docRef.id);
+        this.als.logUpdate(docRef.id, "checklists", "ADD", this.checklist.json);
         this.toastr.success("DocRef: " + docRef.id, "Checklist Created", {
           timeOut: 3000
         });
@@ -143,7 +146,8 @@ export class ChecklistdesignerComponent implements OnInit, OnDestroy {
       this.id,
       "title",
       this.checklist.title,
-      this.db
+      this.db,
+      this.als
     );
   }
   onDescriptionUpdate() {
@@ -151,7 +155,8 @@ export class ChecklistdesignerComponent implements OnInit, OnDestroy {
       this.id,
       "description",
       this.checklist.description,
-      this.db
+      this.db,
+      this.als
     );
   }
 
@@ -160,9 +165,21 @@ export class ChecklistdesignerComponent implements OnInit, OnDestroy {
     let modelDate = this.modelAsDate();
     console.log("modelDate:", modelDate);
     if (modelDate === undefined)
-      this.checklist.dbFieldUpdate(this.id, "dateTargeted", {}, this.db);
+      this.checklist.dbFieldUpdate(
+        this.id,
+        "dateTargeted",
+        {},
+        this.db,
+        this.als
+      );
     else
-      this.checklist.dbFieldUpdate(this.id, "dateTargeted", modelDate, this.db);
+      this.checklist.dbFieldUpdate(
+        this.id,
+        "dateTargeted",
+        modelDate,
+        this.db,
+        this.als
+      );
   }
 
   modelAsDate(): Date {
