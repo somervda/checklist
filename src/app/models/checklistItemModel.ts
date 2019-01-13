@@ -7,7 +7,7 @@ export class ChecklistItemModel {
   public prompt: string;
   public description: string;
   public checklistId: string;
-  public owner: string;
+  public owner: { uid: string; displayName: string };
   public dateCreated: Date;
   public status: ChecklistItemStatus;
   public evidence: string;
@@ -21,27 +21,74 @@ export class ChecklistItemModel {
   public template: object;
 
   // Utility Functions
-
-  loadFromObject(payload) {
-    this.result = payload.data().result;
-    this.prompt = payload.data().prompt;
-    this.id = payload.id;
-    this.checklistId = payload.data().checklistId;
-    this.description = payload.data().description;
-    this.resultType = payload.data().resultType;
-    this.userComment = payload.data().userComment;
-    this.evidence = payload.data().evidence;
+  constructor(doc?) {
+    if (doc) {
+      this.result = doc.data().result;
+      this.prompt = doc.data().prompt;
+      this.id = doc.id;
+      this.checklistId = doc.data().checklistId;
+      this.description = doc.data().description;
+      this.resultType = doc.data().resultType;
+      this.userComment = doc.data().userComment;
+      this.evidence = doc.data().evidence;
+      if (
+        doc.data().dateCreated &&
+        doc.data().dateCreated.seconds &&
+        (doc.data().dateCreated.nanoseconds ||
+          doc.data().dateCreated.nanoseconds === 0)
+      )
+        this.dateCreated = doc.data().dateCreated.toDate();
+      else this.dateCreated = null;
+      this.allowNA = doc.data().allowNA;
+      this.template = doc.data().template;
+      this.owner = doc.data().owner;
+    } else {
+      this.result = ChecklistItemResult.false;
+      this.prompt = "";
+      this.id = "";
+      this.checklistId = "";
+      this.description = "";
+      this.resultType = ChecklistItemResultType.checkbox;
+      this.userComment = "";
+      this.evidence = "";
+      this.dateCreated = null;
+      this.allowNA = false;
+      this.template = {};
+      this.owner = { uid: "", displayName: "" };
+    }
   }
 
-  dbFieldUpdate(docId: string, fieldName: string, newValue: any, db) {
-    console.log(fieldName + " before Update", docId, newValue);
-    let updateObject = {};
-    updateObject[fieldName] = newValue;
-    console.log(updateObject);
-    db.doc("/checklistItems/" + docId)
-      .update(updateObject)
-      .then(data => console.log(fieldName + " updated"))
-      .catch(error => console.log(fieldName + " update error ", error));
+  get json() {
+    return {
+      result: this.result,
+      prompt: this.prompt,
+      id: this.id,
+      checklistId: this.checklistId,
+      description: this.description,
+      resultType: this.resultType,
+      userComment: this.userComment,
+      evidence: this.evidence,
+      dateCreated: this.dateCreated,
+      allowNA: this.allowNA,
+      template: this.template,
+      owner: { uid: this.owner.uid, displayName: this.owner.displayName }
+    };
+  }
+
+  dbFieldUpdate(docId: string, fieldName: string, newValue: any, db, als) {
+    if (docId && fieldName) {
+      console.log(fieldName + " before Update", docId, newValue);
+      let updateObject = {};
+      updateObject[fieldName] = newValue;
+      console.log(updateObject);
+      db.doc("/checklistItems/" + docId)
+        .update(updateObject)
+        .then(data => {
+          console.log(fieldName + " updated");
+          als.logUpdate(docId, "checklistItems", fieldName, newValue);
+        })
+        .catch(error => console.log(fieldName + " update error ", error));
+    }
   }
 
   // Gets and sets
@@ -118,8 +165,9 @@ export class ChecklistItemModel {
 }
 
 export enum ChecklistItemStatus {
-  Active = 0,
-  Deleted = 1
+  Active = 0, // Normal will show on checklists
+  Deleted = 1, // Esentially removed will not show anywhere (no user option to delete or undelete)
+  Suppressed = 2 // Remove from showing on checklist (Owner can suppress and unsuppress items in the designer)
 }
 
 // How the results of the item can be represented (4 choices)

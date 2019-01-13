@@ -1,3 +1,4 @@
+import { AuditlogService } from "./../services/auditlog.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Component, OnInit, NgZone, OnDestroy, ViewChild } from "@angular/core";
 import {
@@ -55,7 +56,8 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
     private router: Router,
     private auth: AuthService,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private als: AuditlogService
   ) {}
 
   ngOnInit() {
@@ -77,7 +79,7 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
         this.checklistItemSubscription = this.checklistItem$.subscribe(
           snapshot => {
             console.log("checklistItemDesigner ngOnInit subscribe");
-            this.checklistItem.loadFromObject(snapshot.payload);
+            this.checklistItem = new ChecklistItemModel(snapshot.payload);
           }
         );
       }
@@ -91,7 +93,8 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
   onAddClick() {
     // Create a new checklistitem using form data (and no field validation errors)
     // then get the new id and route back to designer in modify mode (Has id)
-    this.checklistItem.owner = this.auth.getUserEmail;
+    this.checklistItem.owner.uid = this.auth.getUserUID;
+    this.checklistItem.owner.displayName = this.auth.getUserDisplayname;
     this.checklistItem.dateCreated = new Date();
     this.checklistItem.status = ChecklistItemStatus.Active;
     this.checklistItem.checklistId = this.id;
@@ -107,13 +110,23 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
     )
       this.checklistItem.result = ChecklistItemResult.medium;
 
-    console.log("Add a new checklistItem", this.checklistItem);
+    console.log(
+      "Add a new checklistItem",
+      this.checklistItem,
+      this.checklistItem.json
+    );
 
     // Add a new document with a generated id. Note, need to cast to generic object
     this.db
       .collection("checklistItems")
-      .add(JSON.parse(JSON.stringify(this.checklistItem)))
+      .add(this.checklistItem.json)
       .then(docRef => {
+        this.als.logUpdate(
+          docRef.id,
+          "checklistItems",
+          "ADD",
+          this.checklistItem.json
+        );
         console.log("ChecklistItem written with ID: ", docRef.id);
         this.toastr.success("", "ChecklistItem Created", {
           timeOut: 1000
@@ -132,7 +145,8 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
       this.id,
       "prompt",
       this.checklistItem.prompt,
-      this.db
+      this.db,
+      this.als
     );
   }
   onDescriptionUpdate() {
@@ -140,7 +154,8 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
       this.id,
       "description",
       this.checklistItem.description,
-      this.db
+      this.db,
+      this.als
     );
   }
 
@@ -149,7 +164,8 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
       this.id,
       "resultType",
       this.checklistItem.resultType,
-      this.db
+      this.db,
+      this.als
     );
   }
 

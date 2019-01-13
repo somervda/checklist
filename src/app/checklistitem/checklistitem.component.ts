@@ -1,3 +1,4 @@
+import { AuditlogService } from "./../services/auditlog.service";
 import { AuthService } from "./../services/auth.service";
 import {
   ChecklistItemModel,
@@ -46,7 +47,8 @@ export class ChecklistitemComponent implements OnInit, OnDestroy {
   constructor(
     private db: AngularFirestore,
     private toastr: ToastrService,
-    private auth: AuthService
+    private auth: AuthService,
+    private als: AuditlogService
   ) {}
 
   ngOnInit() {
@@ -61,7 +63,7 @@ export class ChecklistitemComponent implements OnInit, OnDestroy {
       //   timeOut: 1000
       // });
 
-      this.checklistItem.loadFromObject(snapshot.payload);
+      this.checklistItem = new ChecklistItemModel(snapshot.payload);
       console.log(
         "Checklistitem subscribe isNA:",
         this.checklistItem.isNA,
@@ -76,7 +78,8 @@ export class ChecklistitemComponent implements OnInit, OnDestroy {
       this.id,
       "userComment",
       this.checklistItem.userComment,
-      this.db
+      this.db,
+      this.als
     );
   }
 
@@ -85,7 +88,8 @@ export class ChecklistitemComponent implements OnInit, OnDestroy {
       this.id,
       "evidence",
       this.checklistItem.evidence,
-      this.db
+      this.db,
+      this.als
     );
   }
 
@@ -105,7 +109,13 @@ export class ChecklistitemComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.checklistItem.dbFieldUpdate(this.id, "result", resultValue, this.db);
+    this.checklistItem.dbFieldUpdate(
+      this.id,
+      "result",
+      resultValue,
+      this.db,
+      this.als
+    );
   }
 
   onRatingUpdate() {
@@ -119,7 +129,8 @@ export class ChecklistitemComponent implements OnInit, OnDestroy {
       this.id,
       "result",
       this.checklistItem.result,
-      this.db
+      this.db,
+      this.als
     );
   }
 
@@ -138,14 +149,16 @@ export class ChecklistitemComponent implements OnInit, OnDestroy {
         this.id,
         "result",
         ChecklistItemResult.false,
-        this.db
+        this.db,
+        this.als
       );
     else
       this.checklistItem.dbFieldUpdate(
         this.id,
         "result",
         ChecklistItemResult.true,
-        this.db
+        this.db,
+        this.als
       );
   }
 }
