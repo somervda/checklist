@@ -1,3 +1,4 @@
+import { ChecklistItemStatus } from './../models/checklistItemModel';
 import { ChecklistModel } from "./../models/checklistModel";
 import { AuthService } from "./../services/auth.service";
 import { Component, OnInit, OnDestroy } from "@angular/core";
@@ -88,6 +89,7 @@ export class ChecklistComponent implements OnInit, OnDestroy {
       this.db
         .collection("checklistItems", ref =>
           ref.where("checklistId", "==", this.id)
+          .where("status","==",ChecklistItemStatus.Active)
         )
         .get()
         .toPromise()

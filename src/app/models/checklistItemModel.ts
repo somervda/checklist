@@ -42,6 +42,7 @@ export class ChecklistItemModel {
       this.allowNA = doc.data().allowNA;
       this.template = doc.data().template;
       this.owner = doc.data().owner;
+      this.status = doc.data().status;
     } else {
       this.result = ChecklistItemResult.false;
       this.prompt = "";
@@ -55,6 +56,7 @@ export class ChecklistItemModel {
       this.allowNA = false;
       this.template = {};
       this.owner = { uid: "", displayName: "" };
+      this.status = ChecklistItemStatus.Active;
     }
   }
 
@@ -71,7 +73,8 @@ export class ChecklistItemModel {
       dateCreated: this.dateCreated,
       allowNA: this.allowNA,
       template: this.template,
-      owner: { uid: this.owner.uid, displayName: this.owner.displayName }
+      owner: { uid: this.owner.uid, displayName: this.owner.displayName },
+      status: this.status
     };
   }
 

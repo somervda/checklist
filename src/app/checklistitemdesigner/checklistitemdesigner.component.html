@@ -106,5 +106,25 @@
         >
       </select>
     </div>
+
+    <!--  Suppress - flips between active and suppressed status - deleted status items are not shown -->
+
+    <div class="form-group">
+      <label
+        for="isSuppressed"
+        placement="right"
+        ngbTooltip="Suppressed items will not show on the checklist"
+        >Is Suppressed&nbsp;
+      </label>
+      <app-checkbox
+        (clickChecked)="oncbClick(false)"
+        (clickUnChecked)="oncbClick(true)"
+        [checked]="checklistItem.status == ChecklistItemStatus.Suppressed"
+      ></app-checkbox>
+    </div>
+    checklistItem.status={{checklistItem.status}}
+
+
+
   </form>
 </div>

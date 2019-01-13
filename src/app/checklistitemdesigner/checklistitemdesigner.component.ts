@@ -26,6 +26,7 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
   checklistItem$;
   checklistItemSubscription;
   ChecklistItemResultType = ChecklistItemResultType;
+  ChecklistItemStatus = ChecklistItemStatus;
   isValidForm: boolean;
   formSubscription;
 
@@ -80,6 +81,7 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
           snapshot => {
             console.log("checklistItemDesigner ngOnInit subscribe");
             this.checklistItem = new ChecklistItemModel(snapshot.payload);
+            console.log("checklistItem.oninit checklistitem",this.checklistItem);
           }
         );
       }
@@ -173,6 +175,21 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
     this.router.navigate([
       "/checklistdesigner/U/" + this.checklistItem.checklistId
     ]);
+  }
+
+  oncbClick(cbCurrentStatusIsSuppressed : Boolean) {
+    console.log("oncbClick", cbCurrentStatusIsSuppressed);
+    // Toggles status between active and suppressed
+    let status = ChecklistItemStatus.Suppressed;
+    if (cbCurrentStatusIsSuppressed)
+      status = ChecklistItemStatus.Active;
+    this.checklistItem.dbFieldUpdate(
+      this.id,
+      "status",
+      status,
+      this.db,
+      this.als
+    );
   }
 
   ngOnDestroy() {
