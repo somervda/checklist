@@ -1,3 +1,4 @@
+import { ChecklistItemStatus } from "./../models/checklistItemModel";
 import { AuthService } from "./../services/auth.service";
 
 import { ActivatedRoute, Router } from "@angular/router";
@@ -23,6 +24,7 @@ export class ChecklistdesignerComponent implements OnInit, OnDestroy {
   model: { year: number; month: number; day: number };
   isValidForm: boolean;
   formSubscription;
+  ChecklistItemStatus = ChecklistItemStatus;
 
   @ViewChild(NgForm) frmMain: NgForm;
 
@@ -91,7 +93,7 @@ export class ChecklistdesignerComponent implements OnInit, OnDestroy {
             .toPromise()
             .then(snapshot => {
               this.checklistitems = snapshot.docs;
-              // console.log("getter", this.checklistitems);
+              console.log("getter", this.checklistitems);
             })
             .catch(error => {
               this.toastr.error(error.message, "Failed to get checkbox items", {

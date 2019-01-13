@@ -161,7 +161,28 @@ export class TesterComponent implements OnInit, OnDestroy {
   }
 
   doBatchUpdate() {
-    console.log("doBatchUpdate");
+    console.log("doBatchUpdate start");
+
+    // Get a new write batch
+    var batch = this.db.firestore.batch();
+    // Set the value of 'collection'
+    var itemRef = this.db.collection("checklistItems");
+    // https://stackoverflow.com/questions/46618601/how-to-create-update-multiple-documents-at-once-in-firestore
+    // Update each document
+    itemRef.ref
+      .get()
+      .then(resp => {
+        console.log(resp.docs);
+        let batch = this.db.firestore.batch();
+
+        resp.docs.forEach(userDocRef => {
+          batch.update(userDocRef.ref, { status: 0 });
+        });
+        batch.commit().catch(err => console.error(err));
+      })
+      .catch(error => console.error(error));
+
+    console.log("doBatchUpdate end");
   }
 
   ngOnDestroy() {

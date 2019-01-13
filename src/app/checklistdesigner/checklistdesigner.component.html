@@ -150,13 +150,25 @@
       </nav>
 
       <div *ngFor="let checklistitem of checklistitems; index as i">
-        <div>
+        <div
+          [ngClass]="{
+            'font-italic font-weight-light':
+              checklistitem.data().status == ChecklistItemStatus.Suppressed
+          }"
+        >
           {{ i + 1 }}
           <a
             routerLink="/checklistitemdesigner/U/{{ checklistitem.id }}"
             title="Click to design this checklist item"
-            >{{ checklistitem.data().prompt }}</a
           >
+            {{ checklistitem.data().prompt }}
+            <span
+              *ngIf="
+                checklistitem.data().status == ChecklistItemStatus.Suppressed
+              "
+              ><i class="far fa-eye-slash" title="Suppressed"></i
+            ></span>
+          </a>
         </div>
       </div>
     </div>

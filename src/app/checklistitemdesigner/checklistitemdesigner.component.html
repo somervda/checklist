@@ -109,7 +109,7 @@
 
     <!--  Suppress - flips between active and suppressed status - deleted status items are not shown -->
 
-    <div class="form-group">
+    <div class="form-group" *ngIf="action == 'U'">
       <label
         for="isSuppressed"
         placement="right"
@@ -122,9 +122,5 @@
         [checked]="checklistItem.status == ChecklistItemStatus.Suppressed"
       ></app-checkbox>
     </div>
-    checklistItem.status={{checklistItem.status}}
-
-
-
   </form>
 </div>
