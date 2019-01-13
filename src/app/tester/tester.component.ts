@@ -160,6 +160,10 @@ export class TesterComponent implements OnInit, OnDestroy {
     );
   }
 
+  doBatchUpdate() {
+    console.log("doBatchUpdate");
+  }
+
   ngOnDestroy() {
     console.log("htmlContent: ", this.htmlContent);
   }
