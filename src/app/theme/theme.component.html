@@ -16,16 +16,14 @@
   <div class="card mx-2">
     <div class="card-header text-center text-weight-bold">Categories</div>
     <div class="card-body">
-      <button (click)="onNewCategory()" style="width : 100%">
-        Add New Category
-      </button>
       <ngx-datatable
-        class="bootstrap ngx-datatable "
+        class="bootstrap ngx-datatable border rounded "
         [columnMode]="'flex'"
         [rows]="categories"
         [loadingIndicator]="true"
         [rowHeight]="35"
         [footerHeight]="30"
+        [headerHeight]="30"
         [limit]="20"
         style="width: 100%"
         [sorts]="[
@@ -35,7 +33,12 @@
           }
         ]"
       >
-        <ngx-datatable-column name="Category" [flexGrow]="2" [sortable]="true">
+        <ngx-datatable-column
+          name="Category"
+          [flexGrow]="2"
+          [sortable]="true"
+          headerClass="bg-dark text-white text-weight-bold py-1"
+        >
           <ng-template
             let-row="row"
             let-value="value"
@@ -48,6 +51,7 @@
         </ngx-datatable-column>
         <ngx-datatable-column
           name="Description"
+          headerClass="bg-dark text-white text-weight-bold py-1"
           [flexGrow]="3"
           [sortable]="true"
         >
@@ -60,6 +64,9 @@
           </ng-template>
         </ngx-datatable-column>
       </ngx-datatable>
+      <button (click)="onNewCategory()" class="my-2 float-right">
+        Add New Category
+      </button>
     </div>
   </div>
 </div>

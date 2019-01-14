@@ -1,6 +1,6 @@
 <span *ngIf="action == 'U'">
   <app-header
-    name="Category Designer"
+    name="Category Designer : {{ theme.name }}"
     rightButtonIconClass="fa-arrow-left"
     rightButtonTooltip="Return&nbsp;to&nbsp;Theme"
     (rightButtonClick)="onReturnCategoryClick()"
@@ -9,7 +9,7 @@
 <!-- Special nav bar if adding a checklist -->
 <span *ngIf="action == 'A'">
   <app-header
-    name="Category Designer"
+    name="Category Designer : {{ theme.name }}"
     rightButtonIconClass="fa-plus"
     rightButtonTooltip="Click&nbsp;to&nbsp;add"
     rightButtonText=" Add"

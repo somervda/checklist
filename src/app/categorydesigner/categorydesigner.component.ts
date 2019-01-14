@@ -63,8 +63,8 @@ export class CategorydesignerComponent implements OnInit, OnDestroy {
         // Load theme info if new category, themeId is in url
         this.theme$ = this.db.doc("/themes/" + this.id).snapshotChanges();
         this.themeSubscription = this.theme$.subscribe(snapshot => {
-          console.log("Category Designer subscribed snapshot", snapshot);
           this.theme = new ThemeModel(snapshot.payload);
+          console.log("Category Designer subscribed theme: ", this.theme);
         });
       }
     });
