@@ -11,3 +11,55 @@
   <h3>{{ theme?.name }}</h3>
   <div class="text-left" [innerHtml]="theme?.description"></div>
 </div>
+
+<div class="container">
+  <div class="card mx-2">
+    <div class="card-header text-center text-weight-bold">Categories</div>
+    <div class="card-body">
+      <button (click)="onNewCategory()" style="width : 100%">
+        Add New Category
+      </button>
+      <ngx-datatable
+        class="bootstrap ngx-datatable "
+        [columnMode]="'flex'"
+        [rows]="categories"
+        [loadingIndicator]="true"
+        [rowHeight]="35"
+        [footerHeight]="30"
+        [limit]="20"
+        style="width: 100%"
+        [sorts]="[
+          {
+            prop: 'name',
+            dir: 'asc'
+          }
+        ]"
+      >
+        <ngx-datatable-column name="Category" [flexGrow]="2" [sortable]="true">
+          <ng-template
+            let-row="row"
+            let-value="value"
+            ngx-datatable-cell-template
+          >
+            <span class="mx-1"
+              ><a routerLink="/category/{{ row.id }}">{{ row.name }}</a></span
+            >
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column
+          name="Description"
+          [flexGrow]="3"
+          [sortable]="true"
+        >
+          <ng-template
+            let-row="row"
+            let-value="value"
+            ngx-datatable-cell-template
+          >
+            <span class="mx-1">{{ row.description }}</span>
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+  </div>
+</div>

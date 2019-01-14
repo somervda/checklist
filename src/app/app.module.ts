@@ -54,6 +54,8 @@ import { ThemeComponent } from "./theme/theme.component";
 import { ThemesComponent } from "./themes/themes.component";
 import { ThemedesignerComponent } from "./themedesigner/themedesigner.component";
 import { AuditlogService } from "./services/auditlog.service";
+import { CategoryComponent } from "./category/category.component";
+import { CategorydesignerComponent } from "./categorydesigner/categorydesigner.component";
 
 @NgModule({
   declarations: [
@@ -80,7 +82,9 @@ import { AuditlogService } from "./services/auditlog.service";
     TesterComponent,
     ThemeComponent,
     ThemesComponent,
-    ThemedesignerComponent
+    ThemedesignerComponent,
+    CategoryComponent,
+    CategorydesignerComponent
   ],
   imports: [
     BrowserModule,
@@ -146,6 +150,16 @@ import { AuditlogService } from "./services/auditlog.service";
       {
         path: "themedesigner/:action/:id",
         component: ThemedesignerComponent
+      },
+      // Categories
+      { path: "category/:id", component: CategoryComponent },
+      {
+        path: "categorydesigner/:action",
+        component: CategorydesignerComponent
+      },
+      {
+        path: "categorydesigner/:action/:id",
+        component: CategorydesignerComponent
       },
       // Misc
       {
