@@ -28,6 +28,26 @@ export class CategorydesignerComponent implements OnInit, OnDestroy {
 
   @ViewChild(NgForm) frmMain: NgForm;
 
+  EditorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: "auto",
+    minHeight: "100px",
+    width: "auto",
+    minWidth: "0",
+    translate: "yes",
+    enableToolbar: true,
+    showToolbar: true,
+    placeholder: "Enter text here...",
+    imageEndPoint: "",
+    toolbar: [
+      ["bold", "italic", "underline"],
+      ["horizontalLine", "orderedList", "unorderedList"],
+      ["undo"]
+    ]
+  };
+
+
   constructor(
     private route: ActivatedRoute,
     private db: AngularFirestore,
@@ -112,7 +132,9 @@ export class CategorydesignerComponent implements OnInit, OnDestroy {
     );
   }
 
-  onReturnCategoryClick() {}
+  onReturnCategoryClick() {
+    this.router.navigate(["/category/" + this.id]);
+  }
 
   ngOnDestroy() {
     if (this.formSubscription) this.formSubscription.unsubscribe();

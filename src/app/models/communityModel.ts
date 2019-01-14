@@ -48,4 +48,6 @@ export class CommunityModel {
         .catch(error => console.error(fieldName + " update error ", error));
     }
   }
+
+ 
 }

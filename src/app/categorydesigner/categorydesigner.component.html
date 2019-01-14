@@ -46,30 +46,31 @@
         </div>
       </div>
     </div>
-    <!-- description -->
-    <div class="form-group">
-      <label for="description">Description *</label>
-      <input
-        type="text"
-        class="form-control"
-        name="description"
-        [(ngModel)]="category.description"
-        id="description"
-        #description="ngModel"
-        required
-        minlength="10"
-        maxlength="80"
-        placeholder="Description"
-        (blur)="onDescriptionUpdate()"
-      />
-      <div *ngIf="description.touched && !description.valid">
-        <div *ngIf="description?.errors.required" class="alert alert-danger">
-          Description is required
-        </div>
-        <div *ngIf="description?.errors.minlength" class="alert alert-danger">
-          Description must be at least 10 characters long
-        </div>
+
+   <!-- description -->
+   <div class="form-group">
+    <label for="description">Description *</label>
+    <app-ngx-editor
+      [placeholder]="'Enter description here...'"
+      [spellcheck]="true"
+      [(ngModel)]="category.description"
+      [config]="EditorConfig"
+      (blur)="onDescriptionUpdate()"
+      #description="ngModel"
+      maxlength="500"
+      minlength="10"
+      id="description"
+      name="description"
+      required
+    ></app-ngx-editor>
+    <div *ngIf="description.touched && !description.valid">
+      <div *ngIf="description?.errors.required" class="alert alert-danger">
+        Description is required
+      </div>
+      <div *ngIf="description?.errors.minlength" class="alert alert-danger">
+        Description must be at least 10 characters long
       </div>
     </div>
+  </div>
   </form>
 </div>

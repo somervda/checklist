@@ -7,7 +7,7 @@ export class CategoryModel {
   constructor(doc?) {
     // Overloaded constructor, either will initialize based on
     // a firestore document being passed , or will initialize to default values
-    console.log("categoryModel constructor doc:", doc);
+    //console.log("categoryModel constructor doc:", doc);
     if (doc) {
       this.name = doc.data().name;
       this.description = doc.data().description;
@@ -41,6 +41,16 @@ export class CategoryModel {
           als.logUpdate(docId, "categories", fieldName, newValue);
         })
         .catch(error => console.error(fieldName + " update error ", error));
+    }
+  }
+
+  get shortDescription() {
+    let noHTML = this.description.replace(/<(.|\n)*?>/g, ' ');
+    if (noHTML.length> 40) {
+      return noHTML.substring(0,40) + "...";
+    }
+    else {
+      return noHTML;
     }
   }
 }

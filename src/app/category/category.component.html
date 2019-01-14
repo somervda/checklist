@@ -9,7 +9,7 @@
 <!-- Body -->
 <div class="container">
   <h3>{{ category?.name }}</h3>
-  <h5>Theme: {{ category?.theme.name }}</h5>
-  <p>Description: {{ category?.description }}</p>
+  <h5>Theme: <a routerLink="/theme/{{category?.theme.themeId}}">{{ category?.theme.name }}</a></h5>
+  <div class="text-left" [innerHtml]="category?.description"></div>
 
 </div>

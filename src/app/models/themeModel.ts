@@ -6,7 +6,7 @@ export class ThemeModel {
   constructor(doc?) {
     // Overloaded constructor, either will initialize based on
     // a firestore document being passed , or will initialize to default values
-    console.log("themeModel constructor doc:", doc);
+    //console.log("themeModel constructor doc:", doc);
     if (doc) {
       this.name = doc.data().name;
       this.description = doc.data().description;
