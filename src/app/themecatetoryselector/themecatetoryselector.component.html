@@ -15,23 +15,13 @@
   <div class="modal-body">
     <form>
       <div class="form-group">
-        <label for="dateOfBirth">Date of birth</label>
+        <label for="theme">Theme</label>
         <div class="input-group">
-          <input
-            id="dateOfBirth"
-            class="form-control"
-            placeholder="yyyy-mm-dd"
-            name="dp"
-            ngbDatepicker
-            #dp="ngbDatepicker"
-          />
-          <div class="input-group-append">
-            <button
-              class="btn btn-outline-secondary calendar"
-              (click)="dp.toggle()"
-              type="button"
-            ></button>
-          </div>
+          <select class="form-control" (change)="onThemeSelectorChange()">
+            <option *ngFor="let theme of themes" value="theme.id">{{
+              theme.name
+            }}</option>
+          </select>
         </div>
       </div>
     </form>
