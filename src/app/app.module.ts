@@ -24,7 +24,8 @@ import {
   NgbCollapseModule,
   NgbTooltipModule,
   NgbRatingModule,
-  NgbDatepickerModule
+  NgbDatepickerModule,
+  NgbModalModule
 } from "@ng-bootstrap/ng-bootstrap";
 
 import { NgxEditorModule } from "ngx-editor";
@@ -56,6 +57,7 @@ import { ThemedesignerComponent } from "./themedesigner/themedesigner.component"
 import { AuditlogService } from "./services/auditlog.service";
 import { CategoryComponent } from "./category/category.component";
 import { CategorydesignerComponent } from "./categorydesigner/categorydesigner.component";
+import { ThemecatetoryselectorComponent } from "./themecatetoryselector/themecatetoryselector.component";
 
 @NgModule({
   declarations: [
@@ -84,7 +86,8 @@ import { CategorydesignerComponent } from "./categorydesigner/categorydesigner.c
     ThemesComponent,
     ThemedesignerComponent,
     CategoryComponent,
-    CategorydesignerComponent
+    CategorydesignerComponent,
+    ThemecatetoryselectorComponent
   ],
   imports: [
     BrowserModule,
@@ -103,6 +106,7 @@ import { CategorydesignerComponent } from "./categorydesigner/categorydesigner.c
     NgbRatingModule,
     NgbDatepickerModule,
     NgxEditorModule,
+    NgbModalModule,
     PopoverModule,
     RecaptchaModule,
     RouterModule.forRoot([
