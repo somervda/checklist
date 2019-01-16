@@ -5,43 +5,64 @@
     </h4>
     <button
       type="button"
-      class="close"
+      class="close p-0"
       aria-label="Close"
-      (click)="modal.dismiss('Cross click')"
+      (click)="modal.dismiss('Cross')"
     >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
     <form>
+      <!-- Theme -->
       <div class="form-group">
         <label for="theme">Theme</label>
         <div class="input-group">
-          <select class="form-control" (change)="onThemeSelectorChange()">
-            <option *ngFor="let theme of themes" value="theme.id">{{
+          <select
+            ngbAutofocus
+            class="form-control"
+            name="themeSelector"
+            (change)="onThemeSelectorChange()"
+            [(ngModel)]="selectedThemeId"
+          >
+            <option *ngFor="let theme of themes" value="{{ theme.id }}">{{
               theme.name
             }}</option>
           </select>
         </div>
       </div>
+      <!-- Category -->
+      <div class="form-group">
+        <label for="theme">Category</label>
+        <div class="input-group">
+          <select
+            class="form-control"
+            name="categorySelector"
+            [(ngModel)]="selectedCategoryId"
+          >
+            <option
+              *ngFor="let category of categories"
+              value="{{ category.id }}"
+              >{{ category.name }}</option
+            >
+          </select>
+        </div>
+      </div>
     </form>
   </div>
+  <!-- Save -->
   <div class="modal-footer">
     <button
       type="button"
       class="btn btn-outline-dark"
-      (click)="modal.close('Save click')"
+      (click)="modal.close('Save')"
     >
       Save
     </button>
   </div>
 </ng-template>
 
-{{ theme.name }} : {{ category.name }}
+{{ theme.name }}&nbsp;:&nbsp;{{ category.name }}&nbsp;
 <button class="btn py-0" (click)="open(content)">
   <i class="fas fa-angle-double-up" title="Theme and Category selector"></i>
 </button>
-
-<hr />
-
-<pre>{{ closeResult }}</pre>

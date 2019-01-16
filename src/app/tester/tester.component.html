@@ -31,4 +31,5 @@ Test basic file upload on iOS (safari mobile)
 <app-themecatetoryselector
   [theme]="{ themeId: 'ErwDacLgiSdtgHbEO8K9', name: 'Software' }"
   [category]="{ categoryId: 'LooHX2WQVTPLJTpsNV18', name: 'Design' }"
+  (themeCategoryChange)="themeCategoryChange($event)"
 ></app-themecatetoryselector>

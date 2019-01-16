@@ -185,6 +185,10 @@ export class TesterComponent implements OnInit, OnDestroy {
     console.log("doBatchUpdate end");
   }
 
+  themeCategoryChange(result) {
+    console.log("themeCategoryChange", result);
+  }
+
   ngOnDestroy() {
     console.log("htmlContent: ", this.htmlContent);
   }

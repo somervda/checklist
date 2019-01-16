@@ -119,12 +119,12 @@ export class ChecklistitemComponent implements OnInit, OnDestroy {
   }
 
   onRatingUpdate() {
-    console.log(
-      "ChecklistItem onRatingUpdate",
-      this.checklistItem.rating,
-      " ",
-      this.checklistItem.result
-    );
+    //console.log(
+    //   "ChecklistItem onRatingUpdate",
+    //   this.checklistItem.rating,
+    //   " ",
+    //   this.checklistItem.result
+    // );
     this.checklistItem.dbFieldUpdate(
       this.id,
       "result",
