@@ -25,6 +25,10 @@ export class ChecklistModel {
   // the checklist (Optional)
   public template: object = {};
 
+ 
+   theme: { themeId: string; name: string };
+   category: { categoryId: string; name: string };
+
   dbFieldUpdate(docId: string, fieldName: string, newValue: any, db, als) {
     if (docId && fieldName) {
       console.log(fieldName + " before Update", docId, newValue);
@@ -54,6 +58,8 @@ export class ChecklistModel {
         communityId: this.community.communityId,
         name: this.community.name
       },
+      theme: {themeId :this.theme.themeId, name : this.theme.name},
+      category: {categoryId :this.category.categoryId, name : this.category.name},
       template: this.template
     };
   }
@@ -100,6 +106,15 @@ export class ChecklistModel {
       this.owner = doc.data().owner;
       this.community = doc.data().community;
       this.status = doc.data().status;
+      this.category = doc.data().category;
+      if (doc.data().theme)
+        this.theme = doc.data().theme;
+      else 
+        this.theme = {themeId: "", name : "[None Selected]"};
+      if (doc.data().category)
+        this.category = doc.data().category;
+      else 
+        this.category = {categoryId: "", name : "[None Selected]"};
 
       // Hold dates in the model as datatype Date
       // convert from firestore Timestamp object
@@ -139,6 +154,8 @@ export class ChecklistModel {
       this.community = { communityId: "", name: "" };
       this.dateTargeted = null;
       this.dateCreated = null;
+      this.theme = {themeId: "", name : "[None Selected]"};
+      this.category = {categoryId: "", name : "[None Selected]"};
     }
   }
 }

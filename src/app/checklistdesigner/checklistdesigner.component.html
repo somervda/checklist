@@ -46,6 +46,24 @@
         </div>
       </div>
     </div>
+
+    <!-- Theme & Category -->
+
+    <div class="form-group">
+      <label
+        for="theCategory"
+        placement="right"
+        ngbTooltip="Select the Theme and Category to apply to this checklist"
+        >Theme and Category</label
+      >
+      <app-themecatetoryselector class="form-control"
+      name="themeCategory"
+      [theme]="checklist.theme"
+      [category]="checklist.category"
+      (themeCategoryChange)="themeCategoryChange($event)"
+    ></app-themecatetoryselector>
+            
+          </div>
     <!-- description -->
     <div class="form-group">
       <label for="description">Description *</label>
@@ -130,8 +148,15 @@
             <i class="fas fa-calendar-alt"></i>
           </button>
         </div>
+
+
       </div>
     </div>
+
+
+
+
+    
 
     <div *ngIf="action == 'U'">
       <!-- Checklistitems -->
