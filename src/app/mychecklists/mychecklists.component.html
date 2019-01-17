@@ -56,6 +56,19 @@
         <option value="180">180 Days</option>
         <option value="365">365 Days</option>
       </select>
+
+      <!-- Category Selector -->
+      <div class="form-group">
+        <label for="theCategory">Theme and Category</label>
+        <app-themecatetoryselector
+          class="form-control"
+          name="themeCategory"
+          [theme]="selectedTheme"
+          [category]="selectedCategory"
+          [filterMode]="true"
+          (themeCategoryChange)="themeCategoryChange($event)"
+        ></app-themecatetoryselector>
+      </div>
     </div>
   </div>
   <div *ngIf="queryLimitExceeded" class="alert alert-danger">
@@ -93,8 +106,12 @@
             <a routerLink="/checklist/{{ row.id }}">{{ row.title }}</a>
           </span>
           <span class="mx-1" *ngIf="row.isOverdue">
-            <i class="far fa-clock" style="color: red;" placement="top"
-            ngbTooltip="Overdue : Active checklist with target date in the past"></i>
+            <i
+              class="far fa-clock"
+              style="color: red;"
+              placement="top"
+              ngbTooltip="Overdue : Active checklist with target date in the past"
+            ></i>
           </span>
         </ng-template>
       </ngx-datatable-column>

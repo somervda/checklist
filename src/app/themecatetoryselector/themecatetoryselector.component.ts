@@ -21,6 +21,10 @@ import { CategoryModel } from "../models/categoryModel";
 export class ThemecatetoryselectorComponent implements OnInit, OnDestroy {
   @Input() theme: { themeId: string; name: string };
   @Input() category: { categoryId: string; name: string };
+  // Filter mode option changes behavior for use as a selection filter
+  // adds the special category value of {categoryId : "-1", name : "All"}
+  // that indicates no filter on theme/category
+  @Input() filterMode: boolean = false;
 
   @Output() themeCategoryChange = new EventEmitter();
 
@@ -55,10 +59,10 @@ export class ThemecatetoryselectorComponent implements OnInit, OnDestroy {
     this.themeSubscription = this.themes$.subscribe(
       results => (this.themes = results)
     );
-    this.loadCategories(this.theme.themeId);
   }
 
   loadCategories(themeId: string) {
+    console.log("loadCategories call:", themeId);
     if (this.categorySubscription) this.categorySubscription.unsubscribe();
     const categoriesRef = this.db.collection("categories", ref =>
       ref.where("theme.themeId", "==", themeId)
@@ -73,6 +77,7 @@ export class ThemecatetoryselectorComponent implements OnInit, OnDestroy {
     );
     this.categorySubscription = this.categories$.subscribe(results => {
       this.categories = results;
+      console.log("loadCategories subscribe categories:", this.categories);
       // Force selection of first category when theme is changed
       if (this.categories.length > 0)
         this.selectedCategoryId = this.categories[0].id;
@@ -87,6 +92,8 @@ export class ThemecatetoryselectorComponent implements OnInit, OnDestroy {
   open(content) {
     this.selectedThemeId = this.theme.themeId;
     this.selectedCategoryId = this.category.categoryId;
+    this.loadCategories(this.theme.themeId);
+    console.log("open themeSelector", this.theme, this.category);
     this.modalService
       .open(content, { ariaLabelledBy: "modal-basic-title" })
       .result.then(result => {
@@ -109,21 +116,21 @@ export class ThemecatetoryselectorComponent implements OnInit, OnDestroy {
           };
           this.themeCategoryChange.emit(returnValue);
         }
+        if (result == "All") {
+          
+          const returnValue = {
+            themeId: "",
+            themeName: "",
+            categoryId: "-1",
+            categoryName: "All"
+          };
+          this.themeCategoryChange.emit(returnValue);
+        }
       });
   }
 
   ngOnDestroy() {
     if (this.themeSubscription) this.themeSubscription.unsubscribe();
     if (this.categorySubscription) this.categorySubscription.unsubscribe();
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return "by pressing ESC";
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return "by clicking on a backdrop";
-    } else {
-      return `with: ${reason}`;
-    }
   }
 }

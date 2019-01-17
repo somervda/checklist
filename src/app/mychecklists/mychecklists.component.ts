@@ -23,6 +23,8 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
   selectedOwnership: string = "All";
   selectedStatus: number = ChecklistStatus.Active;
   selectedAge: number = -1;
+  selectedCategory = { categoryId: "-1", name: "All" };
+  selectedTheme = { themeId: "", name: "" };
   checklistStatusAsArray;
 
   queryLimit = 100;
@@ -88,6 +90,13 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
       }
       if (this.selectedStatus != -1) {
         retVal = retVal.where("status", "==", Number(this.selectedStatus));
+      }
+      if (this.selectedCategory.categoryId != "-1") {
+        retVal = retVal.where(
+          "category.categoryId",
+          "==",
+          this.selectedCategory.categoryId
+        );
       }
 
       switch (Number(this.selectedAge)) {
@@ -156,6 +165,13 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
           );
           if (this.selectedStatus != -1) {
             retVal = retVal.where("status", "==", Number(this.selectedStatus));
+          }
+          if (this.selectedCategory.categoryId != "-1") {
+            retVal = retVal.where(
+              "category.categoryId",
+              "==",
+              this.selectedCategory.categoryId
+            );
           }
 
           console.log("Query1 selectedAge", this.selectedAge);
@@ -252,6 +268,16 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
     var result = new Date(date);
     result.setDate(result.getDate() + days);
     return result;
+  }
+
+  themeCategoryChange(result) {
+    console.log("themeCategoryChange", result);
+    this.selectedCategory = {
+      categoryId: result.categoryId,
+      name: result.categoryName
+    };
+    this.selectedTheme = { themeId: result.themeId, name: result.themeName };
+    this.refreshChecklists();
   }
 
   isOverdue(checklist): boolean {

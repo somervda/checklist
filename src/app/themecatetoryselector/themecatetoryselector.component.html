@@ -52,17 +52,35 @@
   </div>
   <!-- Save -->
   <div class="modal-footer">
+    <span *ngIf="filterMode">
+      Select 'All' to reset this filter. Use 'Save' to accept the new filter
+      settings.
+    </span>
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      *ngIf="filterMode"
+      (click)="modal.close('All')"
+    >
+      All
+    </button>
     <button
       type="button"
       class="btn btn-outline-dark"
       (click)="modal.close('Save')"
+      [disabled]="selectedCategoryId == '-1'"
     >
       Save
     </button>
   </div>
 </ng-template>
 
-{{ theme.name }}&nbsp;:&nbsp;{{ category.name }}&nbsp;
+<span *ngIf="filterMode && category.categoryId == '-1'">
+  {{ category.name }}&nbsp;
+</span>
+<span *ngIf="filterMode == false || category.categoryId != '-1'">
+  {{ theme.name }}&nbsp;:&nbsp;{{ category.name }}&nbsp;
+</span>
 <button class="btn py-0 float-right" (click)="open(content)">
   <i class="fas fa-angle-double-up" title="Theme and Category selector"></i>
 </button>
