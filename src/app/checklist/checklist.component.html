@@ -13,7 +13,9 @@
 <!-- Body -->
 <div class="container">
   <h3>{{ checklist.title }}</h3>
-  <p>{{checklist?.theme?.name}} : {{checklist?.category?.name}}</p>
+  <p class="text-weight-bold">
+    {{ checklist?.theme?.name }} : {{ checklist?.category?.name }}
+  </p>
   <div class="text-left" [innerHtml]="checklist.description"></div>
 
   <div class="row">
