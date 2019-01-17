@@ -58,6 +58,7 @@ import { AuditlogService } from "./services/auditlog.service";
 import { CategoryComponent } from "./category/category.component";
 import { CategorydesignerComponent } from "./categorydesigner/categorydesigner.component";
 import { ThemecatetoryselectorComponent } from "./themecatetoryselector/themecatetoryselector.component";
+import { ActivityComponent } from './activity/activity.component';
 
 @NgModule({
   declarations: [
@@ -87,7 +88,8 @@ import { ThemecatetoryselectorComponent } from "./themecatetoryselector/themecat
     ThemedesignerComponent,
     CategoryComponent,
     CategorydesignerComponent,
-    ThemecatetoryselectorComponent
+    ThemecatetoryselectorComponent,
+    ActivityComponent
   ],
   imports: [
     BrowserModule,
