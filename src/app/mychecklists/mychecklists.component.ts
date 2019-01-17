@@ -254,6 +254,7 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
       });
       //console.log("Init unique checklists", this.checklists);
     });
+    this.filterToggle = false;
   }
 
   filterToggler() {
