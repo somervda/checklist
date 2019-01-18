@@ -50,7 +50,7 @@
 
     <div class="form-group">
       <label
-        for="theCategory"
+        for="themeCategory"
         placement="right"
         ngbTooltip="Select the Theme and Category to apply to this checklist"
         >Theme and Category *</label
@@ -63,12 +63,32 @@
         [category]="checklist.category"
         (themeCategoryChange)="themeCategoryChange($event)"
       ></app-themecatetoryselector>
+
       <div
         *ngIf="title.touched && checklist.category.id == ''"
         class="alert alert-danger"
       >
         A theme and category must be selected.
       </div>
+    </div>
+
+    <!-- Community -->
+    <div class="form-group">
+      <label for="community">Community</label>
+      <select
+        class="dropdown form-control"
+        name="community"
+        id="community"
+        (change)="onCommunityUpdate()"
+        [(ngModel)]="checklist.community.id"
+      >
+        <option value="">No Community</option>
+        <option
+          *ngFor="let community of userLeadCommunities"
+          value="{{ community.id }}"
+          >Community: {{ community.name }}</option
+        >
+      </select>
     </div>
     <!-- description -->
     <div class="form-group">

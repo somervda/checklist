@@ -12,24 +12,36 @@
 
 <!-- Body -->
 <div class="container">
-  <h3>{{ checklist.title }}</h3>
-  <p ><b>
-    {{ checklist?.theme?.name }} : {{ checklist?.category?.name }}</b>
-  </p>
-  <div class="text-left" [innerHtml]="checklist.description"></div>
+  <ngb-accordion>
+    <ngb-panel>
+      <ng-template ngbPanelTitle>
+        <h5>{{ checklist.title }}</h5>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <p>
+          <b> {{ checklist?.theme?.name }} : {{ checklist?.category?.name }}</b>
+        </p>
+        <div class="text-left" [innerHtml]="checklist.description"></div>
 
-  <div class="row">
-    <div class="col-sm"><b>Owner</b>: {{ checklist?.owner?.displayName }}</div>
-    <div class="col-sm"><b>Community</b>: {{ checklist?.community?.name }}</div>
-  </div>
-  <div class="row">
-    <div class="col-sm">
-      <b>Created</b>: {{ checklist?.dateCreatedShortDate }}
-    </div>
-    <div class="col-sm">
-      <b>Targeting</b>: {{ checklist?.dateTargetedShortDate }}
-    </div>
-  </div>
+        <div class="row">
+          <div class="col-sm">
+            <b>Owner</b>: {{ checklist?.owner?.displayName }}
+          </div>
+          <div class="col-sm">
+            <b>Community</b>: {{ checklist?.community?.name }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm">
+            <b>Created</b>: {{ checklist?.dateCreatedShortDate }}
+          </div>
+          <div class="col-sm">
+            <b>Targeting</b>: {{ checklist?.dateTargetedShortDate }}
+          </div>
+        </div>
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
 
   <!-- Checklist Items -->
   <hr class="p-0 m-0" />

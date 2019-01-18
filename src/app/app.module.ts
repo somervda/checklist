@@ -19,6 +19,7 @@ import { RecaptchaModule } from "ng-recaptcha";
 
 import { AppComponent } from "./app.component";
 import {
+  NgbAccordionModule,
   NgbDropdownModule,
   NgbCarouselModule,
   NgbCollapseModule,
@@ -58,7 +59,7 @@ import { AuditlogService } from "./services/auditlog.service";
 import { CategoryComponent } from "./category/category.component";
 import { CategorydesignerComponent } from "./categorydesigner/categorydesigner.component";
 import { ThemecatetoryselectorComponent } from "./themecatetoryselector/themecatetoryselector.component";
-import { ActivityComponent } from './activity/activity.component';
+import { ActivityComponent } from "./activity/activity.component";
 
 @NgModule({
   declarations: [
@@ -100,6 +101,7 @@ import { ActivityComponent } from './activity/activity.component';
       preventDuplicates: true,
       positionClass: "toast-top-right"
     }), // ToastrModule added
+    NgbAccordionModule,
     NgbDropdownModule,
     NgbCarouselModule,
     NgbCollapseModule,

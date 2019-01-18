@@ -9,6 +9,7 @@ import { AngularFirestore } from "@angular/fire/firestore";
 import { ChecklistModel, ChecklistStatus } from "../models/checklistModel";
 import { NgForm } from "@angular/forms";
 import { AuditlogService } from "../services/auditlog.service";
+import { CommunityAccessState } from "../models/userModel";
 
 @Component({
   selector: "app-checklistdesigner",
@@ -25,6 +26,9 @@ export class ChecklistdesignerComponent implements OnInit, OnDestroy {
   isValidForm: boolean;
   formSubscription;
   ChecklistItemStatus = ChecklistItemStatus;
+  CommunityAccessState = CommunityAccessState;
+  userLeadCommunities = [];
+  // selectedCommunity = "-1";
 
   @ViewChild(NgForm) frmMain: NgForm;
 
@@ -63,6 +67,10 @@ export class ChecklistdesignerComponent implements OnInit, OnDestroy {
       this.isValidForm = result == "VALID";
       //console.log("state", this.isValidForm);
     });
+
+    this.userLeadCommunities = this.auth.user.communitiesAsArray.filter(
+      c => c.accessState == CommunityAccessState.leader
+    );
 
     this.route.paramMap.subscribe(paramMap => {
       this.action = paramMap.get("action");
@@ -116,8 +124,12 @@ export class ChecklistdesignerComponent implements OnInit, OnDestroy {
     this.checklist.owner.uid = this.auth.getUserUID;
     this.checklist.owner.displayName = displayName;
 
-    this.checklist.community.id = "";
-    this.checklist.community.name = "";
+    // Set the community name from the userLeadCommunities array info
+    if (this.checklist.community.id != "") {
+      this.checklist.community.name = this.userLeadCommunities.find(
+        c => c.id == this.checklist.community.id
+      ).name;
+    }
 
     this.checklist.dateCreated = new Date(); // Be better to use the server datetime
     if (this.modelAsDate() !== undefined) {
@@ -155,6 +167,25 @@ export class ChecklistdesignerComponent implements OnInit, OnDestroy {
       this.als
     );
   }
+
+  onCommunityUpdate() {
+    // Set the community name from the userLeadCommunities array info
+    if (this.checklist.community.id == "") {
+      this.checklist.community.name = "";
+    } else {
+      this.checklist.community.name = this.userLeadCommunities.find(
+        c => c.id == this.checklist.community.id
+      ).name;
+    }
+    this.checklist.dbFieldUpdate(
+      this.id,
+      "community",
+      this.checklist.community,
+      this.db,
+      this.als
+    );
+  }
+
   onDescriptionUpdate() {
     this.checklist.dbFieldUpdate(
       this.id,
