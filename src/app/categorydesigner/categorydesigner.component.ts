@@ -47,7 +47,6 @@ export class CategorydesignerComponent implements OnInit, OnDestroy {
     ]
   };
 
-
   constructor(
     private route: ActivatedRoute,
     private db: AngularFirestore,
@@ -76,7 +75,7 @@ export class CategorydesignerComponent implements OnInit, OnDestroy {
           console.log("Category Designer subscribed snapshot", snapshot);
           this.category = new CategoryModel(snapshot.payload);
           this.theme.name = this.category.theme.name;
-          this.theme.id = this.category.theme.themeId;
+          this.theme.id = this.category.theme.id;
         });
       }
       if (this.action == "A" && this.id) {
@@ -91,7 +90,7 @@ export class CategorydesignerComponent implements OnInit, OnDestroy {
   }
 
   onAddClick() {
-    this.category.theme = { themeId: this.theme.id, name: this.theme.name };
+    this.category.theme = { id: this.theme.id, name: this.theme.name };
     console.log("Add a new category", this.category);
     // Add a new document with a generated id. Note, need to cast to generic object
     this.db

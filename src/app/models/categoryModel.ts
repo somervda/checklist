@@ -2,7 +2,7 @@ export class CategoryModel {
   public id: string;
   public name: string;
   public description: string;
-  public theme: { themeId: string; name: string };
+  public theme: { id: string; name: string };
 
   constructor(doc?) {
     // Overloaded constructor, either will initialize based on
@@ -17,7 +17,7 @@ export class CategoryModel {
       this.name = "";
       this.description = "";
       this.id = "";
-      this.theme = { themeId: "", name: "" };
+      this.theme = { id: "", name: "" };
     }
   }
 

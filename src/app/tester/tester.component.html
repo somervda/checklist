@@ -28,8 +28,11 @@ Test basic file upload on iOS (safari mobile)
 <div [innerHTML]="htmlContent"></div>
 <br />
 <button (click)="doBatchUpdate()">Batch Update</button> <br />
-<app-themecatetoryselector
-  [theme]="{ themeId: 'ErwDacLgiSdtgHbEO8K9', name: 'Software' }"
-  [category]="{ categoryId: 'LooHX2WQVTPLJTpsNV18', name: 'Design' }"
-  (themeCategoryChange)="themeCategoryChange($event)"
-></app-themecatetoryselector>
+<br />
+<div class="border">
+  <app-themecatetoryselector
+    [theme]="{ id: 'ErwDacLgiSdtgHbEO8K9', name: 'Software' }"
+    [category]="{ id: 'LooHX2WQVTPLJTpsNV18', name: 'Design' }"
+    (themeCategoryChange)="themeCategoryChange($event)"
+  ></app-themecatetoryselector>
+</div>

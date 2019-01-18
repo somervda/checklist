@@ -2,7 +2,6 @@
   <app-header
     name="Checklist Designer"
     rightButtonIconClass="fa-arrow-left"
-    rightButtonTooltip="Return&nbsp;to&nbsp;Checklist"
     (rightButtonClick)="onReturnToChecklistClick()"
   ></app-header>
 </span>
@@ -14,7 +13,7 @@
     rightButtonTooltip="Click&nbsp;to&nbsp;add"
     rightButtonText=" Add"
     (rightButtonClick)="onAddClick()"
-    [rightButtonDisabled]="!isValidForm"
+    [rightButtonDisabled]="!isValidForm || checklist.category.categoryId == ''"
   ></app-header>
 </span>
 
@@ -54,20 +53,23 @@
         for="theCategory"
         placement="right"
         ngbTooltip="Select the Theme and Category to apply to this checklist"
-        >Theme and Category</label
+        >Theme and Category *</label
       >
-      <app-themecatetoryselector class="form-control"
-      name="themeCategory"
-      [theme]="checklist.theme"
-      [category]="checklist.category"
-      (themeCategoryChange)="themeCategoryChange($event)"
-    ></app-themecatetoryselector>
-    <div *ngIf="themeCategory.touched  && checklist.category.categoryId == '-1'" class="alert alert-danger">
-      A theme and category must be selected.
+      <app-themecatetoryselector
+        class="form-control"
+        name="themeCategory"
+        id="themeCategory"
+        [theme]="checklist.theme"
+        [category]="checklist.category"
+        (themeCategoryChange)="themeCategoryChange($event)"
+      ></app-themecatetoryselector>
+      <div
+        *ngIf="checklist.category.categoryId == ''"
+        class="alert alert-danger"
+      >
+        A theme and category must be selected.
+      </div>
     </div>
-
-            
-          </div>
     <!-- description -->
     <div class="form-group">
       <label for="description">Description *</label>
@@ -152,15 +154,8 @@
             <i class="fas fa-calendar-alt"></i>
           </button>
         </div>
-
-
       </div>
     </div>
-
-
-
-
-    
 
     <div *ngIf="action == 'U'">
       <!-- Checklistitems -->

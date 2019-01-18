@@ -5,6 +5,7 @@
     </h4>
     <button
       type="button"
+      id="selectTCClose"
       class="close p-0"
       aria-label="Close"
       (click)="modal.dismiss('Cross')"
@@ -20,6 +21,7 @@
         <div class="input-group">
           <select
             ngbAutofocus
+            id="selectTCTheme"
             class="form-control"
             name="themeSelector"
             (change)="onThemeSelectorChange()"
@@ -37,6 +39,7 @@
         <div class="input-group">
           <select
             class="form-control"
+            id="selectTCCategory"
             name="categorySelector"
             [(ngModel)]="selectedCategoryId"
           >
@@ -58,6 +61,7 @@
     </span>
     <button
       type="button"
+      id="btnTCAll"
       class="btn btn-outline-dark"
       *ngIf="filterMode"
       (click)="modal.close('All')"
@@ -66,6 +70,7 @@
     </button>
     <button
       type="button"
+      id="btnTCSave"
       class="btn btn-outline-dark"
       (click)="modal.close('Save')"
       [disabled]="selectedCategoryId == '-1'"
@@ -75,12 +80,16 @@
   </div>
 </ng-template>
 
-<span *ngIf="filterMode && category.categoryId == '-1'">
+<span *ngIf="filterMode && category.id == '-1'">
   {{ category.name }}&nbsp;
 </span>
-<span *ngIf="filterMode == false || category.categoryId != '-1'">
+<span *ngIf="filterMode == false || category.id != '-1'">
   {{ theme.name }}&nbsp;:&nbsp;{{ category.name }}&nbsp;
 </span>
-<button class="btn py-0 float-right" (click)="open(content)">
+<button
+  class="btn py-0 float-right"
+  (click)="open(content)"
+  id="btnThemeCategorySelector"
+>
   <i class="fas fa-angle-double-up" title="Theme and Category selector"></i>
 </button>

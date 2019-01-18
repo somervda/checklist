@@ -19,8 +19,8 @@ import { CategoryModel } from "../models/categoryModel";
   styleUrls: ["./themecatetoryselector.component.scss"]
 })
 export class ThemecatetoryselectorComponent implements OnInit, OnDestroy {
-  @Input() theme: { themeId: string; name: string };
-  @Input() category: { categoryId: string; name: string };
+  @Input() theme: { id: string; name: string };
+  @Input() category: { id: string; name: string };
   // Filter mode option changes behavior for use as a selection filter
   // adds the special category value of {categoryId : "-1", name : "All"}
   // that indicates no filter on theme/category
@@ -62,24 +62,29 @@ export class ThemecatetoryselectorComponent implements OnInit, OnDestroy {
   }
 
   loadCategories(themeId: string) {
-    console.log("loadCategories call:", themeId);
+    console.log("loadCategories themeId:", themeId);
     if (this.categorySubscription) this.categorySubscription.unsubscribe();
     const categoriesRef = this.db.collection("categories", ref =>
-      ref.where("theme.themeId", "==", themeId)
+      ref.where("theme.id", "==", themeId)
     );
     this.categories$ = categoriesRef.snapshotChanges().pipe(
       map(actions => {
         return actions.map(action => {
           const category: CategoryModel = new CategoryModel(action.payload.doc);
+
           return category;
         });
       })
     );
     this.categorySubscription = this.categories$.subscribe(results => {
       this.categories = results;
-      console.log("loadCategories subscribe categories:", this.categories);
+      // console.log("loadCategories subscribe categories:", this.categories);
+      // console.log(
+      //   "loadCategories subscribe selectdCategoryId:",
+      //   this.selectedCategoryId
+      // );
       // Force selection of first category when theme is changed
-      if (this.categories.length > 0)
+      if (this.theme.id != this.selectedThemeId && this.categories.length > 0)
         this.selectedCategoryId = this.categories[0].id;
     });
   }
@@ -90,10 +95,15 @@ export class ThemecatetoryselectorComponent implements OnInit, OnDestroy {
   }
 
   open(content) {
-    this.selectedThemeId = this.theme.themeId;
-    this.selectedCategoryId = this.category.categoryId;
-    this.loadCategories(this.theme.themeId);
-    console.log("open themeSelector", this.theme, this.category);
+    this.selectedThemeId = this.theme.id;
+    this.selectedCategoryId = this.category.id;
+    this.loadCategories(this.theme.id);
+    console.log(
+      "open themeSelector",
+      this.theme,
+      this.category,
+      this.selectedCategoryId
+    );
     this.modalService
       .open(content, { ariaLabelledBy: "modal-basic-title" })
       .result.then(result => {
@@ -102,22 +112,21 @@ export class ThemecatetoryselectorComponent implements OnInit, OnDestroy {
             o => o.id == this.selectedThemeId
           );
           this.theme.name = selectedTheme.name;
-          this.theme.themeId = selectedTheme.id;
+          this.theme.id = selectedTheme.id;
           const selectedCategory = this.categories.find(
             o => o.id == this.selectedCategoryId
           );
           this.category.name = selectedCategory.name;
-          this.category.categoryId = selectedCategory.id;
+          this.category.id = selectedCategory.id;
           const returnValue = {
-            themeId: this.theme.themeId,
+            themeId: this.theme.id,
             themeName: this.theme.name,
-            categoryId: this.category.categoryId,
+            categoryId: this.category.id,
             categoryName: this.category.name
           };
           this.themeCategoryChange.emit(returnValue);
         }
         if (result == "All") {
-          
           const returnValue = {
             themeId: "",
             themeName: "",

@@ -33,7 +33,7 @@ export class ThemeComponent implements OnInit, OnDestroy {
         this.theme = new ThemeModel(snapshot.payload);
         // Get categories for the theme
         const categoryRef = this.db.collection("/categories", ref =>
-          ref.where("theme.themeId", "==", this.theme.id)
+          ref.where("theme.id", "==", this.theme.id)
         );
         this.categories$ = categoryRef.snapshotChanges().pipe(
           map(actions => {
