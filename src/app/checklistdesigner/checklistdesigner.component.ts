@@ -186,22 +186,25 @@ export class ChecklistdesignerComponent implements OnInit, OnDestroy {
 
   themeCategoryChange(result) {
     console.log("themeCategoryChange", result);
-    this.checklist.theme = {themeId : result.themeId, name : result.themeName};
-    this.checklist.category = {categoryId : result.categoryId, name : result.categoryName};
+    this.checklist.theme = { id: result.themeId, name: result.themeName };
+    this.checklist.category = {
+      id: result.categoryId,
+      name: result.categoryName
+    };
     this.checklist.dbFieldUpdate(
       this.id,
       "theme",
       this.checklist.theme,
       this.db,
       this.als
-    );   
+    );
     this.checklist.dbFieldUpdate(
       this.id,
       "category",
       this.checklist.category,
       this.db,
       this.als
-    );  
+    );
   }
 
   modelAsDate(): Date {

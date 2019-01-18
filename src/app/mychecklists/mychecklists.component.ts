@@ -23,8 +23,8 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
   selectedOwnership: string = "All";
   selectedStatus: number = ChecklistStatus.Active;
   selectedAge: number = -1;
-  selectedCategory = { categoryId: "-1", name: "All" };
-  selectedTheme = { themeId: "", name: "" };
+  selectedCategory = { id: "-1", name: "All" };
+  selectedTheme = { id: "", name: "" };
   checklistStatusAsArray;
 
   queryLimit = 100;
@@ -91,12 +91,8 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
       if (this.selectedStatus != -1) {
         retVal = retVal.where("status", "==", Number(this.selectedStatus));
       }
-      if (this.selectedCategory.categoryId != "-1") {
-        retVal = retVal.where(
-          "category.categoryId",
-          "==",
-          this.selectedCategory.categoryId
-        );
+      if (this.selectedCategory.id != "-1") {
+        retVal = retVal.where("category.id", "==", this.selectedCategory.id);
       }
 
       switch (Number(this.selectedAge)) {
@@ -166,11 +162,11 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
           if (this.selectedStatus != -1) {
             retVal = retVal.where("status", "==", Number(this.selectedStatus));
           }
-          if (this.selectedCategory.categoryId != "-1") {
+          if (this.selectedCategory.id != "-1") {
             retVal = retVal.where(
-              "category.categoryId",
+              "category.id",
               "==",
-              this.selectedCategory.categoryId
+              this.selectedCategory.id
             );
           }
 
@@ -274,10 +270,10 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
   themeCategoryChange(result) {
     console.log("themeCategoryChange", result);
     this.selectedCategory = {
-      categoryId: result.categoryId,
+      id: result.categoryId,
       name: result.categoryName
     };
-    this.selectedTheme = { themeId: result.themeId, name: result.themeName };
+    this.selectedTheme = { id: result.themeId, name: result.themeName };
     this.refreshChecklists();
   }
 

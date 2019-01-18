@@ -25,9 +25,8 @@ export class ChecklistModel {
   // the checklist (Optional)
   public template: object = {};
 
- 
-   theme: { themeId: string; name: string };
-   category: { categoryId: string; name: string };
+  theme: { id: string; name: string };
+  category: { id: string; name: string };
 
   dbFieldUpdate(docId: string, fieldName: string, newValue: any, db, als) {
     if (docId && fieldName) {
@@ -58,8 +57,8 @@ export class ChecklistModel {
         communityId: this.community.communityId,
         name: this.community.name
       },
-      theme: {themeId :this.theme.themeId, name : this.theme.name},
-      category: {categoryId :this.category.categoryId, name : this.category.name},
+      theme: { id: this.theme.id, name: this.theme.name },
+      category: { id: this.category.id, name: this.category.name },
       template: this.template
     };
   }
@@ -107,14 +106,10 @@ export class ChecklistModel {
       this.community = doc.data().community;
       this.status = doc.data().status;
       this.category = doc.data().category;
-      if (doc.data().theme)
-        this.theme = doc.data().theme;
-      else 
-        this.theme = {themeId: "", name : "[None Selected]"};
-      if (doc.data().category)
-        this.category = doc.data().category;
-      else 
-        this.category = {categoryId: "", name : "[None Selected]"};
+      if (doc.data().theme) this.theme = doc.data().theme;
+      else this.theme = { id: "", name: "[None Selected]" };
+      if (doc.data().category) this.category = doc.data().category;
+      else this.category = { id: "", name: "[None Selected]" };
 
       // Hold dates in the model as datatype Date
       // convert from firestore Timestamp object
@@ -154,8 +149,8 @@ export class ChecklistModel {
       this.community = { communityId: "", name: "" };
       this.dateTargeted = null;
       this.dateCreated = null;
-      this.theme = {themeId: "", name : "[None Selected]"};
-      this.category = {categoryId: "", name : "[None Selected]"};
+      this.theme = { id: "", name: "[None Selected]" };
+      this.category = { id: "", name: "[None Selected]" };
     }
   }
 }
