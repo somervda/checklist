@@ -144,7 +144,7 @@
             ></i
           ></span>
           <span *ngIf="row.community">
-            <span *ngIf="auth.user.communities[(row.community?.communityId)]">
+            <span *ngIf="auth.user.communities[(row.community?.id)]">
               <i
                 class="fas fa-users mr-2"
                 placement="top"
@@ -154,8 +154,8 @@
             ></span>
             <span
               *ngIf="
-                row.community?.communityId != '' &&
-                !auth.user.communities[(row.community?.communityId)]
+                row.community?.id != '' &&
+                !auth.user.communities[(row.community?.id)]
               "
             >
               <i

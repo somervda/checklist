@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  auditLog: true,
+  auditLog: false,
   // url of the checklists rest api services in the cloud
   clapiurl: "http://somerville.noip.me:3000",
   // clapiurl: "http://localhost:3000",

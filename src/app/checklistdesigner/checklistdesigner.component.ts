@@ -116,10 +116,13 @@ export class ChecklistdesignerComponent implements OnInit, OnDestroy {
     this.checklist.owner.uid = this.auth.getUserUID;
     this.checklist.owner.displayName = displayName;
 
-    this.checklist.community.communityId = "";
+    this.checklist.community.id = "";
     this.checklist.community.name = "";
 
     this.checklist.dateCreated = new Date(); // Be better to use the server datetime
+    if (this.modelAsDate() !== undefined) {
+      this.checklist.dateTargeted = this.modelAsDate();
+    }
 
     this.checklist.status = ChecklistStatus.Active;
 

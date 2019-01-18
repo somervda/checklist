@@ -27,7 +27,15 @@ Test basic file upload on iOS (safari mobile)
 
 <div [innerHTML]="htmlContent"></div>
 <br />
-<button (click)="doBatchUpdate()">Batch Update</button> <br />
+<hr />
+<h5>Batch updates</h5>
+<button (click)="doBatchUpdate()">
+  Batch set all checklistsItems status to 0
+</button>
+<br /><br />
+<button (click)="doBatchUpdate2()">Batch set checklist community.id</button>
+<br />
+<hr />
 <br />
 <div class="border">
   <app-themecatetoryselector

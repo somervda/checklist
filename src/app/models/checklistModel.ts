@@ -20,7 +20,7 @@ export class ChecklistModel {
   // owner is the auth uid, owner can update and design the checklist
   public owner: { uid: string; displayName: string };
   // communityId is optional if the checklist is only a personal checklist
-  public community: { communityId: string; name: string };
+  public community: { id: string; name: string };
   // Template is a copy of the original checklist/template that was used to create
   // the checklist (Optional)
   public template: object = {};
@@ -54,7 +54,7 @@ export class ChecklistModel {
       dateTargeted: this.dateTargeted,
       owner: { uid: this.owner.uid, displayName: this.owner.displayName },
       community: {
-        communityId: this.community.communityId,
+        id: this.community.id,
         name: this.community.name
       },
       theme: { id: this.theme.id, name: this.theme.name },
@@ -146,7 +146,7 @@ export class ChecklistModel {
       this.status = ChecklistStatus.Active;
       this.isTemplate = false;
       this.owner = { uid: "", displayName: "" };
-      this.community = { communityId: "", name: "" };
+      this.community = { id: "", name: "" };
       this.dateTargeted = null;
       this.dateCreated = null;
       this.theme = { id: "", name: "[None Selected]" };

@@ -153,12 +153,8 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
         console.log("userCommunity", userCommunity);
         var communityRef = this.db.collection("checklists/", ref => {
           let retVal = ref as any;
-          // Default will select communityId = None (nothing selected)
-          retVal = retVal.where(
-            "community.communityId",
-            "==",
-            userCommunity.id
-          );
+          // Default will select community.id = None (nothing selected)
+          retVal = retVal.where("community.id", "==", userCommunity.id);
           if (this.selectedStatus != -1) {
             retVal = retVal.where("status", "==", Number(this.selectedStatus));
           }

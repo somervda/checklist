@@ -185,6 +185,40 @@ export class TesterComponent implements OnInit, OnDestroy {
     console.log("doBatchUpdate end");
   }
 
+  doBatchUpdate2() {
+    console.log("doBatchUpdate 2 - checklist.community.id  start");
+
+    // Get a new write batch
+    var batch = this.db.firestore.batch();
+    // Set the value of 'collection'
+    var itemRef = this.db.collection("checklists");
+    // https://stackoverflow.com/questions/46618601/how-to-create-update-multiple-documents-at-once-in-firestore
+    // Update each document
+    itemRef.ref
+      .get()
+      .then(resp => {
+        console.log(resp.docs);
+        let batch = this.db.firestore.batch();
+
+        resp.docs.forEach(userDocRef => {
+          console.log("docref", userDocRef.data());
+          let communityId = "";
+          let communityName = "";
+          if (userDocRef.data().community && userDocRef.data().community.id) {
+            (communityId = userDocRef.data().community.id),
+              (communityName = userDocRef.data().community.name);
+          }
+          batch.update(userDocRef.ref, {
+            community: { id: communityId, name: communityName }
+          });
+        });
+        batch.commit().catch(err => console.error(err));
+      })
+      .catch(error => console.error(error));
+
+    console.log("doBatchUpdate 2 end");
+  }
+
   themeCategoryChange(result) {
     console.log("themeCategoryChange", result);
   }

@@ -63,7 +63,10 @@
         [category]="checklist.category"
         (themeCategoryChange)="themeCategoryChange($event)"
       ></app-themecatetoryselector>
-      <div *ngIf="checklist.category.id == ''" class="alert alert-danger">
+      <div
+        *ngIf="title.touched && checklist.category.id == ''"
+        class="alert alert-danger"
+      >
         A theme and category must be selected.
       </div>
     </div>
