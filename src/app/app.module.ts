@@ -60,6 +60,7 @@ import { CategoryComponent } from "./category/category.component";
 import { CategorydesignerComponent } from "./categorydesigner/categorydesigner.component";
 import { ThemecatetoryselectorComponent } from "./themecatetoryselector/themecatetoryselector.component";
 import { ActivityComponent } from "./activity/activity.component";
+import { CommunitymanagermodalComponent } from './communitymanagermodal/communitymanagermodal.component';
 
 @NgModule({
   declarations: [
@@ -90,7 +91,8 @@ import { ActivityComponent } from "./activity/activity.component";
     CategoryComponent,
     CategorydesignerComponent,
     ThemecatetoryselectorComponent,
-    ActivityComponent
+    ActivityComponent,
+    CommunitymanagermodalComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,63 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      Community Access
+    </h4>
+    <button
+      type="button"
+      id="selectTCClose"
+      class="close p-0"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <form>
+      <!-- Action Selector
+      1. Accept Invitation
+      2. Reject Invitation
+      3. Remove me as leader
+      4. Remove me as member
+      5. Send member invitation
+      6. Send leader invitation
+      -->
+      <div class="form-group">
+        <label for="theme">Action</label>
+        <div class="input-group">
+          <p><input type="radio" name="action" value="accept"> Accept Invitation</p>
+          <p><input type="radio" name="action" value="reject"> REject Invitation</p>
+          <input type="radio" name="action" value="removeAsLeader"> Remove me as Leader<br>
+          <input type="radio" name="action" value="removeAsMember"> Remove me as Member<br>
+          <input type="radio" name="action" value="sendMemberInvitation"> Send invitation to be member<br>
+          <input type="radio" name="action" value="sendLeaderInvitation"> Send invitation to be leader<br>
+          <input type="text" name="txtInvitee">
+        </div>
+      </div>
+    </form>
+
+  </div>
+  <!-- Save -->
+  <div class="modal-footer">
+    <button
+      type="button"
+      id="btnCMConfirm"
+      class="btn btn-outline-dark"
+      (click)="modal.close('Confirm')"
+    >
+      Confirm
+    </button>
+  </div>
+</ng-template>
+
+
+<button
+  class="btn py-0 "
+  (click)="open(content)"
+  id="btnCommunityModal"
+>Actions
+  <i class="fas fa-angle-double-up" title="Manage community access"></i>
+</button>
+
