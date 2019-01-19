@@ -18,14 +18,22 @@ export class UserModel {
     this.initialPagePreference = doc.data().initialPagePreference;
   }
 
-  dbFieldUpdate(docId: string, fieldName: string, newValue: any, db) {
+  dbFieldUpdate(docId: string, fieldName: string, newValue: any, db, als?) {
     console.log(fieldName + " before Update", docId, newValue);
-    let updateObject = {};
-    updateObject[fieldName] = newValue;
-    db.doc("/users/" + docId) // Update to firestore collection
-      .update(updateObject)
-      .then(data => console.log(fieldName + " updated"))
-      .catch(error => console.log(fieldName + " update error ", error));
+    if (docId && fieldName) {
+      let updateObject = {};
+      updateObject[fieldName] = newValue;
+      db.doc("/users/" + docId) // Update to firestore collection
+        .update(updateObject)
+        .then(data => {
+          // Special case - als not available when called from Auth service
+          if (als) {
+            als.logUpdate(docId, "users", fieldName, newValue);
+          }
+          console.log(fieldName + " updated");
+        })
+        .catch(error => console.error(fieldName + " update error ", error));
+    }
   }
 
   mergeCommunity(id: string, name: string, accessState: CommunityAccessState) {
@@ -74,6 +82,39 @@ export class UserModel {
       accessState: this.communities[communityId].accessState
     };
     return communityObject;
+  }
+
+  acceptCommunityInvitation(communityId: string, db, als) {
+    // Will change accessState for the community
+    // and update the user details and send an update to the
+    // backend
+    let accessState: CommunityAccessState = this.communities[communityId]
+      .accessState;
+
+    if (
+      accessState === CommunityAccessState.membershipInvited ||
+      accessState === CommunityAccessState.leadershipInvited
+    ) {
+      if (accessState === CommunityAccessState.membershipInvited) {
+        accessState = CommunityAccessState.member;
+      }
+      if (accessState === CommunityAccessState.leadershipInvited) {
+        accessState = CommunityAccessState.leader;
+      }
+      this.communities[communityId].accessState = accessState;
+      this.dbFieldUpdate(
+        this.id,
+        "communities." + communityId + ".accessState",
+        accessState,
+        db,
+        als
+      );
+    } else {
+      console.error(
+        "acceptCommunityInvitation not in invitation state",
+        accessState
+      );
+    }
   }
 
   // Getters and Setters

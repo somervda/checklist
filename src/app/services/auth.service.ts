@@ -54,6 +54,7 @@ export class AuthService {
           //   https://stackoverflow.com/questions/51455545/when-to-use-ngzone-run
           if (!this.user.initialPagePreference) {
             // Set initialPagePreference yo mychecklists if not set
+            // Note - spacial case where als is not available
             this.user.initialPagePreference = "mychecklists";
             this.user.dbFieldUpdate(
               this.afAuth.auth.currentUser.uid,

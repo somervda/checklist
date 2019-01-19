@@ -1,3 +1,4 @@
+import { AuditlogService } from "./../services/auditlog.service";
 import { AuthService } from "./../services/auth.service";
 import { UserModel, CommunityAccessState } from "./../models/userModel";
 //import { Subscription, Observable } from "rxjs";
@@ -62,7 +63,11 @@ export class TesterComponent implements OnInit, OnDestroy {
     ]
   };
 
-  constructor(private db: AngularFirestore, private auth: AuthService) {}
+  constructor(
+    private db: AngularFirestore,
+    private auth: AuthService,
+    private als: AuditlogService
+  ) {}
 
   ngOnInit() {
     // 01 - test querying based on user community map
@@ -221,6 +226,15 @@ export class TesterComponent implements OnInit, OnDestroy {
 
   themeCategoryChange(result) {
     console.log("themeCategoryChange", result);
+  }
+
+  doInvitationUpdate() {
+    console.log("doInvitationUpdate");
+    this.auth.user.acceptCommunityInvitation(
+      "61Wm7hOEPjKdgyGHiU5c",
+      this.db,
+      this.als
+    );
   }
 
   ngOnDestroy() {

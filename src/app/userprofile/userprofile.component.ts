@@ -1,3 +1,4 @@
+import { AuditlogService } from "./../services/auditlog.service";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { AuthService } from "./../services/auth.service";
 import { Component, OnInit, ViewChild, OnDestroy } from "@angular/core";
@@ -19,7 +20,11 @@ export class UserprofileComponent implements OnInit, OnDestroy {
 
   @ViewChild(NgForm) frmMain: NgForm;
 
-  constructor(public auth: AuthService, private db: AngularFirestore) {}
+  constructor(
+    public auth: AuthService,
+    private db: AngularFirestore,
+    private als: AuditlogService
+  ) {}
 
   ngOnInit() {
     this.communities = this.auth.user.communitiesAsArray;
@@ -36,7 +41,8 @@ export class UserprofileComponent implements OnInit, OnDestroy {
       this.auth.getUserUID,
       "initialPagePreference",
       initialPagePreference,
-      this.db
+      this.db,
+      this.als
     );
   }
 
