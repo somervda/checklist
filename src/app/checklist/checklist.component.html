@@ -19,10 +19,11 @@
       </ng-template>
       <ng-template ngbPanelContent>
         <p>
-          <b> {{ checklist?.theme?.name }} : {{ checklist?.category?.name }}</b>
+          <b>Theme & Category</b> {{ checklist?.theme?.name }} :
+          {{ checklist?.category?.name }}
         </p>
         <div class="text-left" [innerHtml]="checklist.description"></div>
-
+        <br />
         <div class="row">
           <div class="col-sm">
             <b>Owner</b>: {{ checklist?.owner?.displayName }}
