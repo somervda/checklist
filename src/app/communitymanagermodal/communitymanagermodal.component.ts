@@ -1,17 +1,29 @@
-import { Component, OnInit, OnDestroy, Input, EventEmitter, Output } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AuthService } from '../services/auth.service';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { CommunityAccessState } from "./../models/userModel";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Input,
+  EventEmitter,
+  Output
+} from "@angular/core";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { AuthService } from "../services/auth.service";
+import { AngularFirestore } from "@angular/fire/firestore";
 
 @Component({
-  selector: 'app-communitymanagermodal',
-  templateUrl: './communitymanagermodal.component.html',
-  styleUrls: ['./communitymanagermodal.component.scss']
+  selector: "app-communitymanagermodal",
+  templateUrl: "./communitymanagermodal.component.html",
+  styleUrls: ["./communitymanagermodal.component.scss"]
 })
-export class CommunitymanagermodalComponent implements OnInit , OnDestroy {
-  @Input() categoryId: string;
+export class CommunitymanagermodalComponent implements OnInit, OnDestroy {
+  @Input() id: string;
+  @Input() name: string;
+  @Input() accessState: CommunityAccessState;
   @Output() categoryAction = new EventEmitter();
+  CommunityAccessState = CommunityAccessState;
 
+  selectedAction = "";
 
   constructor(
     private modalService: NgbModal,
@@ -19,14 +31,9 @@ export class CommunitymanagermodalComponent implements OnInit , OnDestroy {
     private db: AngularFirestore
   ) {}
 
-  ngOnInit() {
-
-  }
-
-  
+  ngOnInit() {}
 
   open(content) {
-
     this.modalService
       .open(content, { ariaLabelledBy: "modal-basic-title" })
       .result.then(result => {
@@ -36,7 +43,5 @@ export class CommunitymanagermodalComponent implements OnInit , OnDestroy {
       });
   }
 
-  ngOnDestroy() {
-
-  }
+  ngOnDestroy() {}
 }

@@ -1,8 +1,6 @@
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">
-      Community Access
-    </h4>
+    <h4 class="modal-title" id="modal-basic-title">{{ name }}</h4>
     <button
       type="button"
       id="selectTCClose"
@@ -14,7 +12,6 @@
     </button>
   </div>
   <div class="modal-body">
-
     <form>
       <!-- Action Selector
       1. Accept Invitation
@@ -25,19 +22,90 @@
       6. Send leader invitation
       -->
       <div class="form-group">
-        <label for="theme">Action</label>
-        <div class="input-group">
-          <p><input type="radio" name="action" value="accept"> Accept Invitation</p>
-          <p><input type="radio" name="action" value="reject"> REject Invitation</p>
-          <input type="radio" name="action" value="removeAsLeader"> Remove me as Leader<br>
-          <input type="radio" name="action" value="removeAsMember"> Remove me as Member<br>
-          <input type="radio" name="action" value="sendMemberInvitation"> Send invitation to be member<br>
-          <input type="radio" name="action" value="sendLeaderInvitation"> Send invitation to be leader<br>
-          <input type="text" name="txtInvitee">
+        <div>
+          <span
+            *ngIf="
+              accessState == CommunityAccessState.leadershipInvited ||
+              accessState == CommunityAccessState.membershipInvited
+            "
+          >
+            <input
+              type="radio"
+              [(ngModel)]="selectedAction"
+              name="action"
+              value="accept"
+            />
+            Accept Invitation<br />
+          </span>
+          <span
+            *ngIf="
+              accessState == CommunityAccessState.leadershipInvited ||
+              accessState == CommunityAccessState.membershipInvited
+            "
+          >
+            <input
+              type="radio"
+              [(ngModel)]="selectedAction"
+              name="action"
+              value="reject"/>
+            Reject Invitation<br
+          /></span>
+          <span *ngIf="accessState == CommunityAccessState.leader">
+            <input
+              type="radio"
+              [(ngModel)]="selectedAction"
+              name="action"
+              value="removeAsLeader"
+            />
+
+            Remove me as Leader<br />
+          </span>
+          <span *ngIf="accessState == CommunityAccessState.member">
+            <input
+              type="radio"
+              [(ngModel)]="selectedAction"
+              name="action"
+              value="removeAsMember"
+            />
+            Remove me as Member<br />
+          </span>
+          <span *ngIf="accessState == CommunityAccessState.leader">
+            <input
+              type="radio"
+              [(ngModel)]="selectedAction"
+              name="action"
+              value="sendMemberInvitation"
+            />
+            Send invitation to be member<br />
+          </span>
+
+          <span *ngIf="accessState == CommunityAccessState.leader">
+            <input
+              type="radio"
+              [(ngModel)]="selectedAction"
+              name="action"
+              value="sendLeaderInvitation"/>
+            Send invitation to be leader<br
+          /></span>
+
+          <div
+            class="form-group"
+            *ngIf="
+              selectedAction == 'sendMemberInvitation' ||
+              selectedAction == 'sendLeaderInvitation'
+            "
+          >
+            <label for="invitee">Invitee Email *</label>
+            <input
+              class="form-control"
+              name="invitee"
+              type="email"
+              id="txtInvitee"
+            />
+          </div>
         </div>
       </div>
     </form>
-
   </div>
   <!-- Save -->
   <div class="modal-footer">
@@ -46,18 +114,13 @@
       id="btnCMConfirm"
       class="btn btn-outline-dark"
       (click)="modal.close('Confirm')"
+      [disabled]="selectedAction == ''"
     >
       Confirm
     </button>
   </div>
 </ng-template>
 
-
-<button
-  class="btn py-0 "
-  (click)="open(content)"
-  id="btnCommunityModal"
->Actions
-  <i class="fas fa-angle-double-up" title="Manage community access"></i>
+<button class="btn py-0 " (click)="open(content)" id="btnCommunityModal">
+  Actions <i class="fas fa-angle-double-up" title="Manage community access"></i>
 </button>
-
