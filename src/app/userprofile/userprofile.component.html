@@ -72,11 +72,12 @@
           [columnMode]="'flex'"
           [rows]="communities"
           [loadingIndicator]="true"
-          [rowHeight]="35"
+          [rowHeight]="45"
           [footerHeight]="false"
           [limit]="20"
           style="width: 100%"
         >
+          <!-- Community Name Column -->
           <ngx-datatable-column
             name="Community Name"
             [flexGrow]="2"
@@ -90,6 +91,7 @@
               <span class="mx-1">{{ row.name }}</span>
             </ng-template>
           </ngx-datatable-column>
+          <!-- AccessState Value Column -->
           <ngx-datatable-column name="State" [flexGrow]="1" [sortable]="true">
             <ng-template
               let-row="row"
@@ -97,6 +99,20 @@
               ngx-datatable-cell-template
             >
               {{ this.auth.user.accessStateAsString(row.accessState) }}
+            </ng-template>
+          </ngx-datatable-column>
+          <!-- accessState action Column -->
+          <ngx-datatable-column name="" [flexGrow]="1" [sortable]="true">
+            <ng-template
+              let-row="row"
+              let-value="value"
+              ngx-datatable-cell-template
+            >
+              <app-communitymanagermodal
+                [id]="row.id"
+                [name]="row.name"
+                [accessState]="row.accessState"
+              ></app-communitymanagermodal>
             </ng-template>
           </ngx-datatable-column>
         </ngx-datatable>

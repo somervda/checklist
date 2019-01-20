@@ -121,6 +121,12 @@
   </div>
 </ng-template>
 
-<button class="btn py-0 " (click)="open(content)" id="btnCommunityModal">
+<!-- Public community is special - everyone always belongs -->
+<button
+  class="btn py-0 "
+  (click)="open(content)"
+  id="btnCommunityModal"
+  *ngIf="id != 'PUBLIC'"
+>
   Actions <i class="fas fa-angle-double-up" title="Manage community access"></i>
 </button>

@@ -34,6 +34,7 @@ export class CommunitymanagermodalComponent implements OnInit, OnDestroy {
   ngOnInit() {}
 
   open(content) {
+    this.selectedAction = "";
     this.modalService
       .open(content, { ariaLabelledBy: "modal-basic-title" })
       .result.then(result => {

@@ -65,7 +65,7 @@ export class AuthService {
           }
 
           // Show toastr notification if invites are pending
-          // Show toastr notification if invites are pending
+
           CommunityAccessState: CommunityAccessState;
           let inviteMsg: string = "";
           this.user.communitiesAsArray.forEach(community => {
@@ -84,7 +84,7 @@ export class AuthService {
           if (inviteMsg != "") {
             this.toastr.info(
               inviteMsg +
-                "<br />Go via <i>&quot;My Communities&quot;</i> &rarr; <i>&quot;Community&quot;</i> page to accept or reject these invitations.",
+                "<br />Go to your <i>&quot;My Profile&quot;</i> page to accept or reject these invitations.",
               "Community Invitations Pending",
               {
                 timeOut: 10000,
