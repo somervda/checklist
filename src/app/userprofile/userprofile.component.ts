@@ -51,6 +51,11 @@ export class UserprofileComponent implements OnInit, OnDestroy {
     if (this.isValidForm) this.auth.updateUserProfile(displayName, "");
   }
 
+  onAction() {
+    console.log("reload communities list");
+    this.communities = this.auth.user.communitiesAsArray;
+  }
+
   ngOnDestroy() {
     if (this.formSubscription) this.formSubscription.unsubscribe();
   }
