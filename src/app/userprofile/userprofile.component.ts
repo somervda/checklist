@@ -52,7 +52,7 @@ export class UserprofileComponent implements OnInit, OnDestroy {
   }
 
   onAction() {
-    console.log("reload communities list");
+    //console.log("reload communities list");
     this.communities = this.auth.user.communitiesAsArray;
   }
 

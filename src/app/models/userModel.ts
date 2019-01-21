@@ -18,6 +18,8 @@ export class UserModel {
     this.initialPagePreference = doc.data().initialPagePreference;
   }
 
+  constructor() {}
+
   dbFieldUpdate(docId: string, fieldName: string, newValue: any, db, als?) {
     console.log(fieldName + " before Update", docId, newValue);
     if (docId && fieldName) {
@@ -62,14 +64,10 @@ export class UserModel {
         return "Member";
       case CommunityAccessState.membershipInvited:
         return "Invited to be a member";
-      case CommunityAccessState.membershipDeclined:
-        return "Declined Member";
       case CommunityAccessState.leader:
         return "Leader";
       case CommunityAccessState.leadershipInvited:
         return "Invited to be leader";
-      case CommunityAccessState.leadershipDeclined:
-        return "Declined leadership";
       default:
         return "Unknown";
     }
@@ -117,6 +115,79 @@ export class UserModel {
     }
   }
 
+  removeCommunity(communityId: string, db, als, toastr) {
+    let accessState: CommunityAccessState = this.communities[communityId]
+      .accessState;
+
+    if (accessState !== CommunityAccessState.leader) {
+      // remove the specific community when not the leader
+      delete this.communities[communityId];
+      this.dbFieldUpdate(this.id, "communities", this.communities, db, als);
+    } else {
+      // Leadership can only be removed when there are other leaders for the community
+      const communityNode = "communities." + communityId + ".accessState";
+      db.collection("users", ref =>
+        ref.where(communityNode, "==", CommunityAccessState.leader)
+      )
+        .get()
+        .toPromise()
+        .then(data => {
+          console.log("removeCommunity", data);
+          if (data.docs.length > 1) {
+            delete this.communities[communityId];
+            this.dbFieldUpdate(
+              this.id,
+              "communities",
+              this.communities,
+              db,
+              als
+            );
+            // Special for leader removal - route to home becouse
+            // refresh of communities is delayed due to the assycronous
+          } else {
+            toastr.error(
+              "Cant remove your leadership role when you are the only leader for this community."
+            );
+          }
+        });
+    }
+  }
+
+  inviteToCommunity(
+    communityId: string,
+    inviteeEmail: string,
+    inviteeAccessState: CommunityAccessState,
+    db,
+    als,
+    toastr
+  ) {
+    // Rules
+    // User doing the invite must be a community leader
+    // Invitee must not be in the community already
+    // Invitee must be a member before being invited to be a leader
+
+    let accessState: CommunityAccessState = this.communities[communityId]
+      .accessState;
+
+    if (accessState !== CommunityAccessState.leader) {
+      toastr.error("You must be a community leader to invite other members");
+    } else {
+      db.collection("users", ref => ref.where("email", "==", inviteeEmail))
+        .get()
+        .toPromise()
+        .then(data => {
+          console.log("removeCommunity", data);
+          if (data.docs.length != 1) {
+            toastr.info("Invitee with matching email not found.");
+          } else {
+            let invitee = new UserModel();
+            invitee.loadFromObject(data.docs[0]);
+            console.log("inviteToCommunity", invitee);
+          }
+        });
+    }
+  }
+
   // Getters and Setters
 
   get communitiesAsArray(): any[] {
@@ -140,8 +211,6 @@ export class UserModel {
 export enum CommunityAccessState {
   member = 0,
   membershipInvited = 1,
-  membershipDeclined = 2,
   leader = 10,
-  leadershipInvited = 11,
-  leadershipDeclined = 12
+  leadershipInvited = 11
 }
