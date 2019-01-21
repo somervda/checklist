@@ -115,7 +115,7 @@ export class UserModel {
     }
   }
 
-  removeCommunity(communityId: string, db, als, toastr) {
+  removeDowngradeCommunity(communityId: string, db, als, toastr) {
     let accessState: CommunityAccessState = this.communities[communityId]
       .accessState;
 
@@ -125,6 +125,7 @@ export class UserModel {
       this.dbFieldUpdate(this.id, "communities", this.communities, db, als);
     } else {
       // Leadership can only be removed when there are other leaders for the community
+      // Leadership removal drops the user back to being a member
       const communityNode = "communities." + communityId + ".accessState";
       db.collection("users", ref =>
         ref.where(communityNode, "==", CommunityAccessState.leader)
@@ -132,9 +133,11 @@ export class UserModel {
         .get()
         .toPromise()
         .then(data => {
-          console.log("removeCommunity", data);
+          console.log("removeCommunity - make leader a member", data);
           if (data.docs.length > 1) {
-            delete this.communities[communityId];
+            // Ok to reduce leader to memeber
+            this.communities[communityId].accessState =
+              CommunityAccessState.member;
             this.dbFieldUpdate(
               this.id,
               "communities",
@@ -142,8 +145,12 @@ export class UserModel {
               db,
               als
             );
-            // Special for leader removal - route to home becouse
-            // refresh of communities is delayed due to the assycronous
+            console.log(
+              "removeCommunity after leader to member",
+              this.communities
+            );
+            // Special for leader removal - route to home because
+            // refresh of communities is delayed due to the asynchronous call
           } else {
             toastr.error(
               "Cant remove your leadership role when you are the only leader for this community."
@@ -166,8 +173,8 @@ export class UserModel {
     // Invitee must not be in the community already
     // Invitee must be a member before being invited to be a leader
 
-    let community: {name: string, accessState: CommunityAccessState} = this.communities[communityId]
-  
+    let community: { name: string; accessState: CommunityAccessState } = this
+      .communities[communityId];
 
     if (community.accessState !== CommunityAccessState.leader) {
       toastr.error("You must be a community leader to invite other members");
@@ -185,28 +192,59 @@ export class UserModel {
             console.log("inviteToCommunity invitee", invitee);
             if (inviteeAccessState == CommunityAccessState.membershipInvited) {
               if (invitee.communities[communityId]) {
-                toastr.error("Invitee is already member of this community, or has been invited to be  member of this community.");
-                return ;
+                toastr.error(
+                  "Invitee is already member of this community, or has been invited to be  member of this community."
+                );
+                return;
               }
               // add a membership invite to the invitees communities
-              invitee.communities[communityId] = 
-                {name : community.name,
-                 accessState : CommunityAccessState.membershipInvited
-                };
-              invitee.dbFieldUpdate(invitee.id,"communities", invitee.communities,db,als);
+              invitee.communities[communityId] = {
+                name: community.name,
+                accessState: CommunityAccessState.membershipInvited
+              };
+              invitee.dbFieldUpdate(
+                invitee.id,
+                "communities",
+                invitee.communities,
+                db,
+                als
+              );
             }
             if (inviteeAccessState == CommunityAccessState.leadershipInvited) {
               console.log("inviteToCommunity invite leader");
-              if (invitee.communities[communityId] ||  
-                invitee.communities[communityId].accessState != CommunityAccessState.member) {
-                toastr.error("Invitee must already be a community member before they can be invited to be a leader of the community ");
-                return ;
+              if (
+                !invitee.communities[communityId] ||
+                invitee.communities[communityId].accessState !=
+                  CommunityAccessState.member
+              ) {
+                console.log(
+                  "inviteToCommunity not leader",
+                  invitee.communities[communityId].accessState
+                );
+                toastr.error(
+                  "Invitee must already be a community member before they can be invited to be a leader of the community "
+                );
+                return;
               }
-              if (community.accessState!=CommunityAccessState.leader) {
-                toastr.error("You must be a leader before they can invite another memeber to be a leader of the community ");
-                return ;
+              if (community.accessState != CommunityAccessState.leader) {
+                toastr.error(
+                  "You must already be a leader before can invite another member to be a leader of the community "
+                );
+                return;
               }
-
+              // Update a membership invite to the invitees communities
+              invitee.communities[communityId] = {
+                name: community.name,
+                accessState: CommunityAccessState.leadershipInvited
+              };
+              invitee.dbFieldUpdate(
+                invitee.id,
+                "communities",
+                invitee.communities,
+                db,
+                als
+              );
+              toastr.info("Leader invite was sent to " + invitee.email);
             }
           }
         });
@@ -215,15 +253,31 @@ export class UserModel {
 
   // Getters and Setters
 
-  get communitiesAsArray(): any[] {
+  get communitiesAsArray(): [{id:string,name:string, accessState: CommunityAccessState}] {
     // for use in ng-datatable etc
     // console.log("communitiesAsArray");
     let communityArray = [];
     for (let community in this.communities) {
       const communityObject = {
-        id: community,
-        name: this.communities[community].name,
-        accessState: this.communities[community].accessState
+        id: community as string,
+        name: this.communities[community].name as string,
+        accessState: this.communities[community].accessState as CommunityAccessState
+      };
+
+      communityArray.push(communityObject);
+    }
+    // console.log("communitiesAsArray:", communityArray);
+    return communityArray;
+  }
+
+  get accessibleCommunitiesAsArray(): any[] {
+    // for use in ng-datatable etc
+    // console.log("communitiesAsArray");
+    let communityArray = [];
+    for (let community in this.communitiesAsArray) {
+      if (community.accessState == CommunityAccessState.member
+        )
+            communityArray.push(community);
       };
 
       communityArray.push(communityObject);

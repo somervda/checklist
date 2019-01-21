@@ -52,7 +52,7 @@ export class CommunitymanagermodalComponent implements OnInit, OnDestroy {
             case "reject":
             case "removeAsLeader":
             case "removeAsMember":
-              this.removeCommunity();
+              this.removeDowngradeCommunity();
               break;
             case "sendMemberInvitation":
               this.inviteToCommunity(CommunityAccessState.membershipInvited);
@@ -74,9 +74,14 @@ export class CommunitymanagermodalComponent implements OnInit, OnDestroy {
     this.auth.user.acceptCommunityInvitation(this.id, this.db, this.als);
   }
 
-  removeCommunity() {
-    console.log("removeCommunity");
-    this.auth.user.removeCommunity(this.id, this.db, this.als, this.toastr);
+  removeDowngradeCommunity() {
+    console.log("removeDowngradeCommunity");
+    this.auth.user.removeDowngradeCommunity(
+      this.id,
+      this.db,
+      this.als,
+      this.toastr
+    );
   }
 
   inviteToCommunity(accessState: CommunityAccessState) {

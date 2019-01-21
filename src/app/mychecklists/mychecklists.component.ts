@@ -140,7 +140,7 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
 
     // *** 2. Build and array of observables over the checklists in communities that the user can access
     var communityCLArray$ = [];
-    var communitiesToQuery = this.auth.user.communitiesAsArray; // select all user communities bt default
+    var communitiesToQuery = this.auth.user.communitiesAsArray; // select all user communities by default
     if (this.selectedOwnership != "All" && this.selectedOwnership != "Owned") {
       // Only query the selected community
       communitiesToQuery = [
