@@ -166,23 +166,48 @@ export class UserModel {
     // Invitee must not be in the community already
     // Invitee must be a member before being invited to be a leader
 
-    let accessState: CommunityAccessState = this.communities[communityId]
-      .accessState;
+    let community: {name: string, accessState: CommunityAccessState} = this.communities[communityId]
+  
 
-    if (accessState !== CommunityAccessState.leader) {
+    if (community.accessState !== CommunityAccessState.leader) {
       toastr.error("You must be a community leader to invite other members");
     } else {
       db.collection("users", ref => ref.where("email", "==", inviteeEmail))
         .get()
         .toPromise()
         .then(data => {
-          console.log("removeCommunity", data);
+          console.log("inviteToCommunity data", data);
           if (data.docs.length != 1) {
             toastr.info("Invitee with matching email not found.");
           } else {
             let invitee = new UserModel();
             invitee.loadFromObject(data.docs[0]);
-            console.log("inviteToCommunity", invitee);
+            console.log("inviteToCommunity invitee", invitee);
+            if (inviteeAccessState == CommunityAccessState.membershipInvited) {
+              if (invitee.communities[communityId]) {
+                toastr.error("Invitee is already member of this community, or has been invited to be  member of this community.");
+                return ;
+              }
+              // add a membership invite to the invitees communities
+              invitee.communities[communityId] = 
+                {name : community.name,
+                 accessState : CommunityAccessState.membershipInvited
+                };
+              invitee.dbFieldUpdate(invitee.id,"communities", invitee.communities,db,als);
+            }
+            if (inviteeAccessState == CommunityAccessState.leadershipInvited) {
+              console.log("inviteToCommunity invite leader");
+              if (invitee.communities[communityId] ||  
+                invitee.communities[communityId].accessState != CommunityAccessState.member) {
+                toastr.error("Invitee must already be a community member before they can be invited to be a leader of the community ");
+                return ;
+              }
+              if (community.accessState!=CommunityAccessState.leader) {
+                toastr.error("You must be a leader before they can invite another memeber to be a leader of the community ");
+                return ;
+              }
+
+            }
           }
         });
     }
