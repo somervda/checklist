@@ -74,12 +74,17 @@ export class UserModel {
   }
 
   getCommunityDetails(communityId: string) {
-    const communityObject = {
-      id: communityId,
-      name: this.communities[communityId].name,
-      accessState: this.communities[communityId].accessState
-    };
-    return communityObject;
+    //console.log("getCommunityDetails id", communityId);
+    if (communityId) {
+      const communityObject = {
+        id: communityId,
+        name: this.communities[communityId].name,
+        accessState: this.communities[communityId].accessState
+      };
+      return communityObject;
+    } else {
+      return { id: "", name: "", accessState: -1 };
+    }
   }
 
   acceptCommunityInvitation(communityId: string, db, als) {

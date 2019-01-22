@@ -19,6 +19,7 @@ export class CommunityComponent implements OnInit, OnDestroy {
   users$;
   userSubscription;
   user = new UserModel();
+  isCommunityLeader: boolean = false;
 
   CommunityAccessState = CommunityAccessState;
 
@@ -32,16 +33,17 @@ export class CommunityComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.route.paramMap.subscribe(paramMap => {
       var id = paramMap.get("id");
+      this.isCommunityLeader =
+        this.auth.user.getCommunityDetails(id).accessState ==
+        CommunityAccessState.leader;
+
       // See example at https://www.techiediaries.com/angular-firestore-tutorial/
       this.community$ = this.db.doc("/communities/" + id).snapshotChanges();
       this.communitySubscription = this.community$.subscribe(snapshot => {
         this.community = new CommunityModel(snapshot.payload);
 
         // Get users in the community if current user is a community leader
-        if (
-          this.auth.user.getCommunityDetails(this.community.id).accessState ==
-          CommunityAccessState.leader
-        ) {
+        if (this.isCommunityLeader) {
           const communityMapQuery = "communities." + id + ".name";
           this.users$ = this.db
             .collection("users/", ref => ref.where(communityMapQuery, ">=", ""))

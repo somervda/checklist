@@ -11,12 +11,7 @@
   <h3>{{ community?.name }}</h3>
   <div class="text-left" [innerHtml]="community?.description"></div>
 
-  <span
-    *ngIf="
-      auth.user.getCommunityDetails(community.id).accessState ==
-      CommunityAccessState.leader
-    "
-  >
+  <span *ngIf="isCommunityLeader">
     <!-- Users who are associated with the community, only leaders can see this -->
     <h5>Community Members</h5>
     <ngx-datatable
