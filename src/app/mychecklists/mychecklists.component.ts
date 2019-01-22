@@ -1,3 +1,4 @@
+import { CommunityAccessState } from "./../models/userModel";
 import { ChecklistModel } from "./../models/checklistModel";
 import { AuthService } from "./../services/auth.service";
 import { Component, OnInit, OnDestroy } from "@angular/core";
@@ -29,6 +30,9 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
 
   queryLimit = 100;
   queryLimitExceeded = false;
+
+  CommunityAccessState = CommunityAccessState;
+  myCommunities;
 
   // See https://swimlane.gitbook.io/ngx-datatable/api/column/inputs
 
@@ -140,15 +144,20 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
 
     // *** 2. Build and array of observables over the checklists in communities that the user can access
     var communityCLArray$ = [];
-    var communitiesToQuery = this.auth.user.communitiesAsArray; // select all user communities by default
+    this.myCommunities = this.auth.user.communitiesAsArray.filter(
+      c =>
+        c.accessState == CommunityAccessState.leader ||
+        c.accessState == CommunityAccessState.member ||
+        c.accessState == CommunityAccessState.leadershipInvited
+    );
     if (this.selectedOwnership != "All" && this.selectedOwnership != "Owned") {
       // Only query the selected community
-      communitiesToQuery = [
+      this.myCommunities = [
         { id: this.selectedOwnership, accessState: 0, name: "" }
       ];
     }
     if (this.selectedOwnership != "Owned") {
-      communitiesToQuery.forEach(userCommunity => {
+      this.myCommunities.forEach(userCommunity => {
         // Query2 for checklists by community
         console.log("userCommunity", userCommunity);
         var communityRef = this.db.collection("checklists/", ref => {

@@ -20,7 +20,7 @@
         <option value="All">All</option>
         <option value="Owned">Owned by Me</option>
         <option
-          *ngFor="let community of auth.user.communitiesAsArray"
+          *ngFor="let community of myCommunities"
           value="{{ community.id }}"
           >Community: {{ community.name }}</option
         >

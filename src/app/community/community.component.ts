@@ -4,6 +4,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { ToastrService } from "ngx-toastr";
+import { AuthService } from "../services/auth.service";
 
 @Component({
   selector: "app-community",
@@ -24,7 +25,8 @@ export class CommunityComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private db: AngularFirestore
+    private db: AngularFirestore,
+    public auth: AuthService
   ) {}
 
   ngOnInit() {
@@ -35,29 +37,34 @@ export class CommunityComponent implements OnInit, OnDestroy {
       this.communitySubscription = this.community$.subscribe(snapshot => {
         this.community = new CommunityModel(snapshot.payload);
 
-        // Get users in the community
-        const communityMapQuery = "communities." + id + ".name";
-        this.users$ = this.db
-          .collection("users/", ref => ref.where(communityMapQuery, ">=", ""))
-          .snapshotChanges();
-        this.userSubscription = this.users$.subscribe(data => {
-          this.users = data.map(e => {
-            return {
-              id: e.payload.doc.id,
-              ...e.payload.doc.data()
-            } as UserModel;
+        // Get users in the community if current user is a community leader
+        if (
+          this.auth.user.getCommunityDetails(this.community.id).accessState ==
+          CommunityAccessState.leader
+        ) {
+          const communityMapQuery = "communities." + id + ".name";
+          this.users$ = this.db
+            .collection("users/", ref => ref.where(communityMapQuery, ">=", ""))
+            .snapshotChanges();
+          this.userSubscription = this.users$.subscribe(data => {
+            this.users = data.map(e => {
+              return {
+                id: e.payload.doc.id,
+                ...e.payload.doc.data()
+              } as UserModel;
+            });
+
+            console.log(
+              "community onInit usersubscription",
+              communityMapQuery,
+              data,
+              this.users
+            );
           });
 
-          console.log(
-            "community onInit usersubscription",
-            communityMapQuery,
-            data,
-            this.users
-          );
-        });
-
-        //this.community.loadFromObject(snapshot.payload.data(), snapshot.id);
-        console.log("community onInit data", this.community);
+          //this.community.loadFromObject(snapshot.payload.data(), snapshot.id);
+          console.log("community onInit data", this.community);
+        }
       });
     });
   }

@@ -7,6 +7,7 @@ import { AngularFirestore } from "@angular/fire/firestore";
 import { CommunityModel } from "../models/communityModel";
 import { NgForm } from "@angular/forms";
 import { AuditlogService } from "../services/auditlog.service";
+import { CommunityAccessState } from "../models/userModel";
 
 @Component({
   selector: "app-communitydesigner",
@@ -88,6 +89,19 @@ export class CommunitydesignerComponent implements OnInit, OnDestroy {
           "communities",
           "ADD",
           this.community.json
+        );
+        // Add user as leader for the community
+        this.auth.user.mergeCommunity(
+          docRef.id,
+          this.community.name,
+          CommunityAccessState.leader
+        );
+        this.auth.user.dbFieldUpdate(
+          this.auth.getUserUID,
+          "communities",
+          this.auth.user.communities,
+          this.db,
+          this.als
         );
         //console.log("Document written with ID: ", docRef.id);
         this.toastr.success("DocRef: " + docRef.id, "Community Created", {

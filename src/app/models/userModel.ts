@@ -253,36 +253,20 @@ export class UserModel {
 
   // Getters and Setters
 
-  get communitiesAsArray(): [{id:string,name:string, accessState: CommunityAccessState}] {
+  get communitiesAsArray(): any[] {
     // for use in ng-datatable etc
     // console.log("communitiesAsArray");
     let communityArray = [];
     for (let community in this.communities) {
       const communityObject = {
-        id: community as string,
-        name: this.communities[community].name as string,
-        accessState: this.communities[community].accessState as CommunityAccessState
+        id: community,
+        name: this.communities[community].name,
+        accessState: this.communities[community].accessState
       };
 
       communityArray.push(communityObject);
     }
-    // console.log("communitiesAsArray:", communityArray);
-    return communityArray;
-  }
-
-  get accessibleCommunitiesAsArray(): any[] {
-    // for use in ng-datatable etc
-    // console.log("communitiesAsArray");
-    let communityArray = [];
-    for (let community in this.communitiesAsArray) {
-      if (community.accessState == CommunityAccessState.member
-        )
-            communityArray.push(community);
-      };
-
-      communityArray.push(communityObject);
-    }
-    // console.log("communitiesAsArray:", communityArray);
+    console.log("communitiesAsArray:", communityArray);
     return communityArray;
   }
 }

@@ -11,34 +11,53 @@
   <h3>{{ community?.name }}</h3>
   <div class="text-left" [innerHtml]="community?.description"></div>
 
-  <!-- Users who are associated with the community -->
-  <h5>Community Members</h5>
-  <ngx-datatable
-    class="bootstrap ngx-datatable"
-    [columnMode]="'flex'"
-    [rows]="users"
-    [loadingIndicator]="true"
-    [rowHeight]="35"
-    [footerHeight]="30"
-    [limit]="20"
-    style="width: 100%"
+  <span
+    *ngIf="
+      auth.user.getCommunityDetails(community.id).accessState ==
+      CommunityAccessState.leader
+    "
   >
-    <ngx-datatable-column name="Name" [flexGrow]="2" [sortable]="false">
-      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-        <span class="mx-1">{{ row.displayName }}</span>
-      </ng-template>
-    </ngx-datatable-column>
-    <ngx-datatable-column name="Email" [flexGrow]="2" [sortable]="false">
-      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-        <span class="mx-1">{{ row.email }}</span>
-      </ng-template>
-    </ngx-datatable-column>
-    <ngx-datatable-column name="State" [flexGrow]="2">
-      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-        {{
-          user.accessStateAsString(row.communities[community.id].accessState)
-        }}
-      </ng-template>
-    </ngx-datatable-column>
-  </ngx-datatable>
+    <!-- Users who are associated with the community, only leaders can see this -->
+    <h5>Community Members</h5>
+    <ngx-datatable
+      class="bootstrap ngx-datatable"
+      [columnMode]="'flex'"
+      [rows]="users"
+      [loadingIndicator]="true"
+      [rowHeight]="35"
+      [footerHeight]="30"
+      [limit]="20"
+      style="width: 100%"
+    >
+      <ngx-datatable-column name="Name" [flexGrow]="2" [sortable]="false">
+        <ng-template
+          let-row="row"
+          let-value="value"
+          ngx-datatable-cell-template
+        >
+          <span class="mx-1">{{ row.displayName }}</span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Email" [flexGrow]="2" [sortable]="false">
+        <ng-template
+          let-row="row"
+          let-value="value"
+          ngx-datatable-cell-template
+        >
+          <span class="mx-1">{{ row.email }}</span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="State" [flexGrow]="2">
+        <ng-template
+          let-row="row"
+          let-value="value"
+          ngx-datatable-cell-template
+        >
+          {{
+            user.accessStateAsString(row.communities[community.id].accessState)
+          }}
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </span>
 </div>
