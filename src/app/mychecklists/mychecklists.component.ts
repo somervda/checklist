@@ -41,6 +41,13 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     let map: { id: number; name: string }[] = [];
 
+    this.myCommunities = this.auth.user.communitiesAsArray.filter(
+      c =>
+        c.accessState == CommunityAccessState.leader ||
+        c.accessState == CommunityAccessState.member ||
+        c.accessState == CommunityAccessState.leadershipInvited
+    );
+
     for (var n in this.ChecklistStatus) {
       if (typeof this.ChecklistStatus[n] === "number") {
         map.push({ id: <any>this.ChecklistStatus[n], name: n });
@@ -144,20 +151,16 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
 
     // *** 2. Build and array of observables over the checklists in communities that the user can access
     var communityCLArray$ = [];
-    this.myCommunities = this.auth.user.communitiesAsArray.filter(
-      c =>
-        c.accessState == CommunityAccessState.leader ||
-        c.accessState == CommunityAccessState.member ||
-        c.accessState == CommunityAccessState.leadershipInvited
-    );
+    let queryCommunities = this.myCommunities.slice();
+
     if (this.selectedOwnership != "All" && this.selectedOwnership != "Owned") {
       // Only query the selected community
-      this.myCommunities = [
+      queryCommunities = [
         { id: this.selectedOwnership, accessState: 0, name: "" }
       ];
     }
     if (this.selectedOwnership != "Owned") {
-      this.myCommunities.forEach(userCommunity => {
+      queryCommunities.forEach(userCommunity => {
         // Query2 for checklists by community
         console.log("userCommunity", userCommunity);
         var communityRef = this.db.collection("checklists/", ref => {
