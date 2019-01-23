@@ -1,3 +1,4 @@
+import { ActivityModel } from './../models/activityModel';
 import { AuditlogService } from "./../services/auditlog.service";
 import { AuthService } from "./../services/auth.service";
 import { UserModel, CommunityAccessState } from "./../models/userModel";
@@ -213,6 +214,12 @@ export class TesterComponent implements OnInit, OnDestroy {
       this.db,
       this.als
     );
+  }
+
+  onActivityClick() {
+    console.log("onActivityClick");
+    let activity = new ActivityModel();
+    console.log("activity.json",activity.json)
   }
 
   ngOnDestroy() {
