@@ -59,8 +59,9 @@ import { AuditlogService } from "./services/auditlog.service";
 import { CategoryComponent } from "./category/category.component";
 import { CategorydesignerComponent } from "./categorydesigner/categorydesigner.component";
 import { ThemecatetoryselectorComponent } from "./themecatetoryselector/themecatetoryselector.component";
-import { CommunitymanagermodalComponent } from './communitymanagermodal/communitymanagermodal.component';
-import { ActivitiesdesignerComponent } from './activitiesdesigner/activitiesdesigner.component';
+import { CommunitymanagermodalComponent } from "./communitymanagermodal/communitymanagermodal.component";
+import { ActivityComponent } from "./activity/activity.component";
+import { ActivitiesComponent } from "./activities/activities.component";
 
 @NgModule({
   declarations: [
@@ -92,7 +93,8 @@ import { ActivitiesdesignerComponent } from './activitiesdesigner/activitiesdesi
     CategorydesignerComponent,
     ThemecatetoryselectorComponent,
     CommunitymanagermodalComponent,
-    ActivitiesdesignerComponent
+    ActivityComponent,
+    ActivitiesComponent
   ],
   imports: [
     BrowserModule,

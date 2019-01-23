@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="card mx-1">
+    <div class="card-header text-center text-weight-bold">Activities Codes</div>
+    <div class="card-body">
+      <div class="row" *ngFor="let activity of activities">
+        <!-- <span *ngIf="!allowUpdates"> {{ activity.name }} </span>
+          <span *ngIf="allowUpdates">
+            <input type="text" maxlength="40" value="{{ activity.name }}" />
+          </span> -->
+        <app-activity [id]="activity.id"></app-activity>
+      </div>
+    </div>
+  </div>
+</div>

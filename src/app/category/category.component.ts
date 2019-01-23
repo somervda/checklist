@@ -12,6 +12,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
   categorySubscription;
   category: CategoryModel;
   category$;
+  categoryId;
 
   constructor(
     private route: ActivatedRoute,
@@ -21,8 +22,10 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.route.paramMap.subscribe(paramMap => {
-      var id = paramMap.get("id");
-      this.category$ = this.db.doc("/categories/" + id).snapshotChanges();
+      this.categoryId = paramMap.get("id");
+      this.category$ = this.db
+        .doc("/categories/" + this.categoryId)
+        .snapshotChanges();
       this.categorySubscription = this.category$.subscribe(snapshot => {
         this.category = new CategoryModel(snapshot.payload);
       });
