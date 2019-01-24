@@ -9,6 +9,7 @@
     "lint": "ng lint",
     "e2e": "cypress open",
     "e2eRecord": "cypress run --record",
+    "deploy": "ng build --prod && firebase deploy",
     "serve1": "ng serve --host=192.168.1.223 -o",
     "serve2": "ng serve --host=192.168.1.115 --public-host=somerville.noip.me"
   },

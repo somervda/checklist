@@ -1,3 +1,5 @@
+import { AuditlogService } from "./../services/auditlog.service";
+import { AuditLogModel } from "./../models/auditLogModel";
 import { ActivityModel, ActivityParentType } from "./../models/activityModel";
 import { Component, OnInit, Input, Output, OnDestroy } from "@angular/core";
 import { AuthService } from "../services/auth.service";
@@ -18,8 +20,13 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
   activities$;
   activitiesubscription;
   activities;
+  newActivity: ActivityModel;
 
-  constructor(public auth: AuthService, private db: AngularFirestore) {}
+  constructor(
+    public auth: AuthService,
+    private db: AngularFirestore,
+    private als: AuditlogService
+  ) {}
 
   ngOnInit() {
     this.activities$ = this.db
@@ -39,17 +46,35 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
           });
         })
       );
-    this.activitiesubscription = this.activities$.subscribe(
-      results => (this.activities = results)
-    );
+    this.activitiesubscription = this.activities$.subscribe(results => {
+      this.activities = results;
+      console.log("activities ngOnInit subscribe");
+    });
+
+    this.newActivity = new ActivityModel();
   }
 
   onNewActivity() {
     console.log("onNewActivity");
-    // Add a dummy activity to activities 
-    // the activity processing will take care of
-    // adding or updating it based on the id (blank indicates it needs adding)
-    this.activities.push(new ActivityModel());
+    this.newActivity.parentType = this.parentType;
+    this.newActivity.parentId = this.parentId;
+
+    this.db
+      .collection("activities")
+      .add(this.newActivity.json)
+      .then(docRef => {
+        this.als.logUpdate(
+          docRef.id,
+          "activities",
+          "ADD",
+          this.newActivity.json
+        );
+        console.log("Document written with ID: ", docRef.id);
+        this.newActivity = new ActivityModel();
+      })
+      .catch(function(error) {
+        console.error("Error adding document: ", error);
+      });
   }
 
   ngOnDestroy() {

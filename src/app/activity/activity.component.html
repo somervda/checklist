@@ -1,12 +1,14 @@
-<span *ngIf="!editMode"> {{ activity?.name }} </span>
-<span *ngIf="editMode">
+<span *ngIf="!editMode">{{ activity?.name }} </span>
+<span *ngIf="editMode && activity && activity.name">
   <input
     type="text"
+    style="width : 200px"
     name="activity"
     id="activity"
+    (blur)="onNameUpdate()"
     [(ngModel)]="activity.name"
   />
-  <button class="px-1"  id="btnDelete" (click)="onActivityDelete()">
+  <button class="px-1" id="btnDelete" (click)="onActivityDelete()">
     <i class="fas fa-trash-alt"></i>
   </button>
 </span>

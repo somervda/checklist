@@ -1,16 +1,31 @@
 <div class="card mx-1">
   <div class="card-header text-center text-weight-bold">Activity Codes</div>
-  <div class="card-body">
-    <div class="row" *ngFor="let activity of activities">
-      <!-- <span *ngIf="!allowUpdates"> {{ activity.name }} </span>
+  <div class="card-body px-1">
+    <div class="row ">
+      <div *ngFor="let activity of activities">
+        <!-- <span *ngIf="!allowUpdates"> {{ activity.name }} </span>
           <span *ngIf="allowUpdates">
             <input type="text" maxlength="40" value="{{ activity.name }}" />
           </span> -->
-      <app-activity [id]="activity.id" [editMode]="editMode"></app-activity>
-
+        <app-activity
+          class="col-sm mx-2"
+          [id]="activity.id"
+          [editMode]="editMode"
+        ></app-activity>
+      </div>
     </div>
-    <button *ngIf="editMode" (click)="onNewActivity()" class="my-2 float-right">
-      Add New Activity
-    </button>
+    <!-- One extra field to add new activity -->
+    <div class="row mx-2" *ngIf="editMode">
+      <input
+        type="text"
+        style="width : 200px"
+        name="activity"
+        id="activity"
+        [(ngModel)]="newActivity.name"
+      />
+      <button class="px-1" id="btnAdd" (click)="onNewActivity()">
+        <i class="fas fa-plus"></i>
+      </button>
+    </div>
   </div>
 </div>

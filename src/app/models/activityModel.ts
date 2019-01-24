@@ -7,7 +7,7 @@ export class ActivityModel {
   constructor(doc?) {
     // Overloaded constructor, either will initialize based on
     // a firestore document being passed , or will initialize to default values
-    // console.log("activityModel constructor doc:", doc);
+    console.log("activityModel constructor doc:", doc);
     if (doc) {
       this.name = doc.data().name;
       this.id = doc.id;
@@ -22,7 +22,6 @@ export class ActivityModel {
 
   get json() {
     return {
-      id: this.id,
       name: this.name,
       parentId: this.parentId,
       parentType: this.parentType
