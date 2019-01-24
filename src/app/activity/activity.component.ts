@@ -36,6 +36,9 @@ export class ActivityComponent implements OnInit, OnDestroy {
 
   onActivityDelete() {
     console.log("onActivityDelete()");
+
+    // Check if any chcklistItems have the activity . If so then
+    // confirm before deleting.
   }
 
   ngOnDestroy() {
