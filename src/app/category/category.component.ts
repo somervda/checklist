@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { CategoryModel } from "../models/categoryModel";
+import { ActivityParentType } from "../models/activityModel";
 
 @Component({
   selector: "app-category",
@@ -13,6 +14,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
   category: CategoryModel;
   category$;
   categoryId;
+  ActivityParentType = ActivityParentType;
 
   constructor(
     private route: ActivatedRoute,

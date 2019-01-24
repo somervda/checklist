@@ -1,9 +1,7 @@
-import { ActivityModel } from "./../models/activityModel";
+import { ActivityModel, ActivityParentType } from "./../models/activityModel";
 import { Component, OnInit, Input, Output, OnDestroy } from "@angular/core";
 import { AuthService } from "../services/auth.service";
 import { AngularFirestore } from "@angular/fire/firestore";
-import { AuditlogService } from "../services/auditlog.service";
-import { ToastrService } from "ngx-toastr";
 import { map } from "rxjs/internal/operators/map";
 
 @Component({
@@ -12,26 +10,23 @@ import { map } from "rxjs/internal/operators/map";
   styleUrls: ["./activities.component.scss"]
 })
 export class ActivitiesComponent implements OnInit, OnDestroy {
-  @Input() communityId: string;
-  @Input() categoryId: string;
-  @Input() allowUpdates: boolean;
+  @Input() parentType: ActivityParentType;
+  @Input() parentId: string;
+  @Input() editMode: boolean;
   // @Output() categoryAction = new EventEmitter();
 
   activities$;
   activitiesubscription;
   activities;
 
-  constructor(
-    public auth: AuthService,
-    private db: AngularFirestore,
-    private als: AuditlogService,
-    private toastr: ToastrService
-  ) {}
+  constructor(public auth: AuthService, private db: AngularFirestore) {}
 
   ngOnInit() {
     this.activities$ = this.db
       .collection("activities", ref =>
-        ref.where("categoryId", "==", this.categoryId)
+        ref
+          .where("parentType", "==", this.parentType)
+          .where("parentId", "==", this.parentId)
       )
       .snapshotChanges()
       .pipe(

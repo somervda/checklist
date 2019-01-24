@@ -7,6 +7,7 @@ import { AuditlogService } from "../services/auditlog.service";
 import { NgForm } from "@angular/forms";
 import { CategoryModel } from "../models/categoryModel";
 import { ThemeModel } from "../models/themeModel";
+import { ActivityParentType } from "../models/activityModel";
 
 @Component({
   selector: "app-categorydesigner",
@@ -15,12 +16,13 @@ import { ThemeModel } from "../models/themeModel";
 })
 export class CategorydesignerComponent implements OnInit, OnDestroy {
   category$;
-  id;
+  categoryId;
   action;
   category = new CategoryModel();
   categorySubscription;
   isValidForm: boolean;
   formSubscription;
+  ActivityParentType = ActivityParentType;
 
   theme = new ThemeModel();
   themeSubscription;
@@ -65,11 +67,11 @@ export class CategorydesignerComponent implements OnInit, OnDestroy {
 
     this.route.paramMap.subscribe(paramMap => {
       this.action = paramMap.get("action");
-      this.id = paramMap.get("id");
-      if (this.action == "U" && this.id) {
+      this.categoryId = paramMap.get("id");
+      if (this.action == "U" && this.categoryId) {
         // Only set up loading from firebase if in Add mode
         this.category$ = this.db
-          .doc("/categories/" + this.id)
+          .doc("/categories/" + this.categoryId)
           .snapshotChanges();
         this.categorySubscription = this.category$.subscribe(snapshot => {
           console.log("Category Designer subscribed snapshot", snapshot);
@@ -78,9 +80,11 @@ export class CategorydesignerComponent implements OnInit, OnDestroy {
           this.theme.id = this.category.theme.id;
         });
       }
-      if (this.action == "A" && this.id) {
+      if (this.action == "A" && this.categoryId) {
         // Load theme info if new category, themeId is in url
-        this.theme$ = this.db.doc("/themes/" + this.id).snapshotChanges();
+        this.theme$ = this.db
+          .doc("/themes/" + this.categoryId)
+          .snapshotChanges();
         this.themeSubscription = this.theme$.subscribe(snapshot => {
           this.theme = new ThemeModel(snapshot.payload);
           console.log("Category Designer subscribed theme: ", this.theme);
@@ -113,7 +117,7 @@ export class CategorydesignerComponent implements OnInit, OnDestroy {
 
   onNameUpdate() {
     this.category.dbFieldUpdate(
-      this.id,
+      this.categoryId,
       "name",
       this.category.name,
       this.db,
@@ -123,7 +127,7 @@ export class CategorydesignerComponent implements OnInit, OnDestroy {
 
   onDescriptionUpdate() {
     this.category.dbFieldUpdate(
-      this.id,
+      this.categoryId,
       "description",
       this.category.description,
       this.db,
@@ -132,7 +136,7 @@ export class CategorydesignerComponent implements OnInit, OnDestroy {
   }
 
   onReturnCategoryClick() {
-    this.router.navigate(["/category/" + this.id]);
+    this.router.navigate(["/category/" + this.categoryId]);
   }
 
   ngOnDestroy() {

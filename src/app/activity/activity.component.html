@@ -1,1 +1,12 @@
-{{ id }}
+<span *ngIf="!editMode"> {{ activity?.name }} </span>
+<span *ngIf="editMode">
+  <input
+    type="text"
+    name="activity"
+    id="activity"
+    [(ngModel)]="activity.name"
+  />
+  <button id="btnDelete" (click)="onActivityDelete()">
+    <i class="fas fa-trash-alt"></i>
+  </button>
+</span>
