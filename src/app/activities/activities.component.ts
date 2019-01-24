@@ -44,6 +44,14 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     );
   }
 
+  onNewActivity() {
+    console.log("onNewActivity");
+    // Add a dummy activity to activities 
+    // the activity processing will take care of
+    // adding or updating it based on the id (blank indicates it needs adding)
+    this.activities.push(new ActivityModel());
+  }
+
   ngOnDestroy() {
     if (this.activitiesubscription) {
       this.activitiesubscription.unsubscribe();

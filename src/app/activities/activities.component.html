@@ -7,6 +7,10 @@
             <input type="text" maxlength="40" value="{{ activity.name }}" />
           </span> -->
       <app-activity [id]="activity.id" [editMode]="editMode"></app-activity>
+
     </div>
+    <button *ngIf="editMode" (click)="onNewActivity()" class="my-2 float-right">
+      Add New Activity
+    </button>
   </div>
 </div>
