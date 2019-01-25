@@ -70,6 +70,17 @@ export class ActivityComponent implements OnInit, OnDestroy {
           );
         }
         console.log("onActivityDelete deleteConfirmed", deleteConfirmed);
+        this.db
+          .collection("activities")
+          .doc(this.activity.id)
+          .delete()
+          .then(() => {
+            this.als.logUpdate(this.activity.id, "activities", "DELETE", "");
+            console.log("Document successfully deleted!");
+          })
+          .catch(error => {
+            console.error("Error removing document: ", error);
+          });
       });
   }
 

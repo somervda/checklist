@@ -1,14 +1,22 @@
-<span *ngIf="!editMode">{{ activity?.name }} </span>
-<span *ngIf="editMode && activity && activity.name">
+<span *ngIf="activity && activity.name">
   <input
     type="text"
-    style="width : 200px"
+    style="width : 300px"
     name="activity"
     id="activity"
+    class="px-1"
     (blur)="onNameUpdate()"
+    [disabled]="!editMode"
+    [class.bg-white]="!editMode"
+    [style.border-style]="editMode ? 'groove' : 'none'"
     [(ngModel)]="activity.name"
   />
-  <button class="px-1" id="btnDelete" (click)="onActivityDelete()">
+  <button
+    *ngIf="editMode"
+    class="px-1"
+    id="btnDelete"
+    (click)="onActivityDelete()"
+  >
     <i class="fas fa-trash-alt"></i>
   </button>
 </span>
