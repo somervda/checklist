@@ -8,6 +8,7 @@ import { CommunityModel } from "../models/communityModel";
 import { NgForm } from "@angular/forms";
 import { AuditlogService } from "../services/auditlog.service";
 import { CommunityAccessState } from "../models/userModel";
+import { ActivityParentType } from "../models/activityModel";
 
 @Component({
   selector: "app-communitydesigner",
@@ -16,12 +17,14 @@ import { CommunityAccessState } from "../models/userModel";
 })
 export class CommunitydesignerComponent implements OnInit, OnDestroy {
   community$;
-  id;
+  communityId;
   action;
   community = new CommunityModel();
   communitySubscription;
   isValidForm: boolean;
   formSubscription;
+
+  ActivityParentType = ActivityParentType;
 
   @ViewChild(NgForm) frmMain: NgForm;
 
@@ -62,11 +65,11 @@ export class CommunitydesignerComponent implements OnInit, OnDestroy {
 
     this.route.paramMap.subscribe(paramMap => {
       this.action = paramMap.get("action");
-      this.id = paramMap.get("id");
-      if (this.action == "U" && this.id) {
+      this.communityId = paramMap.get("id");
+      if (this.action == "U" && this.communityId) {
         // Only set up loading from firebase if in Add mode
         this.community$ = this.db
-          .doc("/communities/" + this.id)
+          .doc("/communities/" + this.communityId)
           .snapshotChanges();
         this.communitySubscription = this.community$.subscribe(snapshot => {
           console.log("Community Designer subscribed snapshot", snapshot);
@@ -118,7 +121,7 @@ export class CommunitydesignerComponent implements OnInit, OnDestroy {
 
   onNameUpdate() {
     this.community.dbFieldUpdate(
-      this.id,
+      this.communityId,
       "name",
       this.community.name,
       this.db,
@@ -129,7 +132,7 @@ export class CommunitydesignerComponent implements OnInit, OnDestroy {
   onDescriptionUpdate() {
     console.log("onDescriptionUpdate", this.community.description);
     this.community.dbFieldUpdate(
-      this.id,
+      this.communityId,
       "description",
       this.community.description,
       this.db,
@@ -138,7 +141,7 @@ export class CommunitydesignerComponent implements OnInit, OnDestroy {
   }
 
   onReturnCommunityClick() {
-    this.router.navigate(["/community/" + this.id]);
+    this.router.navigate(["/community/" + this.communityId]);
   }
 
   ngOnDestroy() {

@@ -29,6 +29,12 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    console.log(
+      "activities onInit parentId:",
+      this.parentId,
+      " parentType:",
+      this.parentType
+    );
     this.activities$ = this.db
       .collection("activities", ref =>
         ref

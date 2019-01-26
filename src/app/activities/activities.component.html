@@ -1,4 +1,3 @@
-<p class="mt-1">Activities</p>
 <div class="d-flex flex-wrap  align-content-around py-0 my-0">
   <div *ngFor="let activity of activities">
     <app-activity
@@ -7,17 +6,30 @@
       [editMode]="editMode"
     ></app-activity>
   </div>
+  <div *ngIf="activities.length == 0">
+    No activities found, add activities if required.
+  </div>
 </div>
 <!-- One extra field to add new activity -->
 <div class="row mx-2" *ngIf="editMode">
   <input
     type="text"
+    placeholder="Enter new activity name *"
     style="width : 300px"
     name="activity"
     id="activity"
+    #activity="ngModel"
     [(ngModel)]="newActivity.name"
+    required
+    maxlength="30"
   />
-  <button class="px-1" id="btnAdd" (click)="onNewActivity()">
+
+  <button
+    class="px-1"
+    id="btnAdd"
+    (click)="onNewActivity()"
+    [disabled]="!activity.valid"
+  >
     <i class="fas fa-plus"></i>
   </button>
 </div>

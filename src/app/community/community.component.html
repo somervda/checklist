@@ -11,6 +11,16 @@
   <h3>{{ community?.name }}</h3>
   <div class="text-left" [innerHtml]="community?.description"></div>
 
+  <h5>Activities</h5>
+  <span *ngIf="communityId && communityId != ''">
+    <app-activities
+      [parentId]="communityId"
+      [parentType]="ActivityParentType.community"
+      [editMode]="false"
+      *ngIf="communityId && communityId != ''"
+    ></app-activities>
+  </span>
+
   <span *ngIf="isCommunityLeader">
     <!-- Users who are associated with the community, only leaders can see this -->
     <h5>Community Members</h5>

@@ -72,4 +72,11 @@
       </div>
     </div>
   </form>
+  <p>Activities</p>
+  <app-activities
+    [parentId]="communityId"
+    [parentType]="ActivityParentType.community"
+    [editMode]="true"
+    *ngIf="communityId && communityId != ''"
+  ></app-activities>
 </div>

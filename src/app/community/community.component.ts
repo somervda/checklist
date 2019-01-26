@@ -1,3 +1,4 @@
+import { ActivityParentType } from "./../models/activityModel";
 import { UserModel, CommunityAccessState } from "./../models/userModel";
 import { CommunityModel } from "./../models/communityModel";
 import { Component, OnInit, OnDestroy } from "@angular/core";
@@ -19,7 +20,9 @@ export class CommunityComponent implements OnInit, OnDestroy {
   users$;
   userSubscription;
   user = new UserModel();
+  communityId;
   isCommunityLeader: boolean = false;
+  ActivityParentType = ActivityParentType;
 
   CommunityAccessState = CommunityAccessState;
 
@@ -32,19 +35,21 @@ export class CommunityComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.route.paramMap.subscribe(paramMap => {
-      var id = paramMap.get("id");
+      this.communityId = paramMap.get("id");
       this.isCommunityLeader =
-        this.auth.user.getCommunityDetails(id).accessState ==
+        this.auth.user.getCommunityDetails(this.communityId).accessState ==
         CommunityAccessState.leader;
 
       // See example at https://www.techiediaries.com/angular-firestore-tutorial/
-      this.community$ = this.db.doc("/communities/" + id).snapshotChanges();
+      this.community$ = this.db
+        .doc("/communities/" + this.communityId)
+        .snapshotChanges();
       this.communitySubscription = this.community$.subscribe(snapshot => {
         this.community = new CommunityModel(snapshot.payload);
 
         // Get users in the community if current user is a community leader
         if (this.isCommunityLeader) {
-          const communityMapQuery = "communities." + id + ".name";
+          const communityMapQuery = "communities." + this.communityId + ".name";
           this.users$ = this.db
             .collection("users/", ref => ref.where(communityMapQuery, ">=", ""))
             .snapshotChanges();
