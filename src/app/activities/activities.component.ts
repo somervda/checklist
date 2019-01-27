@@ -19,7 +19,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
 
   activities$;
   activitiesubscription;
-  activities;
+  activities =[];
   newActivity: ActivityModel;
 
   constructor(

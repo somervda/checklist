@@ -6,9 +6,9 @@
       [editMode]="editMode"
     ></app-activity>
   </div>
-  <div *ngIf="activities.length == 0">
-    No activities found, add activities if required.
-  </div>
+  <span class="text-info mx-2" *ngIf="activities.length == 0">
+    No activities found, add activities if they are needed.
+  </span>
 </div>
 <!-- One extra field to add new activity -->
 <div class="row mx-2" *ngIf="editMode">

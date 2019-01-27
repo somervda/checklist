@@ -36,8 +36,30 @@ export class ActivityComponent implements OnInit, OnDestroy {
       });
   }
 
+  onBackspace(event) {
+    //console.log("onBackspace", this.activity.name.trim().length );
+    if (this.activity.name.trim().length ==1) {
+      //console.log("onBackspace dontpropagate" );
+      return false;
+    }
+  }
+
+  onDelete(event) {
+    console.log("onDelete", event.target.selectionStart, event.target.selectionEnd,this.activity.name.trim().length  );
+    if ((event.target.selectionEnd - event.target.selectionStart ) >=this.activity.name.trim().length) {
+      console.log("onDelete dontpropagate" );
+      return false;
+    }
+  }
+
+
+
   onNameUpdate() {
-    console.log("onNameUpdate()");
+    console.log("onNameUpdate()",this.activity);
+    if(this.activity.name.trim().length==0) {
+      console.error("Activity name can not be blank");
+    }
+    else {
     this.activity.dbFieldUpdate(
       this.activity.id,
       "name",
@@ -45,6 +67,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
       this.db,
       this.als
     );
+    }
   }
 
   onActivityDelete() {
