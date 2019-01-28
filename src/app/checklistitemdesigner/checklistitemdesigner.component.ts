@@ -284,7 +284,23 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
     );
   }
 
-  onActivityUpdate() {}
+  
+  onActivityUpdate() {
+    console.log("onActivityUpdate",this.checklistItem.activity.id );
+    let activity : {id: "", name: "None"};
+    const activityFromArray = this.activities.find( act => act.id == this.checklistItem.activity.id);
+    if (activityFromArray)
+      activity = {id : activityFromArray.id, name: activityFromArray.name};
+
+    this.checklistItem.dbFieldUpdate(
+      this.id,
+      "activity",
+      activity,
+      this.db,
+      this.als
+    );
+
+  }
 
   idIsInActivityArray():boolean {
     if (this.activities.find(act => act.id == this.checklistItem.activity.id) == undefined) {

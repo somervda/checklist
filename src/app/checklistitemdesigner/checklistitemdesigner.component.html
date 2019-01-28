@@ -94,11 +94,11 @@
         [(ngModel)]="checklistItem.activity.id"
         id="activity"
         #activity="ngModel"
-        (change)="onActivityUpdate()"
+        (click)="onActivityUpdate()"
       >
         <option value="">None</option>
         <!-- Add option for any orphaned activities -->
-        <option *ngIf="!idIsInActivityArray() && !checklistItem.activity.id==''" 
+        <option *ngIf="!checklistItem.activity.id=='' && !idIsInActivityArray()  " 
           value="{{checklistItem.activity.id}}">{{checklistItem.activity.name}}</option>
         <option *ngFor="let itemActivity of activities" value="itemActivity.id"
           >{{ itemActivity.name }} - {{ itemActivity.parentType == 1 ? '[Theme/category]' : '[Community]' }}</option
