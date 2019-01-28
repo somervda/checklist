@@ -169,7 +169,11 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
         this.communityORcategoryActivitiesSubscription = communityORcategoryActivities$.subscribe(
           data => {
             console.log("communityORcategoryActivitiesSubscription", data);
-            this.activities.push(data);
+            this.activities = data;
+            console.log(
+              "communityORcategoryActivitiesSubscription activities",
+              this.activities
+            );
           }
         );
       })

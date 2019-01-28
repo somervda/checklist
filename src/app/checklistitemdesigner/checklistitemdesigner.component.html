@@ -97,8 +97,8 @@
         (change)="onActivityUpdate()"
       >
         <option value="">None</option>
-        <span *ngFor="let itemActivity of activities">
-          <option value="itemActivity.id">{{ itemActivity.name }}</option></span
+        <option *ngFor="let itemActivity of activities" value="itemActivity.id"
+          >{{ itemActivity.name }} - {{ itemActivity.parentType }}</option
         >
       </select>
     </div>
