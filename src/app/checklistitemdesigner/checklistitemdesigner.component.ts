@@ -1,3 +1,4 @@
+import { ActivityModel, ActivityParentType } from "./../models/activityModel";
 import { AuditlogService } from "./../services/auditlog.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Component, OnInit, NgZone, OnDestroy, ViewChild } from "@angular/core";
@@ -11,6 +12,7 @@ import { AngularFirestore } from "@angular/fire/firestore";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "../services/auth.service";
 import { NgForm } from "@angular/forms";
+import { map } from "rxjs/operators";
 
 @Component({
   selector: "app-checklistitemdesigner",
@@ -29,6 +31,9 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
   ChecklistItemStatus = ChecklistItemStatus;
   isValidForm: boolean;
   formSubscription;
+  activities: [ActivityModel];
+  communityActivitiesSubscription;
+  ActivityParentType = ActivityParentType;
 
   @ViewChild(NgForm) frmMain: NgForm;
 
@@ -81,15 +86,85 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
           snapshot => {
             console.log("checklistItemDesigner ngOnInit subscribe");
             this.checklistItem = new ChecklistItemModel(snapshot.payload);
-            console.log("checklistItem.oninit checklistitem",this.checklistItem);
+            this.performActivitiesSubscription();
+            console.log(
+              "checklistItem.oninit checklistitem",
+              this.checklistItem
+            );
           }
         );
       }
       if (this.action == "A") {
         // Set default for an add
         this.checklistItem.resultType = ChecklistItemResultType.checkbox;
+        this.performActivitiesSubscription();
       }
     });
+  }
+
+  performActivitiesSubscription() {
+    console.log("this.performActivitiesSubscription()");
+    // Get array of activities
+    var parentId = this.id;
+    if (this.action == "U") parentId = this.checklistItem.checklistId;
+
+    // create firt subscription based on community the parent belongs to
+    var communityActivitiesRef = this.db.collection("activities/", ref =>
+      ref
+        .where("parentType", "==", ActivityParentType.community)
+        .where("parentId", "==", parentId)
+    );
+    var communityActivities$ = communityActivitiesRef.snapshotChanges().pipe(
+      map(documentChangeAction =>
+        documentChangeAction.map(row => {
+          return new ActivityModel(row.payload.doc);
+        })
+      )
+    );
+
+    // // Query2 for checklists by community
+    // var communityRef = this.db.collection("checklists/", ref =>
+    //  ref.where("community.communityId", "==", "Tw8CPGkAwTxjUxW7dnNg")
+    // );
+
+    // // Create simplifies Observables of arrays.
+    // var ownerCL$ = ownerRef.snapshotChanges().pipe(
+    //  map(documentChangeAction =>
+    //    documentChangeAction.map(row => {
+    //      return Object.assign(
+    //        { id: row.payload.doc.id },
+    //        row.payload.doc.data()
+    //      );
+    //    })
+    //  )
+    // );
+
+    // var communityCL$ = communityRef.snapshotChanges().pipe(
+    //  map(documentChangeAction =>
+    //    documentChangeAction.map(row => {
+    //      return Object.assign(
+    //        { id: row.payload.doc.id },
+    //        row.payload.doc.data()
+    //      );
+    //    })
+    //  )
+    // );
+
+    this.communityActivitiesSubscription = communityActivities$.subscribe(
+      data => console.log("communityActivitiesSubscription", data)
+    );
+
+    // communityCL$.subscribe(data => console.log("Test #5 communityCL$", data));
+
+    // // role the two arrays from the combineLatest operation to make one long array (using the ... array operator)
+    // this.ownerORcommunity$ = ownerCL$.pipe(
+    //  combineLatest(communityCL$),
+    //  map(([cl1, cl2]) => [...cl1, ...cl2])
+    // );
+    // // Show results
+    // this.ownerORcommunity$.subscribe(data =>
+    //  console.log("Test #5 ownerORcommunity$", data)
+    // );
   }
 
   onAddClick() {
@@ -177,12 +252,11 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
     ]);
   }
 
-  oncbClick(cbCurrentStatusIsSuppressed : Boolean) {
+  oncbClick(cbCurrentStatusIsSuppressed: Boolean) {
     console.log("oncbClick", cbCurrentStatusIsSuppressed);
     // Toggles status between active and suppressed
     let status = ChecklistItemStatus.Suppressed;
-    if (cbCurrentStatusIsSuppressed)
-      status = ChecklistItemStatus.Active;
+    if (cbCurrentStatusIsSuppressed) status = ChecklistItemStatus.Active;
     this.checklistItem.dbFieldUpdate(
       this.id,
       "status",
@@ -191,6 +265,8 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
       this.als
     );
   }
+
+  onActivityUpdate() {}
 
   ngOnDestroy() {
     // Incase there is no use of async in the html template , then need to clean up the subscription
@@ -204,6 +280,10 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
 
     if (this.formSubscription) {
       this.formSubscription.unsubscribe();
+    }
+
+    if (this.communityActivitiesSubscription) {
+      this.communityActivitiesSubscription.unsubscribe();
     }
   }
 }

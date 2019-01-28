@@ -80,6 +80,31 @@
       ></app-ngx-editor>
     </div>
 
+    <!-- Activity -->
+    <div class="form-group">
+      <label
+        for="activity"
+        placement="top"
+        ngbTooltip="The activity assigned to this checklist item. Activities are derived from the available list of activities in the community or theme/category that the checklist belongs to. Activities are a key segmenter of data when reporting or analyzing checklists"
+        >Activity</label
+      >
+      <select
+        class="form-control"
+        name="activity"
+        [(ngModel)]="checklistItem.activity.id"
+        id="activity"
+        #activity="ngModel"
+        (change)="onActivityUpdate()"
+      >
+        <option value="">None</option>
+        <option
+          *ngFor="let itemActivity of activities"
+          value="itemActivity.id"
+          >{{ itemActivity.name }}</option
+        >
+      </select>
+    </div>
+
     <!-- ResultType -->
     <div class="form-group">
       <label

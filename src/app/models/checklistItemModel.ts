@@ -8,6 +8,7 @@ export class ChecklistItemModel {
   public description: string;
   public checklistId: string;
   public owner: { uid: string; displayName: string };
+  public activity: {id: string; name: string};
   public dateCreated: Date;
   public status: ChecklistItemStatus;
   public evidence: string;
@@ -30,6 +31,11 @@ export class ChecklistItemModel {
       this.description = doc.data().description;
       this.resultType = doc.data().resultType;
       this.userComment = doc.data().userComment;
+      if (doc.data().activity)
+        this.activity = doc.data().activity;
+        else {
+          this.activity = {id: "" , name: "None"};
+        }
       this.evidence = doc.data().evidence;
       if (
         doc.data().dateCreated &&
@@ -51,6 +57,7 @@ export class ChecklistItemModel {
       this.description = "";
       this.resultType = ChecklistItemResultType.checkbox;
       this.userComment = "";
+      this.activity = {id: "" , name: "None"};
       this.evidence = "";
       this.dateCreated = null;
       this.allowNA = false;
@@ -70,6 +77,7 @@ export class ChecklistItemModel {
       resultType: this.resultType,
       userComment: this.userComment,
       evidence: this.evidence,
+      activity: this.activity,
       dateCreated: this.dateCreated,
       allowNA: this.allowNA,
       template: this.template,
