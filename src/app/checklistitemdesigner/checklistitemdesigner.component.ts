@@ -174,6 +174,25 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
               "communityORcategoryActivitiesSubscription activities",
               this.activities
             );
+            console.log(
+              "communityORcategoryActivitiesSubscription checkPush",
+              this.checklistItem.activity
+            );
+            // Add current item activity if it is missing from the array
+            if (
+              !this.idIsInActivityArray() &&
+              this.checklistItem.activity.id != ""
+            ) {
+              console.log(
+                "communityORcategoryActivitiesSubscription push",
+                this.checklistItem.activity
+              );
+              this.activities.push(this.checklistItem.activity);
+            }
+            console.log(
+              "communityORcategoryActivitiesSubscription activities+",
+              this.activities
+            );
           }
         );
       })
@@ -284,14 +303,15 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
     );
   }
 
-  
   onActivityUpdate() {
-    console.log("onActivityUpdate",this.checklistItem.activity.id );
-    let activity : {id: "", name: "None"};
-    const activityFromArray = this.activities.find( act => act.id == this.checklistItem.activity.id);
+    console.log("onActivityUpdate:", this.checklistItem, ";");
+    let activity: { id: ""; name: "None" };
+    const activityFromArray = this.activities.find(
+      act => act.id == this.checklistItem.activity.id
+    );
     if (activityFromArray)
-      activity = {id : activityFromArray.id, name: activityFromArray.name};
-
+      activity = { id: activityFromArray.id, name: activityFromArray.name };
+    console.log("onActivityUpdate activity", activity);
     this.checklistItem.dbFieldUpdate(
       this.id,
       "activity",
@@ -299,18 +319,19 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
       this.db,
       this.als
     );
-
   }
 
-  idIsInActivityArray():boolean {
-    if (this.activities.find(act => act.id == this.checklistItem.activity.id) == undefined) {
+  idIsInActivityArray(): boolean {
+    if (
+      this.activities.find(act => act.id == this.checklistItem.activity.id) ==
+      undefined
+    ) {
       console.log("idIsInActivityArray false");
       return false;
+    } else {
+      console.log("idIsInActivityArray true");
+      return true;
     }
-      else {
-        console.log("idIsInActivityArray true");
-        return true;
-      }
   }
 
   ngOnDestroy() {
