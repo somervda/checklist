@@ -22,6 +22,7 @@ export class ActivityModel {
 
   get json() {
     return {
+      id: this.id,
       name: this.name,
       parentId: this.parentId,
       parentType: this.parentType

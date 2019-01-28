@@ -12,7 +12,7 @@ import { AngularFirestore } from "@angular/fire/firestore";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "../services/auth.service";
 import { NgForm } from "@angular/forms";
-import { map } from "rxjs/operators";
+import { map, combineLatest } from "rxjs/operators";
 
 @Component({
   selector: "app-checklistitemdesigner",
@@ -31,8 +31,11 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
   ChecklistItemStatus = ChecklistItemStatus;
   isValidForm: boolean;
   formSubscription;
-  activities: [ActivityModel];
-  communityActivitiesSubscription;
+
+  activities: any[];
+  // communityActivitiesSubscription;
+  // categoryActivitiesSubscription;
+  communityORcategoryActivitiesSubscription;
   ActivityParentType = ActivityParentType;
 
   @ViewChild(NgForm) frmMain: NgForm;
@@ -67,6 +70,7 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.activities = new Array();
     // Subscribe to form to get the validation state
     this.formSubscription = this.frmMain.statusChanges.subscribe(result => {
       this.isValidForm = result == "VALID";
@@ -105,66 +109,76 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
   performActivitiesSubscription() {
     console.log("this.performActivitiesSubscription()");
     // Get array of activities
-    var parentId = this.id;
-    if (this.action == "U") parentId = this.checklistItem.checklistId;
+    var checklistId = this.id;
+    if (this.action == "U") {
+      checklistId = this.checklistItem.checklistId;
+    }
 
-    // create firt subscription based on community the parent belongs to
-    var communityActivitiesRef = this.db.collection("activities/", ref =>
-      ref
-        .where("parentType", "==", ActivityParentType.community)
-        .where("parentId", "==", parentId)
-    );
-    var communityActivities$ = communityActivitiesRef.snapshotChanges().pipe(
-      map(documentChangeAction =>
-        documentChangeAction.map(row => {
-          return new ActivityModel(row.payload.doc);
-        })
-      )
-    );
+    // Get the checklist with a promise
+    this.db
+      .doc("checklists/" + checklistId)
+      .get()
+      .toPromise()
+      .then(doc => {
+        console.log("performActivitiesSubscription got checklist doc", doc);
+        // Then create first subscription based on community the checklist belongs to
+        var communityActivitiesRef = this.db.collection("activities/", ref =>
+          ref
+            .where("parentType", "==", ActivityParentType.community)
+            .where("parentId", "==", doc.data().community.id)
+        );
+        var communityActivities$ = communityActivitiesRef
+          .snapshotChanges()
+          .pipe(
+            map(documentChangeAction =>
+              documentChangeAction.map(row => {
+                return new ActivityModel(row.payload.doc).json;
+              })
+            )
+          );
 
-    // // Query2 for checklists by community
-    // var communityRef = this.db.collection("checklists/", ref =>
-    //  ref.where("community.communityId", "==", "Tw8CPGkAwTxjUxW7dnNg")
-    // );
+        // // Query2 for activities by theme/category
+        var categoryActivitiesRef = this.db.collection("activities/", ref =>
+          ref
+            .where("parentType", "==", ActivityParentType.category)
+            .where("parentId", "==", doc.data().category.id)
+        );
+        var categoryActivities$ = categoryActivitiesRef.snapshotChanges().pipe(
+          map(documentChangeAction =>
+            documentChangeAction.map(row => {
+              return new ActivityModel(row.payload.doc).json;
+            })
+          )
+        );
 
-    // // Create simplifies Observables of arrays.
-    // var ownerCL$ = ownerRef.snapshotChanges().pipe(
-    //  map(documentChangeAction =>
-    //    documentChangeAction.map(row => {
-    //      return Object.assign(
-    //        { id: row.payload.doc.id },
-    //        row.payload.doc.data()
-    //      );
-    //    })
-    //  )
-    // );
+        // this.communityActivitiesSubscription = communityActivities$.subscribe(
+        //   data => console.log("communityActivitiesSubscription", data)
+        // );
+        // this.categoryActivitiesSubscription = categoryActivities$.subscribe(
+        //   data => console.log("categoryActivitiesSubscription", data)
+        // );
 
-    // var communityCL$ = communityRef.snapshotChanges().pipe(
-    //  map(documentChangeAction =>
-    //    documentChangeAction.map(row => {
-    //      return Object.assign(
-    //        { id: row.payload.doc.id },
-    //        row.payload.doc.data()
-    //      );
-    //    })
-    //  )
-    // );
+        // communityCL$.subscribe(data => console.log("Test #5 communityCL$", data));
 
-    this.communityActivitiesSubscription = communityActivities$.subscribe(
-      data => console.log("communityActivitiesSubscription", data)
-    );
-
-    // communityCL$.subscribe(data => console.log("Test #5 communityCL$", data));
-
-    // // role the two arrays from the combineLatest operation to make one long array (using the ... array operator)
-    // this.ownerORcommunity$ = ownerCL$.pipe(
-    //  combineLatest(communityCL$),
-    //  map(([cl1, cl2]) => [...cl1, ...cl2])
-    // );
-    // // Show results
-    // this.ownerORcommunity$.subscribe(data =>
-    //  console.log("Test #5 ownerORcommunity$", data)
-    // );
+        //role the two arrays from the combineLatest operation to make one long array (using the ... array operator)
+        let communityORcategoryActivities$ = communityActivities$.pipe(
+          combineLatest(categoryActivities$),
+          map(([cl1, cl2]) => [...cl1, ...cl2])
+        );
+        // Show results
+        this.communityORcategoryActivitiesSubscription = communityORcategoryActivities$.subscribe(
+          data => {
+            console.log("communityORcategoryActivitiesSubscription", data);
+            this.activities.push(data);
+          }
+        );
+      })
+      .catch(error =>
+        console.error(
+          "performActivitiesSubscription error getting checklist",
+          error
+        )
+      );
   }
 
   onAddClick() {
@@ -282,8 +296,8 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
       this.formSubscription.unsubscribe();
     }
 
-    if (this.communityActivitiesSubscription) {
-      this.communityActivitiesSubscription.unsubscribe();
+    if (this.communityORcategoryActivitiesSubscription) {
+      this.communityORcategoryActivitiesSubscription.unsubscribe();
     }
   }
 }
