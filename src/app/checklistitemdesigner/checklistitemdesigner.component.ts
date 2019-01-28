@@ -286,6 +286,17 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
 
   onActivityUpdate() {}
 
+  idIsInActivityArray():boolean {
+    if (this.activities.find(act => act.id == this.checklistItem.activity.id) == undefined) {
+      console.log("idIsInActivityArray false");
+      return false;
+    }
+      else {
+        console.log("idIsInActivityArray true");
+        return true;
+      }
+  }
+
   ngOnDestroy() {
     // Incase there is no use of async in the html template , then need to clean up the subscription
 
