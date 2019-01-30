@@ -62,6 +62,7 @@ import { ThemecatetoryselectorComponent } from "./themecatetoryselector/themecat
 import { CommunitymanagermodalComponent } from "./communitymanagermodal/communitymanagermodal.component";
 import { ActivityComponent } from "./activity/activity.component";
 import { ActivitiesComponent } from "./activities/activities.component";
+import { ChecklistmanagermodalComponent } from './checklistmanagermodal/checklistmanagermodal.component';
 
 @NgModule({
   declarations: [
@@ -94,7 +95,8 @@ import { ActivitiesComponent } from "./activities/activities.component";
     ThemecatetoryselectorComponent,
     CommunitymanagermodalComponent,
     ActivityComponent,
-    ActivitiesComponent
+    ActivitiesComponent,
+    ChecklistmanagermodalComponent
   ],
   imports: [
     BrowserModule,

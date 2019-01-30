@@ -1,0 +1,108 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      Checklist Actions: {{ checklist.title }}
+    </h4>
+    <button
+      type="button"
+      id="selectTCClose"
+      class="close p-0"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <!-- Action Selector
+        1. Copy Checklist
+        2. Publish as a Public template
+        3. Mark as complete
+        4. Make active
+        5. Delete (logical)
+
+        -->
+      <div class="form-group">
+        <div>
+          <span *ngIf="true">
+            <input
+              type="radio"
+              [(ngModel)]="selectedAction"
+              name="action"
+              value="copy"
+            />
+            Copy as new checklist<br />
+          </span>
+          <span *ngIf="true">
+            <input
+              type="radio"
+              [(ngModel)]="selectedAction"
+              name="action"
+              value="publish"/>
+            Publish as a Public template<br
+          /></span>
+          <span *ngIf="true">
+            <input
+              type="radio"
+              [(ngModel)]="selectedAction"
+              name="action"
+              value="complete"
+            />Mark as Complete<br />
+          </span>
+          <span *ngIf="true">
+            <input
+              type="radio"
+              [(ngModel)]="selectedAction"
+              name="action"
+              value="active"
+            />
+            Mark as Active<br />
+          </span>
+          <span *ngIf="true">
+            <input
+              type="radio"
+              [(ngModel)]="selectedAction"
+              name="action"
+              value="delete"
+            />Delete!<br />
+          </span>
+
+          <div class="form-group" *ngIf="selectedAction == 'copy'">
+            <label for="invitee">New Title *</label>
+            <input
+              class="form-control"
+              name="title"
+              [(ngModel)]="title"
+              type="text"
+              id="title"
+            />
+            <input
+              type="checkbox"
+              [(ngModel)]="copyAsTemplate"
+              name="cbCopyAsTemplate"
+              id="cbCopyAsTemplate"
+            />
+            Copy as template?
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <!-- Save -->
+  <div class="modal-footer">
+    <button
+      type="button"
+      id="btnCMConfirm"
+      class="btn btn-outline-dark"
+      (click)="modal.close('Confirm')"
+      [disabled]="selectedAction == ''"
+    >
+      Confirm
+    </button>
+  </div>
+</ng-template>
+
+<button class="btn py-0 " (click)="open(content)" id="btnChecklistModal">
+  Actions <i class="fas fa-angle-double-up" title="Checklist Actions"></i>
+</button>

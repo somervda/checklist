@@ -1,4 +1,4 @@
-import { ChecklistItemModel,ChecklistItemResult } from './checklistItemModel';
+import { ChecklistItemModel, ChecklistItemResult } from "./checklistItemModel";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { ToastrService } from "ngx-toastr";
 import { firestore } from "firebase";
@@ -29,7 +29,6 @@ export class ChecklistModel {
 
   theme: { id: string; name: string };
   category: { id: string; name: string };
-
 
   dbFieldUpdate(docId: string, fieldName: string, newValue: any, db, als) {
     if (docId && fieldName) {
@@ -161,7 +160,7 @@ export class ChecklistModel {
     targetTitle: string,
     targetCommunity: { id: string; name: string },
     copyIsTemplate: boolean,
-    owner : {uid: string, displayName:string},
+    owner: { uid: string; displayName: string },
     db,
     als
   ): string {
@@ -171,65 +170,64 @@ export class ChecklistModel {
     // Checklist details are already available but will create an array
     // of checklistItems before we start to copy when doing the update
     // If copyIsTemplate then mark the new checklist as a template
-    
+
     console.log("copy start");
-    const newChecklistId = db.createId();
-    let checklistItems = new Array();
-    console.log("newChecklistId", newChecklistId);
+    let checkListItemsJson = new Array();
+    let checklistJson = this.json;
 
-    let newJson = this.json;
-    newJson.title = targetTitle;
-    newJson.id = newChecklistId;
-    newJson.dateCreated =  new Date();
-    newJson.dateTargeted = null;
-    newJson.owner=owner;
-    newJson.status = ChecklistStatus.Under_Construction;
+    // Set selected checklist fields to default values
+    checklistJson.title = targetTitle;
+    checklistJson.isTemplate = copyIsTemplate;
+    checklistJson.id = db.createId();
+    checklistJson.dateCreated = new Date();
+    checklistJson.dateTargeted = null;
+    checklistJson.owner = owner;
+    checklistJson.status = ChecklistStatus.Under_Construction;
+    console.log("copy checklistJson", checklistJson);
 
-    // get checklist items
-
+    // get checklist item and make an array of new items to be copies
     db.collection("checklistItems", ref =>
       ref.where("checklistId", "==", this.id)
     )
-    .get()
-    .toPromise()
-    .then(snapshot => {
-      snapshot.forEach(doc => {
-        let cliJson = new ChecklistItemModel(doc).json;
-        cliJson.dateCreated = new Date();
-        cliJson.evidence = "";
-        cliJson.result =  ChecklistItemResult.false;
-        cliJson.userComment = "";
-        cliJson.owner=owner;
-        cliJson.checklistId = newJson.id;
-        checklistItems.push(cliJson);
+      .get()
+      .toPromise()
+      .then(snapshot => {
+        snapshot.forEach(doc => {
+          let checklistItemJson = new ChecklistItemModel(doc).json;
+          checklistItemJson.dateCreated = new Date();
+          checklistItemJson.evidence = "";
+          checklistItemJson.result = ChecklistItemResult.false;
+          checklistItemJson.userComment = "";
+          checklistItemJson.owner = owner;
+          checklistItemJson.checklistId = checklistJson.id;
+          checkListItemsJson.push(checklistItemJson);
+        });
+        // console.log("copy checklistItems getter", checkListItemsJson);
+        this.batchWriteChecklist(db, checklistJson, checkListItemsJson);
+      })
+      .catch(error => {
+        console.error("copy error getting checklistItems", error);
       });
-      // checklistItems = snapshot.docs;
-      console.log("copy checklistItems getter", checklistItems);
-      this.batchWriteChecklist(db,newJson, checklistItems);
-    })
-    .catch(error => {
-      console.error("copy error getting checklistItems", error)
-    });
 
-    return newChecklistId;
-
+    return checklistJson.id;
   }
 
-  batchWriteChecklist(db, checklistJson, checkListItemJson) {
-
+  batchWriteChecklist(db, checklistJson, checkListItemsJson) {
     // Batch write of the checklists and checklistitems
     var batch = db.firestore.batch();
+
+    // checklist writer
     var clRef = db.collection("checklists").doc(checklistJson.id).ref;
-    // console.log("copy clRef", clRef);
-    // console.log("copy newJson", newJson);
-    console.log("batchWriteChecklist",checkListItemJson);
+    console.log("batchWriteChecklist", checkListItemsJson);
     batch.set(clRef, checklistJson);
-    checkListItemJson.forEach(cli => {
+
+    // checklistItems writer
+    checkListItemsJson.forEach(cli => {
       cli.id = db.createId();
       var cliRef = db.collection("checklistItems").doc(cli.id).ref;
-      batch.set(cliRef, cli);  
+      batch.set(cliRef, cli);
     });
-   
+
     // Commit the batch
     batch
       .commit()
@@ -239,11 +237,8 @@ export class ChecklistModel {
       .catch(error => {
         console.error("copy error", error);
       });
-
+  }
 }
-}
-
-
 
 export enum ChecklistStatus {
   Active = 1,

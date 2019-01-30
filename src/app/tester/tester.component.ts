@@ -26,6 +26,8 @@ export class TesterComponent implements OnInit, OnDestroy {
 
   newChecklistsId;
 
+  checklist;
+
   editorConfig = {
     editable: true,
     spellcheck: true,
@@ -145,6 +147,16 @@ export class TesterComponent implements OnInit, OnDestroy {
     this.ownerORcommunity$.subscribe(data =>
       console.log("Test #5 ownerORcommunity$", data)
     );
+
+    // *** Set up a checklist  ****
+    this.db
+      .doc("/checklists/2w9eAFdU8RXXbsGz5tqQ")
+      .get()
+      .toPromise()
+      .then(doc => {
+        console.log("onInit doc", doc.data());
+        this.checklist = new ChecklistModel(doc);
+      });
   }
 
   doBatchUpdate() {
@@ -226,21 +238,14 @@ export class TesterComponent implements OnInit, OnDestroy {
   }
 
   onChecklistCopy() {
-    let checklistSubscription = this.db
-      .doc("/checklists/2w9eAFdU8RXXbsGz5tqQ")
-      .get()
-      .subscribe(doc => {
-        console.log("onInit doc", doc.data());
-        let checklist = new ChecklistModel(doc);
-        this.newChecklistsId = checklist.copy(
-          "Copy with items",
-          { id: "", name: "" },
-          false,
-          {uid: this.auth.user.id, displayName : this.auth.user.displayName},
-          this.db,
-          this.als
-        );
-      });
+    this.newChecklistsId = this.checklist.copy(
+      "Copy with items",
+      { id: "", name: "" },
+      false,
+      { uid: this.auth.user.id, displayName: this.auth.user.displayName },
+      this.db,
+      this.als
+    );
   }
 
   ngOnDestroy() {

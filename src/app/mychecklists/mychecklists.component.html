@@ -113,6 +113,14 @@
               ngbTooltip="Overdue : Active checklist with target date in the past"
             ></i>
           </span>
+          <span class="mx-1" *ngIf="row.isTemplate">
+            <i
+              class="far fa-file"
+              style="color: darkgoldenrod;"
+              placement="top"
+              ngbTooltip="Template: Copy to create new checklists of the same type"
+            ></i>
+          </span>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="Status" [flexGrow]="1">
@@ -174,8 +182,9 @@
     style="font-size: 70%"
   >
     <i class="far fa-clock" style="color: red;font-size:  70%;"></i> Overdue
-    <i class="fas fa-user" style="color: blue; font-size: 70%;"></i> I am the
-    owner.
+    <i class="far fa-file" style="color: darkgoldenrod;font-size: 70%"></i>
+    Template <i class="fas fa-user" style="color: blue; font-size: 70%;"></i> I
+    am the owner.
     <i class="fas fa-user-slash " style="color: skyblue; font-size: 70%;"></i> I
     am not the owner.
     <i class="fas fa-users" style="color: maroon; font-size: 70%;"></i> Member
