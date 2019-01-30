@@ -1,6 +1,7 @@
 import { AngularFirestore } from "@angular/fire/firestore";
 import { ToastrService } from "ngx-toastr";
 import { firestore } from "firebase";
+import { jsonpCallbackContext } from "@angular/common/http/src/module";
 // This model is more for helping with the consistancy of the checklist documents
 // in the firestore db but
 export class ChecklistModel {
@@ -152,6 +153,47 @@ export class ChecklistModel {
       this.theme = { id: "", name: "[None Selected]" };
       this.category = { id: "", name: "[None Selected]" };
     }
+  }
+
+  copy(
+    targetTitle: string,
+    targetCommunity: { id: string; name: string },
+    copyIsTemplate: boolean,
+    db,
+    als
+  ): string {
+    // Makes a copy of the current checklist and associated checklistItems
+    // Strip out all result info on a copy and set status to under_construction.
+    // make the person copying the checklist the owner
+    // Checklist details are already available but will create an array
+    // of checklistItems before we start to copy when doing the update
+    // If copyIsTemplate then mark the new checklist as a template
+    console.log("copy start");
+    const newChecklistId = db.createId();
+    console.log("newChecklistId", newChecklistId);
+
+    let newJson = this.json;
+    newJson.title = targetTitle;
+    newJson.id = newChecklistId;
+    newJson.status = ChecklistStatus.Under_Construction;
+
+    // Get a new write batch
+    var batch = db.firestore.batch();
+    var clRef = db.collection("checklists").doc(newChecklistId).ref;
+    console.log("copy clRef", clRef);
+    console.log("copy newJson", newJson);
+    batch.set(clRef, newJson);
+    // Commit the batch
+    batch
+      .commit()
+      .then(() => {
+        console.log("copy success", newChecklistId);
+      })
+      .catch(error => {
+        console.error("copy error", error);
+      });
+
+    return newChecklistId;
   }
 }
 

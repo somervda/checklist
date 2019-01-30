@@ -1,4 +1,4 @@
-import { ActivityModel } from './../models/activityModel';
+import { ActivityModel } from "./../models/activityModel";
 import { AuditlogService } from "./../services/auditlog.service";
 import { AuthService } from "./../services/auth.service";
 import { UserModel, CommunityAccessState } from "./../models/userModel";
@@ -6,6 +6,7 @@ import { UserModel, CommunityAccessState } from "./../models/userModel";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { map, combineLatest } from "rxjs/operators";
+import { ChecklistModel } from "../models/checklistModel";
 //import { Subject } from "rxjs/Subject";
 
 @Component({
@@ -22,6 +23,8 @@ export class TesterComponent implements OnInit, OnDestroy {
 
   CommunityAccessState = CommunityAccessState;
   user = new UserModel();
+
+  newChecklistsId;
 
   editorConfig = {
     editable: true,
@@ -219,7 +222,24 @@ export class TesterComponent implements OnInit, OnDestroy {
   onActivityClick() {
     console.log("onActivityClick");
     let activity = new ActivityModel();
-    console.log("activity.json",activity.json)
+    console.log("activity.json", activity.json);
+  }
+
+  onChecklistCopy() {
+    let checklistSubscription = this.db
+      .doc("/checklists/2w9eAFdU8RXXbsGz5tqQ")
+      .get()
+      .subscribe(doc => {
+        console.log("onInit doc", doc.data());
+        let checklist = new ChecklistModel(doc);
+        this.newChecklistsId = checklist.copy(
+          "New Copy",
+          { id: "", name: "" },
+          false,
+          this.db,
+          this.als
+        );
+      });
   }
 
   ngOnDestroy() {
