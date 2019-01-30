@@ -233,9 +233,10 @@ export class TesterComponent implements OnInit, OnDestroy {
         console.log("onInit doc", doc.data());
         let checklist = new ChecklistModel(doc);
         this.newChecklistsId = checklist.copy(
-          "New Copy",
+          "Copy with items",
           { id: "", name: "" },
           false,
+          {uid: this.auth.user.id, displayName : this.auth.user.displayName},
           this.db,
           this.als
         );
