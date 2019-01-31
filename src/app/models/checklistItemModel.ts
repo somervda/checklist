@@ -8,7 +8,7 @@ export class ChecklistItemModel {
   public description: string;
   public checklistId: string;
   public owner: { uid: string; displayName: string };
-  public activity: {id: string; name: string};
+  public activity: { id: string; name: string };
   public dateCreated: Date;
   public status: ChecklistItemStatus;
   public evidence: string;
@@ -28,14 +28,17 @@ export class ChecklistItemModel {
       this.prompt = doc.data().prompt;
       this.id = doc.id;
       this.checklistId = doc.data().checklistId;
-      this.description = doc.data().description;
+      if (doc.data().description) {
+        this.description = doc.data().description;
+      } else {
+        this.description = "";
+      }
       this.resultType = doc.data().resultType;
       this.userComment = doc.data().userComment;
-      if (doc.data().activity)
-        this.activity = doc.data().activity;
-        else {
-          this.activity = {id: "" , name: "None"};
-        }
+      if (doc.data().activity) this.activity = doc.data().activity;
+      else {
+        this.activity = { id: "", name: "None" };
+      }
       this.evidence = doc.data().evidence;
       if (
         doc.data().dateCreated &&
@@ -45,8 +48,16 @@ export class ChecklistItemModel {
       )
         this.dateCreated = doc.data().dateCreated.toDate();
       else this.dateCreated = null;
-      this.allowNA = doc.data().allowNA;
-      this.template = doc.data().template;
+      if (doc.data().allowNA) {
+        this.allowNA = doc.data().allowNA;
+      } else {
+        this.allowNA = false;
+      }
+      if (doc.data().template) {
+        this.template = doc.data().template;
+      } else {
+        this.template = {};
+      }
       this.owner = doc.data().owner;
       this.status = doc.data().status;
     } else {
@@ -57,7 +68,7 @@ export class ChecklistItemModel {
       this.description = "";
       this.resultType = ChecklistItemResultType.checkbox;
       this.userComment = "";
-      this.activity = {id: "" , name: "None"};
+      this.activity = { id: "", name: "None" };
       this.evidence = "";
       this.dateCreated = null;
       this.allowNA = false;

@@ -5,6 +5,7 @@ import { AngularFirestore } from "@angular/fire/firestore";
 import { AuditlogService } from "../services/auditlog.service";
 import { ToastrService } from "ngx-toastr";
 import { ChecklistModel } from "../models/checklistModel";
+import { defineBase } from "@angular/core/src/render3";
 
 @Component({
   selector: "app-checklistmanagermodal",
@@ -12,8 +13,10 @@ import { ChecklistModel } from "../models/checklistModel";
   styleUrls: ["./checklistmanagermodal.component.scss"]
 })
 export class ChecklistmanagermodalComponent implements OnInit {
-  @Input() checklist: ChecklistModel;
+  @Input() checklistId: string;
   @Output() categoryAction = new EventEmitter();
+
+  checklist: ChecklistModel;
 
   selectedAction: string;
   title: string;
@@ -27,7 +30,16 @@ export class ChecklistmanagermodalComponent implements OnInit {
     private toastr: ToastrService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.db
+      .doc("checklists/" + this.checklistId)
+      .get()
+      .toPromise()
+      .then(doc => {
+        this.checklist = new ChecklistModel(doc);
+      })
+      .catch(error => console.error("checklistmanagermodal oninit", error));
+  }
 
   open(content) {
     this.selectedAction = "";

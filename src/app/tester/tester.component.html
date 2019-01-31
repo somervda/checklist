@@ -64,4 +64,6 @@ Test basic file upload on iOS (safari mobile)
 {{ newChecklistsId }}
 <hr />
 <h5>app-checklistmanagermodal tester</h5>
-<app-checklistmanagermodal [checklist]="checklist"></app-checklistmanagermodal>
+<app-checklistmanagermodal
+  [checklistId]="checklist.id"
+></app-checklistmanagermodal>
