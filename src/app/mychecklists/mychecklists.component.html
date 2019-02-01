@@ -1,7 +1,7 @@
 <app-header
   name="My Checklists"
   rightButtonIconClass="fa-filter"
-  rightButtonTooltip=""
+  rightButtonTooltip="Click to expand filters"
   rightButtonText=" Filter"
   (rightButtonClick)="filterToggler()"
 ></app-header>
@@ -15,7 +15,7 @@
       <select
         class="dropdown form-control"
         (change)="onChangeOwnership()"
-        [(ngModel)]="selectedOwnership"
+        [(ngModel)]="filterStore.myChecklistFilters.selectedOwnership"
       >
         <option value="All">All</option>
         <option value="Owned">Owned by Me</option>
@@ -31,7 +31,7 @@
       <select
         class="dropdown  form-control"
         (change)="filterByStatus()"
-        [(ngModel)]="selectedStatus"
+        [(ngModel)]="filterStore.myChecklistFilters.selectedStatus"
       >
         <option
           *ngFor="let status of checklistStatusAsArray"
@@ -45,7 +45,7 @@
       <select
         class="dropdown  form-control"
         (change)="filterByAge()"
-        [(ngModel)]="selectedAge"
+        [(ngModel)]="filterStore.myChecklistFilters.selectedAge"
       >
         <option value="-1" selected>All</option>
         <option value="0">Overdue</option>
@@ -63,8 +63,8 @@
         <app-themecatetoryselector
           class="form-control"
           name="themeCategory"
-          [theme]="selectedTheme"
-          [category]="selectedCategory"
+          [theme]="filterStore.myChecklistFilters.selectedTheme"
+          [category]="filterStore.myChecklistFilters.selectedCategory"
           [filterMode]="true"
           (themeCategoryChange)="themeCategoryChange($event)"
         ></app-themecatetoryselector>
@@ -186,7 +186,6 @@
           <app-checklistmanagermodal
             [checklistId]="row.id"
             style="font-size:70%"
-            class="border mb-2"
           ></app-checklistmanagermodal>
         </ng-template>
       </ngx-datatable-column>

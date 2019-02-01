@@ -1,3 +1,4 @@
+import { FilterstoreService } from "./filterstore.service";
 import { auth } from "firebase";
 import { UserModel, CommunityAccessState } from "./../models/userModel";
 import { AngularFirestore } from "@angular/fire/firestore";
@@ -22,7 +23,8 @@ export class AuthService {
     private toastr: ToastrService,
     public afAuth: AngularFireAuth,
     public db: AngularFirestore,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private filterStore: FilterstoreService
   ) {
     // Set  up a authentication watched to reload user info when user is authenticated
     // this covers inition signon and when the user refreshes the browser.
@@ -45,6 +47,7 @@ export class AuthService {
           console.log("loadUser user 2 doc:", doc);
           this.user.loadFromObject(doc);
           console.log("loadUser user 3 this.user:", this.user);
+          this.filterStore.resetFilters();
 
           //   When user data gets reloaded also refresh view to the defualt user home page (mychecklists)
           //   This is important to support refreshing the view after doing a browser refresh and

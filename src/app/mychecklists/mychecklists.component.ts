@@ -1,3 +1,4 @@
+import { FilterstoreService } from "./../services/filterstore.service";
 import { CommunityAccessState } from "./../models/userModel";
 import { ChecklistModel } from "./../models/checklistModel";
 import { AuthService } from "./../services/auth.service";
@@ -21,11 +22,6 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
   filterToggle: boolean = false;
 
   showOwned: boolean = true;
-  selectedOwnership: string = "All";
-  selectedStatus: number = ChecklistStatus.Active;
-  selectedAge: number = -1;
-  selectedCategory = { id: "-1", name: "All" };
-  selectedTheme = { id: "", name: "" };
   checklistStatusAsArray;
 
   queryLimit = 100;
@@ -36,7 +32,11 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
 
   // See https://swimlane.gitbook.io/ngx-datatable/api/column/inputs
 
-  constructor(private db: AngularFirestore, public auth: AuthService) {}
+  constructor(
+    private db: AngularFirestore,
+    public auth: AuthService,
+    public filterStore: FilterstoreService
+  ) {}
 
   ngOnInit() {
     let map: { id: number; name: string }[] = [];
@@ -75,12 +75,15 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
   }
 
   filterByStatus() {
-    console.log("filterByStatus", this.selectedStatus);
+    console.log(
+      "filterByStatus",
+      this.filterStore.myChecklistFilters.selectedStatus
+    );
     this.refreshChecklists();
   }
 
   filterByAge() {
-    console.log("filterByAge", this.selectedAge);
+    console.log("filterByAge", this.filterStore.myChecklistFilters.selectedAge);
     this.refreshChecklists();
   }
 
@@ -94,19 +97,27 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
       let retVal = ref as any;
       retVal = retVal.where("owner.uid", "==", this.auth.getUserUID); // Select checklists owned by user
       if (
-        this.selectedOwnership != "All" &&
-        this.selectedOwnership != "Owned"
+        this.filterStore.myChecklistFilters.selectedOwnership != "All" &&
+        this.filterStore.myChecklistFilters.selectedOwnership != "Owned"
       ) {
         retVal = retVal.where("owner.uid", "==", ""); // Force no owned checklists to be selected
       }
-      if (this.selectedStatus != -1) {
-        retVal = retVal.where("status", "==", Number(this.selectedStatus));
+      if (this.filterStore.myChecklistFilters.selectedStatus != -1) {
+        retVal = retVal.where(
+          "status",
+          "==",
+          Number(this.filterStore.myChecklistFilters.selectedStatus)
+        );
       }
-      if (this.selectedCategory.id != "-1") {
-        retVal = retVal.where("category.id", "==", this.selectedCategory.id);
+      if (this.filterStore.myChecklistFilters.selectedCategory.id != "-1") {
+        retVal = retVal.where(
+          "category.id",
+          "==",
+          this.filterStore.myChecklistFilters.selectedCategory.id
+        );
       }
 
-      switch (Number(this.selectedAge)) {
+      switch (Number(this.filterStore.myChecklistFilters.selectedAge)) {
         case -1:
           // All - no additional filter
           break;
@@ -118,7 +129,10 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
           retVal = retVal.where(
             "dateCreated",
             ">",
-            this.addDays(new Date(), this.selectedAge * -1)
+            this.addDays(
+              new Date(),
+              this.filterStore.myChecklistFilters.selectedAge * -1
+            )
           );
           break;
       }
@@ -153,13 +167,20 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
     var communityCLArray$ = [];
     let queryCommunities = this.myCommunities.slice();
 
-    if (this.selectedOwnership != "All" && this.selectedOwnership != "Owned") {
+    if (
+      this.filterStore.myChecklistFilters.selectedOwnership != "All" &&
+      this.filterStore.myChecklistFilters.selectedOwnership != "Owned"
+    ) {
       // Only query the selected community
       queryCommunities = [
-        { id: this.selectedOwnership, accessState: 0, name: "" }
+        {
+          id: this.filterStore.myChecklistFilters.selectedOwnership,
+          accessState: 0,
+          name: ""
+        }
       ];
     }
-    if (this.selectedOwnership != "Owned") {
+    if (this.filterStore.myChecklistFilters.selectedOwnership != "Owned") {
       queryCommunities.forEach(userCommunity => {
         // Query2 for checklists by community
         console.log("userCommunity", userCommunity);
@@ -167,19 +188,26 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
           let retVal = ref as any;
           // Default will select community.id = None (nothing selected)
           retVal = retVal.where("community.id", "==", userCommunity.id);
-          if (this.selectedStatus != -1) {
-            retVal = retVal.where("status", "==", Number(this.selectedStatus));
+          if (this.filterStore.myChecklistFilters.selectedStatus != -1) {
+            retVal = retVal.where(
+              "status",
+              "==",
+              Number(this.filterStore.myChecklistFilters.selectedStatus)
+            );
           }
-          if (this.selectedCategory.id != "-1") {
+          if (this.filterStore.myChecklistFilters.selectedCategory.id != "-1") {
             retVal = retVal.where(
               "category.id",
               "==",
-              this.selectedCategory.id
+              this.filterStore.myChecklistFilters.selectedCategory.id
             );
           }
 
-          console.log("Query1 selectedAge", this.selectedAge);
-          switch (Number(this.selectedAge)) {
+          console.log(
+            "Query1 selectedAge",
+            this.filterStore.myChecklistFilters.selectedAge
+          );
+          switch (Number(this.filterStore.myChecklistFilters.selectedAge)) {
             case -1:
               // All - no additional filter
               break;
@@ -191,7 +219,10 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
               retVal = retVal.where(
                 "dateCreated",
                 ">",
-                this.addDays(new Date(), this.selectedAge * -1)
+                this.addDays(
+                  new Date(),
+                  this.filterStore.myChecklistFilters.selectedAge * -1
+                )
               );
               break;
           }
@@ -277,11 +308,14 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
 
   themeCategoryChange(result) {
     console.log("themeCategoryChange", result);
-    this.selectedCategory = {
+    this.filterStore.myChecklistFilters.selectedCategory = {
       id: result.categoryId,
       name: result.categoryName
     };
-    this.selectedTheme = { id: result.themeId, name: result.themeName };
+    this.filterStore.myChecklistFilters.selectedTheme = {
+      id: result.themeId,
+      name: result.themeName
+    };
     this.refreshChecklists();
   }
 
