@@ -2,5 +2,6 @@
     "cSpell.words": [
         "activitiesubscription",
         "firestore"
-    ]
+    ],
+    "git.ignoreLimitWarning": true
 }
