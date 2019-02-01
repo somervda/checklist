@@ -1,3 +1,5 @@
+import { ChecklistStatus } from "./../models/checklistModel";
+import { CommunityAccessState } from "./../models/userModel";
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { AuthService } from "../services/auth.service";
@@ -21,6 +23,8 @@ export class ChecklistmanagermodalComponent implements OnInit {
   selectedAction: string;
   title: string;
   copyAsTemplate = false;
+
+  ChecklistStatus = ChecklistStatus;
 
   constructor(
     private modalService: NgbModal,
@@ -83,6 +87,35 @@ export class ChecklistmanagermodalComponent implements OnInit {
       this.db,
       this.als
     );
+  }
+
+  isInCommunity() {
+    // Checks to see if user is a; community member, leader or leader invitee
+    if (this.checklist.community && this.checklist.community.id != "") {
+      const userCommunity = this.auth.user.getCommunityDetails(
+        this.checklist.community.id
+      );
+      if (
+        userCommunity.accessState == CommunityAccessState.leader ||
+        userCommunity.accessState == CommunityAccessState.member ||
+        userCommunity.accessState == CommunityAccessState.leadershipInvited
+      )
+        return true;
+    }
+
+    return false;
+  }
+
+  isCommunityLeader() {
+    // Checks to see if user is a; community leader
+    if (this.checklist.community && this.checklist.community.id != "") {
+      const userCommunity = this.auth.user.getCommunityDetails(
+        this.checklist.community.id
+      );
+      if (userCommunity.accessState == CommunityAccessState.leader) return true;
+    }
+
+    return false;
   }
 
   publish() {

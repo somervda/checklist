@@ -25,7 +25,7 @@
         -->
       <div class="form-group">
         <div>
-          <span *ngIf="true">
+          <span *ngIf="auth.user.id == checklist.owner.uid || isInCommunity()">
             <input
               type="radio"
               [(ngModel)]="selectedAction"
@@ -34,7 +34,7 @@
             />
             Copy as new checklist<br />
           </span>
-          <span *ngIf="true">
+          <span *ngIf="auth.user.isSystemAdministrator">
             <input
               type="radio"
               [(ngModel)]="selectedAction"
@@ -42,25 +42,28 @@
               value="publish"/>
             Publish as a Public template<br
           /></span>
-          <span *ngIf="true">
-            <input
-              type="radio"
-              [(ngModel)]="selectedAction"
-              name="action"
-              value="complete"
-            />
-            Mark as Complete<br />
-          </span>
-          <span *ngIf="true">
-            <input
-              type="radio"
-              [(ngModel)]="selectedAction"
-              name="action"
-              value="active"
-            />
-            Mark as Active<br />
-          </span>
-          <span *ngIf="true">
+          <span
+            *ngIf="auth.user.id == checklist.owner.uid || isCommunityLeader()"
+          >
+            <br />
+            <span *ngIf="checklist.status != ChecklistStatus.Complete">
+              <input
+                type="radio"
+                [(ngModel)]="selectedAction"
+                name="action"
+                value="complete"
+              />
+              Mark as Complete<br />
+            </span>
+            <span *ngIf="checklist.status != ChecklistStatus.Active">
+              <input
+                type="radio"
+                [(ngModel)]="selectedAction"
+                name="action"
+                value="active"
+              />
+              Mark as Active<br />
+            </span>
             <input
               type="radio"
               [(ngModel)]="selectedAction"
