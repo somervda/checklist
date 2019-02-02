@@ -8,6 +8,7 @@ import { AuditlogService } from "../services/auditlog.service";
 import { ToastrService } from "ngx-toastr";
 import { ChecklistModel } from "../models/checklistModel";
 import { defineBase } from "@angular/core/src/render3";
+import { promise } from 'protractor';
 
 @Component({
   selector: "app-checklistmanagermodal",
@@ -35,47 +36,61 @@ export class ChecklistmanagermodalComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.db
-      .doc("checklists/" + this.checklistId)
-      .get()
-      .toPromise()
-      .then(doc => {
-        this.checklist = new ChecklistModel(doc);
-      })
-      .catch(error => console.error("checklistmanagermodal oninit", error));
+    // console.log("checklistmanagermodal onInit");
+    // this.db
+    //   .doc("checklists/" + this.checklistId)
+    //   .get()
+    //   .toPromise()
+    //   .then(doc => {
+    //     this.checklist = new ChecklistModel(doc);
+    //     console.log("checklistmanagermodal onInit",this.checklistId ,  this.checklist);
+    //   })
+    //   .catch(error => console.error("checklistmanagermodal oninit", error));
   }
+
+
 
   open(content) {
     this.selectedAction = "";
-    this.title = this.checklist.title;
-    console.log("open checklist", this.checklist);
-    this.modalService
-      .open(content, { ariaLabelledBy: "modal-basic-title" })
-      .result.then(result => {
-        if (result == "Confirm") {
-          switch (this.selectedAction) {
-            case "copy":
-              this.copy();
-              break;
-            case "publish":
-              this.publish();
-              break;
-            case "complete":
-              this.complete();
-              break;
-            case "active":
-              this.active();
-              break;
-            case "delete":
-              this.delete();
-              break;
-            default:
-              console.error("Unexpected Action:", this.selectedAction);
-              break;
-          }
-          this.categoryAction.emit();
+    this.db
+    .doc("checklists/" + this.checklistId)
+    .get()
+    .toPromise()
+    .then(doc => {
+      this.checklist = new ChecklistModel(doc);
+      console.log("checklistmanagermodal open",this.checklistId ,  this.checklist);
+      this.title = this.checklist.title;
+      console.log("open checklist", this.checklist);
+
+      this.modalService
+        .open(content, { ariaLabelledBy: "modal-basic-title" })
+        .result.then(result => {
+          if (result == "Confirm") {
+            switch (this.selectedAction) {
+              case "copy":
+                this.copy();
+                break;
+              case "publish":
+                this.publish();
+                break;
+              case "complete":
+                this.complete();
+                break;
+              case "active":
+                this.active();
+                break;
+              case "delete":
+                this.delete();
+                break;
+              default:
+                console.error("Unexpected Action:", this.selectedAction);
+                break;
+            }
+            this.categoryAction.emit();
         }
       });
+    })
+    .catch(error => console.error("checklistmanagermodal getChecklist", error));
   }
 
   copy() {
@@ -121,20 +136,33 @@ export class ChecklistmanagermodalComponent implements OnInit {
 
   publish() {
     console.log("publish");
+    // Restricted version of copy, always copies as a template 
+    // to the Public Community
+    const newChecklistsId = this.checklist.copy(
+      this.title,
+      { id: "PUBLIC", name: "Public Templates" },
+      true,
+      { uid: this.auth.user.id, displayName: this.auth.user.displayName },
+      this.db,
+      this.als
+    );
   }
 
   complete() {
-    console.log("complete");
+    console.log("status complete");
+    this.checklist.dbFieldUpdate(this.checklistId,"status",ChecklistStatus.Complete,this.db,this.als);
   }
 
   active() {
     console.log("active");
+    this.checklist.dbFieldUpdate(this.checklistId,"status",ChecklistStatus.Active,this.db,this.als);
   }
 
   delete() {
     console.log("delete");
     if (!confirm("Confirm that this checklist should be deleted.")) return;
     console.log("delete confirmed");
+    this.checklist.dbFieldUpdate(this.checklistId,"status",ChecklistStatus.Deleted,this.db,this.als);
   }
 
   ngOnDestroy() {}

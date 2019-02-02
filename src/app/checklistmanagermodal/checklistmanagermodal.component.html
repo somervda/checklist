@@ -73,7 +73,7 @@
             Delete!<br />
           </span>
 
-          <div class="form-group" *ngIf="selectedAction == 'copy'">
+          <div class="form-group" *ngIf="selectedAction == 'copy' || selectedAction == 'publish'">
             <label for="invitee">New Title *</label>
             <input
               class="form-control"
@@ -82,6 +82,8 @@
               type="text"
               id="title"
             />
+          </div>
+          <div class="form-group" *ngIf="selectedAction == 'copy'">
             <input
               type="checkbox"
               [(ngModel)]="copyAsTemplate"
