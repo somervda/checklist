@@ -182,71 +182,80 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
     }
     if (this.filterStore.myChecklistFilters.selectedOwnership != "Owned") {
       queryCommunities.forEach(userCommunity => {
-        // Query2 for checklists by community
-        console.log("userCommunity", userCommunity);
-        var communityRef = this.db.collection("checklists/", ref => {
-          let retVal = ref as any;
-          // Default will select community.id = None (nothing selected)
-          retVal = retVal.where("community.id", "==", userCommunity.id);
-          if (this.filterStore.myChecklistFilters.selectedStatus != -1) {
-            retVal = retVal.where(
-              "status",
-              "==",
-              Number(this.filterStore.myChecklistFilters.selectedStatus)
-            );
-          }
-          if (this.filterStore.myChecklistFilters.selectedCategory.id != "-1") {
-            retVal = retVal.where(
-              "category.id",
-              "==",
-              this.filterStore.myChecklistFilters.selectedCategory.id
-            );
-          }
-
-          console.log(
-            "Query1 selectedAge",
-            this.filterStore.myChecklistFilters.selectedAge
-          );
-          switch (Number(this.filterStore.myChecklistFilters.selectedAge)) {
-            case -1:
-              // All - no additional filter
-              break;
-            case 0:
-              // Overdue
-              retVal = retVal.where("dateTargeted", "<", new Date());
-              break;
-            default:
+        // Only show PUBLIC community item if explicitly selected
+        if (
+          userCommunity.id != "PUBLIC" ||
+          (userCommunity.id == "PUBLIC" &&
+            this.filterStore.myChecklistFilters.selectedOwnership == "PUBLIC")
+        ) {
+          // Query2 for checklists by community
+          console.log("userCommunity", userCommunity);
+          var communityRef = this.db.collection("checklists/", ref => {
+            let retVal = ref as any;
+            // Default will select community.id = None (nothing selected)
+            retVal = retVal.where("community.id", "==", userCommunity.id);
+            if (this.filterStore.myChecklistFilters.selectedStatus != -1) {
               retVal = retVal.where(
-                "dateCreated",
-                ">",
-                this.addDays(
-                  new Date(),
-                  this.filterStore.myChecklistFilters.selectedAge * -1
-                )
+                "status",
+                "==",
+                Number(this.filterStore.myChecklistFilters.selectedStatus)
               );
-              break;
-          }
+            }
+            if (
+              this.filterStore.myChecklistFilters.selectedCategory.id != "-1"
+            ) {
+              retVal = retVal.where(
+                "category.id",
+                "==",
+                this.filterStore.myChecklistFilters.selectedCategory.id
+              );
+            }
 
-          console.log("refreshChecklists community retVal", retVal);
-          retVal = retVal.limit(this.queryLimit);
-          return retVal;
-        });
+            console.log(
+              "Query1 selectedAge",
+              this.filterStore.myChecklistFilters.selectedAge
+            );
+            switch (Number(this.filterStore.myChecklistFilters.selectedAge)) {
+              case -1:
+                // All - no additional filter
+                break;
+              case 0:
+                // Overdue
+                retVal = retVal.where("dateTargeted", "<", new Date());
+                break;
+              default:
+                retVal = retVal.where(
+                  "dateCreated",
+                  ">",
+                  this.addDays(
+                    new Date(),
+                    this.filterStore.myChecklistFilters.selectedAge * -1
+                  )
+                );
+                break;
+            }
 
-        // Push the observable for matching checklists onto the observable array (OR query)
-        communityCLArray$.push(
-          communityRef.snapshotChanges().pipe(
-            map(documentChangeAction =>
-              documentChangeAction.map(row => {
-                // Need to set the id after creating the checklistitem
-                // otherwise the id get cleared out when the data() is applied
-                let checklistItem = row.payload.doc.data();
-                checklistItem["id"] = row.payload.doc.id;
-                checklistItem["isOverdue"] = this.isOverdue(checklistItem);
-                return checklistItem as ChecklistModel;
-              })
+            console.log("refreshChecklists community retVal", retVal);
+            retVal = retVal.limit(this.queryLimit);
+            return retVal;
+          });
+
+          // Push the observable for matching checklists onto the observable array (OR query)
+          communityCLArray$.push(
+            communityRef.snapshotChanges().pipe(
+              map(documentChangeAction =>
+                documentChangeAction.map(row => {
+                  // Need to set the id after creating the checklistitem
+                  // otherwise the id get cleared out when the data() is applied
+                  let checklistItem = row.payload.doc.data();
+                  checklistItem["id"] = row.payload.doc.id;
+                  checklistItem["isOverdue"] = this.isOverdue(checklistItem);
+                  return checklistItem as ChecklistModel;
+                })
+              )
             )
-          )
-        );
+          );
+        }
       });
     }
 

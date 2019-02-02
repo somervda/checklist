@@ -47,6 +47,7 @@ export class ChecklistmanagermodalComponent implements OnInit {
 
   open(content) {
     this.selectedAction = "";
+    this.title = this.checklist.title;
     console.log("open checklist", this.checklist);
     this.modalService
       .open(content, { ariaLabelledBy: "modal-basic-title" })
