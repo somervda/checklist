@@ -203,7 +203,7 @@ export class ChecklistModel {
           checkListItemsJson.push(checklistItemJson);
         });
         // console.log("copy checklistItems getter", checkListItemsJson);
-        this.batchWriteChecklist(db, checklistJson, checkListItemsJson);
+        this.batchWriteChecklist(db,als, checklistJson, checkListItemsJson);
       })
       .catch(error => {
         console.error("copy error getting checklistItems", error);
@@ -212,7 +212,7 @@ export class ChecklistModel {
     return checklistJson.id;
   }
 
-  batchWriteChecklist(db, checklistJson, checkListItemsJson) {
+  batchWriteChecklist(db,als, checklistJson, checkListItemsJson) {
     // Batch write of the checklists and checklistitems
     var batch = db.firestore.batch();
 
@@ -233,6 +233,7 @@ export class ChecklistModel {
       .commit()
       .then(() => {
         console.log("copy success", checklistJson.id);
+        als.logUpdate(checklistJson.id, "checklists", "Copy", checklistJson);
       })
       .catch(error => {
         console.error("copy error", error);
