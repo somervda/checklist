@@ -8,10 +8,10 @@ import { AuditlogService } from "../services/auditlog.service";
 import { ToastrService } from "ngx-toastr";
 import { ChecklistModel } from "../models/checklistModel";
 import { defineBase } from "@angular/core/src/render3";
-import { promise } from 'protractor';
-import { ThemeModel } from '../models/themeModel';
-import { CategoryModel } from '../models/categoryModel';
-import { map } from 'rxjs/operators';
+import { promise } from "protractor";
+import { ThemeModel } from "../models/themeModel";
+import { CategoryModel } from "../models/categoryModel";
+import { map } from "rxjs/operators";
 
 @Component({
   selector: "app-checklistmanagermodal",
@@ -29,7 +29,6 @@ export class ChecklistmanagermodalComponent implements OnInit {
   copyAsTemplate = false;
 
   ChecklistStatus = ChecklistStatus;
-
 
   themeSubscription;
   themes: [ThemeModel];
@@ -50,71 +49,77 @@ export class ChecklistmanagermodalComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.themes$ = this.db.collection("themes").snapshotChanges().pipe(
-      map(actions => {
-        return actions.map(action => {
-          const theme: ThemeModel = new ThemeModel(action.payload.doc);
-          return theme;
-        });
-      })
-    );
+    this.themes$ = this.db
+      .collection("themes")
+      .snapshotChanges()
+      .pipe(
+        map(actions => {
+          return actions.map(action => {
+            const theme: ThemeModel = new ThemeModel(action.payload.doc);
+            return theme;
+          });
+        })
+      );
     this.themeSubscription = this.themes$.subscribe(
       results => (this.themes = results)
     );
   }
 
-
-
   open(content) {
     this.selectedAction = "";
     this.db
-    .doc("checklists/" + this.checklistId)
-    .get()
-    .toPromise()
-    .then(doc => {
-      this.checklist = new ChecklistModel(doc);
-      console.log("checklistmanagermodal open",this.checklistId ,  this.checklist);
-      this.title = this.checklist.title;
-      if (this.checklist.theme.id != "") {
-        this.selectedThemeId = this.checklist.theme.id ;
-        this.loadCategories(this.selectedThemeId);
-      }
-      if (this.checklist.category.id != "") {
-        this.selectedCategoryId = this.checklist.category.id ;
-
-      }
-
-      console.log("open checklist", this.checklist);
-
-      this.modalService
-        .open(content, { ariaLabelledBy: "modal-basic-title" })
-        .result.then(result => {
-          if (result == "Confirm") {
-            switch (this.selectedAction) {
-              case "copy":
-                this.copy();
-                break;
-              case "publish":
-                this.publish();
-                break;
-              case "complete":
-                this.complete();
-                break;
-              case "active":
-                this.active();
-                break;
-              case "delete":
-                this.delete();
-                break;
-              default:
-                console.error("Unexpected Action:", this.selectedAction);
-                break;
-            }
-            this.categoryAction.emit();
+      .doc("checklists/" + this.checklistId)
+      .get()
+      .toPromise()
+      .then(doc => {
+        this.checklist = new ChecklistModel(doc);
+        console.log(
+          "checklistmanagermodal open",
+          this.checklistId,
+          this.checklist
+        );
+        this.title = this.checklist.title;
+        if (this.checklist.theme.id != "") {
+          this.selectedThemeId = this.checklist.theme.id;
+          this.loadCategories(this.selectedThemeId);
         }
-      });
-    })
-    .catch(error => console.error("checklistmanagermodal getChecklist", error));
+        if (this.checklist.category.id != "") {
+          this.selectedCategoryId = this.checklist.category.id;
+        }
+
+        console.log("open checklist", this.checklist);
+
+        this.modalService
+          .open(content, { ariaLabelledBy: "modal-basic-title" })
+          .result.then(result => {
+            if (result == "Confirm") {
+              switch (this.selectedAction) {
+                case "copy":
+                  this.copy();
+                  break;
+                case "publish":
+                  this.publish();
+                  break;
+                case "complete":
+                  this.complete();
+                  break;
+                case "active":
+                  this.active();
+                  break;
+                case "delete":
+                  this.delete();
+                  break;
+                default:
+                  console.error("Unexpected Action:", this.selectedAction);
+                  break;
+              }
+              this.categoryAction.emit();
+            }
+          });
+      })
+      .catch(error =>
+        console.error("checklistmanagermodal getChecklist", error)
+      );
   }
 
   copy() {
@@ -161,20 +166,29 @@ export class ChecklistmanagermodalComponent implements OnInit {
   }
 
   publish() {
-    console.log("publish ",this.selectedThemeId ," - ",this.selectedCategoryId );
-    // Restricted version of copy, always copies as a template 
+    console.log(
+      "publish ",
+      this.selectedThemeId,
+      " - ",
+      this.selectedCategoryId
+    );
+    // Restricted version of copy, always copies as a template
     // to the Public Community
-    const targetTheme = this.themes.find(theme => theme.id ==this.selectedThemeId);
-    console.log("publish targetTheme:",targetTheme);
-    const targetCategory = this.categories.find(category => category.id ==this.selectedCategoryId);
-    console.log("publish targetCategory:",this.categories,targetCategory);
+    const targetTheme = this.themes.find(
+      theme => theme.id == this.selectedThemeId
+    );
+    console.log("publish targetTheme:", targetTheme);
+    const targetCategory = this.categories.find(
+      category => category.id == this.selectedCategoryId
+    );
+    console.log("publish targetCategory:", this.categories, targetCategory);
     const newChecklistsId = this.checklist.copy(
       this.title,
       { id: "PUBLIC", name: "Public Templates" },
       true,
       { uid: this.auth.user.id, displayName: this.auth.user.displayName },
-      { id : targetTheme.id , name : targetTheme.name},
-      { id : targetCategory.id , name : targetCategory.name},
+      { id: targetTheme.id, name: targetTheme.name },
+      { id: targetCategory.id, name: targetCategory.name },
       this.db,
       this.als
     );
@@ -182,19 +196,37 @@ export class ChecklistmanagermodalComponent implements OnInit {
 
   complete() {
     console.log("status complete");
-    this.checklist.dbFieldUpdate(this.checklistId,"status",ChecklistStatus.Complete,this.db,this.als);
+    this.checklist.dbFieldUpdate(
+      this.checklistId,
+      "status",
+      ChecklistStatus.Complete,
+      this.db,
+      this.als
+    );
   }
 
   active() {
     console.log("active");
-    this.checklist.dbFieldUpdate(this.checklistId,"status",ChecklistStatus.Active,this.db,this.als);
+    this.checklist.dbFieldUpdate(
+      this.checklistId,
+      "status",
+      ChecklistStatus.Active,
+      this.db,
+      this.als
+    );
   }
 
   delete() {
     console.log("delete");
     if (!confirm("Confirm that this checklist should be deleted.")) return;
     console.log("delete confirmed");
-    this.checklist.dbFieldUpdate(this.checklistId,"status",ChecklistStatus.Deleted,this.db,this.als);
+    this.checklist.dbFieldUpdate(
+      this.checklistId,
+      "status",
+      ChecklistStatus.Deleted,
+      this.db,
+      this.als
+    );
   }
 
   onThemeSelectorChange() {
@@ -220,7 +252,10 @@ export class ChecklistmanagermodalComponent implements OnInit {
     this.categorySubscription = this.categories$.subscribe(results => {
       this.categories = results;
       // Force selection of first category when theme is changed
-      if (this.theme.id != this.selectedThemeId && this.categories.length > 0)
+      if (
+        this.checklist.theme.id != this.selectedThemeId &&
+        this.categories.length > 0
+      )
         this.selectedCategoryId = this.categories[0].id;
     });
   }
