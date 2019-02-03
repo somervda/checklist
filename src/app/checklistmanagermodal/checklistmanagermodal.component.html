@@ -74,6 +74,7 @@
           </span>
 
           <div class="form-group" *ngIf="selectedAction == 'copy' || selectedAction == 'publish'">
+            <hr />
             <label for="invitee">New Title *</label>
             <input
               class="form-control"
@@ -83,6 +84,47 @@
               id="title"
             />
           </div>
+
+          <div class="form-group" *ngIf="selectedAction == 'publish'">
+             <!-- A theme and category must be selected for published templates -->
+          <!-- Theme -->
+          <div class="form-group">
+            <label for="theme">Theme *</label>
+            <div class="input-group">
+              <select
+                ngbAutofocus
+                id="selectTCTheme"
+                class="form-control"
+                name="themeSelector"
+                (change)="onThemeSelectorChange()"
+                [(ngModel)]="selectedThemeId"
+              >
+                <option *ngFor="let theme of themes" value="{{ theme.id }}">{{
+                  theme.name
+                }}</option>
+              </select>
+            </div>
+          </div>
+          <!-- Category -->
+          <div class="form-group">
+            <label for="theme">Category *</label>
+            <div class="input-group">
+              <select
+                class="form-control"
+                id="selectTCCategory"
+                name="categorySelector"
+                [(ngModel)]="selectedCategoryId"
+              >
+                <option
+                  *ngFor="let category of categories"
+                  value="{{ category.id }}"
+                  >{{ category.name }}</option
+                >
+              </select>
+            </div>
+          </div>
+          </div>
+
           <div class="form-group" *ngIf="selectedAction == 'copy'">
             <input
               type="checkbox"
@@ -103,7 +145,10 @@
       id="btnCMConfirm"
       class="btn btn-outline-dark my-0"
       (click)="modal.close('Confirm')"
-      [disabled]="selectedAction == ''"
+      [disabled]="selectedAction == '' ||
+      (selectedAction == 'publish' && ( selectedThemeId =='' || selectedCategoryId =='')) ||
+      ((selectedAction == 'copy' || selectedAction == 'publish') && title.trim() == '')"
+      
     >
       Confirm
     </button>

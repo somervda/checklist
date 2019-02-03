@@ -9,6 +9,9 @@ import { ToastrService } from "ngx-toastr";
 import { ChecklistModel } from "../models/checklistModel";
 import { defineBase } from "@angular/core/src/render3";
 import { promise } from 'protractor';
+import { ThemeModel } from '../models/themeModel';
+import { CategoryModel } from '../models/categoryModel';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: "app-checklistmanagermodal",
@@ -27,6 +30,17 @@ export class ChecklistmanagermodalComponent implements OnInit {
 
   ChecklistStatus = ChecklistStatus;
 
+
+  themeSubscription;
+  themes: [ThemeModel];
+  themes$;
+  selectedThemeId: string;
+
+  categorySubscription;
+  categories: [CategoryModel];
+  categories$;
+  selectedCategoryId: string;
+
   constructor(
     private modalService: NgbModal,
     public auth: AuthService,
@@ -36,16 +50,17 @@ export class ChecklistmanagermodalComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // console.log("checklistmanagermodal onInit");
-    // this.db
-    //   .doc("checklists/" + this.checklistId)
-    //   .get()
-    //   .toPromise()
-    //   .then(doc => {
-    //     this.checklist = new ChecklistModel(doc);
-    //     console.log("checklistmanagermodal onInit",this.checklistId ,  this.checklist);
-    //   })
-    //   .catch(error => console.error("checklistmanagermodal oninit", error));
+    this.themes$ = this.db.collection("themes").snapshotChanges().pipe(
+      map(actions => {
+        return actions.map(action => {
+          const theme: ThemeModel = new ThemeModel(action.payload.doc);
+          return theme;
+        });
+      })
+    );
+    this.themeSubscription = this.themes$.subscribe(
+      results => (this.themes = results)
+    );
   }
 
 
@@ -60,6 +75,15 @@ export class ChecklistmanagermodalComponent implements OnInit {
       this.checklist = new ChecklistModel(doc);
       console.log("checklistmanagermodal open",this.checklistId ,  this.checklist);
       this.title = this.checklist.title;
+      if (this.checklist.theme.id != "") {
+        this.selectedThemeId = this.checklist.theme.id ;
+        this.loadCategories(this.selectedThemeId);
+      }
+      if (this.checklist.category.id != "") {
+        this.selectedCategoryId = this.checklist.category.id ;
+
+      }
+
       console.log("open checklist", this.checklist);
 
       this.modalService
@@ -100,6 +124,8 @@ export class ChecklistmanagermodalComponent implements OnInit {
       { id: "", name: "" },
       this.copyAsTemplate,
       { uid: this.auth.user.id, displayName: this.auth.user.displayName },
+      this.checklist.theme,
+      this.checklist.category,
       this.db,
       this.als
     );
@@ -135,14 +161,20 @@ export class ChecklistmanagermodalComponent implements OnInit {
   }
 
   publish() {
-    console.log("publish");
+    console.log("publish ",this.selectedThemeId ," - ",this.selectedCategoryId );
     // Restricted version of copy, always copies as a template 
     // to the Public Community
+    const targetTheme = this.themes.find(theme => theme.id ==this.selectedThemeId);
+    console.log("publish targetTheme:",targetTheme);
+    const targetCategory = this.categories.find(category => category.id ==this.selectedCategoryId);
+    console.log("publish targetCategory:",this.categories,targetCategory);
     const newChecklistsId = this.checklist.copy(
       this.title,
       { id: "PUBLIC", name: "Public Templates" },
       true,
       { uid: this.auth.user.id, displayName: this.auth.user.displayName },
+      { id : targetTheme.id , name : targetTheme.name},
+      { id : targetCategory.id , name : targetCategory.name},
       this.db,
       this.als
     );
@@ -163,6 +195,34 @@ export class ChecklistmanagermodalComponent implements OnInit {
     if (!confirm("Confirm that this checklist should be deleted.")) return;
     console.log("delete confirmed");
     this.checklist.dbFieldUpdate(this.checklistId,"status",ChecklistStatus.Deleted,this.db,this.als);
+  }
+
+  onThemeSelectorChange() {
+    console.log("onThemeSelectorChange");
+    this.loadCategories(this.selectedThemeId);
+  }
+
+  loadCategories(themeId: string) {
+    console.log("loadCategories themeId:", themeId);
+    if (this.categorySubscription) this.categorySubscription.unsubscribe();
+    const categoriesRef = this.db.collection("categories", ref =>
+      ref.where("theme.id", "==", themeId)
+    );
+    this.categories$ = categoriesRef.snapshotChanges().pipe(
+      map(actions => {
+        return actions.map(action => {
+          const category: CategoryModel = new CategoryModel(action.payload.doc);
+
+          return category;
+        });
+      })
+    );
+    this.categorySubscription = this.categories$.subscribe(results => {
+      this.categories = results;
+      // Force selection of first category when theme is changed
+      if (this.theme.id != this.selectedThemeId && this.categories.length > 0)
+        this.selectedCategoryId = this.categories[0].id;
+    });
   }
 
   ngOnDestroy() {}

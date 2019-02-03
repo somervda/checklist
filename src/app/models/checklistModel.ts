@@ -161,6 +161,8 @@ export class ChecklistModel {
     targetCommunity: { id: string; name: string },
     copyIsTemplate: boolean,
     owner: { uid: string; displayName: string },
+    targetTheme: { id: string; name: string },
+    targetCategory: { id: string; name: string },
     db,
     als
   ): string {
@@ -171,7 +173,7 @@ export class ChecklistModel {
     // of checklistItems before we start to copy when doing the update
     // If copyIsTemplate then mark the new checklist as a template
 
-    console.log("copy start");
+    console.log("copy start",targetTheme,targetCategory);
     let checkListItemsJson = new Array();
     let checklistJson = this.json;
 
@@ -183,6 +185,9 @@ export class ChecklistModel {
     checklistJson.dateTargeted = null;
     checklistJson.owner = owner;
     checklistJson.status = ChecklistStatus.Under_Construction;
+    checklistJson.community = targetCommunity;
+    checklistJson.theme = targetTheme;
+    checklistJson.category = targetCategory;
     console.log("copy checklistJson", checklistJson);
 
     // get checklist item and make an array of new items to be copies
