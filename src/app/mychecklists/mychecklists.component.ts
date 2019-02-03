@@ -6,8 +6,6 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { map, combineLatest } from "rxjs/operators";
 import { ChecklistStatus } from "../models/checklistModel";
-import { FirebaseStorage } from "@angular/fire";
-import { observable, empty } from "rxjs";
 
 @Component({
   selector: "app-mychecklists",
@@ -39,6 +37,7 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    console.log("myChecklists init", this.filterStore);
     let map: { id: number; name: string }[] = [];
 
     this.myCommunities = this.auth.user.communitiesAsArray.filter(
@@ -75,10 +74,10 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
   }
 
   filterByStatus() {
-    console.log(
-      "filterByStatus",
-      this.filterStore.myChecklistFilters.selectedStatus
-    );
+    // console.log(
+    //   "filterByStatus",
+    //   this.filterStore.myChecklistFilters.selectedStatus
+    // );
     this.refreshChecklists();
   }
 
@@ -88,6 +87,12 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
   }
 
   refreshChecklists() {
+    //console.log("myChecklists refreshChecklists", this.filterStore);
+
+    // Remove any old subscriptions before creating the new one
+    if (this.checklistSubscription) {
+      this.checklistSubscription.unsubscribe();
+    }
     this.queryLimitExceeded = false;
     // 2 queries are run (owner query and community query) then are combined into one observable
     // see https://stackoverflow.com/questions/50930604/optional-parameter-and-clausule-where
@@ -138,7 +143,7 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
       }
 
       retVal = retVal.limit(this.queryLimit);
-      console.log("refreshChecklists owner retVal", retVal);
+      // console.log("refreshChecklists owner retVal", retVal);
       return retVal;
     });
 
@@ -296,7 +301,11 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
           this.checklists.push(item);
         }
       });
-      //console.log("Init unique checklists", this.checklists);
+      console.log("Refresh Checklists Subscribe", this.checklists);
+      // console.log(
+      //   "Refresh Checklists filterstore",
+      //   this.filterStore.myChecklistFilters
+      // );
     });
     this.filterToggle = false;
   }
@@ -330,17 +339,17 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
 
   isOverdue(checklist): boolean {
     if (checklist.dateTargeted) {
-      console.log(
-        "isOverdue",
-        checklist.title,
-        checklist.dateTargeted,
-        checklist.status
-      );
+      // console.log(
+      //   "isOverdue",
+      //   checklist.title,
+      //   checklist.dateTargeted,
+      //   checklist.status
+      // );
       if (
         checklist.dateTargeted.seconds <= Date.now() / 1000 &&
         checklist.status == ChecklistStatus.Active
       ) {
-        console.log("isOverdure True!!");
+        // console.log("isOverdure True!!");
         return true;
       }
     }
