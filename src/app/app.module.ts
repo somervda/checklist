@@ -58,7 +58,7 @@ import { ThemedesignerComponent } from "./themedesigner/themedesigner.component"
 import { AuditlogService } from "./services/auditlog.service";
 import { CategoryComponent } from "./category/category.component";
 import { CategorydesignerComponent } from "./categorydesigner/categorydesigner.component";
-import { ThemecatetoryselectorComponent } from "./themecatetoryselector/themecatetoryselector.component";
+import { ThemecatetoryselectorComponent } from "./widgets/themecatetoryselector/themecatetoryselector.component";
 import { CommunitymanagermodalComponent } from "./communitymanagermodal/communitymanagermodal.component";
 import { ActivityComponent } from "./activity/activity.component";
 import { ActivitiesComponent } from "./activities/activities.component";

@@ -7,11 +7,11 @@ import {
   EventEmitter
 } from "@angular/core";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
-import { AuthService } from "../services/auth.service";
+import { AuthService } from "../../services/auth.service";
 import { AngularFirestore } from "@angular/fire/firestore";
-import { ThemeModel } from "../models/themeModel";
+import { ThemeModel } from "../../models/themeModel";
 import { map } from "rxjs/operators";
-import { CategoryModel } from "../models/categoryModel";
+import { CategoryModel } from "../../models/categoryModel";
 
 @Component({
   selector: "app-themecatetoryselector",
