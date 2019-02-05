@@ -7,8 +7,6 @@ import { AngularFirestore } from "@angular/fire/firestore";
 import { AuditlogService } from "../services/auditlog.service";
 import { ToastrService } from "ngx-toastr";
 import { ChecklistModel } from "../models/checklistModel";
-import { defineBase } from "@angular/core/src/render3";
-import { promise } from "protractor";
 import { ThemeModel } from "../models/themeModel";
 import { CategoryModel } from "../models/categoryModel";
 import { map } from "rxjs/operators";
