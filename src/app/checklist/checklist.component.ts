@@ -22,6 +22,7 @@ export class ChecklistComponent implements OnInit, OnDestroy {
   CommunityAccessState = CommunityAccessState;
   checklist = new ChecklistModel();
   checklistSubscription;
+  headerOpen=false;
 
   constructor(
     private route: ActivatedRoute,

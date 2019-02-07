@@ -12,18 +12,31 @@
 
 <!-- Body -->
 <div class="container">
-  <ngb-accordion>
-    <ngb-panel>
-      <ng-template ngbPanelTitle>
-        <h5>{{ checklist.title }}</h5>
-      </ng-template>
-      <ng-template ngbPanelContent>
-        <p>
+
+<div class="border rounded py-2 px-1 bg-light">
+
+        <span class="font-weight-bold text-info" style="font-size: 120%">{{ checklist.title }}</span>
+        <button
+        type="button"
+        id="headerToggle"
+        title="Click to open or close the header information"
+        class="btn btn-light   mt-0 px-1 mr-1 ml-10 p-0 float-right"
+        (click)="headerOpen = !headerOpen"
+      >
+        <div *ngIf="headerOpen"><i class="fas fa-caret-up"></i></div>
+        <div *ngIf="!headerOpen"><i class="fas fa-caret-down"></i></div>
+      </button>
+
+      <div *ngIf="headerOpen" class="pt-2">
+          <div class="text-left bg-white p-1" [innerHtml]="checklist.description"></div>
+          
+          <div class="row">
+              <div class="col-sm">
           <b>Theme & Category</b> {{ checklist?.theme?.name }} :
           {{ checklist?.category?.name }}
-        </p>
-        <div class="text-left" [innerHtml]="checklist.description"></div>
-        <br />
+          </div>
+          </div>
+
         <div class="row">
           <div class="col-sm">
             <b>Owner</b>: {{ checklist?.owner?.displayName }}
@@ -40,18 +53,19 @@
             <b>Targeting</b>: {{ checklist?.dateTargetedShortDate }}
           </div>
         </div>
-      </ng-template>
-    </ngb-panel>
-  </ngb-accordion>
+      </div>
+</div>
+
 
   <!-- Checklist Items -->
-  <hr class="p-0 m-0" />
+
   <!--
     <div *ngFor="let checklistItem of  checklistItems$ | async;  index as i">
     <app-checklistitem [id]="checklistItem.payload.doc.id" [index]="i"></app-checklistitem>
   -->
-
+<div class="container">
   <div *ngFor="let checklistitem of checklistitems; index as i">
     <app-checklistitem [id]="checklistitem.id" [index]="i"></app-checklistitem>
   </div>
+</div>
 </div>

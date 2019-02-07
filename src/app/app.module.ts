@@ -19,7 +19,6 @@ import { RecaptchaModule } from "ng-recaptcha";
 
 import { AppComponent } from "./app.component";
 import {
-  NgbAccordionModule,
   NgbDropdownModule,
   NgbCarouselModule,
   NgbCollapseModule,
@@ -107,7 +106,6 @@ import { ChecklistmanagermodalComponent } from './widgets/checklistmanagermodal/
       preventDuplicates: true,
       positionClass: "toast-top-right"
     }), // ToastrModule added
-    NgbAccordionModule,
     NgbDropdownModule,
     NgbCarouselModule,
     NgbCollapseModule,
