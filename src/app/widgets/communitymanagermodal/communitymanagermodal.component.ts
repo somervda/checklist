@@ -1,5 +1,5 @@
-import { AuditlogService } from "./../services/auditlog.service";
-import { CommunityAccessState } from "./../models/userModel";
+import { AuditlogService } from "../../services/auditlog.service";
+import { CommunityAccessState } from "../../models/userModel";
 import {
   Component,
   OnInit,
@@ -10,7 +10,7 @@ import {
   NgZone
 } from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { AuthService } from "../services/auth.service";
+import { AuthService } from "../../services/auth.service";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { ToastrService } from "ngx-toastr";
 
