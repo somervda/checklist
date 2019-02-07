@@ -2,7 +2,7 @@ import { TestBed, async } from "@angular/core/testing";
 import { AppComponent } from "./app.component";
 import { HomeComponent } from "./home/home.component";
 import { FooterbarComponent } from "./footerbar/footerbar.component";
-import { NavigationbarComponent } from "./navigationbar/navigationbar.component";
+import { NavigationbarComponent } from "./widgets/navigationbar/navigationbar.component";
 import { RouterModule } from "@angular/router";
 describe("AppComponent", () => {
   beforeEach(async(() => {

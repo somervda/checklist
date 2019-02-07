@@ -1,15 +1,14 @@
-import { ChecklistStatus } from "./../models/checklistModel";
-import { CommunityAccessState } from "./../models/userModel";
+import { CommunityAccessState } from "../../models/userModel";
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { AuthService } from "../services/auth.service";
+import { AuthService } from "../../services/auth.service";
 import { AngularFirestore } from "@angular/fire/firestore";
-import { AuditlogService } from "../services/auditlog.service";
+import { AuditlogService } from "../../services/auditlog.service";
 import { ToastrService } from "ngx-toastr";
-import { ChecklistModel } from "../models/checklistModel";
-import { ThemeModel } from "../models/themeModel";
-import { CategoryModel } from "../models/categoryModel";
+import { ThemeModel } from "../../models/themeModel";
+import { CategoryModel } from "../../models/categoryModel";
 import { map } from "rxjs/operators";
+import { ChecklistModel, ChecklistStatus } from "src/app/models/checklistModel";
 
 @Component({
   selector: "app-checklistmanagermodal",

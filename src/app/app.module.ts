@@ -35,7 +35,7 @@ import { PopoverModule } from "ngx-bootstrap"; // NgxEditorModule dependency
 import { HomeComponent } from "./home/home.component";
 import { NotfoundComponent } from "./notfound/notfound.component";
 import { FooterbarComponent } from "./footerbar/footerbar.component";
-import { NavigationbarComponent } from "./navigationbar/navigationbar.component";
+import { NavigationbarComponent } from "./widgets/navigationbar/navigationbar.component";
 import { UserprofileComponent } from "./userprofile/userprofile.component";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { LoginComponent } from "./login/login.component";
@@ -45,7 +45,7 @@ import { MychecklistsComponent } from "./mychecklists/mychecklists.component";
 import { ChecklistComponent } from "./checklist/checklist.component";
 import { ChecklistitemComponent } from "./checklistitem/checklistitem.component";
 import { ChecklistdesignerComponent } from "./checklistdesigner/checklistdesigner.component";
-import { HeaderComponent } from "./header/header.component";
+import { HeaderComponent } from "./widgets/header/header.component";
 import { ChecklistitemdesignerComponent } from "./checklistitemdesigner/checklistitemdesigner.component";
 import { CheckboxComponent } from "./checkbox/checkbox.component";
 import { MycommunitiesComponent } from "./mycommunities/mycommunities.component";
@@ -62,7 +62,7 @@ import { ThemecatetoryselectorComponent } from "./widgets/themecatetoryselector/
 import { CommunitymanagermodalComponent } from "./widgets/communitymanagermodal/communitymanagermodal.component";
 import { ActivityComponent } from "./activity/activity.component";
 import { ActivitiesComponent } from "./activities/activities.component";
-import { ChecklistmanagermodalComponent } from './checklistmanagermodal/checklistmanagermodal.component';
+import { ChecklistmanagermodalComponent } from './widgets/checklistmanagermodal/checklistmanagermodal.component';
 
 @NgModule({
   declarations: [
