@@ -12,6 +12,7 @@
           (N/A)</span
         >
       </span>
+      &nbsp;
 
       <!--
         Conditional - show checkbox , the native html checkbox was not working properly on
@@ -72,8 +73,9 @@
   <div *ngIf="dropdownOpen || readOnly" class="container">
     <div class=" p-1 mt-1">
       <div [innerHtml]="checklistItem.description"></div>
-
+      <div *ngIf="!isTemplate">
       <div class="form-group">
+        
         <!-- user comments -->
         <label class="font-weight-bold" for="userComment">Comments</label>
         <app-ngx-editor
@@ -128,6 +130,7 @@
             (clickUnChecked)="onNAUpdate(false)"
             [checked]="checklistItem.isNA"
           ></app-checkbox>
+        </div>
         </div>
       </div>
     </div>

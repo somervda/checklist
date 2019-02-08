@@ -20,6 +20,7 @@ export class ChecklistitemComponent implements OnInit, OnDestroy {
   @Input() id: string;
   @Input() index: number;
   @Input() readOnly = false;
+  @Input() isTemplate = false;
   checklistItem$;
   checklistItemSubscribe: Subscription;
   checklistItem = new ChecklistItemModel();
