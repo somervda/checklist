@@ -119,7 +119,7 @@
     </div>
     <!--
       isTemplate , can only be set when first adding the
-      checklist (and when creating a template using a checklist copy
+      checklist (and when creating a template using a checklist copy)
     -->
     <div class="form-group" *ngIf="action == 'A'">
       <label
@@ -136,12 +136,12 @@
       />
     </div>
 
-    <div
-      class="form-group"
-      *ngIf="id && checklist.isTemplate"
-      class="text-info"
-    >
-      Is a template
+    <div class="form-group" *ngIf="id && checklist.isTemplate">
+      Is a template&nbsp;<i
+        class="far fa-file"
+        style="color: darkgoldenrod"
+        title="Is a template"
+      ></i>
     </div>
 
     <!-- Target date -->

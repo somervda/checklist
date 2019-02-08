@@ -1,7 +1,7 @@
 <!-- Grey out and show N/A when the item has been marked as N/A -->
 <div class="pt-3">
-  <div class="row">
-    <div class="col-11">
+  <div class="row" [style.border-bottom-style]="readOnly ? 'groove' : 'none'">
+    <div class="col-11 font-weight-bold">
       <span
         [class.text-muted]="checklistItem.isNA"
         [class.font-italic]="checklistItem.isNA"
@@ -57,6 +57,7 @@
       <!-- dropdown toggle -->
 
       <button
+        *ngIf="!readOnly"
         type="button"
         id="itemDropdownToggle"
         class="btn btn-light   mt-0 px-1 mr-1 ml-10 p-0 float-right"
@@ -71,17 +72,15 @@
   </div>
 
   <!-- Drop down content -->
-  <div *ngIf="dropdownOpen" class="container">
-    <div
-      class=" p-1 mt-1"
-      style="border-width: 1px; border-color:lightgrey;border-style:inset"
-    >
+  <div *ngIf="dropdownOpen || readOnly" class="container">
+    <div class=" p-1 mt-1">
       <div [innerHtml]="checklistItem.description"></div>
 
       <div class="form-group">
         <!-- user comments -->
-        <label for="userComment">Comments</label>
+        <label class="font-weight-bold" for="userComment">Comments</label>
         <app-ngx-editor
+          *ngIf="!readOnly"
           [placeholder]="'Enter comments here...'"
           [spellcheck]="true"
           [(ngModel)]="checklistItem.userComment"
@@ -92,10 +91,14 @@
           id="userComment"
           name="userComment"
         ></app-ngx-editor>
+        <div *ngIf="readOnly" class="ml-2" [innerHtml]="userComment"></div>
 
         <!-- evidence collected -->
-        <label for="userComment">Evidence collected</label>
+        <label class="font-weight-bold" for="checklistItem.userComment"
+          >Evidence collected</label
+        >
         <app-ngx-editor
+          *ngIf="!readOnly"
           [placeholder]="'Enter info on evidence collected here...'"
           [spellcheck]="true"
           [(ngModel)]="checklistItem.evidence"
@@ -106,6 +109,11 @@
           id="evidence"
           name="evidence"
         ></app-ngx-editor>
+        <div
+          *ngIf="readOnly"
+          class="ml-2"
+          [innerHtml]="checklistItem.evidence"
+        ></div>
         <!--
           isNA , can only be set when checklistItem.result type supports NA
         -->

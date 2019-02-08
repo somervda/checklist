@@ -19,6 +19,7 @@ import { checkAndUpdateDirectiveDynamic } from "@angular/core/src/view/provider"
 export class ChecklistitemComponent implements OnInit, OnDestroy {
   @Input() id: string;
   @Input() index: number;
+  @Input() readOnly = false;
   checklistItem$;
   checklistItemSubscribe: Subscription;
   checklistItem = new ChecklistItemModel();
@@ -64,58 +65,64 @@ export class ChecklistitemComponent implements OnInit, OnDestroy {
       // });
 
       this.checklistItem = new ChecklistItemModel(snapshot.payload);
-      console.log(
-        "Checklistitem subscribe isNA:",
-        this.checklistItem.isNA,
-        " result:",
-        this.checklistItem.result
-      );
+      // console.log(
+      //   "Checklistitem subscribe isNA:",
+      //   this.checklistItem.isNA,
+      //   " result:",
+      //   this.checklistItem.result
+      // );
     });
   }
 
   onUserCommentUpdate() {
-    this.checklistItem.dbFieldUpdate(
-      this.id,
-      "userComment",
-      this.checklistItem.userComment,
-      this.db,
-      this.als
-    );
+    if (!this.readOnly) {
+      this.checklistItem.dbFieldUpdate(
+        this.id,
+        "userComment",
+        this.checklistItem.userComment,
+        this.db,
+        this.als
+      );
+    }
   }
 
   onEvidenceUpdate() {
-    this.checklistItem.dbFieldUpdate(
-      this.id,
-      "evidence",
-      this.checklistItem.evidence,
-      this.db,
-      this.als
-    );
+    if (!this.readOnly) {
+      this.checklistItem.dbFieldUpdate(
+        this.id,
+        "evidence",
+        this.checklistItem.evidence,
+        this.db,
+        this.als
+      );
+    }
   }
 
   onNAUpdate(checked: boolean) {
-    let resultValue;
-    if (checked) {
-      resultValue = ChecklistItemResult.NA;
-    } else {
-      // Reset to default result based on result type
-      if (
-        this.checklistItem.resultType == ChecklistItemResultType.checkbox ||
-        this.checklistItem.resultType == ChecklistItemResultType.checkboxNA
-      ) {
-        resultValue = ChecklistItemResult.false;
+    if (!this.readOnly) {
+      let resultValue;
+      if (checked) {
+        resultValue = ChecklistItemResult.NA;
       } else {
-        resultValue = ChecklistItemResult.medium;
+        // Reset to default result based on result type
+        if (
+          this.checklistItem.resultType == ChecklistItemResultType.checkbox ||
+          this.checklistItem.resultType == ChecklistItemResultType.checkboxNA
+        ) {
+          resultValue = ChecklistItemResult.false;
+        } else {
+          resultValue = ChecklistItemResult.medium;
+        }
       }
-    }
 
-    this.checklistItem.dbFieldUpdate(
-      this.id,
-      "result",
-      resultValue,
-      this.db,
-      this.als
-    );
+      this.checklistItem.dbFieldUpdate(
+        this.id,
+        "result",
+        resultValue,
+        this.db,
+        this.als
+      );
+    }
   }
 
   onRatingUpdate() {
@@ -125,13 +132,15 @@ export class ChecklistitemComponent implements OnInit, OnDestroy {
     //   " ",
     //   this.checklistItem.result
     // );
-    this.checklistItem.dbFieldUpdate(
-      this.id,
-      "result",
-      this.checklistItem.result,
-      this.db,
-      this.als
-    );
+    if (!this.readOnly) {
+      this.checklistItem.dbFieldUpdate(
+        this.id,
+        "result",
+        this.checklistItem.result,
+        this.db,
+        this.als
+      );
+    }
   }
 
   ngOnDestroy() {
@@ -144,21 +153,23 @@ export class ChecklistitemComponent implements OnInit, OnDestroy {
   }
 
   oncbClick(checked: boolean) {
-    if (checked)
-      this.checklistItem.dbFieldUpdate(
-        this.id,
-        "result",
-        ChecklistItemResult.false,
-        this.db,
-        this.als
-      );
-    else
-      this.checklistItem.dbFieldUpdate(
-        this.id,
-        "result",
-        ChecklistItemResult.true,
-        this.db,
-        this.als
-      );
+    if (!this.readOnly) {
+      if (checked)
+        this.checklistItem.dbFieldUpdate(
+          this.id,
+          "result",
+          ChecklistItemResult.false,
+          this.db,
+          this.als
+        );
+      else
+        this.checklistItem.dbFieldUpdate(
+          this.id,
+          "result",
+          ChecklistItemResult.true,
+          this.db,
+          this.als
+        );
+    }
   }
 }

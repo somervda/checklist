@@ -1,11 +1,10 @@
-import { ChecklistItemStatus } from './../models/checklistItemModel';
-import { ChecklistModel } from "./../models/checklistModel";
+import { ChecklistItemStatus } from "./../models/checklistItemModel";
+import { ChecklistModel, ChecklistStatus } from "./../models/checklistModel";
 import { AuthService } from "./../services/auth.service";
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { ToastrService } from "ngx-toastr";
-import { auth } from "firebase";
 import { CommunityAccessState } from "../models/userModel";
 
 @Component({
@@ -22,7 +21,9 @@ export class ChecklistComponent implements OnInit, OnDestroy {
   CommunityAccessState = CommunityAccessState;
   checklist = new ChecklistModel();
   checklistSubscription;
-  headerOpen=false;
+  headerOpen = false;
+  readOnly = false;
+  ChecklistStatus = ChecklistStatus;
 
   constructor(
     private route: ActivatedRoute,
@@ -39,8 +40,13 @@ export class ChecklistComponent implements OnInit, OnDestroy {
       this.checklistSubscription = this.checklist$.subscribe(doc => {
         //console.log("onInit doc", doc.data());
         this.checklist = new ChecklistModel(doc);
+        if (
+          this.checklist.status == ChecklistStatus.Deleted ||
+          this.checklist.isTemplate
+        )
+          this.readOnly = true;
 
-        // Update screan options based on user access
+        // Update screen options based on user access
         if (doc.data().owner && doc.data().owner.uid) {
           if (doc.data().owner.uid == this.auth.getUserUID)
             this.showDesignerButton = true;
@@ -89,8 +95,9 @@ export class ChecklistComponent implements OnInit, OnDestroy {
       // will not be refreshed each time back end changes occur (i.e. adding or deleting an item)
       this.db
         .collection("checklistItems", ref =>
-          ref.where("checklistId", "==", this.id)
-          .where("status","==",ChecklistItemStatus.Active)
+          ref
+            .where("checklistId", "==", this.id)
+            .where("status", "==", ChecklistItemStatus.Active)
         )
         .get()
         .toPromise()

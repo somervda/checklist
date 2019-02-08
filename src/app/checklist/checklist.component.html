@@ -12,50 +12,61 @@
 
 <!-- Body -->
 <div class="container">
+  <div class="border rounded py-2 px-1 bg-light">
+    <span class="font-weight-bold text-info" style="font-size: 120%">{{
+      checklist.title
+    }}</span>
+    <span *ngIf="checklist.isTemplate" style="font-size: 120%"
+      >&nbsp;
+      <i
+        class="far fa-file"
+        style="color: darkgoldenrod"
+        title="Is a template"
+      ></i>
+    </span>
+    <button
+      *ngIf="!readOnly"
+      type="button"
+      id="headerToggle"
+      title="Click to open or close the header information"
+      class="btn btn-light   mt-0 px-1 mr-1 ml-10 p-0 float-right"
+      (click)="headerOpen = !headerOpen"
+    >
+      <div *ngIf="headerOpen"><i class="fas fa-caret-up"></i></div>
+      <div *ngIf="!headerOpen"><i class="fas fa-caret-down"></i></div>
+    </button>
 
-<div class="border rounded py-2 px-1 bg-light">
+    <div *ngIf="headerOpen || readOnly" class="pt-2">
+      <div
+        class="text-left bg-white p-1"
+        [innerHtml]="checklist.description"
+      ></div>
 
-        <span class="font-weight-bold text-info" style="font-size: 120%">{{ checklist.title }}</span>
-        <button
-        type="button"
-        id="headerToggle"
-        title="Click to open or close the header information"
-        class="btn btn-light   mt-0 px-1 mr-1 ml-10 p-0 float-right"
-        (click)="headerOpen = !headerOpen"
-      >
-        <div *ngIf="headerOpen"><i class="fas fa-caret-up"></i></div>
-        <div *ngIf="!headerOpen"><i class="fas fa-caret-down"></i></div>
-      </button>
-
-      <div *ngIf="headerOpen" class="pt-2">
-          <div class="text-left bg-white p-1" [innerHtml]="checklist.description"></div>
-          
-          <div class="row">
-              <div class="col-sm">
+      <div class="row">
+        <div class="col-sm">
           <b>Theme & Category</b> {{ checklist?.theme?.name }} :
           {{ checklist?.category?.name }}
-          </div>
-          </div>
-
-        <div class="row">
-          <div class="col-sm">
-            <b>Owner</b>: {{ checklist?.owner?.displayName }}
-          </div>
-          <div class="col-sm">
-            <b>Community</b>: {{ checklist?.community?.name }}
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm">
-            <b>Created</b>: {{ checklist?.dateCreatedShortDate }}
-          </div>
-          <div class="col-sm">
-            <b>Targeting</b>: {{ checklist?.dateTargetedShortDate }}
-          </div>
         </div>
       </div>
-</div>
 
+      <div class="row">
+        <div class="col-sm">
+          <b>Owner</b>: {{ checklist?.owner?.displayName }}
+        </div>
+        <div class="col-sm">
+          <b>Community</b>: {{ checklist?.community?.name }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm">
+          <b>Created</b>: {{ checklist?.dateCreatedShortDate }}
+        </div>
+        <div class="col-sm">
+          <b>Targeting</b>: {{ checklist?.dateTargetedShortDate }}
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Checklist Items -->
 
@@ -63,9 +74,13 @@
     <div *ngFor="let checklistItem of  checklistItems$ | async;  index as i">
     <app-checklistitem [id]="checklistItem.payload.doc.id" [index]="i"></app-checklistitem>
   -->
-<div class="container">
-  <div *ngFor="let checklistitem of checklistitems; index as i">
-    <app-checklistitem [id]="checklistitem.id" [index]="i"></app-checklistitem>
+  <div class="container">
+    <div *ngFor="let checklistitem of checklistitems; index as i">
+      <app-checklistitem
+        [id]="checklistitem.id"
+        [index]="i"
+        [readOnly]="readOnly"
+      ></app-checklistitem>
+    </div>
   </div>
-</div>
 </div>

@@ -123,7 +123,7 @@
           </span>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Status" [flexGrow]="1">
+      <!-- <ngx-datatable-column name="Status" [flexGrow]="1">
         <ng-template
           let-row="row"
           let-value="value"
@@ -131,7 +131,7 @@
         >
           {{ ChecklistStatus[row.status] }}
         </ng-template>
-      </ngx-datatable-column>
+      </ngx-datatable-column> -->
 
       <ngx-datatable-column name="Ownership" [flexGrow]="1">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template
@@ -184,6 +184,7 @@
           ngx-datatable-cell-template
         >
           <app-checklistmanagermodal
+            *ngIf="row.status != ChecklistStatus.Deleted"
             [checklistId]="row.id"
             style="font-size:70%"
           ></app-checklistmanagermodal>
