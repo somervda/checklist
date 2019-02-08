@@ -74,7 +74,7 @@ export class ChecklistModel {
   get dateTargetedShortDate(): string {
     if (this.isValidDate(this.dateTargeted))
       return this.dateTargeted.toLocaleDateString();
-    return "";
+    return "Not set";
   }
 
   isValidDate(date) {
@@ -173,7 +173,7 @@ export class ChecklistModel {
     // of checklistItems before we start to copy when doing the update
     // If copyIsTemplate then mark the new checklist as a template
 
-    console.log("copy start",targetTheme,targetCategory);
+    console.log("copy start", targetTheme, targetCategory);
     let checkListItemsJson = new Array();
     let checklistJson = this.json;
 
@@ -208,7 +208,7 @@ export class ChecklistModel {
           checkListItemsJson.push(checklistItemJson);
         });
         // console.log("copy checklistItems getter", checkListItemsJson);
-        this.batchWriteChecklist(db,als, checklistJson, checkListItemsJson);
+        this.batchWriteChecklist(db, als, checklistJson, checkListItemsJson);
       })
       .catch(error => {
         console.error("copy error getting checklistItems", error);
@@ -217,7 +217,7 @@ export class ChecklistModel {
     return checklistJson.id;
   }
 
-  batchWriteChecklist(db,als, checklistJson, checkListItemsJson) {
+  batchWriteChecklist(db, als, checklistJson, checkListItemsJson) {
     // Batch write of the checklists and checklistitems
     var batch = db.firestore.batch();
 

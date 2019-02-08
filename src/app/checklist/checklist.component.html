@@ -28,7 +28,7 @@
       *ngIf="!readOnly"
       type="button"
       id="headerToggle"
-      title="Click to open or close the header information"
+      title="Expand Header"
       class="btn btn-light   mt-0 px-1 mr-1 ml-10 p-0 float-right"
       (click)="headerOpen = !headerOpen"
     >
@@ -47,22 +47,25 @@
           <b>Theme & Category</b> {{ checklist?.theme?.name }} :
           {{ checklist?.category?.name }}
         </div>
+        <div class="col-sm">
+          <b>Status</b> {{ ChecklistStatus[(checklist?.status)] }}
+        </div>
       </div>
 
       <div class="row">
         <div class="col-sm">
-          <b>Owner</b>: {{ checklist?.owner?.displayName }}
+          <b>Owner</b> {{ checklist?.owner?.displayName }}
         </div>
         <div class="col-sm">
-          <b>Community</b>: {{ checklist?.community?.name }}
+          <b>Community</b> {{ checklist?.community?.name }}
         </div>
       </div>
       <div class="row">
         <div class="col-sm">
-          <b>Created</b>: {{ checklist?.dateCreatedShortDate }}
+          <b>Date Created</b> {{ checklist?.dateCreatedShortDate }}
         </div>
         <div class="col-sm">
-          <b>Targeting</b>: {{ checklist?.dateTargetedShortDate }}
+          <b>Target Completion Date</b> {{ checklist?.dateTargetedShortDate }}
         </div>
       </div>
     </div>

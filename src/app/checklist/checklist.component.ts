@@ -1,3 +1,4 @@
+import { CheckboxComponent } from './../checkbox/checkbox.component';
 import { ChecklistItemStatus } from "./../models/checklistItemModel";
 import { ChecklistModel, ChecklistStatus } from "./../models/checklistModel";
 import { AuthService } from "./../services/auth.service";
@@ -80,6 +81,11 @@ export class ChecklistComponent implements OnInit, OnDestroy {
               .accessState == CommunityAccessState.leader
           )
             this.showDesignerButton = true;
+            
+        }
+        if (this.checklist.status == ChecklistStatus.Deleted) {
+          console.log("checklist ngOnInit showDesignerButton",this.showDesignerButton );
+          this.showDesignerButton = false;
         }
       });
 
