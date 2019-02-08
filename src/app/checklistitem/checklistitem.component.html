@@ -1,7 +1,4 @@
-<!-- Grey out and show N/A when the item has been marked as N/A -->
-<div class="pt-3">
-  <div class="row" [style.border-bottom-style]="readOnly ? 'groove' : 'none'">
-    <div class="col-11 font-weight-bold">
+  <span class="row font-weight-bold mt-3" [style.border-bottom-style]="readOnly ? 'groove' : 'none'">
       <span
         [class.text-muted]="checklistItem.isNA"
         [class.font-italic]="checklistItem.isNA"
@@ -51,9 +48,7 @@
           </ng-template>
         </ngb-rating>
       </span>
-    </div>
-    <!-- end of col -->
-    <div class="col-1">
+
       <!-- dropdown toggle -->
 
       <button
@@ -61,16 +56,17 @@
         type="button"
         id="itemDropdownToggle"
         title="Expand Line Item"
-        class="btn btn-light   mt-0 px-1 mr-1 ml-10 p-0 float-right"
+        class="btn btn-light   mt-0 px-1  ml-auto p-0 "
         (click)="dropdownOpen = !dropdownOpen"
       >
         <div *ngIf="dropdownOpen"><i class="fas fa-caret-up"></i></div>
         <div *ngIf="!dropdownOpen"><i class="fas fa-caret-down"></i></div>
       </button>
-      <br />
-    </div>
-    <!-- end of col -->
-  </div>
+ 
+
+    <!-- end of line header -->
+    </span>
+ 
 
   <!-- Drop down content -->
   <div *ngIf="dropdownOpen || readOnly" class="container">
@@ -136,6 +132,3 @@
       </div>
     </div>
   </div>
-
-  <!-- [checked]="(checklistItem$ | async)?.data().value" -->
-</div>
