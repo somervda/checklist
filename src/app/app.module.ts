@@ -3,7 +3,7 @@ import { AuthService } from "./services/auth.service";
 
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
-import { RouterModule } from "@angular/router";
+import { RouterModule , Routes} from "@angular/router";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FormsModule } from "@angular/forms";
 
@@ -63,6 +63,71 @@ import { ActivityComponent } from "./activity/activity.component";
 import { ActivitiesComponent } from "./activities/activities.component";
 import { ChecklistmanagermodalComponent } from './widgets/checklistmanagermodal/checklistmanagermodal.component';
 
+// Application Routes
+const appRoutes: Routes = [
+  { path: "", component: HomeComponent },
+  { path: "login", component: LoginComponent },
+  { path: "signup", component: SignupComponent },
+  { path: "userprofile", component: UserprofileComponent },
+  // Checklist
+  { path: "mychecklists", component: MychecklistsComponent },
+  { path: "checklist/:id", component: ChecklistComponent },
+  {
+    path: "checklistdesigner/:action",
+    component: ChecklistdesignerComponent
+  },
+  {
+    path: "checklistdesigner/:action/:id",
+    component: ChecklistdesignerComponent
+  },
+  {
+    path: "checklistitemdesigner/:action",
+    component: ChecklistitemdesignerComponent
+  },
+  {
+    path: "checklistitemdesigner/:action/:id",
+    component: ChecklistitemdesignerComponent
+  },
+  // Community
+  { path: "mycommunities", component: MycommunitiesComponent },
+  { path: "community/:id", component: CommunityComponent },
+  {
+    path: "communitydesigner/:action",
+    component: CommunitydesignerComponent
+  },
+  {
+    path: "communitydesigner/:action/:id",
+    component: CommunitydesignerComponent
+  },
+  // Themes
+  { path: "themes", component: ThemesComponent },
+  { path: "theme/:id", component: ThemeComponent },
+  {
+    path: "themedesigner/:action",
+    component: ThemedesignerComponent
+  },
+  {
+    path: "themedesigner/:action/:id",
+    component: ThemedesignerComponent
+  },
+  // Categories
+  { path: "category/:id", component: CategoryComponent },
+  {
+    path: "categorydesigner/:action",
+    component: CategorydesignerComponent
+  },
+  {
+    path: "categorydesigner/:action/:id",
+    component: CategorydesignerComponent
+  },
+  // Misc
+  {
+    path: "tester",
+    component: TesterComponent
+  },
+  { path: "**", component: NotfoundComponent }
+];
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -117,69 +182,7 @@ import { ChecklistmanagermodalComponent } from './widgets/checklistmanagermodal/
     NgbModalModule,
     PopoverModule,
     RecaptchaModule,
-    RouterModule.forRoot([
-      { path: "", component: HomeComponent },
-      { path: "login", component: LoginComponent },
-      { path: "signup", component: SignupComponent },
-      { path: "userprofile", component: UserprofileComponent },
-      // Checklist
-      { path: "mychecklists", component: MychecklistsComponent },
-      { path: "checklist/:id", component: ChecklistComponent },
-      {
-        path: "checklistdesigner/:action",
-        component: ChecklistdesignerComponent
-      },
-      {
-        path: "checklistdesigner/:action/:id",
-        component: ChecklistdesignerComponent
-      },
-      {
-        path: "checklistitemdesigner/:action",
-        component: ChecklistitemdesignerComponent
-      },
-      {
-        path: "checklistitemdesigner/:action/:id",
-        component: ChecklistitemdesignerComponent
-      },
-      // Community
-      { path: "mycommunities", component: MycommunitiesComponent },
-      { path: "community/:id", component: CommunityComponent },
-      {
-        path: "communitydesigner/:action",
-        component: CommunitydesignerComponent
-      },
-      {
-        path: "communitydesigner/:action/:id",
-        component: CommunitydesignerComponent
-      },
-      // Themes
-      { path: "themes", component: ThemesComponent },
-      { path: "theme/:id", component: ThemeComponent },
-      {
-        path: "themedesigner/:action",
-        component: ThemedesignerComponent
-      },
-      {
-        path: "themedesigner/:action/:id",
-        component: ThemedesignerComponent
-      },
-      // Categories
-      { path: "category/:id", component: CategoryComponent },
-      {
-        path: "categorydesigner/:action",
-        component: CategorydesignerComponent
-      },
-      {
-        path: "categorydesigner/:action/:id",
-        component: CategorydesignerComponent
-      },
-      // Misc
-      {
-        path: "tester",
-        component: TesterComponent
-      },
-      { path: "**", component: NotfoundComponent }
-    ]),
+    RouterModule.forRoot(appRoutes),
     AngularFireModule.initializeApp(environment.fbConfig),
     AngularFirestoreModule,
     AngularFireAuthModule
