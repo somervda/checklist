@@ -11,7 +11,7 @@
 </app-header>
 
 <!-- Body -->
-<div class="container">
+<div class="container mt-1">
   <div class="border rounded py-2 px-1 bg-light">
     <span class="font-weight-bold text-info" style="font-size: 120%">{{
       checklist.title
@@ -37,10 +37,7 @@
     </button>
 
     <div *ngIf="headerOpen || readOnly" class="pt-2">
-      <div
-        class="text-left bg-white p-1"
-        [innerHtml]="checklist.description"
-      ></div>
+      <div class="text-left  " [innerHtml]="checklist.description"></div>
 
       <div class="row">
         <div class="col-sm">
