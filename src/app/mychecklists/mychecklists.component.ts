@@ -307,11 +307,19 @@ export class MychecklistsComponent implements OnInit, OnDestroy {
       //   this.filterStore.myChecklistFilters
       // );
     });
-    this.filterToggle = false;
+    if (this.filterStore.myChecklistFilters.lockFilterOpen) {
+      this.filterToggle = true;
+    } else {
+      this.filterToggle = false;
+    }
   }
 
   filterToggler() {
-    this.filterToggle = !this.filterToggle;
+    if (this.filterStore.myChecklistFilters.lockFilterOpen) {
+      this.filterToggle = true;
+    } else {
+      this.filterToggle = !this.filterToggle;
+    }
   }
 
   ngOnDestroy() {

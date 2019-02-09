@@ -13,6 +13,7 @@ export class FilterstoreService {
     selectedAge: number;
     selectedCategory: { id: string; name: string };
     selectedTheme: { id: string; name: string };
+    lockFilterOpen: boolean;
   };
 
   ChecklistStatus = ChecklistStatus;
@@ -27,7 +28,8 @@ export class FilterstoreService {
       selectedStatus: ChecklistStatus.Active,
       selectedAge: -1,
       selectedCategory: { id: "-1", name: "All" },
-      selectedTheme: { id: "", name: "" }
+      selectedTheme: { id: "", name: "" },
+      lockFilterOpen: false
     };
     console.log("FilterstoreService reset", this.myChecklistFilters);
   }

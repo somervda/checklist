@@ -8,7 +8,15 @@
 
 <div class="container">
   <div class="card mt-1" *ngIf="filterToggle">
-    <div class="card-header text-center font-weight-bold py-1">Filter</div>
+    <div class="card-header py-1 text-center">
+      <span class=" font-weight-bold ">Filter</span>
+      <span class="float-right"
+        ><input
+          type="checkbox"
+          title="Lock Filter Open"
+          [(ngModel)]="filterStore.myChecklistFilters.lockFilterOpen"
+      /></span>
+    </div>
     <div class="card-body">
       <!-- Owner selector -->
       <span class="pt-1 pb-0">Owner</span>
