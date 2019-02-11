@@ -15,6 +15,13 @@ export const environment = {
     projectId: "oclist-18796",
     storageBucket: "oclist-18796.appspot.com",
     messagingSenderId: "715462389766"
+
+    // apiKey: "AIzaSyAO4qDVGJ84w8CyweH1BrHXnV2rEBAerwU",
+    // authDomain: "cftest-7e431.firebaseapp.com",
+    // databaseURL: "https://cftest-7e431.firebaseio.com",
+    // projectId: "cftest-7e431",
+    // storageBucket: "cftest-7e431.appspot.com",
+    // messagingSenderId: "349838147336"
   }
 };
 
