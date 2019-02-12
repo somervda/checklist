@@ -51,7 +51,6 @@
           </select>
         </div>
       </div>
-
     </form>
   </div>
   <!-- Save -->
@@ -68,6 +67,15 @@
       (click)="modal.close('All')"
     >
       All
+    </button>
+    <button
+      type="button"
+      id="btnTCClear"
+      class="btn btn-outline-dark"
+      *ngIf="allowClear"
+      (click)="modal.close('Clear')"
+    >
+      Clear
     </button>
     <button
       type="button"

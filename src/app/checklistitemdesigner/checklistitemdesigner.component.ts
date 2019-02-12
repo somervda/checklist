@@ -246,7 +246,7 @@ export class ChecklistitemdesignerComponent implements OnInit, OnDestroy {
           timeOut: 1000
         });
         this.ngZone.run(() =>
-          this.router.navigate(["/checklistitemdesigner/U/" + docRef.id])
+          this.router.navigate(["/checklistdesigner/U/" + this.id])
         );
       })
       .catch(function(error) {

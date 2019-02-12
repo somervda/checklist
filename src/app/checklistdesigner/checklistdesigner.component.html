@@ -13,7 +13,7 @@
     rightButtonTooltip="Click&nbsp;to&nbsp;add"
     rightButtonText=" Add"
     (rightButtonClick)="onAddClick()"
-    [rightButtonDisabled]="!isValidForm || checklist.category.id == ''"
+    [rightButtonDisabled]="!isValidForm || (checklist.category.id == '' && checklist.isTemplate)"
   ></app-header>
 </span>
 
@@ -61,14 +61,17 @@
         id="themeCategory"
         [theme]="checklist.theme"
         [category]="checklist.category"
+        [allowClear]="true"
         (themeCategoryChange)="themeCategoryChange($event)"
       ></app-themecatetoryselector>
 
       <div
-        *ngIf="title.touched && checklist.category.id == ''"
+        *ngIf="
+          title.touched && checklist.category.id == '' && checklist.isTemplate
+        "
         class="alert alert-danger"
       >
-        A theme and category must be selected.
+        A theme and category must be selected for checklist templates.
       </div>
     </div>
 

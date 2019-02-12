@@ -1,81 +1,81 @@
-  <span class="row font-weight-bold mt-3" [style.border-bottom-style]="readOnly ? 'groove' : 'none'">
-      <span
-        [class.text-muted]="checklistItem.isNA"
-        [class.font-italic]="checklistItem.isNA"
-      >
-        {{ index + 1 }}. {{ (checklistItem$ | async)?.payload.data().prompt }}
-        <span
-          *ngIf="checklistItem.isNA"
-          placement="top"
-          ngbTooltip="Not Applicable: Turn off 'Not Applicable' flag if you want to record a result for this item"
-        >
-          (N/A)</span
-        >
-      </span>
-      &nbsp;
+<span
+  class="row font-weight-bold mt-3"
+  [style.border-bottom-style]="readOnly ? 'groove' : 'none'"
+>
+  <span
+    [class.text-muted]="checklistItem.isNA"
+    [class.font-italic]="checklistItem.isNA"
+  >
+    {{ index + 1 }}. {{ (checklistItem$ | async)?.payload.data().prompt }}
+    <span
+      *ngIf="checklistItem.isNA"
+      placement="top"
+      ngbTooltip="Not Applicable: Turn off 'Not Applicable' flag if you want to record a result for this item"
+    >
+      (N/A)</span
+    >
+  </span>
+  &nbsp;
 
-      <!--
+  <!--
         Conditional - show checkbox , the native html checkbox was not working properly on
         safari and iOS , I think the browser must fire an extra click event when the ngModel updates
         (and reverses the update just made)
       -->
 
-      <app-checkbox
-        *ngIf="
-          (checklistItem.resultType == ChecklistItemResultType.checkbox ||
-            checklistItem.resultType == ChecklistItemResultType.checkboxNA) &&
-          !checklistItem.isNA
-        "
-        (clickChecked)="oncbClick(false)"
-        (clickUnChecked)="oncbClick(true)"
-        [checked]="checklistItem.isChecked"
-      ></app-checkbox>
+  <app-checkbox
+    *ngIf="
+      (checklistItem.resultType == ChecklistItemResultType.checkbox ||
+        checklistItem.resultType == ChecklistItemResultType.checkboxNA) &&
+      !checklistItem.isNA
+    "
+    (clickChecked)="oncbClick(false)"
+    (clickUnChecked)="oncbClick(true)"
+    [checked]="checklistItem.isChecked"
+  ></app-checkbox>
 
-      <!-- Conditional show rating -->
-      <span
-        *ngIf="
-          (checklistItem.resultType == ChecklistItemResultType.rating ||
-            checklistItem.resultType == ChecklistItemResultType.ratingNA) &&
-          !checklistItem.isNA
-        "
-      >
-        <ngb-rating
-          max="5"
-          (click)="onRatingUpdate()"
-          [(ngModel)]="checklistItem.rating"
-        >
-          <ng-template let-fill="fill">
-            <span class="star" [class.filled]="fill === 100">&#9733;</span>
-          </ng-template>
-        </ngb-rating>
-      </span>
+  <!-- Conditional show rating -->
+  <span
+    *ngIf="
+      (checklistItem.resultType == ChecklistItemResultType.rating ||
+        checklistItem.resultType == ChecklistItemResultType.ratingNA) &&
+      !checklistItem.isNA
+    "
+  >
+    <ngb-rating
+      max="5"
+      (click)="onRatingUpdate()"
+      [(ngModel)]="checklistItem.rating"
+    >
+      <ng-template let-fill="fill">
+        <span class="star" [class.filled]="fill === 100">&#9733;</span>
+      </ng-template>
+    </ngb-rating>
+  </span>
 
-      <!-- dropdown toggle -->
+  <!-- dropdown toggle -->
 
-      <button
-        *ngIf="!readOnly"
-        type="button"
-        id="itemDropdownToggle"
-        title="Expand Line Item"
-        class="btn btn-light   mt-0 px-1  ml-auto p-0 "
-        (click)="dropdownOpen = !dropdownOpen"
-      >
-        <div *ngIf="dropdownOpen"><i class="fas fa-caret-up"></i></div>
-        <div *ngIf="!dropdownOpen"><i class="fas fa-caret-down"></i></div>
-      </button>
- 
+  <button
+    *ngIf="!readOnly"
+    type="button"
+    id="itemDropdownToggle"
+    title="Expand Line Item"
+    class="btn btn-light   mt-0 px-1  ml-auto p-0 "
+    (click)="dropdownOpen = !dropdownOpen"
+  >
+    <div *ngIf="dropdownOpen"><i class="fas fa-caret-up"></i></div>
+    <div *ngIf="!dropdownOpen"><i class="fas fa-caret-down"></i></div>
+  </button>
 
-    <!-- end of line header -->
-    </span>
- 
+  <!-- end of line header -->
+</span>
 
-  <!-- Drop down content -->
-  <div *ngIf="dropdownOpen || readOnly" class="container">
-    <div class=" p-1 mt-1">
-      <div [innerHtml]="checklistItem.description"></div>
-      <div *ngIf="!isTemplate">
+<!-- Drop down content -->
+<div *ngIf="dropdownOpen || readOnly" class="container">
+  <div class=" p-1 mt-1">
+    <div [innerHtml]="checklistItem.description"></div>
+    <div *ngIf="!isTemplate">
       <div class="form-group">
-        
         <!-- user comments -->
         <label class="font-weight-bold" for="userComment">Comments</label>
         <app-ngx-editor
@@ -90,7 +90,11 @@
           id="userComment"
           name="userComment"
         ></app-ngx-editor>
-        <div *ngIf="readOnly" class="ml-2" [innerHtml]="userComment"></div>
+        <div
+          *ngIf="readOnly"
+          class="ml-2 "
+          [innerHtml]="checklistItem.userComment"
+        ></div>
 
         <!-- evidence collected -->
         <label class="font-weight-bold" for="checklistItem.userComment"
@@ -110,7 +114,7 @@
         ></app-ngx-editor>
         <div
           *ngIf="readOnly"
-          class="ml-2"
+          class="ml-2 "
           [innerHtml]="checklistItem.evidence"
         ></div>
         <!--
@@ -131,7 +135,7 @@
             [checked]="checklistItem.isNA"
           ></app-checkbox>
         </div>
-        </div>
       </div>
     </div>
   </div>
+</div>

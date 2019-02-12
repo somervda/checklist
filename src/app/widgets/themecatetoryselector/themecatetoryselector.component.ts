@@ -25,6 +25,9 @@ export class ThemecatetoryselectorComponent implements OnInit, OnDestroy {
   // adds the special category value of {categoryId : "-1", name : "All"}
   // that indicates no filter on theme/category
   @Input() filterMode: boolean = false;
+  // Alow Clear will add a button that will clear any selection
+  // and return categoryId: "" , name : ""
+  @Input() allowClear: boolean = false;
 
   @Output() themeCategoryChange = new EventEmitter();
 
@@ -132,6 +135,15 @@ export class ThemecatetoryselectorComponent implements OnInit, OnDestroy {
             themeName: "",
             categoryId: "-1",
             categoryName: "All"
+          };
+          this.themeCategoryChange.emit(returnValue);
+        }
+        if (result == "Clear") {
+          const returnValue = {
+            themeId: "",
+            themeName: "[None Selected]",
+            categoryId: "",
+            categoryName: "[None Selected]"
           };
           this.themeCategoryChange.emit(returnValue);
         }

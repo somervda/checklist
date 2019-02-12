@@ -1,4 +1,4 @@
-import { CheckboxComponent } from './../checkbox/checkbox.component';
+import { CheckboxComponent } from "./../checkbox/checkbox.component";
 import { ChecklistItemStatus } from "./../models/checklistItemModel";
 import { ChecklistModel, ChecklistStatus } from "./../models/checklistModel";
 import { AuthService } from "./../services/auth.service";
@@ -43,6 +43,7 @@ export class ChecklistComponent implements OnInit, OnDestroy {
         this.checklist = new ChecklistModel(doc);
         if (
           this.checklist.status == ChecklistStatus.Deleted ||
+          this.checklist.status == ChecklistStatus.Complete ||
           this.checklist.isTemplate
         )
           this.readOnly = true;
@@ -81,10 +82,15 @@ export class ChecklistComponent implements OnInit, OnDestroy {
               .accessState == CommunityAccessState.leader
           )
             this.showDesignerButton = true;
-            
         }
-        if (this.checklist.status == ChecklistStatus.Deleted) {
-          console.log("checklist ngOnInit showDesignerButton",this.showDesignerButton );
+        if (
+          this.checklist.status == ChecklistStatus.Deleted ||
+          this.checklist.status == ChecklistStatus.Complete
+        ) {
+          console.log(
+            "checklist ngOnInit showDesignerButton",
+            this.showDesignerButton
+          );
           this.showDesignerButton = false;
         }
       });
