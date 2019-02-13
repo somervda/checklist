@@ -16,14 +16,15 @@
     <span class="font-weight-bold text-info" style="font-size: 120%">{{
       checklist.title
     }}</span>
+
     <span *ngIf="checklist.isTemplate" style="font-size: 120%"
-      >&nbsp;
-      <i
-        class="far fa-file"
-        style="color: darkgoldenrod"
-        title="Is a template"
-      ></i>
-    </span>
+    >&nbsp;
+    <i
+      class="far fa-file"
+      style="color: darkgoldenrod"
+      title="Is a template"
+    ></i>
+  </span>
     <button
       *ngIf="!readOnly"
       type="button"
@@ -35,6 +36,9 @@
       <div *ngIf="headerOpen"><i class="fas fa-caret-up"></i></div>
       <div *ngIf="!headerOpen"><i class="fas fa-caret-down"></i></div>
     </button>
+    <div class="float-right bg-info text-white-50 rounded px-2" *ngIf="readOnly" 
+    ngbTooltip="Checklist is readonly when it is; complete, deleted or is a template"
+    placement="bottom-left">Read Only</div>
 
     <div *ngIf="headerOpen || readOnly" class="pt-2">
       <div class="text-left  " [innerHtml]="checklist.description"></div>
