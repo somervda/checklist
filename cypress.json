@@ -1,5 +1,5 @@
 {
-  "baseUrl": "http://localhost:4200/",
+  "baseUrl": "https://ourChecklists.com/",
   "env": {
     "testuser": "test02@comcast.net",
     "password": "password"
