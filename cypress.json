@@ -4,5 +4,7 @@
     "testuser": "test02@comcast.net",
     "password": "password"
   },
-  "projectId": "qn5jzq"
+  "projectId": "qn5jzq",
+  "requestTimeout": 10000,
+  "defaultCommandTimeout": 8000
 }
